@@ -1,6 +1,6 @@
-# SQLite database file
 *.sqlite3
 .env
 config.php
 *.log
 php.ini
+db/data/*
