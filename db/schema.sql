@@ -23,5 +23,6 @@ CREATE TABLE bids (
   member_id integer,
   rider_id integer,
   event_id integer,
+  bid_number integer,
   amount integer
 );
