@@ -28,6 +28,9 @@ class HtmlRenderer
         // Dynamically generate table headers based on the first row's keys
         if (!empty($data)) {
             foreach (array_keys($data[0]) as $header) {
+                if ($header === 'rowclass') {
+                    continue; // Skip the "rowclass" column in the headers
+                }
                 $html .= '<th>' . htmlspecialchars($header) . '</th>';
             }
         }
@@ -35,9 +38,16 @@ class HtmlRenderer
 
         // Populate table rows with data
         foreach ($data as $row) {
-            $html .= '<tr>';
-            foreach ($row as $cell) {
-                $html .= '<td>' . htmlspecialchars($cell) . '</td>';
+            // Check if the first column is "rowclass" and use its value as the row's class
+            $rowClass = isset($row['rowclass']) ? ' class="' . htmlspecialchars($row['rowclass']) . '"' : '';
+            $html .= '<tr' . $rowClass . '>';
+
+            foreach ($row as $key => $cell) {
+                if ($key === 'rowclass') {
+                    continue; // Skip the "rowclass" column in the table cells
+                }
+
+                $html .= '<td>' . htmlspecialchars($cell ?? '', ENT_QUOTES, 'UTF-8') .'</td>';
             }
             $html .= '</tr>';
         }
@@ -45,13 +55,13 @@ class HtmlRenderer
 
         return $html;
     }
-    
+
     /**
      * Render an editable form with a table.
-     * 
+     *
      * The column names are rendered from the keys of the first row in the data array.
      * The first column is assumed to be the primary key and must be named 'ID'.
-     * 
+     *
      * An example SQL to get the data to pass to this method might be:
      * 'SELECT rider_id as "ID", name as "Rider Name" FROM riders'.
      *

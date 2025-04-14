@@ -1,0 +1,7 @@
+.row-disable {
+    opacity: .5;
+}
+
+.row-highlight td {
+    background-color: var(--pico-mark-background-color);
+}
