@@ -1,6 +1,6 @@
 <?php
+// This is an example configuration file for the application
+// copy this file to config/config.php and modify as needed
 
-// use bin/install.sh script to make an initial copy of this file as config/config.php
-
-const SQLITE_DSN = "sqlite:{{ROOT_DIR}}/db/db.sqlite3";
-
+define('APPNAME', 'Application Name');
+define('SQLITE_DSN', 'sqlite:' . ROOT_DIR . '/db/data.sqlite');
