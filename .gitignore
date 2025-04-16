@@ -7,9 +7,8 @@ dist/package-lock.json
 src/package-lock.json
 
 # ignore project specific items
-*.sqlite3
+*.sqlite
 .env
 config.php
 *.log
-php.ini
 db/data/*
