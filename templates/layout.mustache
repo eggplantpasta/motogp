@@ -1,27 +1,28 @@
-<!DOCTYPE html>
+<!-- layout.mustache -->
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏍️</text></svg>">
-    <title>MotoGP • Welcome</title>
     <meta name="description" content="MotoGP Bidding.">
     <link rel="stylesheet" href="/css/pico.css">
     <link rel="stylesheet" href="/css/webmin.css">
     <link rel="stylesheet" href="/css/motogp.css">
+    <title>{{$ title }}Title Here{{/ title }}</title>
   </head>
-
   <body>
-
-    <!-- Header -->
     <header class="container">
-      <hgroup>
-        <h1>MotoGP 🏍️</h1>
-        <p>A bidding competition for the 2025 MotoGP season.</p>
-      </hgroup>
+      {{> partials/navigation }}
     </header>
-    <!-- ./ Header -->
-
-    <!-- Main -->
     <main class="container">
+      {{$ content }}
+        <p>Content Here</p>
+      {{/ content }}
+    </main>
+    <footer  class="container">
+      <p><i><small>A rewrite of the old bidding website based on <a href="https://www.partymeeple.com.au/contact.html">Noisy's</a> code.</small></i></p>
+    </footer>
+    <script src="/js/webmin.js"></script>
+  </body>
+</html>

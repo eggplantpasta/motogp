@@ -6,10 +6,8 @@ $tpl = new Template($config['template']);
 
 $data= [
   'app' => $config['app']['name'],
-  'title' => 'Welcome',
-  'heading' => 'Welcome to MotoGP 2025',
+  'title' => 'Register',
+  'heading' => 'Register New Account'
 ];
 
-echo $tpl->render('main', $data);
-
-
+echo $tpl->render('register', $data);

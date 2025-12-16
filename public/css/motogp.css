@@ -5,3 +5,7 @@
 .row-highlight td {
     background-color: var(--pico-mark-background-color);
 }
+
+.secondary {
+    color: var(--pico-secondary-color);
+}

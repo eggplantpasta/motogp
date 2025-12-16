@@ -3,10 +3,16 @@
 # Set the PHP_ROOT environment variable to the root level of git repo
 export ROOT_DIR=$(git rev-parse --show-toplevel)
 
-# create config.php file from the example
+# create config.ini and php.ini files from the examples
 cd ${ROOT_DIR}/config
 
-\cp -rf config-example.php config.php
+\cp -rf php-example.ini php.ini
+\cp -rf app-example.ini app.ini
+
+# edit in place to replace template variables
+sed  -i '' "s@{{ROOT_DIR}}@${ROOT_DIR}@" php.ini
+sed  -i '' "s@{{ROOT_DIR}}@${ROOT_DIR}@" app.ini
 
 # Create the sample database
-${ROOT_DIR}/db/database-reset.sh
+cd ${ROOT_DIR}/db
+./reset.sh

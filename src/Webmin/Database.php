@@ -28,38 +28,18 @@ class Database
     /**
      * Execute a query and return the results.
      *
-     * @param string $sql The SQL query to execute.
+     * @param string $query The SQL query to execute.
      * @param array $params Optional parameters for prepared statements.
      * @return array The query results.
-     * @throws PDOException If the execution fails.
      */
-    public function query(string $sql, array $params = []): array
+    public function query(string $query, array $params = []): array
     {
         try {
-            $stmt = $this->connection->prepare($sql);
+            $stmt = $this->connection->prepare($query);
             $stmt->execute($params);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            throw new PDOException("SQL failed: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * Execute a DML statement (INSERT, UPDATE, DELETE).
-     *
-     * @param string $sql The SQL statement to execute.
-     * @param array $params Optional parameters for prepared statements.
-     * @return int The number of affected rows.
-     * @throws PDOException If the execution fails.
-     */
-    public function execute(string $sql, array $params = []): int
-    {
-        try {
-            $stmt = $this->connection->prepare($sql);
-            $stmt->execute($params);
-            return $stmt->rowCount(); // Returns the number of affected rows
-        } catch (PDOException $e) {
-            throw new PDOException("DML execution failed: " . $e->getMessage());
+            throw new PDOException("Query failed: " . $e->getMessage());
         }
     }
 

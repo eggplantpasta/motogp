@@ -1,14 +1,11 @@
-# standard ignore
-**/.DS_Store
-archive
-node_modules
-packages
-dist/package-lock.json
-src/package-lock.json
-
-# ignore project specific items
-*.sqlite
+# SQLite database file
+*.sqlite3
 .env
-config.php
 *.log
-db/data/*
+vendor/
+var/*
+!var/cache/mustache/.gitkeep
+
+config/app.ini
+config/php.ini
+.DS_Store

@@ -1,0 +1,25 @@
+
+{{< layout }}
+  {{$ title }}{{ app }} • {{ title }}{{/ title }}
+  {{$ content }}
+    <h2>{{ heading }}</h2>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Event Name</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+    {{# results }}
+        <tr class="{{ rowclass }}">
+          <td>{{ name }}<br><small class="secondary">{{ circuit }}</small></td>
+          <td>{{ date }}</td>
+        </tr>
+    {{/ results }}
+      </tbody>
+    </table>
+
+  {{/ content }}
+{{/ layout }}

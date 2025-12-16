@@ -1,0 +1,23 @@
+
+{{< layout }}
+  {{$ title }}{{ app }} • {{ title }}{{/ title }}
+  {{$ content }}
+    <h2>{{ heading }}</h2>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Rider Name</th>
+        </tr>
+      </thead>
+      <tbody>
+    {{# riders }}
+        <tr>
+          <td>{{ name }}</td>
+        </tr>
+    {{/ riders }}
+      </tbody>
+    </table>
+
+  {{/ content }}
+{{/ layout }}

@@ -1,11 +1,11 @@
 # delete existing database and recreate empty tables with default data
 
 # delete existing database
-rm -f data.sqlite
+rm -f db.sqlite3
 
 # create new database and tables
-sqlite3 data.sqlite < schema.sql
+sqlite3 db.sqlite3 < schema.sql
 
 # seed default data
-sqlite3 data.sqlite < seed/motogp-calendar-2025.sql
-sqlite3 data.sqlite < seed/motogp-riders-2025.sql
+sqlite3 db.sqlite3 < seed/motogp-calendar-2025.sql
+sqlite3 db.sqlite3 < seed/motogp-riders-2025.sql

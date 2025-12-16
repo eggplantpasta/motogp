@@ -1,0 +1,832 @@
+BEGIN:VCALENDAR
+PRODID:-//E-DIARY//E-DIARY 1.0//EN
+VERSION:2.0
+METHOD:PUBLISH
+X-WR-CALNAME:MotoGP
+X-Built-On-Cache-Miss:true
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Pertamina Mandalika Circuit
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20261011
+DTEND;VALUE=DATE:20261012
+SUMMARY:🏁 MotoGP™ Indonesia Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a451fa1e8
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nWatch MotoGP™ Your Way! 
+ Watch every MotoGP™ session LIVE and uninterrupted with MotoGP™ VideoPa
+ ss\, anytime\, anywhere.\n\nFollow on the go with MotoGP™ VideoPass\nhttp
+ s://ecal.ai/f/WKvpW/3m5CP\n\nVisit the Race Hub\nhttps://ecal.ai/f/WKvqm/3m
+ 5CP\n\nResults & Standings\nhttps://ecal.ai/f/WKvqm/3m5CP\n\nFacebook\nhttp
+ s://ecal.ai/f/WKvqR/3m5CP\n\nX\nhttps://ecal.ai/f/WKvr4/3m5CP\n\nInstagram\
+ nhttps://ecal.ai/f/WKvrs/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKvrM/3m5CP\n\n
+ Manage my ECAL\nhttps://ecal.ai/f/WKvsZ/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Petronas Sepang International Circuit
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:🏁 MotoGP™ Malaysia Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a42524242
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKvtp/3m5CP\n\nVisit the Rac
+ e Hub\nhttps://ecal.ai/f/WKvtR/3m5CP\n\nResults & Standings\nhttps://ecal.a
+ i/f/WKvtR/3m5CP\n\nStore\nhttps://ecal.ai/f/WKvvc/3m5CP\n\nFacebook\nhttps:
+ //ecal.ai/f/WKvvK/3m5CP\n\nX\nhttps://ecal.ai/f/WKvw7/3m5CP\n\nInstagram\nh
+ ttps://ecal.ai/f/WKvwr/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKvwK/3m5CP\n\nMa
+ nage my ECAL\nhttps://ecal.ai/f/WKvxZ/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Autódromo Internacional do Algarve
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:🏁 MotoGP™ Portugal Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a434f0b0e
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nCreate a MotoGP™ account
+  now and gain access to exclusive content\, such as the MotoGP™ Newslette
+ r\, which features GP Reports\, incredible videos and more.\n\nFollow on th
+ e go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKvD5/3m5CP\n\nVisit the R
+ ace Hub\nhttps://ecal.ai/f/WKvDt/3m5CP\n\nResults & Standings\nhttps://ecal
+ .ai/f/WKvDt/3m5CP\n\nCreate your MotoGP™ account now!\nhttps://ecal.ai/f/
+ WKvDM/3m5CP\n\nFacebook\nhttps://ecal.ai/f/WKvFk/3m5CP\n\nX\nhttps://ecal.a
+ i/f/WKvFC/3m5CP\n\nInstagram\nhttps://ecal.ai/f/WKvFT/3m5CP\n\nTikTok\nhttp
+ s://ecal.ai/f/WKvGh/3m5CP\n\nManage my ECAL\nhttps://ecal.ai/f/WKvHf/3m5CP\
+ n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Circuit Ricardo Tormo
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:🏁 MotoGP™ Valencia Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a416562d6
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKvyw/3m5CP\n\nVisit the Rac
+ e Hub\nhttps://ecal.ai/f/WKvyR/3m5CP\n\nResults & Standings\nhttps://ecal.a
+ i/f/WKvyR/3m5CP\n\nStore\nhttps://ecal.ai/f/WKvzb/3m5CP\n\nFacebook\nhttps:
+ //ecal.ai/f/WKvzN/3m5CP\n\nX\nhttps://ecal.ai/f/WKvB3/3m5CP\n\nInstagram\nh
+ ttps://ecal.ai/f/WKvBn/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKvBM/3m5CP\n\nMa
+ nage my ECAL\nhttps://ecal.ai/f/WKvCG/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Balaton Park
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260607
+DTEND;VALUE=DATE:20260608
+SUMMARY:🏁 MotoGP™ Hungary Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a416562d4
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKwLZ/3m5CP\n\nVisit the Rac
+ e Hub\nhttps://ecal.ai/f/WKwMm/3m5CP\n\nResults & Standings\nhttps://ecal.a
+ i/f/WKwMm/3m5CP\n\nStore\nhttps://ecal.ai/f/WKwMJ/3m5CP\n\nFacebook\nhttps:
+ //ecal.ai/f/WKwN8/3m5CP\n\nX\nhttps://ecal.ai/f/WKwNF/3m5CP\n\nInstagram\nh
+ ttps://ecal.ai/f/WKwNV/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKwP6/3m5CP\n\nMa
+ nage my ECAL\nhttps://ecal.ai/f/WKwQc/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Circuito de Jerez - Ángel Nieto
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260426
+DTEND;VALUE=DATE:20260427
+SUMMARY:🏁 MotoGP™ Spain Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed78a4600ccefe
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nWatch MotoGP™ Your Way! 
+ Watch every MotoGP™ session LIVE and uninterrupted with MotoGP™ VideoPa
+ ss\, anytime\, anywhere.\n\nFollow on the go with MotoGP™ VideoPass\nhttp
+ s://ecal.ai/f/WKwx7/3m5CP\n\nVisit the Race Hub\nhttps://ecal.ai/f/WKwxp/3m
+ 5CP\n\nResults & Standings\nhttps://ecal.ai/f/WKwxp/3m5CP\n\nFacebook\nhttp
+ s://ecal.ai/f/WKwxW/3m5CP\n\nX\nhttps://ecal.ai/f/WKwy6/3m5CP\n\nInstagram\
+ nhttps://ecal.ai/f/WKwyt/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKwyJ/3m5CP\n\n
+ Manage my ECAL\nhttps://ecal.ai/f/WKwzy/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Chang International Circuit
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART:20260301T080000Z
+DTEND:20260301T090000Z
+SUMMARY:🏁 MotoGP™ Thailand Grand Prix - Race
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:681c4b77d745973fdd6cc8ae
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/26rKrP/3m5CP\n\nVisit the Ra
+ ce Hub\nhttps://ecal.ai/f/26rKrV/3m5CP\n\nResults & Standings\nhttps://ecal
+ .ai/f/26rKrV/3m5CP\n\nStore\nhttps://ecal.ai/f/26rKrZ/3m5CP\n\nFacebook\nht
+ tps://ecal.ai/f/26rKs4/3m5CP\n\nX\nhttps://ecal.ai/f/26rKs8/3m5CP\n\nInstag
+ ram\nhttps://ecal.ai/f/26rKsf/3m5CP\n\nTikTok\nhttps://ecal.ai/f/26rKsh/3m5
+ CP\n\nManage my ECAL\nhttps://ecal.ai/f/26rKsv/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Chang International Circuit
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART:20260228T080000Z
+DTEND:20260228T090000Z
+SUMMARY:🏁 MotoGP™ Thailand Tissot Sprint
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:6874a52b96ed780a467ee67d
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/26rKqV/3m5CP\n\nVisit the Ra
+ ce Hub\nhttps://ecal.ai/f/26rKqY/3m5CP\n\nResults & Standings\nhttps://ecal
+ .ai/f/26rKqY/3m5CP\n\nStore\nhttps://ecal.ai/f/26rKr3/3m5CP\n\nFacebook\nht
+ tps://ecal.ai/f/26rKr8/3m5CP\n\nX\nhttps://ecal.ai/f/26rKrb/3m5CP\n\nInstag
+ ram\nhttps://ecal.ai/f/26rKrj/3m5CP\n\nTikTok\nhttps://ecal.ai/f/26rKrn/3m5
+ CP\n\nManage my ECAL\nhttps://ecal.ai/f/26rKrG/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Autódromo Internacional de Goiânia – Ayrton Senna
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260322
+DTEND;VALUE=DATE:20260323
+SUMMARY:🏁 MotoGP™ Brazil Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a416562d3
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKwp6/3m5CP\n\nVisit the Rac
+ e Hub\nhttps://ecal.ai/f/WKwpj/3m5CP\n\nResults & Standings\nhttps://ecal.a
+ i/f/WKwpj/3m5CP\n\nStore\nhttps://ecal.ai/f/WKwpw/3m5CP\n\nFacebook\nhttps:
+ //ecal.ai/f/WKwpM/3m5CP\n\nX\nhttps://ecal.ai/f/WKwpS/3m5CP\n\nInstagram\nh
+ ttps://ecal.ai/f/WKwq2/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKwqg/3m5CP\n\nMa
+ nage my ECAL\nhttps://ecal.ai/f/WKwqR/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Circuit Of The Americas
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260329
+DTEND;VALUE=DATE:20260330
+SUMMARY:🏁 MotoGP™ USA Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a451fa1e5
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nWatch MotoGP™ Your Way! 
+ Watch every MotoGP™ session LIVE and uninterrupted with MotoGP™ VideoPa
+ ss\, anytime\, anywhere.\n\nFollow on the go with MotoGP™ VideoPass\nhttp
+ s://ecal.ai/f/WKwr8/3m5CP\n\nVisit the Race Hub\nhttps://ecal.ai/f/WKwrj/3m
+ 5CP\n\nResults & Standings\nhttps://ecal.ai/f/WKwrj/3m5CP\n\nFacebook\nhttp
+ s://ecal.ai/f/WKwrD/3m5CP\n\nX\nhttps://ecal.ai/f/WKwrR/3m5CP\n\nInstagram\
+ nhttps://ecal.ai/f/WKws4/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKwsk/3m5CP\n\n
+ Manage my ECAL\nhttps://ecal.ai/f/WKwsX/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Lusail International Circuit
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260412
+DTEND;VALUE=DATE:20260413
+SUMMARY:🏁 MotoGP™ Qatar Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed78a4600ccefd
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nCreate a MotoGP™ account
+  now and gain access to exclusive content\, such as the MotoGP™ Newslette
+ r\, which features GP Reports\, incredible videos and more.\n\nFollow on th
+ e go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKwtj/3m5CP\n\nVisit the R
+ ace Hub\nhttps://ecal.ai/f/WKwtv/3m5CP\n\nResults & Standings\nhttps://ecal
+ .ai/f/WKwtv/3m5CP\n\nCreate your MotoGP™ account now!\nhttps://ecal.ai/f/
+ WKwtF/3m5CP\n\nFacebook\nhttps://ecal.ai/f/WKwv1/3m5CP\n\nX\nhttps://ecal.a
+ i/f/WKwvk/3m5CP\n\nInstagram\nhttps://ecal.ai/f/WKwvx/3m5CP\n\nTikTok\nhttp
+ s://ecal.ai/f/WKwvP/3m5CP\n\nManage my ECAL\nhttps://ecal.ai/f/WKwwH/3m5CP\
+ n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Circuit de Barcelona-Catalunya
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260517
+DTEND;VALUE=DATE:20260518
+SUMMARY:🏁 MotoGP™ Catalonia Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a347a9453
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nWatch MotoGP™ Your Way! 
+ Watch every MotoGP™ session LIVE and uninterrupted with MotoGP™ VideoPa
+ ss\, anytime\, anywhere.\n\nFollow on the go with MotoGP™ VideoPass\nhttp
+ s://ecal.ai/f/WKwFb/3m5CP\n\nVisit the Race Hub\nhttps://ecal.ai/f/WKwFn/3m
+ 5CP\n\nResults & Standings\nhttps://ecal.ai/f/WKwFn/3m5CP\n\nFacebook\nhttp
+ s://ecal.ai/f/WKwFK/3m5CP\n\nX\nhttps://ecal.ai/f/WKwFY/3m5CP\n\nInstagram\
+ nhttps://ecal.ai/f/WKwGg/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKwGz/3m5CP\n\n
+ Manage my ECAL\nhttps://ecal.ai/f/WKwHv/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Le Mans
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260510
+DTEND;VALUE=DATE:20260511
+SUMMARY:🏁 MotoGP™ France  Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a451fa1e6
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKwzZ/3m5CP\n\nVisit the Rac
+ e Hub\nhttps://ecal.ai/f/WKwBg/3m5CP\n\nResults & Standings\nhttps://ecal.a
+ i/f/WKwBg/3m5CP\n\nStore\nhttps://ecal.ai/f/WKwBw/3m5CP\n\nFacebook\nhttps:
+ //ecal.ai/f/WKwC7/3m5CP\n\nX\nhttps://ecal.ai/f/WKwCs/3m5CP\n\nInstagram\nh
+ ttps://ecal.ai/f/WKwCK/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKwCX/3m5CP\n\nMa
+ nage my ECAL\nhttps://ecal.ai/f/WKwDP/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Autodromo Internazionale del Mugello
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260531
+DTEND;VALUE=DATE:20260601
+SUMMARY:🏁 MotoGP™ Italy Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a434f0b0c
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKwHW/3m5CP\n\nVisit the Rac
+ e Hub\nhttps://ecal.ai/f/WKwJc/3m5CP\n\nResults & Standings\nhttps://ecal.a
+ i/f/WKwJc/3m5CP\n\nStore\nhttps://ecal.ai/f/WKwJq/3m5CP\n\nFacebook\nhttps:
+ //ecal.ai/f/WKwJS/3m5CP\n\nX\nhttps://ecal.ai/f/WKwK6/3m5CP\n\nInstagram\nh
+ ttps://ecal.ai/f/WKwKq/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKwKF/3m5CP\n\nMa
+ nage my ECAL\nhttps://ecal.ai/f/WKwLv/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Automotodrom Brno
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260621
+DTEND;VALUE=DATE:20260622
+SUMMARY:🏁 MotoGP™ Czechia Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed78a4600cceff
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nCreate a MotoGP™ account
+  now and gain access to exclusive content\, such as the MotoGP™ Newslette
+ r\, which features GP Reports\, incredible videos and more.\n\nFollow on th
+ e go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKwQJ/3m5CP\n\nVisit the R
+ ace Hub\nhttps://ecal.ai/f/WKwR1/3m5CP\n\nResults & Standings\nhttps://ecal
+ .ai/f/WKwR1/3m5CP\n\nCreate your MotoGP™ account now!\nhttps://ecal.ai/f/
+ WKwRl/3m5CP\n\nFacebook\nhttps://ecal.ai/f/WKwRS/3m5CP\n\nX\nhttps://ecal.a
+ i/f/WKwSb/3m5CP\n\nInstagram\nhttps://ecal.ai/f/WKwSy/3m5CP\n\nTikTok\nhttp
+ s://ecal.ai/f/WKwSZ/3m5CP\n\nManage my ECAL\nhttps://ecal.ai/f/WKwV8/3m5CP\
+ n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:TT Circuit Assen
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260628
+DTEND;VALUE=DATE:20260629
+SUMMARY:🏁 MotoGP™ Netherlands Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a347a9454
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKwVH/3m5CP\n\nVisit the Rac
+ e Hub\nhttps://ecal.ai/f/WKwVW/3m5CP\n\nResults & Standings\nhttps://ecal.a
+ i/f/WKwVW/3m5CP\n\nStore\nhttps://ecal.ai/f/WKwWf/3m5CP\n\nFacebook\nhttps:
+ //ecal.ai/f/WKwWD/3m5CP\n\nX\nhttps://ecal.ai/f/WKwWR/3m5CP\n\nInstagram\nh
+ ttps://ecal.ai/f/WKwXj/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKwXF/3m5CP\n\nMa
+ nage my ECAL\nhttps://ecal.ai/f/WKwYD/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Silverstone Circuit
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260809
+DTEND;VALUE=DATE:20260810
+SUMMARY:🏁 MotoGP™ Great Britain Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a416562d5
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nCreate a MotoGP™ account
+  now and gain access to exclusive content\, such as the MotoGP™ Newslette
+ r\, which features GP Reports\, incredible videos and more.\n\nFollow on th
+ e go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKx3J/3m5CP\n\nVisit the R
+ ace Hub\nhttps://ecal.ai/f/WKx44/3m5CP\n\nResults & Standings\nhttps://ecal
+ .ai/f/WKx44/3m5CP\n\nCreate your MotoGP™ account now!\nhttps://ecal.ai/f/
+ WKx4w/3m5CP\n\nFacebook\nhttps://ecal.ai/f/WKx55/3m5CP\n\nX\nhttps://ecal.a
+ i/f/WKx5j/3m5CP\n\nInstagram\nhttps://ecal.ai/f/WKx5B/3m5CP\n\nTikTok\nhttp
+ s://ecal.ai/f/WKx5X/3m5CP\n\nManage my ECAL\nhttps://ecal.ai/f/WKx6S/3m5CP\
+ n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Sachsenring
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260712
+DTEND;VALUE=DATE:20260713
+SUMMARY:🏁 MotoGP™ Germany  Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a434f0b0d
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nCreate a MotoGP™ account
+  now and gain access to exclusive content\, such as the MotoGP™ Newslette
+ r\, which features GP Reports\, incredible videos and more.\n\nFollow on th
+ e go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKwYZ/3m5CP\n\nVisit the R
+ ace Hub\nhttps://ecal.ai/f/WKwZj/3m5CP\n\nResults & Standings\nhttps://ecal
+ .ai/f/WKwZj/3m5CP\n\nCreate your MotoGP™ account now!\nhttps://ecal.ai/f/
+ WKwZC/3m5CP\n\nFacebook\nhttps://ecal.ai/f/WKx1c/3m5CP\n\nX\nhttps://ecal.a
+ i/f/WKx1v/3m5CP\n\nInstagram\nhttps://ecal.ai/f/WKx1V/3m5CP\n\nTikTok\nhttp
+ s://ecal.ai/f/WKx2h/3m5CP\n\nManage my ECAL\nhttps://ecal.ai/f/WKx3c/3m5CP\
+ n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:MotorLand Aragón
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260830
+DTEND;VALUE=DATE:20260831
+SUMMARY:🏁 MotoGP™ Aragon Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed78a4600ccf00
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nCreate a MotoGP™ account
+  now and gain access to exclusive content\, such as the MotoGP™ Newslette
+ r\, which features GP Reports\, incredible videos and more.\n\nFollow on th
+ e go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKv6v/3m5CP\n\nVisit the R
+ ace Hub\nhttps://ecal.ai/f/WKv6Q/3m5CP\n\nResults & Standings\nhttps://ecal
+ .ai/f/WKv6Q/3m5CP\n\nCreate your MotoGP™ account now!\nhttps://ecal.ai/f/
+ WKv7c/3m5CP\n\nFacebook\nhttps://ecal.ai/f/WKv7G/3m5CP\n\nX\nhttps://ecal.a
+ i/f/WKv8B/3m5CP\n\nInstagram\nhttps://ecal.ai/f/WKv96/3m5CP\n\nTikTok\nhttp
+ s://ecal.ai/f/WKv9t/3m5CP\n\nManage my ECAL\nhttps://ecal.ai/f/WKvby/3m5CP\
+ n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Misano World Circuit Marco Simoncelli
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260913
+DTEND;VALUE=DATE:20260914
+SUMMARY:🏁 MotoGP™ San Marino Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a451fa1e7
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKvc4/3m5CP\n\nVisit the Rac
+ e Hub\nhttps://ecal.ai/f/WKvcj/3m5CP\n\nResults & Standings\nhttps://ecal.a
+ i/f/WKvcj/3m5CP\n\nStore\nhttps://ecal.ai/f/WKvcN/3m5CP\n\nFacebook\nhttps:
+ //ecal.ai/f/WKvdv/3m5CP\n\nX\nhttps://ecal.ai/f/WKvdQ/3m5CP\n\nInstagram\nh
+ ttps://ecal.ai/f/WKvfb/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKvfv/3m5CP\n\nMa
+ nage my ECAL\nhttps://ecal.ai/f/WKvgC/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Red Bull Ring - Spielberg
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20260920
+DTEND;VALUE=DATE:20260921
+SUMMARY:🏁 MotoGP™ Austria Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed78a4600ccf01
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nWatch MotoGP™ Your Way! 
+ Watch every MotoGP™ session LIVE and uninterrupted with MotoGP™ VideoPa
+ ss\, anytime\, anywhere.\n\nFollow on the go with MotoGP™ VideoPass\nhttp
+ s://ecal.ai/f/WKvh5/3m5CP\n\nVisit the Race Hub\nhttps://ecal.ai/f/WKvhq/3m
+ 5CP\n\nResults & Standings\nhttps://ecal.ai/f/WKvhq/3m5CP\n\nFacebook\nhttp
+ s://ecal.ai/f/WKvhQ/3m5CP\n\nX\nhttps://ecal.ai/f/WKvj8/3m5CP\n\nInstagram\
+ nhttps://ecal.ai/f/WKvjs/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKvjN/3m5CP\n\n
+ Manage my ECAL\nhttps://ecal.ai/f/WKvkX/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Phillip Island
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:🏁 MotoGP™ Australia Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed78a4600ccf02
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP \n\n🎫 Don't just watch –
+  be part of the action! Ignite your engine and purchase your tickets now. C
+ lick the links below for pricing and hospitality options.\n\nWatch MotoGP
+ ™ Your Way! Watch every MotoGP™ session LIVE and uninterrupted with Mot
+ oGP™ VideoPass\, anytime\, anywhere.\n\nBuy Tickets\nhttps://ecal.ai/f/WK
+ x7M/3m5CP\n\nHospitality\nhttps://ecal.ai/f/WKx86/3m5CP\n\nFollow on the go
+  with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKx8l/3m5CP\n\nVisit the Race 
+ Hub\nhttps://ecal.ai/f/WKx8D/3m5CP\n\nResults & Standings\nhttps://ecal.ai/
+ f/WKx8D/3m5CP\n\nFacebook\nhttps://ecal.ai/f/WKx9n/3m5CP\n\nX\nhttps://ecal
+ .ai/f/WKxb1/3m5CP\n\nInstagram\nhttps://ecal.ai/f/WKxbr/3m5CP\n\nTikTok\nht
+ tps://ecal.ai/f/WKxbK/3m5CP\n\nManage my ECAL\nhttps://ecal.ai/f/WKxcR/3m5C
+ P\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Mobility Resort Motegi
+X-ECAL-SCHEDULE:681c4b77d745973fdd6cc8ad
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:🏁 MotoGP™ Japan Grand Prix (Time TBC)
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:688231b996ed780a347a9455
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:Follow all the action live on Channel 10\, Fox Sports\, MotoGP
+ ™ VideoPass or motogp.com | Join in #MotoGP\n\nSupport your favourite tea
+ m with official MotoGP™team gear and apparel. Shop now!\n\nFollow on the 
+ go with MotoGP™ VideoPass\nhttps://ecal.ai/f/WKvlg/3m5CP\n\nVisit the Rac
+ e Hub\nhttps://ecal.ai/f/WKvlC/3m5CP\n\nResults & Standings\nhttps://ecal.a
+ i/f/WKvlC/3m5CP\n\nStore\nhttps://ecal.ai/f/WKvlP/3m5CP\n\nFacebook\nhttps:
+ //ecal.ai/f/WKvmg/3m5CP\n\nX\nhttps://ecal.ai/f/WKvmt/3m5CP\n\nInstagram\nh
+ ttps://ecal.ai/f/WKvmK/3m5CP\n\nTikTok\nhttps://ecal.ai/f/WKvn3/3m5CP\n\nMa
+ nage my ECAL\nhttps://ecal.ai/f/WKvpB/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20251213T023105Z
+DTSTAMP:20251213T023105Z
+LOCATION:Proudly powered by ECAL
+X-ECAL-SCHEDULE:693ccfcd126d2f0002263105
+DTSTART:20251213T024500Z
+DTEND:20251213T030000Z
+SUMMARY:Welcome to MotoGP!
+TRANSP:TRANSPARENT
+SEQUENCE:0
+UID:693ccfcd54c28f0002c101b2
+PRIORITY:5
+X-MICROSOFT-CDO-IMPORTANCE:1
+CLASS:PUBLIC
+DESCRIPTION:You'll now have the most up-to-date info about events from Moto
+ GP.\n\nIf dates\, times or details change\, these will automatically update
+  in your calendar. How good is that!\n\nWe hope you enjoy this service and 
+ welcome any feedback via our Support Centre https://support.ecal.com \n----
+ -- \n\nThis service is powered by ECAL\, the world's leading & most trusted
+  calendar communications service.\n\nManage my ECAL\nhttps://ecal.ai/f/29yy
+ KB/3m5CP\n\n
+BEGIN:VALARM
+TRIGGER:-PT1M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+END:VCALENDAR
