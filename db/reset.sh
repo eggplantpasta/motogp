@@ -7,5 +7,5 @@ rm -f db.sqlite3
 sqlite3 db.sqlite3 < schema.sql
 
 # seed default data
-sqlite3 db.sqlite3 < seed/motogp-calendar-2025.sql
-sqlite3 db.sqlite3 < seed/motogp-riders-2025.sql
+sqlite3 db.sqlite3 < seed/motogp-calendar-2026.sql
+sqlite3 db.sqlite3 < seed/motogp-riders-2026.sql
