@@ -2,7 +2,6 @@
 
 namespace MotoGp;
 
-use DateTime;
 use Database;
 
 class Event {
@@ -28,5 +27,18 @@ class Event {
         $results = $this->db->query($sql);
 
         return !empty($results) ? $results[0]['event_id'] : null; // return the first result or null if empty
+    }
+
+    public function getEventById(int $eventId): ?array
+    {
+        $sql = '
+        SELECT *
+        FROM events
+        WHERE event_id = :event_id
+        ';
+
+        $results = $this->db->query($sql, [':event_id' => $eventId]);
+
+        return !empty($results) ? $results[0] : null; // return the first result or null if empty
     }
 }

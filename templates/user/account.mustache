@@ -5,6 +5,8 @@
 {{$ content }}
 <h1>{{ user.username }}</h1>
 <p>Balance: {{ user.balance }} points.</p>
+<h2>Upcoming Race</h2>
+<p><strong>{{ next_event.start_date }}</strong> <em>{{ next_event.name }}</em></p>
 <h2>Account Information</h2>
 <ul>
     <li>Email: {{ user.email }}</li>

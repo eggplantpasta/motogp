@@ -2,15 +2,13 @@
 
 namespace MotoGp;
 
-use DateTime;
-
 class Utility {
 
     // Convert a date string into a "time ago" format
     public static function timeAgo($dateString): string
     {
-        $date = new DateTime($dateString);
-        $now = new DateTime();
+        $date = new \DateTime($dateString);
+        $now = new \DateTime();
         $interval = $now->diff($date);
         
         if ($interval->y > 0) return $interval->y . " year" . ($interval->y > 1 ? "s" : "") . " ago";

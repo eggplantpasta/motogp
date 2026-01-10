@@ -24,6 +24,7 @@ create table if not exists  events (
   circuit varchar(255),
   flag varchar(255),
   link varchar(255),
+  bids_open integer not null default 0
   created_at datetime not null default current_timestamp
 );
 
