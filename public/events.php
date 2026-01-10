@@ -2,7 +2,12 @@
 
 use Webmin\Template;
 use Webmin\Database;
+use Webmin\User;
+use MotoGp\Utility;
 use MotoGp\Event;
+
+// get session user
+$user = new User();
 
 // get the data from the db
 $db = new Database($config['database']['dsn']);
@@ -10,31 +15,32 @@ $db = new Database($config['database']['dsn']);
 $event = new Event($db);
 $next_event_id = $event->nextEvent();
 
-$sql = '
-SELECT
-    CASE
-        WHEN event_id = :next_event_id THEN "row-highlight"
-        WHEN strftime("%Y-%m-%d %H:%M:%S", start_date) < date("now") THEN "row-disable"
-        ELSE ""
-    END as "rowclass",
-  event_id,
-  name,
-  circuit,
-  substr("--JanFebMarAprMayJunJulAugSepOctNovDec", strftime ("%m", start_date) * 3, 3) || " " || strftime ("%d", start_date) as "date"
-FROM events
-ORDER BY start_date
-';
-$results = $db->query($sql, [':next_event_id' => $next_event_id]);
+$all_events = $event->getEvents();
+
+$data['app'] = $config['app'];
+$data['user'] = $user->getSessionUser();
+$data['page']['title'] = 'Events';
+$data['page']['heading'] = 'Season 2026';
+$data['events'] = $all_events;
+
+// manipulate columns for display
+foreach ($data['events'] as &$event) {
+    // set row class
+    if ($event['event_id'] == $next_event_id) {
+        $event['rowclass'] = 'row-highlight';
+    } elseif (strtotime($event['start_date']) < time()) {
+        $event['rowclass'] = 'row-disable';
+    } else {
+        $event['rowclass'] = '';
+    }
+    // format date
+    $date = new \DateTime($event['start_date']);
+    $event['display_date'] = $date->format('M d');
+}
+
+echo Utility::dump($data);
 
 $tpl = new Template($config['template']);
-
-$data= [
-  'app' => $config['app'],
-  'title' => 'Events',
-  'heading' => 'Season 2026',
-  'results' => $results,
-];
-
 echo $tpl->render('events', $data);
 
 

@@ -1,8 +1,8 @@
 
 {{< partials/layout }}
-  {{$ title }}{{ app.name }} • {{ title }}{{/ title }}
+  {{$ page.title }}{{ app.name }} • {{ page.title }}{{/ page.title }}
   {{$ content }}
-    <h1>{{ heading }}</h1>
+    <h1>{{ page.heading }}</h1>
     
     <table>
       <thead>
@@ -12,12 +12,12 @@
         </tr>
       </thead>
       <tbody>
-    {{# results }}
+    {{# events }}
         <tr class="{{ rowclass }}">
           <td>{{ name }}<br><small class="secondary">{{ circuit }}</small></td>
-          <td>{{ date }}</td>
+          <td>{{ display_date }}</td>
         </tr>
-    {{/ results }}
+    {{/ events }}
       </tbody>
     </table>
   <p><a href="https://www.motogp.com/en/calendar?view=grid">Calendar of events</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en">official site.</a></p>

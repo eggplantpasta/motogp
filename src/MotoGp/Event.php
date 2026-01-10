@@ -41,4 +41,17 @@ class Event {
 
         return !empty($results) ? $results[0] : null; // return the first result or null if empty
     }
+
+    public function getEvents(): array
+    {
+        $sql = '
+        SELECT *
+        FROM events
+        ORDER BY start_date
+        ';
+
+        $results = $this->db->query($sql);
+
+        return !empty($results) && $results[0] ? $results : []; // return results or empty array
+    }
 }

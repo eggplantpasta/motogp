@@ -17,7 +17,7 @@ $db = new Database($config['database']['dsn']);
 $event = new Event($db);
 
 $next_event = $event->getEventById($event->nextEvent());
-$date = new DateTime($next_event['start_date']);
+$date = new \DateTime($next_event['start_date']);
 
 $tpl = new Template($config['template']);
 $data['user'] = $user->getSessionUser();
