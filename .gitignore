@@ -9,3 +9,4 @@ var/*
 config/app.ini
 config/php.ini
 .DS_Store
+db/db.sqlite3-journal
