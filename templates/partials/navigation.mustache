@@ -1,24 +1,44 @@
 <nav>
     <ul>
-    <li><strong><a href="index.php" class="secondary">MotoGP Bidding</a></strong></li>
+    <li><strong><a href="index.php" class="secondary"><span class="motofont">MotoGP</span> Bidding</a></strong></li>
     </ul>
     <ul>
-    <li><a href="events.php" class="secondary">Events</a></li>
-    <li><a href="riders.php" class="secondary">Riders</a></li>
-    <li><a href="ladder.php" class="secondary">Ladder</a></li>
+    <li><a href="/events.php" class="secondary">events</a></li>
+    <li><a href="/riders.php" class="secondary">riders</a></li>
+    <li><a href="/ladder.php" class="secondary">ladder</a></li>
+
+    <li>
+        {{#user}}
+            <span class="webmin-highlight"><a href="/user/account.php">{{username}}</a></span>
+        {{/user}}
+        {{^user}}
+            <a href="/user/login.php">login</a>
+        {{/user}}
+    </li>
     <li>
         <details class="dropdown">
         <summary>
-            <img src="/images/lucide--circle-user-round.svg" height="24" width="24" />
+            <span {{#user}}class="webmin-highlight"{{/user}}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></g></svg>
+            </span>
         </summary>
         <ul>
-            <li><a href="/user/login.php">Login</a></li>
-            <li><a href="/user/register.php">Register</a></li>
-            <li><a href="/user/resetpassword.php">Reset Password</a></li>
-            <li><a href="/user/account.php">Account</a></li>
-            <li><a href="/user/logout.php">Logout</a></li>
+            {{#user}}
+                <li class="webmin-nav-disabled">login</li>
+                <li class="webmin-nav-disabled">register</li>
+                <li><a href="/user/edit-account.php">edit account</a></li>
+                <li><a href="/user/logout.php">logout</a></li>
+            {{/user}}
+            {{^user}}
+                <li><a href="/user/login.php">login</a></li>
+                <li><a href="/user/register.php">register</a></li>
+                <li class="webmin-nav-disabled">edit account</li>
+                <li class="webmin-nav-disabled">logout</li>
+            {{/user}}
+
         </ul>
         </details>
     </li>
+
     </ul>
 </nav>

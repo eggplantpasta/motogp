@@ -1,0 +1,36 @@
+{{< partials/layout }}
+
+{{$ title }}Edit Account{{/ title }}
+
+{{$ content }}
+<form action="{{form.action}}" method="post" novalidate>
+  <h1>Edit Account</h1>
+<p>Update your account information below. Ignore fields you want to leave unchanged.</p>
+  <fieldset>
+    <label>
+      New User name
+      <input name="username" placeholder="{{user.username}}" autocomplete="username"
+      aria-invalid="{{form.usernameInvalid}}" aria-describedby="invalid-username" value="{{form.username}}"/>
+      <small id="invalid-username">{{form.usernameErr}}</small>
+    </label>
+    <label>
+      New Email
+      <input type="email" name="email" placeholder="{{user.email}}" autocomplete="email"
+      aria-invalid="{{form.emailInvalid}}" aria-describedby="invalid-email" value="{{form.email}}" />
+      <small id="invalid-email">{{form.emailErr}}</small>
+    </label>
+      New Password
+      <button class="password-toggle" type="button" tabindex="-1" aria-label="Toggle password visibility"></button>
+      <input type="password" name="password" placeholder="********" autocomplete="new-password"
+      aria-invalid="{{form.passwordInvalid}}" aria-describedby="invalid-password" value="{{form.password}}" />
+      <small id="invalid-password">{{form.passwordErr}}</small>
+    </label>
+    </fieldset>
+    <fieldset class="grid">
+        <input type="reset" value="Cancel" class="secondary" />
+        <input type="submit" value="Change Details" />
+    </fieldset>
+</form>
+{{/ content }}
+
+{{/ partials/layout }}

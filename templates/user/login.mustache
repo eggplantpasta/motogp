@@ -1,0 +1,31 @@
+{{< partials/layout }}
+
+{{$ title }}Login{{/ title }}
+
+{{$ content }}
+<form action="{{form.action}}" method="post" novalidate>
+  <h1>Login</h1>
+  <fieldset>
+    <label>
+      User name or email
+      <input name="username" placeholder="nickname" autocomplete="username"
+      aria-invalid="{{form.usernameInvalid}}" aria-describedby="invalid-username" value="{{form.username}}"/>
+      <small id="invalid-username">{{form.usernameErr}}</small>
+    </label>
+    <label>
+      Password
+      <button class="password-toggle" type="button" tabindex="-1" aria-label="Toggle password visibility"></button>
+      <input type="password" name="password" placeholder="********" autocomplete="current-password"
+      aria-invalid="{{form.passwordInvalid}}" aria-describedby="invalid-password" value="{{form.password}}" />
+      <small id="invalid-password">{{form.passwordErr}}</small>
+    </label>
+  </fieldset>
+  <fieldset class="grid">
+      <input type="button" value="Cancel" onclick="window.location.href='/user/login.php'" class="secondary" />
+      <input type="submit" value="Login" />
+  </fieldset>
+  <p>Don't have an account? <a href="/user/register.php">Register here</a>.</p>
+</form>
+{{/ content }}
+
+{{/ partials/layout }}

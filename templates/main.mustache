@@ -1,14 +1,14 @@
 
-{{< layout }}
-  {{$ title }}{{ app }} • {{ title }}{{/ title }}
+{{< partials/layout }}
+  {{$ title }}{{ app.name }} • {{ title }}{{/ title }}
   {{$ content }}
-    <h1>{{ heading }}</h1>
+    <h1>{{ heading }} {{ app.season }}</h1>
     <figure>
     <img
-      src="/images/DannyPed.png"
+      src="/assets/images/DannyPed.png"
       alt="Danny Pedroza, 2017 Australian MotoGP at Phillip Island. Photo by Noisy." />
     <figcaption>Zoooomm..</figcaption>
     </figure>
     </ul>
   {{/ content }}
-{{/ layout }}
+{{/ partials/layout }}

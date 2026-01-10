@@ -1,0 +1,59 @@
+:root,
+:host {
+  --webmin-icon-eye-closed: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0yLjY5IDYuNzA1YS43NS43NSAwIDAgMC0xLjM4LjU5em0xMi44OTcgNi42MjRsLS4yNzQtLjY5OHptLTYuNTQ2LjQwOWEuNzUuNzUgMCAxIDAtMS4yNTctLjgxOHptLTIuNjcgMS4zNTNhLjc1Ljc1IDAgMSAwIDEuMjU4LjgxOHpNMjIuNjkgNy4yOTVhLjc1Ljc1IDAgMCAwLTEuMzc4LS41OXpNMTkgMTEuMTNsLS41MTMtLjU0N3ptLjk3IDIuMDNhLjc1Ljc1IDAgMSAwIDEuMDYtMS4wNnptLTguNzIgMy4zNGEuNzUuNzUgMCAwIDAgMS41IDB6bTUuMTIxLS41OTFhLjc1Ljc1IDAgMSAwIDEuMjU4LS44MTh6bS0xMC44NC00LjI1QS43NS43NSAwIDAgMCA0LjQ3IDEwLjZ6bS0yLjU2MS40NGEuNzUuNzUgMCAwIDAgMS4wNiAxLjA2ek0xMiAxMy4yNWMtMy4yMjQgMC01LjUzOS0xLjYwNS03LjA3NS0zLjI2YTEzLjYgMTMuNiAwIDAgMS0xLjcwMi0yLjI4YTEyIDEyIDAgMCAxLS41MDctLjk0NmwtLjAyMi0uMDQ5bC0uMDA0LS4wMWwtLjAwMS0uMDAxTDIgN2wtLjY5LjI5NmguMDAxbC4wMDEuMDAzbC4wMDMuMDA2bC4wNC4wODhxLjAzOS4wODguMTE3LjI0M2MuMTAzLjIwNi4yNTYuNDk2LjQ2Mi44NDFjLjQxLjY5IDEuMDM1IDEuNjEgMS44OTEgMi41MzNDNS41NCAxMi44NTUgOC4yMjQgMTQuNzUgMTIgMTQuNzV6bTMuMzEzLS42MmMtLjk3LjM4My0yLjA3MS42Mi0zLjMxMy42MnYxLjVjMS40MzggMCAyLjcyNS0uMjc2IDMuODYyLS43MjN6bS03LjUyOS4yOWwtMS40MTMgMi4xN2wxLjI1OC44MThsMS40MTItMi4xNzF6TTIyIDdsLS42OS0uMjk2aC4wMDF2LjAwMmwtLjAwNy4wMTNsLS4wMjguMDYyYTEyIDEyIDAgMCAxLS42NCAxLjE2MmExMy4zIDEzLjMgMCAwIDEtMi4xNSAyLjYzOWwxLjAyNyAxLjA5NGExNC44IDE0LjggMCAwIDAgMy4xMjItNC4yNmwuMDM5LS4wODVsLjAxLS4wMjRsLjAwNC0uMDA3di0uMDAzaC4wMDF2LS4wMDF6bS0zLjUxMyAzLjU4MmMtLjg2LjgwNi0xLjkxMyAxLjU1Mi0zLjE3NCAyLjA0OWwuNTQ5IDEuMzk2YzEuNDczLS41OCAyLjY4NS0xLjQ0NCAzLjY1MS0yLjM1MXptLS4wMTcgMS4wNzdsMS41IDEuNWwxLjA2LTEuMDZsLTEuNS0xLjV6TTExLjI1IDE0djIuNWgxLjVWMTR6bTMuNzA5LS4yNjJsMS40MTIgMi4xNzFsMS4yNTgtLjgxOGwtMS40MTMtMi4xNzF6bS0xMC40OS0zLjE0bC0xLjUgMS41TDQuMDMgMTMuMTZsMS41LTEuNXoiLz48L3N2Zz4=");
+  --webmin-icon-eye-open: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZyBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxLjUiPjxwYXRoIGQ9Ik0zLjI3NSAxNS4yOTZDMi40MjUgMTQuMTkyIDIgMTMuNjM5IDIgMTJjMC0xLjY0LjQyNS0yLjE5MSAxLjI3NS0zLjI5NkM0Ljk3MiA2LjUgNy44MTggNCAxMiA0czcuMDI4IDIuNSA4LjcyNSA0LjcwNEMyMS41NzUgOS44MSAyMiAxMC4zNjEgMjIgMTJjMCAxLjY0LS40MjUgMi4xOTEtMS4yNzUgMy4yOTZDMTkuMDI4IDE3LjUgMTYuMTgyIDIwIDEyIDIwcy03LjAyOC0yLjUtOC43MjUtNC43MDRaIi8+PHBhdGggZD0iTTE1IDEyYTMgMyAwIDEgMS02IDBhMyAzIDAgMCAxIDYgMFoiLz48L2c+PC9zdmc+');
+}
+
+/* Webmin CSS */
+header a, header a:visited, 
+footer a, footer a:visited{
+  text-decoration-color: var(--pico-primary);
+}
+
+header a:hover,  footer a:hover {
+  --pico-primary-hover: var(--pico-primary);
+} 
+
+.webmin-highlight {
+  color: var(--pico-primary);
+}
+
+/* Navigation styling */
+nav .webmin-nav-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Form styling */
+
+form {
+  margin: 0 auto; 
+  max-width: 600px;
+}
+
+/* password styling */
+/* Hide the clear and reveal buttons in IE/Edge */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+/* Position the invisible toggle button over the input field */
+label {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+input[type="password"] {
+    background-image: var(--webmin-icon-eye-closed);
+}

@@ -3,26 +3,28 @@
 use Webmin\Template;
 use Webmin\User;
 use Webmin\Database;
-
-// redirect to account page if already logged in
-$user = new User();
-if ($user->isLoggedIn()) {
-    header("Location: /user/account.php");
-    exit();
-}
+use MotoGp\Utility;
 
 $tpl = new Template($config['template']);
 
-$data = ['form' => [
-    'action' => htmlspecialchars($_SERVER["PHP_SELF"])],
-];
+// redirect to login page if not logged in
+$user = new User();
+if (!$user->isLoggedIn()) {
+    header("Location: /user/login.php");
+    exit();
+}
+
+$data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]);
+$data['user'] = $user->getSessionUser();
+
+echo Utility::dump($data);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $db = new Database($config['database']['dsn']);
     $user = new User($db);
 
-    // Process form submission
+     // Process form submission
     $user->username = trim($_POST['username'] ?? '');
     $user->email = trim($_POST['email'] ?? '');
     $user->password = trim($_POST['password'] ?? '');
@@ -43,13 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data['form']['passwordErr'] = $user->passwordErr;
     $data['form']['passwordInvalid'] = !empty($user->passwordErr) ? 'true' : 'false';
 
-    // If no errors, proceed with registration logic (e.g., save to database)
-    if (empty($user->usernameErr) && empty($user->emailErr) && empty($user->passwordErr)) {
-        $user->register();
-        // Redirect to login page or another page after successful registration
-        header("Location: /user/login.php");
+    // If no errors, proceed with password reset logic (e.g., update in database)
+    if (empty($user->passwordErr)) {
+        $userData = $user->getSessionUser();
+        $user->updatePassword($userData['user_id'], $user->password);
+
+        // Redirect to account page after successful password reset
+        header("Location: /user/account.php");
         exit();
     }
 }
 
-echo $tpl->render('user/register', $data);
+echo $tpl->render('user/edit-account', $data);

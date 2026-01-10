@@ -1,0 +1,17 @@
+{{< partials/layout }}
+
+{{$ title }}Account{{/ title }}
+
+{{$ content }}
+<h1>{{ user.username }}</h1>
+<p>Balance: {{ user.balance }} points.</p>
+<h2>Account Information</h2>
+<ul>
+    <li>Email: {{ user.email }}</li>
+    <li>Username: {{ user.username }}</li>
+    <li>Account created: {{ user.created_ago }}</li>
+</ul>
+<p>You can <a href="/user/edit-account.php">edit your registration details and password here</a>.</p>
+{{/ content }}
+
+{{/ partials/layout }}

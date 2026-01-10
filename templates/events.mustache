@@ -1,8 +1,8 @@
 
-{{< layout }}
-  {{$ title }}{{ app }} • {{ title }}{{/ title }}
+{{< partials/layout }}
+  {{$ title }}{{ app.name }} • {{ title }}{{/ title }}
   {{$ content }}
-    <h2>{{ heading }}</h2>
+    <h1>{{ app.season }} {{ heading }}</h1>
     
     <table>
       <thead>
@@ -22,4 +22,4 @@
     </table>
 
   {{/ content }}
-{{/ layout }}
+{{/ partials/layout }}

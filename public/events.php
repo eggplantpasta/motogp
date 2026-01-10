@@ -39,9 +39,9 @@ $results = $db->query($sql, [':next_event_id' => $next_event_id]);
 $tpl = new Template($config['template']);
 
 $data= [
-  'app' => $config['app']['name'],
+  'app' => $config['app'],
   'title' => 'Events',
-  'heading' => 'Events Schedule for 2026 Season',
+  'heading' => 'Season',
   'results' => $results,
 ];
 

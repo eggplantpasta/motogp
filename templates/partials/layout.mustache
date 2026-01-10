@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="description" content="MotoGP Bidding.">
-    <link rel="stylesheet" href="/css/pico.css">
-    <link rel="stylesheet" href="/css/webmin.css">
-    <link rel="stylesheet" href="/css/motogp.css">
+    <link rel="stylesheet" href="/assets/css/pico.orange.min.css">
+    <link rel="stylesheet" href="/assets/css/pico.colors.min.css">
+    <link rel="stylesheet" href="/assets/css/webmin.css">
+    <link rel="stylesheet" href="/assets/css/motogp.css">
     <title>{{$ title }}Title Here{{/ title }}</title>
   </head>
   <body>
@@ -23,6 +24,7 @@
     <footer  class="container">
       <p><i><small>A rewrite of the old bidding website based on <a href="https://www.partymeeple.com.au/contact.html">Noisy's</a> code.</small></i></p>
     </footer>
-    <script src="/js/webmin.js"></script>
+    {{> partials/login }}
+    <script src="/assets/js/webmin.js"></script>
   </body>
 </html>

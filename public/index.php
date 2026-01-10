@@ -5,9 +5,9 @@ use Webmin\Template;
 $tpl = new Template($config['template']);
 
 $data= [
-  'app' => $config['app']['name'],
-  'title' => 'Welcome',
-  'heading' => 'Welcome to MotoGP 2025',
+  'app' => $config['app'],
+  'title' => 'MotoGP',
+  'heading' => 'MotoGP Bidding',
 ];
 
 echo $tpl->render('main', $data);
