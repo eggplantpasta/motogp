@@ -128,6 +128,12 @@ class User {
         return isset($_SESSION['user']);
     }
 
+    public function isAdmin(): bool
+    {
+        // Check if the logged-in user has admin privileges
+        return (isset($_SESSION['user']['admin']) && $_SESSION['user']['admin'] == 1);
+    }
+
     public function logout(): void
     {
         // Clear session or cookie here as needed
