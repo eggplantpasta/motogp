@@ -1,0 +1,59 @@
+{{< partials/layout }}
+
+{{$ title }}Edit Event{{/ title }}
+
+{{$ content }}
+<form action="{{form.action}}" method="post" novalidate>
+  <h1>Edit Event</h1>
+  <p>Update event details below.</p>
+
+  {{#form.errors.general}}
+  <article class="message is-error">
+    <p>{{form.errors.general}}</p>
+  </article>
+  {{/form.errors.general}}
+
+  <fieldset>
+    <label>
+      Event Name
+      <input name="name" placeholder="Grand Prix Name" value="{{form.name}}"
+      aria-invalid="{{#form.errors.name}}true{{/form.errors.name}}" aria-describedby="invalid-name" />
+      <small id="invalid-name">{{form.errors.name}}</small>
+    </label>
+
+    <label>
+      Start Date
+      <input type="date" name="start_date" value="{{form.start_date}}"
+      aria-invalid="{{#form.errors.start_date}}true{{/form.errors.start_date}}" aria-describedby="invalid-start_date" />
+      <small id="invalid-start_date">{{form.errors.start_date}}</small>
+    </label>
+
+    <label>
+      Circuit
+      <input name="circuit" placeholder="Circuit Name" value="{{form.circuit}}" />
+    </label>
+
+    <label>
+      Flag
+      <input name="flag" placeholder="Country flag emoji" value="{{form.flag}}" />
+    </label>
+
+    <label>
+      Link
+      <input type="url" name="link" placeholder="https://..." value="{{form.link}}" />
+    </label>
+
+    <label>
+      <input type="checkbox" name="bids_open" value="1" {{#form.bids_open}}checked{{/form.bids_open}} />
+      Bids Open
+    </label>
+  </fieldset>
+
+  <fieldset class="grid">
+      <input type="button" value="Cancel" onclick="window.location.href='/admin/events.php'" class="secondary" />
+      <input type="submit" value="Update Event" />
+  </fieldset>
+</form>
+{{/ content }}
+
+{{/ partials/layout }}

@@ -54,4 +54,32 @@ class Event {
 
         return !empty($results) && $results[0] ? $results : []; // return results or empty array
     }
+
+    public function updateEvent(int $eventId, array $data): bool
+    {
+        $sql = '
+        UPDATE events
+        SET start_date = :start_date,
+            name = :name,
+            circuit = :circuit,
+            flag = :flag,
+            link = :link,
+            bids_open = :bids_open
+        WHERE event_id = :event_id
+        ';
+
+        $params = [
+            ':event_id' => $eventId,
+            ':start_date' => $data['start_date'],
+            ':name' => $data['name'],
+            ':circuit' => $data['circuit'],
+            ':flag' => $data['flag'],
+            ':link' => $data['link'],
+            ':bids_open' => $data['bids_open'] ? 1 : 0,
+        ];
+
+        $result = $this->db->query($sql, $params);
+
+        return $result !== false;
+    }
 }

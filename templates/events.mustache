@@ -16,6 +16,9 @@
         <tr class="{{ rowclass }}">
           <td>{{ name }}<br><small class="secondary">{{ circuit }}</small></td>
           <td>{{ display_date }}</td>
+          {{# user.admin }}
+          <td><a href="/admin/edit-event.php?event_id={{ event_id }}">Edit</a></td>
+          {{/ user.admin }}
         </tr>
     {{/ events }}
       </tbody>
