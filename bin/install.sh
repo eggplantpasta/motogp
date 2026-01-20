@@ -10,9 +10,13 @@ cd ${ROOT_DIR}/config
 \cp -rf app-example.ini app.ini
 
 # edit in place to replace template variables
-sed  -i '' "s@{{ROOT_DIR}}@${ROOT_DIR}@" php.ini
-sed  -i '' "s@{{ROOT_DIR}}@${ROOT_DIR}@" app.ini
+sed  -i.bak "s@{{ROOT_DIR}}@${ROOT_DIR}@" php.ini
+sed  -i.bak "s@{{ROOT_DIR}}@${ROOT_DIR}@" app.ini
+rm php.ini.bak app.ini.bak
 
 # Create the sample database
 cd ${ROOT_DIR}/db
 ./reset.sh
+
+# Install composer packages
+composer install --working-dir=${ROOT_DIR}
