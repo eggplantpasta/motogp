@@ -38,8 +38,6 @@ foreach ($data['events'] as &$event) {
     $event['display_date'] = $date->format('M d');
 }
 
-echo Utility::dump($data);
-
 $tpl = new Template($config['template']);
 echo $tpl->render('events', $data);
 

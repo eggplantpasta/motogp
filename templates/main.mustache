@@ -2,6 +2,7 @@
 {{< partials/layout }}
   {{$ title }}{{ app.name }} • {{ title }}{{/ title }}
   {{$ content }}
+  <section class="center-text">
     <h1>{{ heading }} {{ app.season }}</h1>
     <figure>
     <img
@@ -9,6 +10,7 @@
       alt="Danny Pedroza, 2017 Australian MotoGP at Phillip Island. Photo by Noisy." />
     <figcaption>Zoooomm..</figcaption>
     </figure>
-    </ul>
+    <h2><span class="motofont">{{ days_to_go }}</span> days till the <span class="motofont">{{ next_race_name }}</span></h2>
+    </section>
   {{/ content }}
 {{/ partials/layout }}

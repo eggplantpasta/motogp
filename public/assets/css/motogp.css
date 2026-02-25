@@ -31,3 +31,7 @@ h1, .motofont {
     font-weight: var(--pico-font-weight);
     color: var(--pico-color);
 }
+
+.center-text {
+    text-align: center;
+}

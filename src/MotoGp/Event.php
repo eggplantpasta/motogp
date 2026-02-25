@@ -29,6 +29,21 @@ class Event {
         return !empty($results) ? $results[0]['event_id'] : null; // return the first result or null if empty
     }
 
+    public function getNextEvent(): ?array
+    {
+        $sql = '
+        SELECT *
+        FROM events
+        WHERE strftime("%Y-%m-%d %H:%M:%S", start_date) >= date("now")
+        ORDER BY start_date
+        LIMIT 1
+        ';
+
+        $results = $this->db->query($sql);
+
+        return !empty($results) ? $results[0] : null;
+    }
+
     public function getEventById(int $eventId): ?array
     {
         $sql = '
