@@ -25,6 +25,4 @@ $data['user']['created_ago'] = Utility::timeAgo($data['user']['created_at']);
 $data['next_event'] = $next_event;
 $data['next_event']['start_date'] = $date->format('M d');
 
-echo Utility::dump($data);
-
 echo $tpl->render('user/account', $data);

@@ -1,9 +1,9 @@
 
 {{< partials/layout }}
-  {{$ title }}{{ app }} • {{ title }}{{/ title }}
+  {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
   {{$ content }}
-    <h2>{{ heading }}</h2>
-    
+    <h2>{{ page.heading }}</h2>
+
     <table>
       <thead>
         <tr>
