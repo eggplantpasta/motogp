@@ -3,12 +3,13 @@
   {{$ page.title }}{{ app.name }} • {{ page.title }}{{/ page.title }}
   {{$ content }}
     <h1>{{ page.heading }}</h1>
-    
+
     <table>
       <thead>
         <tr>
           <th>Event Name</th>
           <th>Date</th>
+          {{# user.admin }}<th>Admin</th> {{/ user.admin }}
         </tr>
       </thead>
       <tbody>
@@ -23,6 +24,6 @@
     {{/ events }}
       </tbody>
     </table>
-  <p><a href="https://www.motogp.com/en/calendar?view=grid">Calendar of events</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en">official site.</a></p>
+  <p><a href="https://www.motogp.com/en/calendar?view=grid" target="_blank">Calendar of events</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en" target="_blank">official site.</a></p>
   {{/ content }}
 {{/ partials/layout }}

@@ -8,12 +8,16 @@
       <thead>
         <tr>
           <th>Rider Name</th>
+          {{# user.admin }}<th>Admin</th>{{/ user.admin }}
         </tr>
       </thead>
       <tbody>
     {{# riders }}
         <tr>
           <td>{{ name }}</td>
+          {{# user.admin }}
+          <td><a href="/admin/edit-rider.php?rider_id={{ rider_id }}">Edit</a></td>
+          {{/ user.admin }}
         </tr>
     {{/ riders }}
       </tbody>
