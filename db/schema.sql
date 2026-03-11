@@ -17,8 +17,8 @@ create table if not exists users (
 
 create table if not exists country (
 	name	text,
-	alpha-2	text,
-	country-code integer
+	alpha_2	text,
+	country_code integer
 );
 
 create table if not exists  riders (

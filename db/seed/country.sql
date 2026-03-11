@@ -1,9 +1,3 @@
-BEGIN TRANSACTION;
-CREATE TABLE IF NOT EXISTS "country" (
-	"name"	TEXT,
-	"alpha_2"	TEXT,
-	"country_code"	INTEGER
-);
 INSERT INTO "country" ("name","alpha_2","country_code") VALUES ('Afghanistan','AF',4),
  ('Åland Islands','AX',248),
  ('Albania','AL',8),
@@ -253,4 +247,4 @@ INSERT INTO "country" ("name","alpha_2","country_code") VALUES ('Afghanistan','A
  ('Yemen','YE',887),
  ('Zambia','ZM',894),
  ('Zimbabwe','ZW',716);
-COMMIT;
+
