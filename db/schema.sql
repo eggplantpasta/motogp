@@ -31,15 +31,23 @@ create table if not exists  riders (
 );
 
 create table if not exists  events (
-  event_id integer primary key,
-  start_date date,
-  name varchar(255),
-  circuit varchar(255),
-  country_code integer,
-  link varchar(255),
-  bids_open integer not null default 0,
-  created_at datetime not null default current_timestamp,
-  foreign key (country_code) references country(country_code)
+event_id integer primary key,
+start_date date,
+name varchar(255),
+circuit varchar(255),
+country_code integer,
+link varchar(255),
+bids_open integer not null default 0,
+created_at datetime not null default current_timestamp,
+foreign key (country_code) references country(country_code)
+);
+
+create table if not exists  results (
+    event_id integer,
+    rider_id integer,
+    position integer,
+    foreign key (event_id) references events(event_id),
+    foreign key (rider_id) references riders(rider_id)
 );
 
 create table if not exists bids (
