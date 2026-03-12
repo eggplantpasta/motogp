@@ -4,6 +4,9 @@
 
 {{$ content }}
 <h1>{{ user.username }}</h1>
+{{# user.admin }}
+<h2>Admin</h2>
+{{/ user.admin }}
 <p>Balance: {{ user.balance }} points.</p>
 <h2>Upcoming Race</h2>
 <p><strong>{{ next_event.start_date }}</strong> <em>{{ next_event.name }}</em></p>
