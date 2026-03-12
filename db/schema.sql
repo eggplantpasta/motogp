@@ -15,12 +15,6 @@ create table if not exists users (
     created_at datetime not null default current_timestamp
 );
 
-create table if not exists country (
-	name	text,
-	alpha_2	text,
-	country_code integer
-);
-
 create table if not exists  riders (
   rider_id integer primary key,
   name varchar(255),
@@ -46,6 +40,7 @@ create table if not exists  results (
     event_id integer,
     rider_id integer,
     position integer,
+    created_at datetime not null default current_timestamp,
     foreign key (event_id) references events(event_id),
     foreign key (rider_id) references riders(rider_id)
 );
