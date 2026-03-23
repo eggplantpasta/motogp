@@ -2,7 +2,7 @@
 create table if not exists country (
 	name	text,
 	alpha_2	text,
-	country_code integer
+	country_code integer primary key
 );
 
 create table if not exists users (
@@ -19,7 +19,6 @@ create table if not exists  riders (
   rider_id integer primary key,
   name varchar(255),
   team varchar(255),
-  link varchar(255),
   active boolean,
   created_at datetime not null default current_timestamp
 );
@@ -30,7 +29,6 @@ start_date date,
 name varchar(255),
 circuit varchar(255),
 country_code integer,
-link varchar(255),
 bids_open integer not null default 0,
 created_at datetime not null default current_timestamp,
 foreign key (country_code) references country(country_code)
