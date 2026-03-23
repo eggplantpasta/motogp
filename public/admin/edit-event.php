@@ -41,8 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'start_date' => trim($_POST['start_date'] ?? ''),
         'name' => trim($_POST['name'] ?? ''),
         'circuit' => trim($_POST['circuit'] ?? ''),
-        'flag' => trim($_POST['flag'] ?? ''),
-        'link' => trim($_POST['link'] ?? ''),
+        'country_code' => trim($_POST['country_code'] ?? ''),
         'bids_open' => isset($_POST['bids_open']) ? 1 : 0,
     ];
 
@@ -72,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data['form']['start_date'] = $eventData['start_date'];
     $data['form']['name'] = $eventData['name'];
     $data['form']['circuit'] = $eventData['circuit'];
-    $data['form']['flag'] = $eventData['flag'];
-    $data['form']['link'] = $eventData['link'];
+    $data['form']['country_code'] = $eventData['country_code'];
     $data['form']['bids_open'] = $eventData['bids_open'];
 }
 
 $data['app'] = $config['app'];
+$data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Edit Event';
 $data['page']['heading'] = 'Edit Event';
 

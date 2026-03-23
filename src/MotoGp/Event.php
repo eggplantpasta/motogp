@@ -77,8 +77,7 @@ class Event {
         SET start_date = :start_date,
             name = :name,
             circuit = :circuit,
-            flag = :flag,
-            link = :link,
+            country_code = :country_code,
             bids_open = :bids_open
         WHERE event_id = :event_id
         ';
@@ -88,8 +87,7 @@ class Event {
             ':start_date' => $data['start_date'],
             ':name' => $data['name'],
             ':circuit' => $data['circuit'],
-            ':flag' => $data['flag'],
-            ':link' => $data['link'],
+            ':country_code' => $data['country_code'],
             ':bids_open' => $data['bids_open'] ? 1 : 0,
         ];
 

@@ -22,36 +22,38 @@
     </label>
 
     <label>
+      Circuit
+      <input name="circuit" placeholder="Circuit Name" value="{{form.circuit}}" />
+    </label>
+
+  <div class="grid">
+
+    <label>
+      Country
+      <input name="country_code" placeholder="Country" value="{{form.country_code}}" />
+    </label>
+
+    <label>
       Start Date
       <input type="date" name="start_date" value="{{form.start_date}}"
       aria-invalid="{{#form.errors.start_date}}true{{/form.errors.start_date}}" aria-describedby="invalid-start_date" />
       <small id="invalid-start_date">{{form.errors.start_date}}</small>
     </label>
 
-    <label>
-      Circuit
-      <input name="circuit" placeholder="Circuit Name" value="{{form.circuit}}" />
-    </label>
-
-    <label>
-      Flag
-      <input name="flag" placeholder="Country flag emoji" value="{{form.flag}}" />
-    </label>
-
-    <label>
-      Link
-      <input type="url" name="link" placeholder="https://..." value="{{form.link}}" />
-    </label>
+  </div>
 
     <label>
       <input type="checkbox" name="bids_open" value="1" {{#form.bids_open}}checked{{/form.bids_open}} />
       Bids Open
     </label>
+
   </fieldset>
 
   <fieldset class="grid">
+
       <input type="button" value="Cancel" onclick="window.location.href='/admin/events.php'" class="secondary" />
       <input type="submit" value="Update Event" />
+
   </fieldset>
 </form>
 {{/ content }}
