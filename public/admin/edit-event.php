@@ -20,6 +20,18 @@ $db = new Database($config['database']['dsn']);
 $event = new Event($db);
 $country = new Country($db);
 
+function normalizeDate(?string $dateValue): string
+{
+    if (empty($dateValue)) {
+        return '';
+    }
+
+    $date = \DateTime::createFromFormat('Y-m-d', $dateValue)
+        ?: \DateTime::createFromFormat('Y-m-d H:i:s', $dateValue);
+
+    return $date ? $date->format('Y-m-d') : '';
+}
+
 // Get event ID from URL parameter
 $eventId = $_GET['event_id'] ?? null;
 if (!$eventId || !is_numeric($eventId)) {
@@ -39,8 +51,10 @@ $data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]) . "?event_id=" 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Process form submission
+    $startDateInput = trim($_POST['start_date'] ?? '');
+
     $formData = [
-        'start_date' => trim($_POST['start_date'] ?? ''),
+        'start_date' => normalizeDate($startDateInput),
         'name' => trim($_POST['name'] ?? ''),
         'circuit' => trim($_POST['circuit'] ?? ''),
         'country_code' => trim($_POST['country_code'] ?? ''),
@@ -52,8 +66,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($formData['name'])) {
         $errors['name'] = 'Event name is required';
     }
-    if (empty($formData['start_date'])) {
+    if (empty($startDateInput)) {
         $errors['start_date'] = 'Start date is required';
+    } elseif (empty($formData['start_date'])) {
+        $errors['start_date'] = 'Invalid start date';
     }
 
     // Update form data for template
@@ -70,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else {
     // Pre-populate form with existing data
-    $data['form']['start_date'] = $eventData['start_date'];
+    $data['form']['start_date'] = normalizeDate($eventData['start_date']);
     $data['form']['name'] = $eventData['name'];
     $data['form']['circuit'] = $eventData['circuit'];
     $data['form']['country_code'] = $eventData['country_code'];
@@ -85,3 +101,4 @@ $data['page']['title'] = 'Edit Event';
 $data['page']['heading'] = 'Edit Event';
 
 echo $tpl->render('admin/edit-event', $data);
+echo Utility::dump($data);

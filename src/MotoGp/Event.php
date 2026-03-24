@@ -16,7 +16,7 @@ class Event {
         SELECT
         event_id
         FROM events
-        WHERE strftime("%Y-%m-%d %H:%M:%S", start_date) >= date("now")
+        WHERE date(start_date) >= date("now")
         ORDER BY start_date
         LIMIT 1
         ';
@@ -32,7 +32,7 @@ class Event {
         $sql = '
         SELECT *
         FROM events
-        WHERE strftime("%Y-%m-%d %H:%M:%S", start_date) >= date("now")
+        WHERE date(start_date) >= date("now")
         ORDER BY start_date
         LIMIT 1
         ';
