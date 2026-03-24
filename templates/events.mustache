@@ -1,6 +1,7 @@
 
 {{< partials/layout }}
-  {{$ page.title }}{{ app.name }} • {{ page.title }}{{/ page.title }}
+  {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+
   {{$ content }}
     <h1>{{ page.heading }}</h1>
 
@@ -9,16 +10,18 @@
         <tr>
           <th>Event Name</th>
           <th>Date</th>
+          <th>Results</th>
           {{# user.admin }}<th>Admin</th> {{/ user.admin }}
         </tr>
       </thead>
       <tbody>
     {{# events }}
-        <tr class="{{ rowclass }}">
-          <td>{{ name }}<br><small class="secondary">{{ circuit }}</small></td>
-          <td>{{ display_date }}</td>
+        <tr class="{{ row-class }}">
+          <td class="{{ cell-class }}">{{ name }}<br><small class="secondary">{{ circuit }}</small></td>
+          <td class="{{ cell-class }}">{{ display_date }}</td>
+          <td>{{# results }}<a href="/results.php?event_id={{ event_id }}"><button>Results</button></a>{{/ results }}</td>
           {{# user.admin }}
-          <td><a href="/admin/edit-event.php?event_id={{ event_id }}">Edit</a></td>
+          <td><a href="/admin/edit-event.php?event_id={{ event_id }}"><button>Edit</button></a></td>
           {{/ user.admin }}
         </tr>
     {{/ events }}

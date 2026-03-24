@@ -1,8 +1,9 @@
 
 {{< partials/layout }}
-  {{$ page.title }}{{ app.name }} • {{ page.title }}{{/ page.title }}
+  {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+
   {{$ content }}
-    <h1>{{ page.heading }}</h1>
+    <h1>{{ event.name }} - {{ page.heading }}</h1>
 
     <p>Results for {{ event.name }} at {{ event.circuit }} on {{ event.display_date }}.</p>
 
@@ -11,18 +12,17 @@
         <tr>
           <th>Place</th>
           <th>Rider</th>
-          {{# user.admin }}<th>Admin</th> {{/ user.admin }}
         </tr>
       </thead>
       <tbody>
     {{# results }}
         <tr>
-          <td>{{ display_date }}</td>
+          <td>{{ position }}</td>
           <td>{{ rider_name }}</td>
         </tr>
     {{/ results }}
       </tbody>
     </table>
-  <p><a href="https://www.motogp.com/en/calendar?view=grid" target="_blank">Calendar of events</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en" target="_blank">official site.</a></p>
+  <p><a href="https://www.motogp.com/en/world-standing/2026/motogp/championship-standings" target="_blank">Results and standings</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en" target="_blank">official site.</a></p>
   {{/ content }}
 {{/ partials/layout }}

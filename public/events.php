@@ -27,11 +27,17 @@ $data['events'] = $all_events;
 foreach ($data['events'] as &$event) {
     // set row class
     if ($event['event_id'] == $next_event_id) {
-        $event['rowclass'] = 'row-highlight';
+        $event['cell-class'] = '';
+        $event['row-class'] = 'highlight';
+        $event['results'] = false;
     } elseif (strtotime($event['start_date']) < time()) {
-        $event['rowclass'] = 'row-disable';
+        $event['cell-class'] = 'disable';
+        $event['row-class'] = '';
+        $event['results'] = true;
     } else {
-        $event['rowclass'] = '';
+        $event['cell-class'] = '';
+        $event['row-class'] = '';
+        $event['results'] = false;
     }
     // format date
     $date = new \DateTime($event['start_date']);

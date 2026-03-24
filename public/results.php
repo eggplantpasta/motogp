@@ -28,7 +28,7 @@ $data['results'] = $result->getResultsByEventId($eventId);
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Results';
-$data['page']['heading'] = 'Season 2026';
+$data['page']['heading'] = 'Results';
 
 // format date
 $date = new \DateTime($data['event']['start_date']);
