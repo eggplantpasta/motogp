@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "alexcvzz.vscode-sqlite",
-        "editorconfig.editorconfig"
+        "editorconfig.editorconfig",
+        "dawhite.mustache",
     ]
 }
