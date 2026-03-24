@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Set the PHP_ROOT environment variable to the root level of git repo
 export ROOT_DIR=$(git rev-parse --show-toplevel)
