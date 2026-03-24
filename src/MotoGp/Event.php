@@ -27,6 +27,24 @@ class Event {
         return !empty($results) ? $results[0]['event_id'] : null; // return the first result or null if empty
     }
 
+    public function lastEvent(): ?int
+    {
+        // Define the SQL query to get the last event
+        $sql = '
+        SELECT
+        event_id
+        FROM events
+        WHERE date(start_date) < date("now")
+        ORDER BY start_date DESC
+        LIMIT 1
+        ';
+
+        // Execute the query and fetch the result
+        $results = $this->db->query($sql);
+
+        return !empty($results) ? $results[0]['event_id'] : null; // return the first result or null if empty
+    }
+
     public function getNextEvent(): ?array
     {
         $sql = '

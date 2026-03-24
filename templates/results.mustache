@@ -1,0 +1,28 @@
+
+{{< partials/layout }}
+  {{$ page.title }}{{ app.name }} • {{ page.title }}{{/ page.title }}
+  {{$ content }}
+    <h1>{{ page.heading }}</h1>
+
+    <p>Results for {{ event.name }} at {{ event.circuit }} on {{ event.display_date }}.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Place</th>
+          <th>Rider</th>
+          {{# user.admin }}<th>Admin</th> {{/ user.admin }}
+        </tr>
+      </thead>
+      <tbody>
+    {{# results }}
+        <tr>
+          <td>{{ display_date }}</td>
+          <td>{{ rider_name }}</td>
+        </tr>
+    {{/ results }}
+      </tbody>
+    </table>
+  <p><a href="https://www.motogp.com/en/calendar?view=grid" target="_blank">Calendar of events</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en" target="_blank">official site.</a></p>
+  {{/ content }}
+{{/ partials/layout }}
