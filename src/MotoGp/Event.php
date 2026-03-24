@@ -2,8 +2,6 @@
 
 namespace MotoGp;
 
-use Database;
-
 class Event {
 
     private $db;

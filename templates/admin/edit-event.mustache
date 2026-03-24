@@ -30,7 +30,14 @@
 
     <label>
       Country
-      <input name="country_code" placeholder="Country" value="{{form.country_code}}" />
+      <select name="country_code" aria-label="Select country...">
+        <option {{^form.country_code}}selected{{/form.country_code}} disabled value="">
+            Select country...
+        </option>
+        {{#countries}}
+        <option value="{{code}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+        {{/countries}}
+      </select>
     </label>
 
     <label>

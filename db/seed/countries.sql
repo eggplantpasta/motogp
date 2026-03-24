@@ -1,4 +1,4 @@
-INSERT INTO "country" ("name","alpha_2","country_code") VALUES
+INSERT INTO countries (name,alpha_2,country_code) VALUES
  ('Afghanistan','AF',4),
  ('Åland Islands','AX',248),
  ('Albania','AL',8),

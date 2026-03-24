@@ -1,5 +1,5 @@
 
-create table if not exists country (
+create table if not exists countries (
 	name	text,
 	alpha_2	text,
 	country_code integer primary key
@@ -31,7 +31,7 @@ circuit varchar(255),
 country_code integer,
 bids_open integer not null default 0,
 created_at datetime not null default current_timestamp,
-foreign key (country_code) references country(country_code)
+foreign key (country_code) references countries(country_code)
 );
 
 create table if not exists  results (

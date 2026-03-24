@@ -3,8 +3,9 @@
 use Webmin\Template;
 use Webmin\User;
 use Webmin\Database;
-use MotoGp\Utility;
+use MotoGp\Country;
 use MotoGp\Event;
+use MotoGp\Utility;
 
 $tpl = new Template($config['template']);
 
@@ -17,6 +18,7 @@ if (!$user->isAdmin()) {
 
 $db = new Database($config['database']['dsn']);
 $event = new Event($db);
+$country = new Country($db);
 
 // Get event ID from URL parameter
 $eventId = $_GET['event_id'] ?? null;
@@ -74,6 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data['form']['country_code'] = $eventData['country_code'];
     $data['form']['bids_open'] = $eventData['bids_open'];
 }
+
+$data['countries'] = $country->getCountriesSelected($data['form']['country_code'] ?? '');
 
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
