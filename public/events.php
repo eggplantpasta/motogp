@@ -47,4 +47,5 @@ foreach ($data['events'] as &$event) {
 $tpl = new Template($config['template']);
 echo $tpl->render('events', $data);
 
+echo Utility::dump($data);
 

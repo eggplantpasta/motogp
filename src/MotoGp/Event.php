@@ -48,10 +48,11 @@ class Event {
     public function getNextEvent(): ?array
     {
         $sql = '
-        SELECT *
-        FROM events
-        WHERE date(start_date) >= date("now")
-        ORDER BY start_date
+        SELECT e.*, c.name AS country_name, lower(c.alpha_2) AS alpha_2
+        FROM events e
+        LEFT JOIN countries c ON e.country_code = c.country_code
+        WHERE date(e.start_date) >= date("now")
+        ORDER BY e.start_date
         LIMIT 1
         ';
 
@@ -63,9 +64,10 @@ class Event {
     public function getEventById(int $eventId): ?array
     {
         $sql = '
-        SELECT *
-        FROM events
-        WHERE event_id = :event_id
+        SELECT e.*, c.name AS country_name, lower(c.alpha_2) AS alpha_2
+        FROM events e
+        LEFT JOIN countries c ON e.country_code = c.country_code
+        WHERE e.event_id = :event_id
         ';
 
         $results = $this->db->query($sql, [':event_id' => $eventId]);
@@ -76,9 +78,10 @@ class Event {
     public function getEvents(): array
     {
         $sql = '
-        SELECT *
-        FROM events
-        ORDER BY start_date
+        SELECT e.*, c.name AS country_name, lower(c.alpha_2) AS alpha_2
+        FROM events e
+        LEFT JOIN countries c ON e.country_code = c.country_code
+        ORDER BY e.start_date
         ';
 
         $results = $this->db->query($sql);
