@@ -68,8 +68,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (empty($startDateInput)) {
         $errors['start_date'] = 'Start date is required';
-    } elseif (empty($formData['start_date'])) {
-        $errors['start_date'] = 'Invalid start date';
+    }
+    // can only open bids for races in the future
+    if ($formData['bids_open'] && ($formData['start_date'] < date('Y-m-d'))) {
+        $errors['bids_open'] = 'Bidding can only be opened for races in the future';
     }
 
     // Update form data for template
@@ -79,9 +81,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If no errors, update the event
     if (empty($errors)) {
         if ($event->updateEvent((int)$eventId, $formData)) {
-            $data['form']['errors']['general'] = 'Event updated successfully';
+            $data['form']['message'] = 'Event updated successfully';
+            $data['form']['message-class'] = 'success';
+            // Refresh event data after update
+            $data['event'] = $event->getEventById((int)$eventId);
         } else {
-            $data['form']['errors']['general'] = 'Failed to update event';
+            $data['form']['message'] = 'Failed to update event';
+            $data['form']['message-class'] = 'error';
         }
     }
 } else {
@@ -101,4 +107,3 @@ $data['page']['title'] = 'Edit Event';
 $data['page']['heading'] = 'Edit Event';
 
 echo $tpl->render('admin/edit-event', $data);
-echo Utility::dump($data);

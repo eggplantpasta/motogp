@@ -3,13 +3,9 @@
 {{$ title }}Account{{/ title }}
 
 {{$ content }}
-<h1>{{ user.username }}</h1>
-{{# user.admin }}
-<h2>Admin</h2>
-{{/ user.admin }}
-<p>Balance: {{ user.balance }} points.</p>
-<h2>Upcoming Race</h2>
-<p><strong>{{ next_event.start_date }}</strong> <em>{{ next_event.name }}</em></p>
+<h1>{{ user.username }} {{# user.admin }}(admin){{/ user.admin }}</h1>
+<section class="grid">
+<section>
 <h2>Account Information</h2>
 <ul>
     <li>Email: {{ user.email }}</li>
@@ -17,6 +13,15 @@
     <li>Account created: {{ user.created_ago }}</li>
 </ul>
 <p>You can <a href="/user/edit-account.php">edit your registration details and password here</a>.</p>
+</section>
+<section>
+<h2>Bidding</h2>
+<p><strong>{{ next_event.start_date }}</strong> <em>{{ next_event.name }}</em></p>
+
+<p>Balance: {{ user.balance }} points.</p>
+
+
+</section>
 {{/ content }}
 
 {{/ partials/layout }}

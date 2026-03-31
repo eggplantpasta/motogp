@@ -10,6 +10,10 @@
     color: var(--pico-secondary-color);
 }
 
+.fi {
+    margin-left: 1.0em;
+}
+
 @font-face {
   font-family: 'Michroma';
   font-style: normal;
@@ -34,4 +38,29 @@ h1, .motofont {
 
 .center-text {
     text-align: center;
+}
+
+.checkbox-error {
+    display: block;
+    margin-top: var(--pico-spacing-1);
+}
+
+.form-message {
+    padding: var(--pico-spacing-2);
+}
+
+.form-message.success {
+    color: var(--pico-form-element-valid-focus-color);
+}
+
+.form-message.error {
+    color: var(--pico-form-element-invalid-focus-color);
+}
+
+.form-message.information {
+    color: var(--pico-color-blue-600);
+}
+
+.form-message.warning {
+    color: var(--pico-color-yellow-600);
 }

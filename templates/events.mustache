@@ -8,8 +8,8 @@
     <table>
       <thead>
         <tr>
-          <th>Event Name</th>
           <th>Date</th>
+          <th>Event</th>
           <th>Results</th>
           {{# user.admin }}<th>Admin</th> {{/ user.admin }}
         </tr>
@@ -17,8 +17,8 @@
       <tbody>
     {{# events }}
         <tr class="{{ row-class }}">
-          <td class="{{ cell-class }}">{{ name }}&nbsp;&nbsp;<span class="fi fi-{{ alpha_2 }}"></span><br><small class="secondary">{{ circuit }}</small></td>
           <td class="{{ cell-class }}">{{ display_date }}</td>
+          <td class="{{ cell-class }}">{{ name }} <span class="fi fi-{{ alpha_2 }}"></span><br><small class="secondary">{{ circuit }}</small></td>
           <td>{{# results }}<a href="/results.php?event_id={{ event_id }}"><button>Results</button></a>{{/ results }}</td>
           {{# user.admin }}
           <td><a href="/admin/edit-event.php?event_id={{ event_id }}"><button>Edit</button></a></td>

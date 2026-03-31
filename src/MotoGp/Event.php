@@ -91,27 +91,47 @@ class Event {
 
     public function updateEvent(int $eventId, array $data): bool
     {
-        $sql = '
-        UPDATE events
-        SET start_date = :start_date,
-            name = :name,
-            circuit = :circuit,
-            country_code = :country_code,
-            bids_open = :bids_open
-        WHERE event_id = :event_id
-        ';
+        try {
 
-        $params = [
-            ':event_id' => $eventId,
-            ':start_date' => $data['start_date'],
-            ':name' => $data['name'],
-            ':circuit' => $data['circuit'],
-            ':country_code' => $data['country_code'],
-            ':bids_open' => $data['bids_open'] ? 1 : 0,
-        ];
+            $params = [
+                ':event_id' => $eventId,
+                ':start_date' => $data['start_date'],
+                ':name' => $data['name'],
+                ':circuit' => $data['circuit'],
+                ':country_code' => $data['country_code'],
+                ':bids_open' => $data['bids_open'] ? 1 : 0,
+            ];
 
-        $result = $this->db->query($sql, $params);
+            $this->db->beginTransaction();
 
-        return $result !== false;
+            $sql = '
+            UPDATE events
+            SET start_date = :start_date,
+                name = :name,
+                circuit = :circuit,
+                country_code = :country_code,
+                bids_open = :bids_open
+            WHERE event_id = :event_id
+            ';
+            $result = $this->db->execute($sql, $params);
+
+            // only one event bids can be open at a time, so if this event is open we need to close all other events
+            if ($data['bids_open']) {
+                $sql = '
+                UPDATE events
+                SET bids_open = 0
+                WHERE event_id != :event_id
+                ';
+                $this->db->execute($sql, [':event_id' => $eventId]);
+            }
+
+            $this->db->commit();
+
+            return true;
+
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            return false;
+        }
     }
 }

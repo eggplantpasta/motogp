@@ -26,6 +26,45 @@ class Database
     }
 
     /**
+     * Begin a database transaction.
+     */
+    public function beginTransaction(): void
+    {
+        $this->connection->beginTransaction();
+    }
+
+    /**
+     * Commit the current transaction.
+     */
+    public function commit(): void
+    {
+        $this->connection->commit();
+    }
+
+    /**
+     * Roll back the current transaction.
+     */
+    public function rollBack(): void
+    {
+        $this->connection->rollBack();
+    }
+
+    /**
+     * Execute a query without fetching results (useful for INSERT/UPDATE/DELETE).
+     * Returns the number of affected rows.
+     */
+    public function execute(string $query, array $params = []): int
+    {
+        try {
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($params);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            throw new PDOException("Execution failed: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Execute a query and return the results.
      *
      * @param string $query The SQL query to execute.
