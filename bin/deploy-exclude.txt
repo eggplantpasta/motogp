@@ -1,0 +1,30 @@
+.git/
+.github/
+.gitignore
+
+# Local development helpers
+bin/install.sh
+bin/serve_local.sh
+bin/deploy.sh
+bin/deploy-exclude.txt
+
+# Documentation and repository metadata
+README.md
+LICENSE
+
+# Example-only config files
+config/app-example.ini
+config/php-example.ini
+config/php_local.ini
+
+# Database setup, seed, and test data
+db/reset.sh
+db/schema.sql
+db/seed/
+db/test-data/
+
+# Local caches and logs
+var/
+
+# OS noise
+.DS_Store
