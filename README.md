@@ -10,11 +10,11 @@ Install the prerequisites of [PHP](https://www.php.net/), [SQLite](https://sqlit
 # update the machine
 sudo apt-get update && sudo apt-get -y upgrade
 
-# install php and sqllite
-sudo apt install php-cli php-sqlite3 sqlite3
+# install php and sqllite  and composer
+sudo apt install php-cli php-sqlite3 sqlite3 composer
 
-# optional GUI SQLite browser and composer
-sudo apt install sqlitebrowser Composer
+# optional GUI SQLite browser
+sudo apt install sqlitebrowser
 ```
 
 Clone the repo.
