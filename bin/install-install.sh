@@ -7,13 +7,13 @@ export ROOT_DIR=$(git rev-parse --show-toplevel)
 # create config.ini and php.ini files from the examples
 cd ${ROOT_DIR}/config
 
-\cp -rf php-example.ini php_local.ini
-\cp -rf app-example.ini app.ini
+\cp -rf php-example.ini php.local.ini
+\cp -rf app-example.ini app.local.ini
 
 # edit in place to replace template variables
-sed  -i.bak "s@{{ROOT_DIR}}@${ROOT_DIR}@" php_local.ini
-sed  -i.bak "s@{{ROOT_DIR}}@${ROOT_DIR}@" app.ini
-rm php_local.ini.bak app.ini.bak
+sed  -i.bak "s@{{ROOT_DIR}}@${ROOT_DIR}@" php.local.ini
+sed  -i.bak "s@{{ROOT_DIR}}@${ROOT_DIR}@" app.local.ini
+rm php.local.ini.bak app.local.ini.bak
 
 # Create the sample database
 cd ${ROOT_DIR}/db

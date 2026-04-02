@@ -15,7 +15,7 @@ LICENSE
 # Example-only config files
 config/app-example.ini
 config/php-example.ini
-config/php_local.ini
+config/php.local.ini
 
 # Database setup, seed, and test data
 db/reset.sh

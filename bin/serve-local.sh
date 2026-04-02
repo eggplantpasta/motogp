@@ -12,5 +12,5 @@ fi
 
 
 # Start the server
-php -S localhost:8080 -c ${ROOT_DIR}/config/php_local.ini -t ${ROOT_DIR}/public
+php -S localhost:8080 -c ${ROOT_DIR}/config/php.local.ini -t ${ROOT_DIR}/public
 
