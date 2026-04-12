@@ -82,6 +82,12 @@ class Database
         }
     }
 
+    public function queryOne(string $query, array $params = []): ?array
+    {
+        $results = $this->query($query, $params);
+        return !empty($results) ? $results[0] : null;
+    }
+
     /**
      * Get the PDO connection instance.
      *

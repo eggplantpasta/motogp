@@ -31,8 +31,7 @@ $data['page']['title'] = 'Results';
 $data['page']['heading'] = 'Results';
 
 // format date
-$date = new \DateTime($data['event']['start_date']);
-$data['event']['display_date'] = $date->format('M d');
+$data['event']['display_date'] = Utility::formatDate($data['event']['start_date'], 'M d');
 
 $tpl = new Template($config['template']);
 echo $tpl->render('results', $data);

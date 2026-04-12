@@ -4,6 +4,7 @@ use Webmin\Template;
 use Webmin\Database;
 use Webmin\User;
 use MotoGp\Event;
+use MotoGp\Utility;
 
 // get session user
 $user = new User();
@@ -12,14 +13,14 @@ $user = new User();
 $db = new Database($config['database']['dsn']);
 
 $event = new Event($db);
-$eventData = $event->getNextEventId();
+$eventData = $event->getNextEvent();
 
 $data['user'] = $user->getSessionUser();
 $data['app'] = $config['app'];
 $data['page'] = [
     'title' => 'Home',
     'heading' => '2026 Season',
-    'days_to_go' => $eventData ? ceil((strtotime($eventData['start_date']) - time()) / (60 * 60 * 24)) : 'N/A',
+    'days_to_go' => $eventData ? Utility::daysToGo($eventData['start_date']) : 'N/A',
     'next_race_name' => $eventData ? $eventData['name'] : 'N/A'
 ];
 

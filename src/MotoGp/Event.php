@@ -16,15 +16,15 @@ class Event {
         SELECT
         event_id
         FROM events
-        WHERE date(start_date) >= date("now")
+        WHERE date(start_date) > date("now")
         ORDER BY start_date
         LIMIT 1
         ';
 
-        // Execute the query and fetch the result
-        $results = $this->db->query($sql);
+        // Execute the query and return the result
+        $result = $this->db->queryOne($sql);
+        return $result ? (int)$result['event_id'] : null;
 
-        return !empty($results) ? $results[0]['event_id'] : null; // return the first result or null if empty
     }
 
     public function getLastEventId(): ?int
@@ -34,15 +34,14 @@ class Event {
         SELECT
         event_id
         FROM events
-        WHERE date(start_date) < date("now")
+        WHERE date(start_date) <= date("now")
         ORDER BY start_date DESC
         LIMIT 1
         ';
 
-        // Execute the query and fetch the result
-        $results = $this->db->query($sql);
-
-        return !empty($results) ? $results[0]['event_id'] : null; // return the first result or null if empty
+        // Execute the query and return the result
+        $result = $this->db->queryOne($sql);
+        return $result ? (int)$result['event_id'] : null;
     }
 
     public function getNextEvent(): ?array
@@ -51,14 +50,14 @@ class Event {
         SELECT e.*, c.name AS country_name, lower(c.alpha_2) AS alpha_2
         FROM events e
         LEFT JOIN countries c ON e.country_code = c.country_code
-        WHERE date(e.start_date) >= date("now")
+        WHERE date(e.start_date) > date("now")
         ORDER BY e.start_date
         LIMIT 1
         ';
 
-        $results = $this->db->query($sql);
 
-        return !empty($results) ? $results[0] : null;
+        // Execute the query and return the result
+        return $this->db->queryOne($sql);
     }
 
     public function getEventById(int $eventId): ?array
@@ -70,9 +69,7 @@ class Event {
         WHERE e.event_id = :event_id
         ';
 
-        $results = $this->db->query($sql, [':event_id' => $eventId]);
-
-        return !empty($results) ? $results[0] : null; // return the first result or null if empty
+        return $this->db->queryOne($sql, [':event_id' => $eventId]);
     }
 
     public function getEvents(): array

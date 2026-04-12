@@ -17,12 +17,11 @@ $db = new Database($config['database']['dsn']);
 $event = new Event($db);
 
 $next_event = $event->getEventById($event->getNextEventId());
-$date = new \DateTime($next_event['start_date']);
 
 $tpl = new Template($config['template']);
 $data['user'] = $user->getSessionUser();
 $data['user']['created_ago'] = Utility::timeAgo($data['user']['created_at']);
 $data['next_event'] = $next_event;
-$data['next_event']['start_date'] = $date->format('M d');
+$data['next_event']['start_date'] = Utility::formatDate($data['next_event']['start_date'], 'M d');
 
 echo $tpl->render('user/account', $data);

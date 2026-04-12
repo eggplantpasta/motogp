@@ -40,8 +40,8 @@ foreach ($data['events'] as &$event) {
         $event['results'] = false;
     }
     // format date
-    $date = new \DateTime($event['start_date']);
-    $event['display_date'] = $date->format('M d');
+    $event['display_date'] = Utility::formatDate($event['start_date'], 'M d');
+
 }
 
 $tpl = new Template($config['template']);

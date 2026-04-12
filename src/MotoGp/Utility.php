@@ -10,7 +10,7 @@ class Utility {
         $date = new \DateTime($dateString);
         $now = new \DateTime();
         $interval = $now->diff($date);
-        
+
         if ($interval->y > 0) return $interval->y . " year" . ($interval->y > 1 ? "s" : "") . " ago";
         if ($interval->m > 0) return $interval->m . " month" . ($interval->m > 1 ? "s" : "") . " ago";
         if ($interval->d > 0) return $interval->d . " day" . ($interval->d > 1 ? "s" : "") . " ago";
@@ -23,4 +23,22 @@ class Utility {
     {
         return '<pre>' . print_r($data, true) . '</pre>';
     }
+
+    public static function formatDate($dateString, $format = 'd M Y'): string
+    {
+        $date = new \DateTime($dateString);
+        return $date->format($format);
+    }
+
+    public static function daysToGo($dateString): string
+    {
+        $date = new \DateTime($dateString);
+        $now = new \DateTime();
+        $interval = $now->diff($date);
+        if ($interval->invert) {
+            return "Event has passed";
+        }
+        return $interval->days . " day" . ($interval->days > 1 ? "s" : "") . " to go";
+    }
+
 }
