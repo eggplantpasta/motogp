@@ -10,6 +10,7 @@ else
     open http://localhost:8080
 fi
 
+export APP_ENV="local"
 
 # Start the server
 php -S localhost:8080 -c ${ROOT_DIR}/config/php.local.ini -t ${ROOT_DIR}/public

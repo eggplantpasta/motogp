@@ -27,8 +27,8 @@ cd motogp
 Run the scripts that install the defined dependencies via composer, create local config files based on the examples, and start the local PHP server.
 
 ```bash
-bin/install.sh
-bin/serve_local.sh
+bin/install-local.sh
+bin/serve-local.sh
 ```
 
 Go to [the website homepage](http://localhost:8080).
