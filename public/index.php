@@ -12,7 +12,7 @@ $user = new User();
 $db = new Database($config['database']['dsn']);
 
 $event = new Event($db);
-$eventData = $event->getNextEvent();
+$eventData = $event->getNextEventId();
 
 $data['user'] = $user->getSessionUser();
 $data['app'] = $config['app'];

@@ -16,7 +16,7 @@ if (!$user->isLoggedIn()) {
 $db = new Database($config['database']['dsn']);
 $event = new Event($db);
 
-$next_event = $event->getEventById($event->nextEvent());
+$next_event = $event->getEventById($event->getNextEventId());
 $date = new \DateTime($next_event['start_date']);
 
 $tpl = new Template($config['template']);

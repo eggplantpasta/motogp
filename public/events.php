@@ -13,7 +13,7 @@ $user = new User();
 $db = new Database($config['database']['dsn']);
 
 $event = new Event($db);
-$next_event_id = $event->nextEvent();
+$next_event_id = $event->getNextEventId();
 
 $all_events = $event->getEvents();
 
@@ -46,6 +46,4 @@ foreach ($data['events'] as &$event) {
 
 $tpl = new Template($config['template']);
 echo $tpl->render('events', $data);
-
-echo Utility::dump($data);
 

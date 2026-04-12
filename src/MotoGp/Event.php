@@ -9,7 +9,7 @@ class Event {
             $this->db = $db;
     }
 
-    public function nextEvent(): ?int
+    public function getNextEventId(): ?int
     {
         // Define the SQL query to get the next event
         $sql = '
@@ -27,7 +27,7 @@ class Event {
         return !empty($results) ? $results[0]['event_id'] : null; // return the first result or null if empty
     }
 
-    public function lastEvent(): ?int
+    public function getLastEventId(): ?int
     {
         // Define the SQL query to get the last event
         $sql = '
