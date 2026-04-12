@@ -18,7 +18,7 @@ $data['user'] = $user->getSessionUser();
 $data['app'] = $config['app'];
 $data['page'] = [
     'title' => 'Home',
-    'heading' => 'MotoGP Bidding',
+    'heading' => '2026 Season',
     'days_to_go' => $eventData ? ceil((strtotime($eventData['start_date']) - time()) / (60 * 60 * 24)) : 'N/A',
     'next_race_name' => $eventData ? $eventData['name'] : 'N/A'
 ];
