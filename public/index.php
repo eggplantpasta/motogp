@@ -19,7 +19,7 @@ $data['user'] = $user->getSessionUser();
 $data['app'] = $config['app'];
 $data['page'] = [
     'title' => 'Home',
-    'heading' => '2026 Season',
+    'heading' => $config['app']['season'] . ' Season',
     'days_to_go' => $eventData ? Utility::daysToGo($eventData['start_date']) : 'N/A',
     'next_race_name' => $eventData ? $eventData['name'] : 'N/A'
 ];

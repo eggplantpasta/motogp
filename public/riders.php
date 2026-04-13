@@ -16,7 +16,7 @@ $tpl = new Template($config['template']);
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Riders';
-$data['page']['heading'] = 'Riders 2026';
+$data['page']['heading'] = 'Riders for ' . $config['app']['season'] . ' Season';
 $data['riders'] = $results;
 
 echo $tpl->render('riders', $data);

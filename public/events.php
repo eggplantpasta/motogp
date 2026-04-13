@@ -20,7 +20,7 @@ $all_events = $event->getEvents();
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Events';
-$data['page']['heading'] = 'Season 2026';
+$data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Races';
 $data['events'] = $all_events;
 
 // manipulate columns for display

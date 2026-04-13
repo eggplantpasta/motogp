@@ -69,6 +69,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($startDateInput)) {
         $errors['start_date'] = 'Start date is required';
     }
+    if ($startDateInput && ($startDateInput < $config['app']['season'] . '-01-01' || $startDateInput > $config['app']['season'] . '-12-31')) {
+        $errors['start_date'] = 'Start date must be within the season year';
+    }
     // can only open bids for races in the future
     if ($formData['bids_open'] && ($formData['start_date'] < date('Y-m-d'))) {
         $errors['bids_open'] = 'Bidding can only be opened for races in the future';

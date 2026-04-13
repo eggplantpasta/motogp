@@ -47,7 +47,7 @@
 
     <label>
       Start Date
-      <input type="date" name="start_date" value="{{form.start_date}}"
+      <input type="date" name="start_date" min="{{app.season}}-01-01" max="{{app.season}}-12-31" value="{{form.start_date}}"
       aria-invalid="{{#form.errors.start_date}}true{{/form.errors.start_date}}" aria-describedby="invalid-start_date" />
       <small id="invalid-start_date">{{form.errors.start_date}}</small>
     </label>
