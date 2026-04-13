@@ -28,10 +28,10 @@ foreach ($data['events'] as &$event) {
     // set row class
     if ($event['event_id'] == $next_event_id) {
         $event['cell-class'] = '';
-        $event['row-class'] = 'highlight';
+        $event['row-class'] = 'motogp-highlight';
         $event['results'] = false;
     } elseif (strtotime($event['start_date']) < time()) {
-        $event['cell-class'] = 'disable';
+        $event['cell-class'] = 'motogp-disable';
         $event['row-class'] = '';
         $event['results'] = true;
     } else {

@@ -1,16 +1,16 @@
-.disable {
+.motogp-disable {
     opacity: .5;
 }
 
-.highlight td {
+.motogp-highlight td {
     background-color: var(--pico-mark-background-color);
 }
 
-.secondary {
+.motogp-secondary {
     color: var(--pico-secondary-color);
 }
 
-.fi {
+.motogp-flag {
     margin-left: 1.0em;
 }
 
@@ -27,7 +27,7 @@
   font-style: normal;
 }
 
-h1, .motofont {
+h1, .motogp-font {
     --pico-font-family: "Michroma", sans-serif;
     --pico-font-weight: 400;
     --pico-color: var(--pico-color-orange-500);
@@ -36,31 +36,28 @@ h1, .motofont {
     color: var(--pico-color);
 }
 
-.center-text {
+.motogp-center-text {
     text-align: center;
 }
 
-.checkbox-error {
+.motogp-checkbox-error {
     display: block;
     margin-top: var(--pico-spacing-1);
 }
 
-.form-message {
+.motogp-form-message {
     padding: var(--pico-spacing-2);
 }
 
-.form-message.success {
+.motogp-form-message.success {
     color: var(--pico-form-element-valid-focus-color);
 }
 
-.form-message.error {
+.motogp-form-message.error {
     color: var(--pico-form-element-invalid-focus-color);
 }
 
-.form-message.information {
-    color: var(--pico-color-blue-600);
+nav.top-nav ul {
+flex-direction: row;
 }
 
-.form-message.warning {
-    color: var(--pico-color-yellow-600);
-}

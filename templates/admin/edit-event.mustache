@@ -13,7 +13,7 @@
   {{/form.message}}
 
   {{#form.message}}
-  <section role="alert" class="form-message {{form.message-class}}">
+  <section role="alert" class="motogp-form-message {{form.message-class}}">
     {{form.message}}
   </section>
   {{/form.message}}
@@ -49,7 +49,7 @@
       Start Date
       <input type="date" name="start_date" value="{{form.start_date}}"
       aria-invalid="{{#form.errors.start_date}}true{{/form.errors.start_date}}" aria-describedby="invalid-start_date" />
-      <small class="checkbox-error" id="invalid-start_date">{{form.errors.start_date}}</small>
+      <small id="invalid-start_date">{{form.errors.start_date}}</small>
     </label>
 
   </div>
@@ -58,7 +58,7 @@
       Bids Open
       <input type="checkbox" name="bids_open" value="1" {{#form.bids_open}}checked{{/form.bids_open}}
       aria-invalid="{{#form.errors.bids_open}}true{{/form.errors.bids_open}}" aria-describedby="invalid-bids_open" />
-      <small class="checkbox-error" id="invalid-bids_open">{{form.errors.bids_open}}</small>
+      <small class="motogp-checkbox-error" id="invalid-bids_open">{{form.errors.bids_open}}</small>
     </label>
 
   </fieldset>
