@@ -8,5 +8,7 @@ var/*
 
 config/app.ini
 config/php.ini
+config/app.local.ini
+config/php.local.ini
 .DS_Store
 db/db.sqlite3-journal
