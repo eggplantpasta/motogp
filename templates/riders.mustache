@@ -7,21 +7,80 @@
     <table>
       <thead>
         <tr>
-          <th>Rider Name</th>
-          {{# user.admin }}<th>Admin</th> {{/ user.admin }}
+            <th>Rider Name</th>
+            <th>Team</th>
+            <th>Active</th>
+            {{# user.admin }}<th>Admin</th> {{/ user.admin }}
         </tr>
       </thead>
       <tbody>
-      {{# riders }}
+        {{# user.admin }}
         <tr>
-          <td>{{ name }}</td>
-          {{# user.admin }}
-          <td><a href="rider.php?rider_id={{ rider_id }}"><button>Edit</button></a></td>
-          {{/ user.admin }}
+            <td colspan="3"><em>Add new rider...</em></td>
+            <td><button data-target="modal-edit" onclick="toggleModal(event)">Add</button></td>
+        </tr>
+        {{/ user.admin }}
+      {{# riders }}
+        <tr data-rider-id="{{ rider_id }}">
+            <td class="rider-name">{{ name }}</td>
+            <td class="rider-team">{{ team }}</td>
+            <td class="rider-active" data-rider-active="{{active}}">{{# active }}Active{{/ active }}{{^ active }}Inactive{{/ active }}</td>
+            {{# user.admin }}
+            <td><button data-target="modal-edit" onclick="editRider(event)">Edit</button></td>
+            {{/ user.admin }}
         </tr>
       {{/ riders }}
       </tbody>
     </table>
+
+    {{# user.admin }}
+    <dialog id="modal-edit">
+    <article>
+
+    <form method="post" novalidate>
+      <h2>Edit Rider</h2>
+
+      {{#form.message}}
+      <section role="alert" class="motogp-form-message {{form.message-class}}">
+        {{form.message}}
+      </section>
+      {{/form.message}}
+
+      <fieldset>
+            <input type="hidden" name="rider-id" id="rider-id" value="" />
+
+            <label>
+            Rider Name
+            <input name="rider-name" id="rider-name" placeholder="Rider Name" value=""
+            aria-invalid="{{#form.errors.rider_name}}true{{/form.errors.rider_name}}" aria-describedby="invalid-rider_name" />
+            <small id="invalid-rider_name">{{form.errors.rider_name}}</small>
+            </label>
+
+            <label>
+            Team
+            <input name="rider-team" id="rider-team" placeholder="Team Name" value=""
+            aria-invalid="{{#form.errors.team}}true{{/form.errors.team}}" aria-describedby="invalid-rider-team" />
+            <small id="invalid-rider-team">{{form.errors.team}}</small>
+            </label>
+
+            <label>
+            Active
+            <input type="checkbox" name="rider-active" id="rider-active" />
+            </label>
+
+        </fieldset>
+
+         <fieldset class="grid">
+
+            <input type="reset" value="Cancel" data-target="modal-edit" onclick="toggleModal(event)"/>
+            <input type="submit" value="Save" data-target="modal-edit" onclick="submitAfterModal(event)"/>
+
+        </fieldset>
+
+        </form>
+  </article>
+</dialog>
+    {{/ user.admin }}
 
   {{/ content }}
 {{/ partials/layout }}
