@@ -52,4 +52,11 @@ class Riders {
         ';
         return $this->db->execute($sql, $params);
     }
+
+    public function deleteRider(int $riderId): int
+    {
+        $sql = 'delete from riders where rider_id = :rider_id';
+        return $this->db->execute($sql, [':rider_id' => $riderId]);
+    }
+
 }

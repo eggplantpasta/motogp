@@ -57,6 +57,11 @@ h1, .motogp-font {
     color: var(--pico-form-element-invalid-focus-color);
 }
 
+.motogp-button-group {
+    display: flex;
+    gap: var(--pico-form-element-spacing-horizontal);
+}
+
 nav.top-nav ul {
 flex-direction: row;
 }

@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	}
 
 	$riderId = trim($_POST['rider-id'] ?? '');
+    $operation = $_POST['operation'] ?? null;
 	$formData = [
 		'name' => trim($_POST['rider-name'] ?? ''),
 		'team' => trim($_POST['rider-team'] ?? ''),
@@ -41,52 +42,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data['form']['rider_team'] = $formData['team'];
 	$data['form']['rider_active'] = $formData['active'];
 
-	if ($formData['name'] === '') {
-		$data['form']['errors']['rider_name'] = 'Rider name is required';
-	}
+    if ($operation !== 'delete') {
+        // For insert and update, validate the name and team fields
+        if ($formData['name'] === '') {
+            $data['form']['errors']['rider_name'] = 'Rider name is required';
+        }
 
-	if ($formData['team'] === '') {
-		$data['form']['errors']['team'] = 'Team name is required';
-	}
+        if ($formData['team'] === '') {
+            $data['form']['errors']['team'] = 'Team name is required';
+        }
+    }
 
 	if (empty($data['form']['errors'])) {
 		try {
-			if ($riderId !== '' && ctype_digit($riderId)) {
-				$updatedRows = $riders->updateRider((int)$riderId, $formData);
-				if ($updatedRows > 0) {
-					$data['form']['message'] = 'Rider updated successfully';
-					$data['form']['message-class'] = 'success';
-					$data['form']['rider_id'] = '';
-					$data['form']['rider_name'] = '';
-					$data['form']['rider_team'] = '';
-					$data['form']['rider_active'] = 0;
-					$data['form']['open_modal'] = false;
-				} else {
-					$data['form']['message'] = 'No rider was updated';
-					$data['form']['message-class'] = 'error';
-					$data['form']['open_modal'] = true;
-				}
-			} else {
-				$createdRows = $riders->createRider($formData);
-				if ($createdRows > 0) {
-					$data['form']['message'] = 'Rider created successfully';
-					$data['form']['message-class'] = 'success';
-					$data['form']['rider_id'] = '';
-					$data['form']['rider_name'] = '';
-					$data['form']['rider_team'] = '';
-					$data['form']['rider_active'] = 0;
-					$data['form']['open_modal'] = false;
-				} else {
-					$data['form']['message'] = 'Failed to create rider';
-					$data['form']['message-class'] = 'error';
-					$data['form']['open_modal'] = true;
-				}
-			}
-		} catch (\Throwable $e) {
-			$data['form']['message'] = 'Unable to save rider changes';
-			$data['form']['message-class'] = 'error';
-			$data['form']['open_modal'] = true;
-		}
+            if ($operation === 'insert') {
+                // Insert logic
+                $createdRows = $riders->createRider($formData);
+                if ($createdRows > 0) {
+                    $data['form']['message'] = 'Rider created successfully';
+                    $data['form']['message-class'] = 'success';
+                    $data['form']['rider_id'] = '';
+                    $data['form']['rider_name'] = '';
+                    $data['form']['rider_team'] = '';
+                    $data['form']['rider_active'] = 0;
+                    $data['form']['open_modal'] = false;
+                } else {
+                    $data['form']['message'] = 'Failed to create rider';
+                    $data['form']['message-class'] = 'error';
+                    $data['form']['open_modal'] = true;
+                }
+            } elseif ($operation === 'update') {
+                if ($riderId !== '' && ctype_digit($riderId)) {
+                    $updatedRows = $riders->updateRider((int)$riderId, $formData);
+                    if ($updatedRows > 0) {
+                        $data['form']['message'] = 'Rider updated successfully';
+                        $data['form']['message-class'] = 'success';
+                        $data['form']['rider_id'] = '';
+                        $data['form']['rider_name'] = '';
+                        $data['form']['rider_team'] = '';
+                        $data['form']['rider_active'] = 0;
+                        $data['form']['open_modal'] = false;
+                    } else {
+                        $data['form']['message'] = 'No rider was updated';
+                        $data['form']['message-class'] = 'error';
+                        $data['form']['open_modal'] = true;
+                    }
+                }
+            } elseif ($operation === 'delete') {
+                // Delete logic
+                if ($riderId !== '' && ctype_digit($riderId)) {
+                    $deletedRows = $riders->deleteRider((int)$riderId);
+                    if ($deletedRows > 0) {
+                        $data['form']['message'] = 'Rider deleted successfully';
+                        $data['form']['message-class'] = 'success';
+                        $data['form']['rider_id'] = '';
+                        $data['form']['rider_name'] = '';
+                        $data['form']['rider_team'] = '';
+                        $data['form']['rider_active'] = 0;
+                        $data['form']['open_modal'] = false;
+                    } else {
+                        $data['form']['message'] = 'No rider was deleted';
+                        $data['form']['message-class'] = 'error';
+                        $data['form']['open_modal'] = true;
+                    }
+                }
+            }
+        } catch (\Throwable $e) {
+            $data['form']['message'] = 'Unable to save rider changes';
+            $data['form']['message-class'] = 'error';
+            $data['form']['open_modal'] = true;
+        }
 	} else {
 		$data['form']['message'] = 'Please fix the highlighted fields';
 		$data['form']['message-class'] = 'error';

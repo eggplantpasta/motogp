@@ -7,8 +7,12 @@ function submitAfterModal(event) {
     toggleModal(event);  // Close the modal
     // Give the animation a moment, then submit the form
     setTimeout(() => {
-        event.target.closest('form').submit();
+        document.getElementById('rider-form').submit();
     }, 100);
+}
+
+function submitNoModal(event) {
+    document.getElementById('rider-form').submit();
 }
 
 //
@@ -16,6 +20,8 @@ function submitAfterModal(event) {
 //
 
 function editRider(event) {
+    document.getElementById('operation').value = 'update';
+
     const messageSection = document.querySelector('.motogp-form-message');
     const row = event.target.closest('tr');
     const riderId = row.getAttribute('data-rider-id');
@@ -39,6 +45,8 @@ function editRider(event) {
 }
 
 function addRider(event) {
+    document.getElementById('operation').value = 'create';
+
     const messageSection = document.querySelector('.motogp-form-message');
     // Clear messages
     if (messageSection) {
@@ -53,6 +61,17 @@ function addRider(event) {
     document.getElementById('rider-team').value = '';
     document.getElementById('rider-active').checked = true;
     toggleModal(event);
+}
+
+function deleteRider(event) {
+    document.getElementById('operation').value = 'delete';
+
+    if (confirm('Are you sure you want to delete this rider? This action cannot be undone.')) {
+        const row = event.target.closest('tr');
+        const riderId = row.getAttribute('data-rider-id');
+        document.getElementById('rider-id').value = riderId;
+        submitNoModal(event);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
