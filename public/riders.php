@@ -96,13 +96,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $results = $riders->getRiders();
 
+$data['riders'] = $results;
+foreach ($data['riders'] as &$rider) {
+    $rider['cell-class'] = $rider['active'] ? '' : 'motogp-disable';
+}
+
+
 $tpl = new Template($config['template']);
 
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Riders';
 $data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Riders';
-$data['riders'] = $results;
+
 
 echo $tpl->render('riders', $data);
 
