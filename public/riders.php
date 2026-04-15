@@ -12,6 +12,11 @@ $data['form'] = [
 	'errors' => [],
 	'message' => '',
 	'message-class' => '',
+	'rider_id' => '',
+	'rider_name' => '',
+	'rider_team' => '',
+	'rider_active' => 0,
+	'open_modal' => false,
 ];
 
 // get the riders from the db
@@ -31,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		'active' => isset($_POST['rider-active']) ? 1 : 0,
 	];
 
+	$data['form']['rider_id'] = $riderId;
+	$data['form']['rider_name'] = $formData['name'];
+	$data['form']['rider_team'] = $formData['team'];
+	$data['form']['rider_active'] = $formData['active'];
+
 	if ($formData['name'] === '') {
 		$data['form']['errors']['rider_name'] = 'Rider name is required';
 	}
@@ -46,27 +56,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				if ($updatedRows > 0) {
 					$data['form']['message'] = 'Rider updated successfully';
 					$data['form']['message-class'] = 'success';
+					$data['form']['rider_id'] = '';
+					$data['form']['rider_name'] = '';
+					$data['form']['rider_team'] = '';
+					$data['form']['rider_active'] = 0;
+					$data['form']['open_modal'] = false;
 				} else {
 					$data['form']['message'] = 'No rider was updated';
 					$data['form']['message-class'] = 'error';
+					$data['form']['open_modal'] = true;
 				}
 			} else {
 				$createdRows = $riders->createRider($formData);
 				if ($createdRows > 0) {
 					$data['form']['message'] = 'Rider created successfully';
 					$data['form']['message-class'] = 'success';
+					$data['form']['rider_id'] = '';
+					$data['form']['rider_name'] = '';
+					$data['form']['rider_team'] = '';
+					$data['form']['rider_active'] = 0;
+					$data['form']['open_modal'] = false;
 				} else {
 					$data['form']['message'] = 'Failed to create rider';
 					$data['form']['message-class'] = 'error';
+					$data['form']['open_modal'] = true;
 				}
 			}
 		} catch (\Throwable $e) {
 			$data['form']['message'] = 'Unable to save rider changes';
 			$data['form']['message-class'] = 'error';
+			$data['form']['open_modal'] = true;
 		}
 	} else {
 		$data['form']['message'] = 'Please fix the highlighted fields';
 		$data['form']['message-class'] = 'error';
+		$data['form']['open_modal'] = true;
 	}
 }
 

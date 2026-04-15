@@ -34,7 +34,7 @@
     </table>
 
     {{# user.admin }}
-    <dialog id="modal-edit">
+    <dialog id="modal-edit" {{#form.open_modal}}data-open-on-load="true"{{/form.open_modal}}>
     <article>
 
     <form method="post" novalidate>
@@ -47,25 +47,25 @@
       {{/form.message}}
 
       <fieldset>
-            <input type="hidden" name="rider-id" id="rider-id" value="" />
+        <input type="hidden" name="rider-id" id="rider-id" value="{{form.rider_id}}" />
 
             <label>
             Rider Name
-            <input name="rider-name" id="rider-name" placeholder="Rider Name" value=""
+        <input name="rider-name" id="rider-name" placeholder="Rider Name" value="{{form.rider_name}}"
             aria-invalid="{{#form.errors.rider_name}}true{{/form.errors.rider_name}}" aria-describedby="invalid-rider_name" />
             <small id="invalid-rider_name">{{form.errors.rider_name}}</small>
             </label>
 
             <label>
             Team
-            <input name="rider-team" id="rider-team" placeholder="Team Name" value=""
+        <input name="rider-team" id="rider-team" placeholder="Team Name" value="{{form.rider_team}}"
             aria-invalid="{{#form.errors.team}}true{{/form.errors.team}}" aria-describedby="invalid-rider-team" />
             <small id="invalid-rider-team">{{form.errors.team}}</small>
             </label>
 
             <label>
             Active
-            <input type="checkbox" name="rider-active" id="rider-active" />
+        <input type="checkbox" name="rider-active" id="rider-active" {{#form.rider_active}}checked{{/form.rider_active}} />
             </label>
 
         </fieldset>

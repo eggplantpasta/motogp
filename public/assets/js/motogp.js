@@ -29,3 +29,10 @@ function editRider(event) {
     document.getElementById('rider-active').checked = riderActive === 'true';
     toggleModal(event);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('modal-edit');
+    if (modal && modal.dataset.openOnLoad === 'true' && !modal.open) {
+        openModal(modal);
+    }
+});
