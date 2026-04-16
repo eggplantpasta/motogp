@@ -12,7 +12,7 @@ if (!$user->isAdmin()) {
 
 $db = new Database($config['database']['dsn']);
 
-Utility::dump($config);
-Utility::dump($user);
-Utility::dump($db);
+echo Utility::dump($config);
+echo Utility::dump($user);
+echo Utility::dump($db);
 
