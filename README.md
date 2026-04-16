@@ -37,3 +37,8 @@ Go to [the website homepage](http://localhost:8080).
 
 TODO
 
+## About
+
+Built using [PHP](https://www.php.net), [SQLite](https://sqlite.org), vanilla [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Mustache](https://mustache.github.io) templates, and [semantic HTML](https://developer.mozilla.org/en-US/docs/Glossary/Semantics#semantics_in_html).
+
+Made pretty using [Pico CSS](https://picocss.com), [Lucide Icons](https://lucide.dev/icons/), and [Michroma](https://fonts.google.com/specimen/Michroma?preview.script=Latn) from [Google Fonts](https://fonts.google.com/?preview.script=Latn).
