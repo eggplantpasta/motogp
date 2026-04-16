@@ -4,23 +4,29 @@ namespace Webmin;
 
 use PDO;
 use PDOException;
+use Psr\Log\LoggerInterface;
 
 class Database
 {
     private PDO $connection;
+    private ?LoggerInterface $logger;
 
     /**
      * Constructor to initialize the SQLite database connection.
      *
      * @param string $dsn The Data Source Name (e.g., "sqlite:/path/to/database.db").
+     * @param LoggerInterface|null $logger Optional logger instance.
      * @throws PDOException If the connection fails.
      */
-    public function __construct(string $dsn)
+    public function __construct(string $dsn, ?LoggerInterface $logger = null)
     {
+        $this->logger = $logger;
+
         try {
             $this->connection = new PDO($dsn);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
+            $this->logger?->error("Failed to connect to the SQLite database: " . $e->getMessage());
             throw new PDOException("Failed to connect to the SQLite database: " . $e->getMessage());
         }
     }
@@ -60,6 +66,7 @@ class Database
             $stmt->execute($params);
             return $stmt->rowCount();
         } catch (PDOException $e) {
+            $this->logger?->error("Execution failed: " . $e->getMessage(), ['query' => $query]);
             throw new PDOException("Execution failed: " . $e->getMessage());
         }
     }
@@ -78,6 +85,7 @@ class Database
             $stmt->execute($params);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
+            $this->logger?->error("Query failed: " . $e->getMessage(), ['query' => $query]);
             throw new PDOException("Query failed: " . $e->getMessage());
         }
     }

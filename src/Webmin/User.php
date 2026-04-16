@@ -3,6 +3,7 @@
 namespace Webmin;
 
 use Database;
+use Psr\Log\LoggerInterface;
 
 class User {
 
@@ -14,7 +15,10 @@ class User {
     public $passwordErr = '';
 
     private $db;
-    public function __construct($db = null) {
+    private ?LoggerInterface $logger;
+
+    public function __construct($db = null, ?LoggerInterface $logger = null) {
+        $this->logger = $logger;
         if ($db) {
             $this->db = $db;
         }
@@ -98,6 +102,7 @@ class User {
             $this->db->query($sql, $params);
             return true;
         } catch (\PDOException $e) {
+            $this->logger?->error("User registration failed: " . $e->getMessage(), ['username' => $this->username, 'email' => $this->email]);
             return false;
         }
     }
@@ -118,6 +123,7 @@ class User {
             $this->db->query($sql, $params);
             return true;
         } catch (\PDOException $e) {
+            $this->logger?->error("Password update failed for user ID: " . $userId . ". " . $e->getMessage());
             return false;
         }
     }
@@ -156,9 +162,14 @@ class User {
                 $results[0]['password'] = null;  // Clear password for security
                 // Set session and cookie
                 $_SESSION['user'] = $results[0];
+                $this->logger?->info("User logged in successfully: " . $this->username);
 
                 return true;
+            } else {
+                $this->logger?->warning("Login attempt with incorrect password for user: " . $this->username);
             }
+        } else {
+            $this->logger?->warning("Login attempt with non-existent user: " . $this->username);
         }
 
         return false;

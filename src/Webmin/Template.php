@@ -3,6 +3,7 @@
 namespace Webmin;
 
 use Mustache;
+use Psr\Log\LoggerInterface;
 
 /**
  * Simple wrapper around Mustache template engine.
@@ -11,6 +12,8 @@ class Template
 {
     /** @var object Underlying Mustache engine instance */
     private $engine;
+    /** @var LoggerInterface|null Optional logger instance */
+    private ?LoggerInterface $logger;
 
     /**
      * Constructor
@@ -21,10 +24,12 @@ class Template
      *  - escape: escape callable name (default: 'htmlspecialchars')
      *
      * @param array $options
+     * @param LoggerInterface|null $logger Optional logger instance.
      * @throws \Exception
      */
-    public function __construct(array $options = [])
+    public function __construct(array $options = [], ?LoggerInterface $logger = null)
     {
+        $this->logger = $logger;
         $templateDir = $options['dir'];
         $cacheDir    = $options['cache_dir'] ?? null;
         $escape      = $options['escape'] ?? 'htmlspecialchars';
@@ -39,6 +44,7 @@ class Template
             return;
             }
         catch (\Error $e) {
+            $this->logger?->error("Failed to initialize Mustache engine: " . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
     }
