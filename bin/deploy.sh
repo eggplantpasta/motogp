@@ -39,6 +39,9 @@ rsync \
     --compress \
     --delete \
     --human-readable \
+    --no-owner \
+    --no-group \
+    --chown=:www-data \
     --exclude-from="${EXCLUDE_FILE}" \
     "${ROOT_DIR}/" "${DEST_DIR}/"
 
