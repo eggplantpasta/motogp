@@ -1,7 +1,7 @@
 <?php
 
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\RotatingFileHandler;
 
 $appEnv = getenv('APP_ENV') ?: 'prod';
 $rootDir = __DIR__ . '/..';
@@ -42,7 +42,13 @@ array_walk_recursive($config, function (&$value) use ($rootDir) {
 // Initialize Logger
 $logPath = $config['log']['path'] ?? $rootDir . '/var/log/app.log';
 $logLevel = constant('Monolog\Logger::' . strtoupper($config['log']['level'] ?? 'debug'));
+$logDays = max(1, (int) ($config['log']['days'] ?? 30));
+
+$logDir = dirname($logPath);
+if (!is_dir($logDir)) {
+    mkdir($logDir, 0775, true);
+}
 
 $logger = new Logger('motogp');
-$logger->pushHandler(new StreamHandler($logPath, $logLevel));
+$logger->pushHandler(new RotatingFileHandler($logPath, $logDays, $logLevel));
 $GLOBALS['logger'] = $logger;

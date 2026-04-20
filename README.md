@@ -35,7 +35,29 @@ Go to [the website homepage](http://localhost:8080).
 
 ## Deploy
 
-TODO
+This project supports both application-level and OS-level log rotation.
+
+1. App-level rotation (Monolog):
+Configure `log.days` in your `config/app.ini`.
+
+```ini
+[log]
+path = "{{ROOT_DIR}}/var/log/app.log"
+level = "info"
+days = 30
+```
+
+2. OS-level rotation (logrotate):
+Install the provided config for `php_error.log`:
+
+```bash
+sudo cp bin/logrotate-motogp.conf /etc/logrotate.d/motogp
+sudo logrotate -d /etc/logrotate.d/motogp
+```
+
+The default policy in `bin/logrotate-motogp.conf` rotates daily, keeps 30 days, and compresses older `php_error.log` files.
+
+Note: app logs are date-rotated by Monolog (`app-YYYY-MM-DD.log`) using `log.days`.
 
 ## About
 
