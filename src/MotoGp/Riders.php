@@ -74,7 +74,7 @@ class Riders {
             values (:name, :team, :active)
             ';
             $result = $this->db->execute($sql, $params);
-            $this->logger?->info("Rider created: " . $data['name']);
+            $this->logger?->info("Rider created: ", $params);
             return $result;
         } catch (\PDOException $e) {
             $this->logger?->error("Failed to create rider: " . $e->getMessage(), ['data' => $data]);
@@ -87,10 +87,10 @@ class Riders {
         try {
             $sql = 'delete from riders where rider_id = :rider_id';
             $result = $this->db->execute($sql, [':rider_id' => $riderId]);
-            $this->logger?->info("Rider deleted: ID " . $riderId);
+            $this->logger?->info("Rider deleted:", ['rider_id' => $riderId]);
             return $result;
         } catch (\PDOException $e) {
-            $this->logger?->error("Failed to delete rider ID " . $riderId . ": " . $e->getMessage());
+            $this->logger?->error("Failed to delete rider:" , ['rider_id' => $riderId, 'message' => $e->getMessage()]);
             throw $e;
         }
     }

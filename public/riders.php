@@ -6,7 +6,12 @@ use Webmin\User;
 use MotoGp\Riders;
 
 // get session user
-$user = new User();
+$logger = $GLOBALS['logger'] ?? null;
+
+// get the riders from the db
+$db = new Database($config['database']['dsn'], $logger);
+$user = new User($db, $logger);
+$riders = new Riders($db, $logger);
 
 $data['form'] = [
 	'errors' => [],
@@ -18,10 +23,6 @@ $data['form'] = [
 	'rider_active' => 0,
 	'open_modal' => false,
 ];
-
-// get the riders from the db
-$db = new Database($config['database']['dsn']);
-$riders = new Riders($db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (!$user->isAdmin()) {
@@ -55,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	if (empty($data['form']['errors'])) {
 		try {
-            if ($operation === 'insert') {
+            if ($operation === 'create') {
                 // Insert logic
                 $createdRows = $riders->createRider($formData);
                 if ($createdRows > 0) {
@@ -127,13 +128,12 @@ foreach ($data['riders'] as &$rider) {
 }
 
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Riders';
 $data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Riders';
-
 
 echo $tpl->render('riders', $data);
 
