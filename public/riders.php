@@ -13,6 +13,16 @@ $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db, $logger);
 $riders = new Riders($db, $logger);
 
+function clearFormData(&$data) {
+    $data['form']['message'] = '';
+    $data['form']['message-class'] = '';
+    $data['form']['rider_id'] = '';
+    $data['form']['rider_name'] = '';
+    $data['form']['rider_team'] = '';
+    $data['form']['rider_active'] = 0;
+    $data['form']['open_modal'] = false;
+}
+
 $data['form'] = [
 	'errors' => [],
 	'message' => '',
@@ -60,13 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Insert logic
                 $createdRows = $riders->createRider($formData);
                 if ($createdRows > 0) {
-                    $data['form']['message'] = 'Rider created successfully';
-                    $data['form']['message-class'] = 'success';
-                    $data['form']['rider_id'] = '';
-                    $data['form']['rider_name'] = '';
-                    $data['form']['rider_team'] = '';
-                    $data['form']['rider_active'] = 0;
-                    $data['form']['open_modal'] = false;
+                    clearFormData($data);
+                    $data['page']['message'] = 'Rider created successfully';
+                    $data['page']['message-class'] = 'success';
+                    $data['page']['open_modal'] = true;
                 } else {
                     $data['form']['message'] = 'Failed to create rider';
                     $data['form']['message-class'] = 'error';
@@ -76,13 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($riderId !== '' && ctype_digit($riderId)) {
                     $updatedRows = $riders->updateRider((int)$riderId, $formData);
                     if ($updatedRows > 0) {
-                        $data['form']['message'] = 'Rider updated successfully';
-                        $data['form']['message-class'] = 'success';
-                        $data['form']['rider_id'] = '';
-                        $data['form']['rider_name'] = '';
-                        $data['form']['rider_team'] = '';
-                        $data['form']['rider_active'] = 0;
-                        $data['form']['open_modal'] = false;
+                        clearFormData($data);
+                        $data['page']['message'] = 'Rider updated successfully';
+                        $data['page']['message-class'] = 'success';
+                        $data['page']['open_modal'] = true;
                     } else {
                         $data['form']['message'] = 'No rider was updated';
                         $data['form']['message-class'] = 'error';
@@ -94,13 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($riderId !== '' && ctype_digit($riderId)) {
                     $deletedRows = $riders->deleteRider((int)$riderId);
                     if ($deletedRows > 0) {
-                        $data['form']['message'] = 'Rider deleted successfully';
-                        $data['form']['message-class'] = 'success';
-                        $data['form']['rider_id'] = '';
-                        $data['form']['rider_name'] = '';
-                        $data['form']['rider_team'] = '';
-                        $data['form']['rider_active'] = 0;
-                        $data['form']['open_modal'] = false;
+                        clearFormData($data);
+                        $data['page']['message'] = 'Rider deleted successfully';
+                        $data['page']['message-class'] = 'success';
+                        $data['page']['open_modal'] = true;
                     } else {
                         $data['form']['message'] = 'No rider was deleted';
                         $data['form']['message-class'] = 'error';
@@ -124,7 +125,7 @@ $results = $riders->getRiders();
 
 $data['riders'] = $results;
 foreach ($data['riders'] as &$rider) {
-    $rider['cell-class'] = $rider['active'] ? '' : 'motogp-disable';
+    $rider['cell-class'] = $rider['active'] ? '' : 'motogp-inactive';
 }
 
 

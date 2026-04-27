@@ -15,6 +15,15 @@ function submitNoModal(event) {
     document.getElementById('rider-form').submit();
 }
 
+function clearRiderFormMessage() {
+    const messageSection = document.getElementById('rider-form-message');
+
+    if (messageSection) {
+        messageSection.textContent = '';
+        messageSection.className = 'motogp-form-message';
+    }
+}
+
 //
 // JavaScript specific to the riders page
 //
@@ -22,18 +31,13 @@ function submitNoModal(event) {
 function editRider(event) {
     document.getElementById('operation').value = 'update';
 
-    const messageSection = document.querySelector('.motogp-form-message');
     const row = event.target.closest('tr');
     const riderId = row.getAttribute('data-rider-id');
+    const riderActive = row.getAttribute('data-rider-active');
     const riderName = row.querySelector('.rider-name').textContent;
     const riderTeam = row.querySelector('.rider-team').textContent;
-    const riderActive = row.querySelector('.rider-active').getAttribute('data-rider-active');
 
-    // Clear messages
-    if (messageSection) {
-        messageSection.textContent = '';
-        messageSection.className = 'motogp-form-message';
-    }
+    clearRiderFormMessage();
     document.getElementById('invalid-rider_name').textContent = '';
     document.getElementById('invalid-rider-team').textContent = '';
     // Set the form
@@ -47,12 +51,7 @@ function editRider(event) {
 function addRider(event) {
     document.getElementById('operation').value = 'create';
 
-    const messageSection = document.querySelector('.motogp-form-message');
-    // Clear messages
-    if (messageSection) {
-        messageSection.textContent = '';
-        messageSection.className = 'motogp-form-message';
-    }
+    clearRiderFormMessage();
     document.getElementById('invalid-rider_name').textContent = '';
     document.getElementById('invalid-rider-team').textContent = '';
     // Clear the form
@@ -66,17 +65,45 @@ function addRider(event) {
 function deleteRider(event) {
     document.getElementById('operation').value = 'delete';
 
-    if (confirm('Are you sure you want to delete this rider? This action cannot be undone.')) {
-        const row = event.target.closest('tr');
-        const riderId = row.getAttribute('data-rider-id');
-        document.getElementById('rider-id').value = riderId;
-        submitNoModal(event);
+    const row = event.target.closest('tr');
+    const riderId = row.getAttribute('data-rider-id');
+    const riderName = row.querySelector('.rider-name').textContent;
+
+    // Show confirmation modal
+    const messageModal = document.getElementById('modal-confirm');
+    const messageContent = document.getElementById('modal-confirm-content');
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+
+    if (!messageModal || !messageContent || !confirmBtn) {
+        return;
     }
+
+    messageContent.textContent = `Are you sure you want to delete "${riderName}"? This action cannot be undone.`;
+
+    // Clear any previous confirm handler
+    confirmBtn.onclick = null;
+
+    // Set up the confirm handler
+    confirmBtn.onclick = (e) => {
+        e.preventDefault();
+        document.getElementById('rider-id').value = riderId;
+        closeModal(messageModal);
+        submitNoModal(event);
+    };
+
+    openModal(messageModal);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('modal-edit');
-    if (modal && modal.dataset.openOnLoad === 'true' && !modal.open) {
-        openModal(modal);
+    // Check for modal-edit
+    const editModal = document.getElementById('modal-edit');
+    if (editModal && editModal.dataset.openOnLoad === 'true' && !editModal.open) {
+        openModal(editModal);
+    }
+
+    // Check for feedback modal and open temporarily
+    const feedbackModal = document.getElementById('modal-feedback');
+    if (feedbackModal && feedbackModal.dataset.openOnLoad === 'true' && !feedbackModal.open) {
+        openTimedModal(feedbackModal, 2000); // Auto-close after 2 seconds
     }
 });

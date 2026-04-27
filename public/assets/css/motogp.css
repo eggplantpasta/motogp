@@ -2,6 +2,11 @@
     opacity: .5;
 }
 
+.motogp-inactive {
+    text-decoration: line-through;
+    opacity: .5;
+}
+
 .motogp-highlight td {
     background-color: var(--pico-mark-background-color);
 }

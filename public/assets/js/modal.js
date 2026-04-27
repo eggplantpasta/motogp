@@ -36,6 +36,16 @@ const openModal = (modal) => {
   modal.showModal();
 };
 
+// Open modal with auto-close after timeout
+const openTimedModal = (modal, timeoutMs = 3000) => {
+  openModal(modal);
+  setTimeout(() => {
+    if (visibleModal === modal) {
+      closeModal(modal);
+    }
+  }, timeoutMs);
+};
+
 // Close modal
 const closeModal = (modal) => {
   visibleModal = null;

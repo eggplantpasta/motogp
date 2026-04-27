@@ -9,26 +9,24 @@
         <tr>
             <th>Rider Name</th>
             <th>Team</th>
-            <th>Active</th>
             {{# user.admin }}<th>Admin</th> {{/ user.admin }}
         </tr>
       </thead>
       <tbody>
         {{# user.admin }}
         <tr>
-            <td colspan="3"><em>Add new rider...</em></td>
-            <td><button data-target="modal-edit" onclick="addRider(event)">Add</button></td>
+            <td colspan="2"><strong>Add new rider...</strong></td>
+            <td><button data-target="modal-edit" onclick="addRider(event)">Add Rider</button></td>
         </tr>
         {{/ user.admin }}
       {{# riders }}
-        <tr data-rider-id="{{ rider_id }}">
+        <tr data-rider-id="{{ rider_id }}" data-rider-active="{{ active }}">
             <td class="rider-name {{ cell-class }}">{{ name }}</td>
             <td class="rider-team {{ cell-class }}">{{ team }}</td>
-            <td class="rider-active {{ cell-class }}" data-rider-active="{{active}}">{{^ active }}❌{{/ active }}</td>
             {{# user.admin }}
             <td class="motogp-button-group">
             <button data-target="modal-edit" onclick="editRider(event)">Edit</button>
-            <button data-target="modal-edit" onclick="deleteRider(event)">
+            <button data-target="modal-confirm" onclick="deleteRider(event)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
             </button>
             </td>
@@ -40,52 +38,71 @@
 
     {{# user.admin }}
     <dialog id="modal-edit" {{#form.open_modal}}data-open-on-load="true"{{/form.open_modal}}>
-    <article>
+        <article>
 
-    <form id="rider-form" method="post" novalidate>
-      <h2>Edit Rider</h2>
+        <form id="rider-form" method="post" novalidate>
+        <h2>Edit Rider</h2>
 
-      {{#form.message}}
-      <section role="alert" class="motogp-form-message {{form.message-class}}">
-        {{form.message}}
-      </section>
-      {{/form.message}}
+        <section id="rider-form-message" role="alert" class="motogp-form-message {{form.message-class}}">
+            {{#form.message}}
+            {{form.message}}
+            {{/form.message}}
+        </section>
 
-      <fieldset>
-        <input type="hidden" name="operation" id="operation" value="update" />
-        <input type="hidden" name="rider-id" id="rider-id" value="{{form.rider_id}}" />
+        <fieldset>
+            <input type="hidden" name="operation" id="operation" value="update" />
+            <input type="hidden" name="rider-id" id="rider-id" value="{{form.rider_id}}" />
 
-        <label>
-            Rider Name
-            <input name="rider-name" id="rider-name" placeholder="Rider Name" value="{{form.rider_name}}"
-            aria-invalid="{{#form.errors.rider_name}}true{{/form.errors.rider_name}}" aria-describedby="invalid-rider_name" />
-            <small id="invalid-rider_name">{{form.errors.rider_name}}</small>
-        </label>
+            <label>
+                Rider Name
+                <input name="rider-name" id="rider-name" placeholder="Rider Name" value="{{form.rider_name}}"
+                aria-invalid="{{#form.errors.rider_name}}true{{/form.errors.rider_name}}" aria-describedby="invalid-rider_name" />
+                <small id="invalid-rider_name">{{form.errors.rider_name}}</small>
+            </label>
 
-        <label>
-            Team
-            <input name="rider-team" id="rider-team" placeholder="Team Name" value="{{form.rider_team}}"
-            aria-invalid="{{#form.errors.team}}true{{/form.errors.team}}" aria-describedby="invalid-rider-team" />
-            <small id="invalid-rider-team">{{form.errors.team}}</small>
-        </label>
+            <label>
+                Team
+                <input name="rider-team" id="rider-team" placeholder="Team Name" value="{{form.rider_team}}"
+                aria-invalid="{{#form.errors.team}}true{{/form.errors.team}}" aria-describedby="invalid-rider-team" />
+                <small id="invalid-rider-team">{{form.errors.team}}</small>
+            </label>
 
-        <label>
-            Active
-            <input type="checkbox" name="rider-active" id="rider-active" {{#form.rider_active}}checked{{/form.rider_active}} />
-        </label>
+            <label>
+                Active
+                <input type="checkbox" name="rider-active" id="rider-active" {{#form.rider_active}}checked{{/form.rider_active}} />
+            </label>
 
-        </fieldset>
+            </fieldset>
 
-         <fieldset class="grid">
+            <fieldset class="grid">
 
-            <input type="reset" value="Cancel" data-target="modal-edit" onclick="toggleModal(event)"/>
-            <input type="submit" value="Save" data-target="modal-edit" onclick="submitAfterModal(event)"/>
+                <input type="reset" value="Cancel" data-target="modal-edit" onclick="toggleModal(event)"/>
+                <input type="submit" value="Save" data-target="modal-edit" onclick="submitAfterModal(event)"/>
 
-        </fieldset>
+            </fieldset>
 
-        </form>
-  </article>
-</dialog>
+            </form>
+        </article>
+    </dialog>
+    <dialog id="modal-feedback" {{#page.open_modal}}data-open-on-load="true"{{/page.open_modal}}>
+        <article>
+            <section id="modal-feedback-content" role="alert" class="motogp-form-message {{page.message-class}}">
+                {{#page.message}}
+                {{page.message}}
+                {{/page.message}}
+            </section>
+        </article>
+    </dialog>
+    <dialog id="modal-confirm">
+        <article>
+            <section id="modal-confirm-content" class="motogp-form-message">Are you sure?</section>
+            <fieldset class="grid">
+                <button type="reset" data-target="modal-confirm" onclick="toggleModal(event)">Cancel</button>
+                <button type="button" id="modal-confirm-btn">Yes</button>
+            </fieldset>
+        </article>
+    </dialog>
+
     {{/ user.admin }}
 
   {{/ content }}
