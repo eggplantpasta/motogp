@@ -1,9 +1,12 @@
 <?php
 
+use Monolog\Handler\Curl\Util;
 use Webmin\Template;
 use Webmin\Database;
 use Webmin\User;
 use MotoGp\Riders;
+use MotoGp\Team;
+use MotoGp\Utility;
 
 // get session user
 $logger = $GLOBALS['logger'] ?? null;
@@ -12,15 +15,25 @@ $logger = $GLOBALS['logger'] ?? null;
 $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db, $logger);
 $riders = new Riders($db, $logger);
+$teams = new Team($db, logger: $logger);
 
 function clearFormData(&$data) {
     $data['form']['message'] = '';
     $data['form']['message-class'] = '';
     $data['form']['rider_id'] = '';
     $data['form']['rider_name'] = '';
-    $data['form']['rider_team'] = '';
+    $data['form']['team_id'] = '';
     $data['form']['rider_active'] = 0;
     $data['form']['open_modal'] = false;
+}
+
+function withSelectedTeam(array $teams, string $selectedTeamId): array {
+    foreach ($teams as &$team) {
+        $team['selected'] = (string)($team['team_id'] ?? '') === $selectedTeamId;
+    }
+    unset($team);
+
+    return $teams;
 }
 
 $data['form'] = [
@@ -29,7 +42,7 @@ $data['form'] = [
 	'message-class' => '',
 	'rider_id' => '',
 	'rider_name' => '',
-	'rider_team' => '',
+	'team_id' => '',
 	'rider_active' => 0,
 	'open_modal' => false,
 ];
@@ -44,23 +57,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $operation = $_POST['operation'] ?? null;
 	$formData = [
 		'name' => trim($_POST['rider-name'] ?? ''),
-		'team' => trim($_POST['rider-team'] ?? ''),
+		'team_id' => trim($_POST['rider-team'] ?? ''),
 		'active' => isset($_POST['rider-active']) ? 1 : 0,
 	];
 
 	$data['form']['rider_id'] = $riderId;
 	$data['form']['rider_name'] = $formData['name'];
-	$data['form']['rider_team'] = $formData['team'];
+	$data['form']['team_id'] = $formData['team_id'];
 	$data['form']['rider_active'] = $formData['active'];
 
     if ($operation !== 'delete') {
         // For insert and update, validate the name and team fields
         if ($formData['name'] === '') {
             $data['form']['errors']['rider_name'] = 'Rider name is required';
-        }
-
-        if ($formData['team'] === '') {
-            $data['form']['errors']['team'] = 'Team name is required';
         }
     }
 
@@ -122,11 +131,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $results = $riders->getRiders();
+$allTeams = $teams->getTeams();
 
 $data['riders'] = $results;
 foreach ($data['riders'] as &$rider) {
     $rider['cell-class'] = $rider['active'] ? '' : 'motogp-inactive';
 }
+
+$data['teams'] = withSelectedTeam($allTeams, (string)$data['form']['team_id']);
 
 
 $tpl = new Template($config['template'], $logger);
@@ -138,4 +150,4 @@ $data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Riders';
 
 echo $tpl->render('riders', $data);
 
-
+echo Utility::dump($data);

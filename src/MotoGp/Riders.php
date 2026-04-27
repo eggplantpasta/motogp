@@ -17,7 +17,12 @@ class Riders {
     public function getRiders(): array
     {
         try {
-            $sql = 'select r.* from riders r order by r.name';
+            $sql = '
+                select r.*, t.team_name
+                from riders r
+                left join teams t on r.team_id = t.team_id
+                order by r.name
+            ';
             return $this->db->query($sql);
         } catch (\PDOException $e) {
             $this->logger?->error("Failed to fetch riders: " . $e->getMessage());
@@ -28,7 +33,12 @@ class Riders {
     public function getRiderById(int $riderId): ?array
     {
         try {
-            $sql = 'select r.* from riders r where r.rider_id = :rider_id';
+            $sql = '
+                select r.*, t.team_name
+                from riders r
+                left join teams t on r.team_id = t.team_id
+                where r.rider_id = :rider_id
+            ';
             return $this->db->queryOne($sql, [':rider_id' => $riderId]);
         } catch (\PDOException $e) {
             $this->logger?->error("Failed to fetch rider ID " . $riderId . ": " . $e->getMessage());
@@ -41,14 +51,14 @@ class Riders {
         try {
             $params = [
                 ':name' => $data['name'],
-                ':team' => $data['team'],
+                ':team_id' => $data['team_id'] ?? null,
                 ':active' => $data['active'] ? 1 : 0,
                 ':rider_id' => $riderId
             ];
             $sql = '
             update riders
             set name = :name
-                , team = :team
+                , team_id = :team_id
                 , active = :active
             where rider_id = :rider_id
             ';
@@ -66,12 +76,12 @@ class Riders {
         try {
             $params = [
                 ':name' => $data['name'],
-                ':team' => $data['team'],
+                ':team_id' => $data['team_id'] ?? null,
                 ':active' => $data['active'] ? 1 : 0
             ];
             $sql = '
-            insert into riders (name, team, active)
-            values (:name, :team, :active)
+            insert into riders (name, team_id, active)
+            values (:name, :team_id, :active)
             ';
             $result = $this->db->execute($sql, $params);
             $this->logger?->info("Rider created: ", $params);

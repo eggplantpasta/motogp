@@ -20,9 +20,9 @@
         </tr>
         {{/ user.admin }}
       {{# riders }}
-        <tr data-rider-id="{{ rider_id }}" data-rider-active="{{ active }}">
+        <tr data-rider-id="{{ rider_id }}" data-rider-active="{{ active }}" data-team-id="{{ team_id }}">
             <td class="rider-name {{ cell-class }}">{{ name }}</td>
-            <td class="rider-team {{ cell-class }}">{{ team }}</td>
+            <td class="team_name {{ cell-class }}">{{ team_name }}</td>
             {{# user.admin }}
             <td class="motogp-button-group">
             <button data-target="modal-edit" onclick="editRider(event)">Edit</button>
@@ -62,9 +62,14 @@
 
             <label>
                 Team
-                <input name="rider-team" id="rider-team" placeholder="Team Name" value="{{form.rider_team}}"
-                aria-invalid="{{#form.errors.team}}true{{/form.errors.team}}" aria-describedby="invalid-rider-team" />
-                <small id="invalid-rider-team">{{form.errors.team}}</small>
+                <select name="rider-team" id="rider-team" aria-label="Select team...">
+                    <option {{^form.team_id}}selected{{/form.team_id}} disabled value="">
+                        Select team...
+                    </option>
+                    {{#teams}}
+                    <option value="{{team_id}}" {{#selected}}selected{{/selected}}>{{team_name}}</option>
+                    {{/teams}}
+                </select>
             </label>
 
             <label>
