@@ -1,0 +1,60 @@
+<!-- layout.mustache -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="MotoGP Bidding.">
+    <link rel="stylesheet" href="/assets/css/pico.orange.min.css">
+    <link rel="stylesheet" href="/assets/css/pico.colors.min.css">
+    <link rel="stylesheet" href="/assets/css/webmin.css">
+    <link rel="stylesheet" href="/assets/css/motogp.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css">
+    <title>{{$ title }}Title Here{{/ title }}</title>
+</head>
+<body>
+    <header class="container">
+        {{> partials/navigation }}
+    </header>
+    <main class="container">
+    {{$ content }}
+        <p>Content Here</p>
+    {{/ content }}
+    {{# user.admin }}
+        <dialog id="modal-edit" {{#form.open_modal}}data-open-on-load="true"{{/form.open_modal}}>
+            <article>
+            {{$ form }}
+                <p>Form Here</p>
+            {{/ form }}
+            </article>
+        </dialog>
+        <dialog id="modal-feedback" {{#page.open_modal}}data-open-on-load="true"{{/page.open_modal}}>
+            <article>
+                <section id="modal-feedback-content" role="alert" class="motogp-form-message {{page.message-class}}">
+                    {{#page.message}}
+                    {{page.message}}
+                    {{/page.message}}
+                </section>
+            </article>
+        </dialog>
+        <dialog id="modal-confirm">
+            <article>
+                <section id="modal-confirm-content" class="motogp-form-message">Are you sure?</section>
+                <fieldset class="grid">
+                    <button type="reset" data-target="modal-confirm" onclick="toggleModal(event)">Cancel</button>
+                    <button type="button" id="modal-confirm-btn">Yes</button>
+                </fieldset>
+            </article>
+        </dialog>
+    {{/ user.admin }}
+    </main>
+    <footer  class="container">
+      <p><i><small>A rewrite of the old bidding website based on <a href="https://www.partymeeple.com.au/contact.html">Noisy's</a> code.</small></i></p>
+    </footer>
+    <script src="/assets/js/webmin.js"></script>
+    <script src="/assets/js/modal.js"></script>
+    <script src="/assets/js/motogp.js"></script>
+
+  </body>
+</html>

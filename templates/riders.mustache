@@ -1,4 +1,4 @@
-{{< partials/layout }}
+{{< partials/layout-edit }}
   {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
 
   {{$ content }}
@@ -36,79 +36,51 @@
       </tbody>
     </table>
 
-    {{# user.admin }}
-    <dialog id="modal-edit" {{#form.open_modal}}data-open-on-load="true"{{/form.open_modal}}>
-        <article>
-
-        <form id="rider-form" method="post" novalidate>
-        <h2>Edit Rider</h2>
-
-        <section id="rider-form-message" role="alert" class="motogp-form-message {{form.message-class}}">
-            {{#form.message}}
-            {{form.message}}
-            {{/form.message}}
-        </section>
-
-        <fieldset>
-            <input type="hidden" name="operation" id="operation" value="update" />
-            <input type="hidden" name="rider-id" id="rider-id" value="{{form.rider_id}}" />
-
-            <label>
-                Rider Name
-                <input name="rider-name" id="rider-name" placeholder="Rider Name" value="{{form.rider_name}}"
-                aria-invalid="{{#form.errors.rider_name}}true{{/form.errors.rider_name}}" aria-describedby="invalid-rider_name" />
-                <small id="invalid-rider_name">{{form.errors.rider_name}}</small>
-            </label>
-
-            <label>
-                Team
-                <select name="rider-team" id="rider-team" aria-label="Select team...">
-                    <option {{^form.team_id}}selected{{/form.team_id}} disabled value="">
-                        Select team...
-                    </option>
-                    {{#teams}}
-                    <option value="{{team_id}}" {{#selected}}selected{{/selected}}>{{team_name}}</option>
-                    {{/teams}}
-                </select>
-            </label>
-
-            <label>
-                Active
-                <input type="checkbox" name="rider-active" id="rider-active" {{#form.rider_active}}checked{{/form.rider_active}} />
-            </label>
-
-            </fieldset>
-
-            <fieldset class="grid">
-
-                <input type="reset" value="Cancel" data-target="modal-edit" onclick="toggleModal(event)"/>
-                <input type="submit" value="Save" data-target="modal-edit" onclick="submitAfterModal(event)"/>
-
-            </fieldset>
-
-            </form>
-        </article>
-    </dialog>
-    <dialog id="modal-feedback" {{#page.open_modal}}data-open-on-load="true"{{/page.open_modal}}>
-        <article>
-            <section id="modal-feedback-content" role="alert" class="motogp-form-message {{page.message-class}}">
-                {{#page.message}}
-                {{page.message}}
-                {{/page.message}}
-            </section>
-        </article>
-    </dialog>
-    <dialog id="modal-confirm">
-        <article>
-            <section id="modal-confirm-content" class="motogp-form-message">Are you sure?</section>
-            <fieldset class="grid">
-                <button type="reset" data-target="modal-confirm" onclick="toggleModal(event)">Cancel</button>
-                <button type="button" id="modal-confirm-btn">Yes</button>
-            </fieldset>
-        </article>
-    </dialog>
-
-    {{/ user.admin }}
-
   {{/ content }}
-{{/ partials/layout }}
+
+  {{$ form }}
+    <form id="rider-form" method="post" novalidate>
+      <h2>Edit Rider</h2>
+
+      <section id="rider-form-message" role="alert" class="motogp-form-message {{form.message-class}}">
+        {{#form.message}}
+        {{form.message}}
+        {{/form.message}}
+      </section>
+
+      <fieldset>
+        <input type="hidden" name="operation" id="operation" value="update" />
+        <input type="hidden" name="rider-id" id="rider-id" value="{{form.rider_id}}" />
+
+        <label>
+          Rider Name
+          <input name="rider-name" id="rider-name" placeholder="Rider Name" value="{{form.rider_name}}"
+          aria-invalid="{{#form.errors.rider_name}}true{{/form.errors.rider_name}}" aria-describedby="invalid-rider_name" />
+          <small id="invalid-rider_name">{{form.errors.rider_name}}</small>
+        </label>
+
+        <label>
+          Team
+          <select name="rider-team" id="rider-team" aria-label="Select team...">
+            <option {{^form.team_id}}selected{{/form.team_id}} disabled value="">
+              Select team...
+            </option>
+            {{#teams}}
+            <option value="{{team_id}}" {{#selected}}selected{{/selected}}>{{team_name}}</option>
+            {{/teams}}
+          </select>
+        </label>
+
+        <label>
+          Active
+          <input type="checkbox" name="rider-active" id="rider-active" {{#form.rider_active}}checked{{/form.rider_active}} />
+        </label>
+      </fieldset>
+
+      <fieldset class="grid">
+        <input type="reset" value="Cancel" data-target="modal-edit" onclick="toggleModal(event)"/>
+        <input type="submit" value="Save" data-target="modal-edit" onclick="submitAfterModal(event)"/>
+      </fieldset>
+    </form>
+  {{/ form }}
+{{/ partials/layout-edit }}
