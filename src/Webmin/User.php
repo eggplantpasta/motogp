@@ -13,6 +13,7 @@ class User {
     public $emailErr = '';
     public $password = '';
     public $passwordErr = '';
+    public $loginErr = '';
 
     private $db;
     private ?LoggerInterface $logger;
@@ -184,8 +185,21 @@ class User {
 
     public function logout(): void
     {
-        // Clear session or cookie here as needed
-        session_unset();
+        $_SESSION = [];
+
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+
+            setcookie(session_name(), '', [
+                'expires' => time() - 42000,
+                'path' => $params['path'],
+                'domain' => $params['domain'],
+                'secure' => $params['secure'],
+                'httponly' => $params['httponly'],
+                'samesite' => $params['samesite'] ?? 'Lax',
+            ]);
+        }
+
         session_destroy();
     }
 
@@ -195,26 +209,65 @@ class User {
             throw new \Exception('Database connection required for login.');
         }
 
-        $sql = "SELECT * FROM users WHERE username = :username or email = :username";
-        $results = $this->db->query($sql, ['username' => $this->username]);
+        $this->loginErr = '';
 
-        if (!empty($results)) {
-            $hashedPassword = $results[0]['password'];
-            if (password_verify($this->password, $hashedPassword)) {
-                $results[0]['password'] = null;  // Clear password for security
-                // Set session and cookie
-                $_SESSION['user'] = $results[0];
-                $this->logger?->info("User logged in successfully: " . $this->username);
+        $sql = "SELECT * FROM users
+                WHERE username = :username
+                OR email = :username";
 
-                return true;
-            } else {
-                $this->logger?->warning("Login attempt with incorrect password for user: " . $this->username);
-            }
-        } else {
-            $this->logger?->warning("Login attempt with non-existent user: " . $this->username);
+        $results = $this->db->query($sql, [
+            'username' => $this->username
+        ]);
+
+        if (empty($results)) {
+            $this->logger?->warning(
+                "Login attempt with non-existent user: " . $this->username
+            );
+
+            $this->loginErr = 'Invalid username or password.';
+            return false;
         }
 
-        return false;
+        $user = $results[0];
+
+        if (!password_verify($this->password, $user['password'])) {
+            $this->logger?->warning(
+                "Login attempt with incorrect password for user: " . $this->username
+            );
+
+            $this->loginErr = 'Invalid username or password.';
+            return false;
+        }
+
+        if (empty($user['approved_at'])) {
+            $this->logger?->info(
+                "Login attempt for unapproved user: " . $this->username
+            );
+
+            $this->loginErr = 'Your account is awaiting approval.';
+            return false;
+        }
+
+        if (!empty($user['disabled_at'])) {
+            $this->logger?->info(
+                "Login attempt for disabled user: " . $this->username
+            );
+
+            $this->loginErr = 'Your account has been disabled.';
+            return false;
+        }
+
+        $user['password'] = null;
+
+        session_regenerate_id(true);
+
+        $_SESSION['user'] = $user;
+
+        $this->logger?->info(
+            "User logged in successfully: " . $this->username
+        );
+
+        return true;
     }
 
     public function getSessionUser(): array

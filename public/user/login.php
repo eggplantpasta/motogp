@@ -38,17 +38,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If no errors, proceed with login logic (e.g., check credentials)
     if (empty($user->usernameErr) && empty($user->passwordErr)) {
         if ($user->login()) {
-            // Redirect after successful login
             header("Location: /user/account.php");
             exit();
-        } else {
-            $user->usernameErr = 'Invalid username or password.';
-            $user->passwordErr = 'Invalid username or password.';
-            $data['form']['usernameErr'] = "";
-            $data['form']['usernameInvalid'] = 'true';
-            $data['form']['passwordErr'] = $user->passwordErr;
-            $data['form']['passwordInvalid'] = 'true';
         }
+
+        $data['form']['passwordErr'] = $user->loginErr;
+        $data['form']['passwordInvalid'] = 'true';
     }
 }
 

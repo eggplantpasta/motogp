@@ -45,14 +45,14 @@ All work in this TODO should follow the project's deliberately simple PHP archit
 
 ## Phase 2 — Registration and login approval flow
 
-- [ ] Keep public self-registration available.
-- [ ] New registrations should default to **unapproved**.
-- [ ] Prevent unapproved users from logging in.
-- [ ] Display a clear login message such as "Your account is awaiting approval."
-- [ ] Distinguish an unapproved account from an invalid username/password without exposing unnecessary account information.
-- [ ] Decide whether disabled accounts should receive a separate message.
-- [ ] Regenerate the PHP session ID after successful login.
-- [ ] Review logout behaviour and session-cookie cleanup.
+- [x] Keep public self-registration available.
+- [x] New registrations should default to **unapproved**.
+- [x] Prevent unapproved users from logging in.
+- [x] Display a clear login message such as "Your account is awaiting approval."
+- [x] Distinguish an unapproved account from an invalid username/password without exposing unnecessary account information.
+- [x] Decide whether disabled accounts should receive a separate message.
+- [x] Regenerate the PHP session ID after successful login.
+- [x] Review logout behaviour and session-cookie cleanup.
 
 ## Phase 3 — User account editing
 
