@@ -7,10 +7,12 @@ create table if not exists countries (
 
 create table if not exists users (
     user_id integer primary key,
-    username text not null,
+    username text not null unique collate nocase,
     password text not null,
-    email text not null,
+    email text not null unique collate nocase,
     admin integer not null default 0,
+    approved_at datetime default null,
+    disabled_at datetime default null,
     balance integer not null default 20,
     created_at datetime not null default current_timestamp
 );

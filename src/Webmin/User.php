@@ -27,10 +27,11 @@ class User {
         }
     }
 
-    public function validateUsername(): bool
+    public function validateUsername(?int $userId = null): bool
     {
+        $this->usernameErr = '';
 
-        if (empty(trim($this->username)) || is_null($this->username)) {
+        if (empty(trim($this->username))) {
             $this->usernameErr = 'Username cannot be empty.';
         } elseif (strlen($this->username) < 3 || strlen($this->username) > 20) {
             $this->usernameErr = 'Username must be between 3 and 20 characters.';
@@ -38,9 +39,19 @@ class User {
             $this->usernameErr = 'Username can only contain letters, numbers, and underscores.';
         }
 
-        if ($this->db) {  // Only check DB if $db is provided
-            $sql = "SELECT user_id FROM users WHERE username = :username";
-            $results = $this->db->query($sql, ['username' => $this->username]);
+        if (empty($this->usernameErr) && $this->db) {
+            $sql = "SELECT user_id
+                    FROM users
+                    WHERE username = :username";
+
+            $params = ['username' => $this->username];
+
+            if ($userId !== null) {
+                $sql .= " AND user_id != :user_id";
+                $params['user_id'] = $userId;
+            }
+
+            $results = $this->db->query($sql, $params);
 
             if (!empty($results)) {
                 $this->usernameErr = 'That username is already taken.';
@@ -50,12 +61,28 @@ class User {
         return empty($this->usernameErr);
     }
 
-    public function validateEmail(): bool
+    public function validateEmail(?int $userId = null): bool
     {
         if (empty(trim($this->email)) || is_null($this->email)) {
             $this->emailErr = 'Email cannot be empty.';
         } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $this->emailErr = 'Invalid email format.';
+        }
+
+        if (empty($this->emailErr) && $this->db) {
+            $sql = "SELECT user_id FROM users WHERE email = :email";
+            $params = ['email' => $this->email];
+
+            if ($userId !== null) {
+                $sql .= " AND user_id != :user_id";
+                $params['user_id'] = $userId;
+            }
+
+            $results = $this->db->query($sql, $params);
+
+            if (!empty($results)) {
+                $this->emailErr = 'That email address is already registered.';
+            }
         }
 
         return empty($this->emailErr);
@@ -102,7 +129,22 @@ class User {
             $this->db->query($sql, $params);
             return true;
         } catch (\PDOException $e) {
-            $this->logger?->error("User registration failed: " . $e->getMessage(), ['username' => $this->username, 'email' => $this->email]);
+            $message = $e->getMessage();
+
+            if (str_contains($message, 'users.username')) {
+                $this->usernameErr = 'That username is already taken.';
+            } elseif (str_contains($message, 'users.email')) {
+                $this->emailErr = 'That email address is already registered.';
+            }
+
+            $this->logger?->error(
+                'User registration failed: ' . $message,
+                [
+                    'username' => $this->username,
+                    'email' => $this->email,
+                ]
+            );
+
             return false;
         }
     }

@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Process form submission
     $user->username = trim($_POST['username'] ?? '');
-    $user->email = trim($_POST['email'] ?? '');
+    $user->email = strtolower(trim($_POST['email'] ?? ''));
     $user->password = trim($_POST['password'] ?? '');
 
     // Validate inputs
@@ -45,10 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // If no errors, proceed with registration logic (e.g., save to database)
     if (empty($user->usernameErr) && empty($user->emailErr) && empty($user->passwordErr)) {
-        $user->register();
-        // Redirect to login page or another page after successful registration
-        header("Location: /user/login.php");
-        exit();
+        if ($user->register()) {
+            header("Location: /user/login.php");
+            exit();
+        }
+
+        $data['form']['usernameErr'] = $user->usernameErr;
+        $data['form']['usernameInvalid'] = !empty($user->usernameErr) ? 'true' : 'false';
+        $data['form']['emailErr'] = $user->emailErr;
+        $data['form']['emailInvalid'] = !empty($user->emailErr) ? 'true' : 'false';
     }
 }
 
