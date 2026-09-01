@@ -33,15 +33,15 @@ All work in this TODO should follow the project's deliberately simple PHP archit
 
 ## Phase 1 — Account data and validation
 
-- [ ] Add a unique constraint/index for `users.username`.
-- [ ] Add a unique constraint/index for `users.email`.
-- [ ] Add an approval field to `users`, e.g. `approved_at datetime null`.
-- [ ] Consider adding account status fields if useful, e.g. `disabled_at datetime null`.
-- [ ] Decide the expiry period for unapproved accounts.
-- [ ] Update registration validation so duplicate email addresses are rejected cleanly.
-- [ ] Update username validation so account editing does not treat the current user's own username as a duplicate.
-- [ ] Add email uniqueness validation when editing an account.
-- [ ] Make database-level uniqueness errors return useful form errors rather than generic failures.
+- [x] Add a unique constraint/index for `users.username`.
+- [x] Add a unique constraint/index for `users.email`.
+- [x] Add an approval field to `users`, e.g. `approved_at datetime null`.
+- [x] Consider adding account status fields if useful, e.g. `disabled_at datetime null`.
+- [x] Decide the expiry period for unapproved accounts.
+- [x] Update registration validation so duplicate email addresses are rejected cleanly.
+- [x] Update username validation so account editing does not treat the current user's own username as a duplicate.
+- [x] Add email uniqueness validation when editing an account.
+- [x] Make database-level uniqueness errors return useful form errors rather than generic failures.
 
 ## Phase 2 — Registration and login approval flow
 
