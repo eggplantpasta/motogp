@@ -3,6 +3,7 @@
 use Webmin\Template;
 use Webmin\User;
 use Webmin\Database;
+use Webmin\Csrf;
 
 $tpl = new Template($config['template']);
 
@@ -17,6 +18,11 @@ $data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]);
 $data['user'] = $user->getSessionUser();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
+        http_response_code(403);
+        exit('Invalid CSRF token.');
+    }
 
     $db = new Database($config['database']['dsn']);
     $user = new User($db);
@@ -90,4 +96,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+$data['form']['csrfToken'] = Csrf::token();
 echo $tpl->render('user/edit-account', $data);

@@ -64,6 +64,8 @@ class User {
 
     public function validateEmail(?int $userId = null): bool
     {
+        $this->emailErr = '';
+
         if (empty(trim($this->email)) || is_null($this->email)) {
             $this->emailErr = 'Email cannot be empty.';
         } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
@@ -91,6 +93,8 @@ class User {
 
     public function validatePassword(): bool
     {
+        $this->passwordErr = '';
+
         if (empty($this->password)) {
             $this->passwordErr = 'Password cannot be empty.';
         } elseif (strlen($this->password) < 8) {

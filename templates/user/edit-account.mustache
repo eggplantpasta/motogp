@@ -30,7 +30,7 @@
     <input
         type="password"
         name="password"
-        placeholder="********"
+        placeholder=""
         autocomplete="new-password"
         aria-invalid="{{form.passwordInvalid}}"
         aria-describedby="invalid-password" />
@@ -45,6 +45,10 @@
             class="motogp-secondary" />
         <input type="submit" value="Change Details" />
     </fieldset>
+    <input
+    type="hidden"
+    name="csrf_token"
+    value="{{form.csrfToken}}" />
 </form>
 {{/ content }}
 
