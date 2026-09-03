@@ -19,15 +19,30 @@
       aria-invalid="{{form.emailInvalid}}" aria-describedby="invalid-email" value="{{form.email}}" />
       <small id="invalid-email">{{form.emailErr}}</small>
     </label>
-      New Password
-      <button class="password-toggle" type="button" tabindex="-1" aria-label="Toggle password visibility"></button>
-      <input type="password" name="password" placeholder="********" autocomplete="new-password"
-      aria-invalid="{{form.passwordInvalid}}" aria-describedby="invalid-password" value="{{form.password}}" />
-      <small id="invalid-password">{{form.passwordErr}}</small>
+    <label>
+    New Password
+    <button
+        class="password-toggle"
+        type="button"
+        tabindex="-1"
+        aria-label="Toggle password visibility">
+    </button>
+    <input
+        type="password"
+        name="password"
+        placeholder="********"
+        autocomplete="new-password"
+        aria-invalid="{{form.passwordInvalid}}"
+        aria-describedby="invalid-password" />
+    <small id="invalid-password">{{form.passwordErr}}</small>
     </label>
     </fieldset>
     <fieldset class="grid">
-        <input type="reset" value="Cancel" class="motogp-secondary" />
+        <input
+            type="button"
+            value="Cancel"
+            onclick="window.location.href='/user/account.php'"
+            class="motogp-secondary" />
         <input type="submit" value="Change Details" />
     </fieldset>
 </form>

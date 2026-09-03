@@ -150,23 +150,59 @@ class User {
         }
     }
 
-    public function updatePassword($userId, $password): bool
+    public function updateAccount(
+        int $userId,
+        ?string $username = null,
+        ?string $email = null,
+        ?string $password = null
+    ): bool
     {
         if (!$this->db) {
-            throw new \Exception('Database connection required for updating password.');
+            throw new \Exception('Database connection required for updating account.');
         }
 
-        $sql = "UPDATE users SET password = :password WHERE user_id = :user_id";
-        $params = [
-            'password' => password_hash($password, PASSWORD_DEFAULT),
-            'user_id' => $userId,
-        ];
+        $fields = [];
+        $params = ['user_id' => $userId];
+
+        if ($username !== null) {
+            $fields[] = 'username = :username';
+            $params['username'] = $username;
+        }
+
+        if ($email !== null) {
+            $fields[] = 'email = :email';
+            $params['email'] = $email;
+        }
+
+        if ($password !== null) {
+            $fields[] = 'password = :password';
+            $params['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+
+        if (empty($fields)) {
+            return true;
+        }
+
+        $sql = 'UPDATE users SET '
+            . implode(', ', $fields)
+            . ' WHERE user_id = :user_id';
 
         try {
             $this->db->query($sql, $params);
             return true;
         } catch (\PDOException $e) {
-            $this->logger?->error("Password update failed for user ID: " . $userId . ". " . $e->getMessage());
+            $message = $e->getMessage();
+
+            if (str_contains($message, 'users.username')) {
+                $this->usernameErr = 'That username is already taken.';
+            } elseif (str_contains($message, 'users.email')) {
+                $this->emailErr = 'That email address is already registered.';
+            }
+
+            $this->logger?->error(
+                'Account update failed for user ID: ' . $userId . '. ' . $message
+            );
+
             return false;
         }
     }
