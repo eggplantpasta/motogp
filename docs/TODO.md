@@ -56,20 +56,20 @@ All work in this TODO should follow the project's deliberately simple PHP archit
 
 ## Phase 3 — User account editing
 
-- [ ] Make Edit Account genuinely optional-field based:
+- [x] Make Edit Account genuinely optional-field based:
   - blank username = leave unchanged
   - blank email = leave unchanged
   - blank password = leave unchanged
-- [ ] Allow username changes.
-- [ ] Allow email changes.
-- [ ] Allow password changes independently of username/email.
-- [ ] Update the session copy of the user immediately after username/email changes.
-- [ ] Only redirect after a successful database update.
+- [x] Allow username changes.
+- [x] Allow email changes.
+- [x] Allow password changes independently of username/email.
+- [x] Update the session copy of the user immediately after username/email changes.
+- [x] Only redirect after a successful database update.
 - [ ] Surface database/update errors on the form.
-- [ ] Remove the `Utility::dump($data)` debug output from `public/user/edit-account.php`.
-- [ ] Fix the password label markup in `templates/user/edit-account.mustache`.
-- [ ] Replace the current reset-style Cancel control with a link/button back to the account page.
-- [ ] Add CSRF protection to account-changing forms.
+- [x] Remove the `Utility::dump($data)` debug output from `public/user/edit-account.php`.
+- [x] Fix the password label markup in `templates/user/edit-account.mustache`.
+- [x] Replace the current reset-style Cancel control with a link/button back to the account page.
+- [x] Add CSRF protection to account-changing forms.
 
 ## Phase 4 — Admin user-management page
 
@@ -117,7 +117,7 @@ Create an admin-only user management area under `public/admin`.
 
 ## Phase 5 — Expiry of unapproved accounts
 
-- [ ] Choose the unapproved-account lifetime.
+- [x] Choose the unapproved-account lifetime.
 - [ ] Implement a cleanup mechanism for expired unapproved users.
 - [ ] Ensure approved users are never affected by this cleanup.
 - [ ] Decide whether deletion should be immediate or preceded by a disabled/expired state.
@@ -141,7 +141,7 @@ The project currently uses `db/schema.sql`, but existing deployed databases will
 - [ ] Create migration SQL for user approval/status and unique constraints.
 - [ ] Check existing production data for duplicate usernames/emails before adding constraints.
 - [ ] Document migration/deployment steps.
-- [ ] Ensure `db/reset.sh` still produces the correct development schema.
+- [x] Ensure `db/reset.sh` still produces the correct development schema.
 
 ## Phase 7 — Tests
 

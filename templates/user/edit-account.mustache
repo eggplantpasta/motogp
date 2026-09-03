@@ -5,7 +5,12 @@
 {{$ content }}
 <form action="{{form.action}}" method="post" novalidate>
   <h1>Edit Account</h1>
-<p>Update your account information below. Ignore fields you want to leave unchanged.</p>
+  <p>Update your account information below. Ignore fields you want to leave unchanged.</p>
+    {{#form.accountErr}}
+    <p class="form-error" role="alert">
+        {{form.accountErr}}
+    </p>
+    {{/form.accountErr}}
   <fieldset>
     <label>
       New User name

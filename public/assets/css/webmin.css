@@ -5,14 +5,14 @@
 }
 
 /* Webmin CSS */
-header a, header a:visited, 
+header a, header a:visited,
 footer a, footer a:visited{
   text-decoration-color: var(--pico-primary);
 }
 
 header a:hover,  footer a:hover {
   --pico-primary-hover: var(--pico-primary);
-} 
+}
 
 .webmin-highlight {
   color: var(--pico-primary);
@@ -27,7 +27,7 @@ nav .webmin-nav-disabled {
 /* Form styling */
 
 form {
-  margin: 0 auto; 
+  margin: 0 auto;
   max-width: 600px;
 }
 
@@ -56,4 +56,13 @@ label {
 
 input[type="password"] {
     background-image: var(--webmin-icon-eye-closed);
+}
+
+.form-error {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--pico-del-color);
+  border-radius: var(--pico-border-radius);
+  color: var(--pico-del-color);
+  background: color-mix(in srgb, var(--pico-del-color) 8%, transparent);
 }

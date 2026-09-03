@@ -93,6 +93,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data['form']['emailErr'] = $user->emailErr;
         $data['form']['emailInvalid'] =
             !empty($user->emailErr) ? 'true' : 'false';
+
+        // Set the account error message if any
+        $data['form']['accountErr'] = $user->accountErr;
     }
 }
 

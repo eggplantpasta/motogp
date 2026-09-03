@@ -14,6 +14,7 @@ class User {
     public $password = '';
     public $passwordErr = '';
     public $loginErr = '';
+    public $accountErr = '';
 
     private $db;
     private ?LoggerInterface $logger;
@@ -187,7 +188,7 @@ class User {
             return true;
         }
 
-        $sql = 'UPDATE users SET '
+        $sql = 'UPDATE userz SET '
             . implode(', ', $fields)
             . ' WHERE user_id = :user_id';
 
@@ -202,6 +203,8 @@ class User {
             } elseif (str_contains($message, 'users.email')) {
                 $this->emailErr = 'That email address is already registered.';
             }
+
+            $this->accountErr = 'Unable to update your account. Please try again.';
 
             $this->logger?->error(
                 'Account update failed for user ID: ' . $userId . '. ' . $message
