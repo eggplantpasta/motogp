@@ -96,11 +96,22 @@ Create an admin-only user management area under `public/admin`.
 - [x] Revoke/disable access for an approved user.
 - [x] Promote a user to admin.
 - [x] Remove admin status.
-- [ ] Edit a user's balance.
-- [ ] Delete a user.
-- [ ] Require confirmation for destructive actions.
+- [x] Edit a user's balance.
 - [x] Prevent an administrator from accidentally deleting or demoting the final admin account.
 - [x] Admins cannot edit username/email; users manage these themselves
+
+### User deletion and cleanup
+
+- [ ] Enable SQLite foreign key enforcement in the application connection
+- [ ] Review all foreign keys referencing `users`
+- [ ] Add `ON DELETE CASCADE` where dependent data should be removed with a user
+- [ ] Add server-side user deletion
+- [ ] Prevent deletion of the final active administrator
+- [ ] Detect whether a user has associated data
+- [ ] Add Delete action to admin user management
+- [ ] Require confirmation before deleting a user
+- [ ] Show stronger confirmation when the user has associated data
+- [ ] Hard-delete unapproved accounts older than 7 days
 
 ### Security
 
