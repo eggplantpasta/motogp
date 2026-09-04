@@ -7,6 +7,10 @@
     <li><a href="/riders.php" class="motogp-secondary">riders</a></li>
     <li><a href="/ladder.php" class="motogp-secondary">ladder</a></li>
 
+    {{#user.admin}}
+    <li><a href="/admin/index.php" class="motogp-secondary">admin</a></li>
+    {{/user.admin}}
+
     <li>
         {{#user}}
             <span class="webmin-highlight"><a href="/user/account.php">{{username}}</a></span>

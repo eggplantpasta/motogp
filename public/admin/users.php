@@ -104,7 +104,8 @@ foreach ($data['users'] as &$account) {
         && empty($account['disabled_at']);
 
     $account['canEnable'] =
-        !empty($account['disabled_at']);
+        !empty($account['approved_at'])
+        && !empty($account['disabled_at']);
 
     $account['canPromote'] =
         !$account['admin']
@@ -120,7 +121,7 @@ foreach ($data['users'] as &$account) {
 }
 unset($account);
 
-$action = $_POST['action'] ?? '';
-$userId = (int)($_POST['user_id'] ?? 0);
+$data['user'] = $user->getSessionUser();
 $data['csrfToken'] = Csrf::token();
+
 echo $tpl->render('admin/users', $data);
