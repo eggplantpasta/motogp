@@ -103,6 +103,24 @@
             </form>
             {{/canEnable}}
 
+            {{^isLastActiveAdmin}}
+            <form
+                method="post"
+                action="/admin/users.php"
+                {{#hasBids}}
+                onsubmit="return confirm('This user has existing bids. Deleting this account will permanently delete the user and all of their bids. This cannot be undone.');"
+                {{/hasBids}}
+                {{^hasBids}}
+                onsubmit="return confirm('Delete this user? This cannot be undone.');"
+                {{/hasBids}}
+            >
+                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
+                <input type="hidden" name="user_id" value="{{user_id}}">
+                <input type="hidden" name="action" value="delete">
+                <button type="submit">Delete</button>
+            </form>
+            {{/isLastActiveAdmin}}
+
         </td>
       </tr>
       {{/users}}

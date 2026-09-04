@@ -89,6 +89,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             break;
 
+        case 'delete':
+            if (!$user->deleteUser($userId)) {
+                http_response_code(400);
+                exit(
+                    'Unable to delete this account. '
+                    . 'The account may be the final active administrator.'
+                );
+            }
+            break;
+
         default:
             http_response_code(400);
             exit('Invalid action.');
@@ -109,6 +119,11 @@ foreach ($data['users'] as &$account) {
         $account['status'] = 'Active';
     }
 
+    $account['isLastActiveAdmin'] =
+        $user->isLastActiveAdmin(
+            (int)$account['user_id']
+        );
+
     $account['canApprove'] =
         empty($account['approved_at']);
 
@@ -123,7 +138,13 @@ foreach ($data['users'] as &$account) {
     $account['canSetAdmin'] =
         !empty($account['approved_at'])
         && empty($account['disabled_at'])
-        && !$user->isLastActiveAdmin((int)$account['user_id']);
+        && !$account['isLastActiveAdmin'];
+
+    $account['hasBids'] = $user->hasBids(
+        (int)$account['user_id']
+    );
+
+
 
 }
 unset($account);

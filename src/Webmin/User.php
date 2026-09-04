@@ -586,4 +586,63 @@ class User {
         }
     }
 
+    public function deleteUser(int $userId): bool
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for deleting user.'
+            );
+        }
+
+        if ($this->isLastActiveAdmin($userId)) {
+            $this->logger?->warning(
+                'Attempt to delete final active administrator.',
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+
+        try {
+            $rows = $this->db->execute(
+                'DELETE FROM users WHERE user_id = :user_id',
+                ['user_id' => $userId]
+            );
+
+            if ($rows !== 1) {
+                return false;
+            }
+
+            $this->logger?->info(
+                'User deleted.',
+                ['user_id' => $userId]
+            );
+
+            return true;
+        } catch (\PDOException $e) {
+            $this->logger?->error(
+                'User deletion failed: ' . $e->getMessage(),
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+    }
+
+    public function hasBids(int $userId): bool
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for checking user bids.'
+            );
+        }
+
+        $result = $this->db->queryOne(
+            'SELECT 1 FROM bids WHERE user_id = :user_id LIMIT 1',
+            ['user_id' => $userId]
+        );
+
+        return $result !== null;
+    }
+
 }
