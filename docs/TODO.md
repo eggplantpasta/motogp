@@ -77,22 +77,18 @@ Create an admin-only user management area under `public/admin`.
 
 ### User list
 
-- [ ] Add `/admin/users.php`.
-- [ ] Add a corresponding Mustache template.
-- [ ] Restrict access using `User::isAdmin()`.
-- [ ] Show:
+- [x] Add `/admin/users.php`.
+- [x] Add a corresponding Mustache template.
+- [x] Restrict access using `User::isAdmin()`.
+- [x] Show:
   - username
   - email
   - approval status
   - admin status
   - balance
   - registration date
-- [ ] Make pending/unapproved users easy to identify.
-- [ ] Optionally provide filters for:
-  - pending
-  - approved
-  - disabled
-  - admins
+- [x] Make pending/unapproved users easy to identify.
+~~- [ ] Optionally provide filters for:~~
 
 ### Admin actions
 
