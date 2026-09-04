@@ -388,6 +388,15 @@ class User {
             );
         }
 
+        if ($this->isLastActiveAdmin($userId)) {
+            $this->logger?->warning(
+                'Attempt to disable final active administrator.',
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+
         $sql = "
             UPDATE users
             SET disabled_at = CURRENT_TIMESTAMP
@@ -452,6 +461,114 @@ class User {
 
             return false;
         }
+    }
+
+    public function promote(int $userId): bool
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for promoting user.'
+            );
+        }
+
+        $sql = "
+            UPDATE users
+            SET admin = 1
+            WHERE user_id = :user_id
+            AND approved_at IS NOT NULL
+            AND disabled_at IS NULL
+        ";
+
+        try {
+            $this->db->query($sql, ['user_id' => $userId]);
+
+            $this->logger?->info(
+                'User promoted to administrator.',
+                ['user_id' => $userId]
+            );
+
+            return true;
+        } catch (\PDOException $e) {
+            $this->logger?->error(
+                'User promotion failed: ' . $e->getMessage(),
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+    }
+
+    public function demote(int $userId): bool
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for demoting user.'
+            );
+        }
+
+        if ($this->isLastActiveAdmin($userId)) {
+            $this->logger?->warning(
+                'Attempt to demote final active administrator.',
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+
+        $sql = "
+            UPDATE users
+            SET admin = 0
+            WHERE user_id = :user_id
+            AND admin = 1
+        ";
+
+        try {
+            $this->db->query($sql, ['user_id' => $userId]);
+
+            $this->logger?->info(
+                'Administrator demoted.',
+                ['user_id' => $userId]
+            );
+
+            return true;
+        } catch (\PDOException $e) {
+            $this->logger?->error(
+                'User demotion failed: ' . $e->getMessage(),
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+    }
+
+    private function isLastActiveAdmin(int $userId): bool
+    {
+        $sql = "
+            SELECT COUNT(*) AS admin_count
+            FROM users
+            WHERE admin = 1
+            AND approved_at IS NOT NULL
+            AND disabled_at IS NULL
+        ";
+
+        $results = $this->db->query($sql);
+
+        if ((int)$results[0]['admin_count'] !== 1) {
+            return false;
+        }
+
+        $sql = "
+            SELECT user_id
+            FROM users
+            WHERE user_id = :user_id
+            AND admin = 1
+            AND approved_at IS NOT NULL
+            AND disabled_at IS NULL
+        ";
+
+        return !empty(
+            $this->db->query($sql, ['user_id' => $userId])
+        );
     }
 
 }

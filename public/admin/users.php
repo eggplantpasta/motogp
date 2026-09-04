@@ -44,8 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         case 'disable':
             if (!$user->disable($userId)) {
-                http_response_code(500);
-                exit('Unable to disable user.');
+                http_response_code(400);
+                exit(
+                    'Unable to disable this account. '
+                    . 'The account may be the final active administrator.'
+                );
             }
             break;
 
@@ -53,6 +56,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$user->enable($userId)) {
                 http_response_code(500);
                 exit('Unable to enable user.');
+            }
+            break;
+
+        case 'promote':
+            if (!$user->promote($userId)) {
+                http_response_code(500);
+                exit('Unable to promote user.');
+            }
+            break;
+
+        case 'demote':
+            if (!$user->demote($userId)) {
+                http_response_code(400);
+                exit(
+                    'Unable to remove administrator access. '
+                    . 'The account may be the final active administrator.'
+                );
             }
             break;
 
@@ -85,6 +105,16 @@ foreach ($data['users'] as &$account) {
 
     $account['canEnable'] =
         !empty($account['disabled_at']);
+
+    $account['canPromote'] =
+        !$account['admin']
+        && !empty($account['approved_at'])
+        && empty($account['disabled_at']);
+
+    $account['canDemote'] =
+        $account['admin']
+        && !empty($account['approved_at'])
+        && empty($account['disabled_at']);
 
     $account['adminDisplay'] = $account['admin'] ? 'Yes' : 'No';
 }

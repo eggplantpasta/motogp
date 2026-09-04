@@ -92,15 +92,15 @@ Create an admin-only user management area under `public/admin`.
 
 ### Admin actions
 
-- [ ] Approve a pending user.
-- [ ] Revoke/disable access for an approved user.
-- [ ] Promote a user to admin.
-- [ ] Remove admin status.
+- [x] Approve a pending user.
+- [x] Revoke/disable access for an approved user.
+- [x] Promote a user to admin.
+- [x] Remove admin status.
 - [ ] Edit a user's balance.
 - [ ] Delete a user.
 - [ ] Require confirmation for destructive actions.
-- [ ] Prevent an administrator from accidentally deleting or demoting the final admin account.
-- [ ] Decide whether admins should be able to edit username/email directly.
+- [x] Prevent an administrator from accidentally deleting or demoting the final admin account.
+- [x] Admins cannot edit username/email; users manage these themselves
 
 ### Security
 

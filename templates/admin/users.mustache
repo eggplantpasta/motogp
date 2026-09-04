@@ -58,6 +58,25 @@
                 <button type="submit">Enable</button>
             </form>
             {{/canEnable}}
+
+            {{#canPromote}}
+            <form method="post" action="/admin/users.php" style="display:inline">
+                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
+                <input type="hidden" name="user_id" value="{{user_id}}">
+                <input type="hidden" name="action" value="promote">
+                <button type="submit">Make Admin</button>
+            </form>
+            {{/canPromote}}
+
+            {{#canDemote}}
+            <form method="post" action="/admin/users.php" style="display:inline">
+                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
+                <input type="hidden" name="user_id" value="{{user_id}}">
+                <input type="hidden" name="action" value="demote">
+                <button type="submit" class="secondary">Remove Admin</button>
+            </form>
+            {{/canDemote}}
+
         </td>
       </tr>
       {{/users}}
