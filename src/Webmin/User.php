@@ -188,7 +188,7 @@ class User {
             return true;
         }
 
-        $sql = 'UPDATE userz SET '
+        $sql = 'UPDATE user SET '
             . implode(', ', $fields)
             . ' WHERE user_id = :user_id';
 
