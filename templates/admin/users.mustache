@@ -1,0 +1,76 @@
+{{< partials/layout }}
+
+{{$ title }}User Administration{{/ title }}
+
+{{$ content }}
+
+<h1>User Administration</h1>
+
+<p>Manage registered MotoGP users.</p>
+
+<figure>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Status</th>
+        <th scope="col">Admin</th>
+        <th scope="col">Balance</th>
+        <th scope="col">Registered</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#users}}
+      <tr>
+        <td>{{username}}</td>
+        <td>{{email}}</td>
+        <td>{{status}}</td>
+        <td>{{adminDisplay}}</td>
+        <td>{{balance}}</td>
+        <td>{{created_at}}</td>
+        <td>
+            {{#canApprove}}
+            <form method="post" action="/admin/users.php" style="display:inline">
+                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
+                <input type="hidden" name="user_id" value="{{user_id}}">
+                <input type="hidden" name="action" value="approve">
+                <button type="submit">Approve</button>
+            </form>
+            {{/canApprove}}
+
+            {{#canDisable}}
+            <form method="post" action="/admin/users.php" style="display:inline">
+                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
+                <input type="hidden" name="user_id" value="{{user_id}}">
+                <input type="hidden" name="action" value="disable">
+                <button type="submit" class="secondary">Disable</button>
+            </form>
+            {{/canDisable}}
+
+            {{#canEnable}}
+            <form method="post" action="/admin/users.php" style="display:inline">
+                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
+                <input type="hidden" name="user_id" value="{{user_id}}">
+                <input type="hidden" name="action" value="enable">
+                <button type="submit">Enable</button>
+            </form>
+            {{/canEnable}}
+        </td>
+      </tr>
+      {{/users}}
+
+      {{^users}}
+      <tr>
+        <td colspan="6">No users found.</td>
+      </tr>
+      {{/users}}
+    </tbody>
+  </table>
+</figure>
+
+{{/ content }}
+
+{{/ partials/layout }}

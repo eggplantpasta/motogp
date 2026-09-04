@@ -317,4 +317,141 @@ class User {
     {
         return $_SESSION['user'] ?? [];
     }
+
+    public function getUsers(): array
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for retrieving users.'
+            );
+        }
+
+        $sql = "
+            SELECT
+                user_id,
+                username,
+                email,
+                admin,
+                approved_at,
+                disabled_at,
+                balance,
+                created_at
+            FROM users
+            ORDER BY created_at DESC
+        ";
+
+        return $this->db->query($sql);
+    }
+
+    public function approve(int $userId): bool
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for approving user.'
+            );
+        }
+
+        $sql = "
+            UPDATE users
+            SET approved_at = CURRENT_TIMESTAMP,
+                disabled_at = NULL
+            WHERE user_id = :user_id
+            AND approved_at IS NULL
+        ";
+
+        try {
+            $this->db->query($sql, [
+                'user_id' => $userId,
+            ]);
+
+            $this->logger?->info(
+                'User approved.',
+                ['user_id' => $userId]
+            );
+
+            return true;
+        } catch (\PDOException $e) {
+            $this->logger?->error(
+                'User approval failed: ' . $e->getMessage(),
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+    }
+
+    public function disable(int $userId): bool
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for disabling user.'
+            );
+        }
+
+        $sql = "
+            UPDATE users
+            SET disabled_at = CURRENT_TIMESTAMP
+            WHERE user_id = :user_id
+            AND approved_at IS NOT NULL
+            AND disabled_at IS NULL
+        ";
+
+        try {
+            $this->db->query($sql, [
+                'user_id' => $userId,
+            ]);
+
+            $this->logger?->info(
+                'User disabled.',
+                ['user_id' => $userId]
+            );
+
+            return true;
+        } catch (\PDOException $e) {
+            $this->logger?->error(
+                'User disable failed: ' . $e->getMessage(),
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+    }
+
+    public function enable(int $userId): bool
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for enabling user.'
+            );
+        }
+
+        $sql = "
+            UPDATE users
+            SET disabled_at = NULL
+            WHERE user_id = :user_id
+            AND approved_at IS NOT NULL
+            AND disabled_at IS NOT NULL
+        ";
+
+        try {
+            $this->db->query($sql, [
+                'user_id' => $userId,
+            ]);
+
+            $this->logger?->info(
+                'User enabled.',
+                ['user_id' => $userId]
+            );
+
+            return true;
+        } catch (\PDOException $e) {
+            $this->logger?->error(
+                'User enable failed: ' . $e->getMessage(),
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+    }
+
 }

@@ -65,7 +65,7 @@ All work in this TODO should follow the project's deliberately simple PHP archit
 - [x] Allow password changes independently of username/email.
 - [x] Update the session copy of the user immediately after username/email changes.
 - [x] Only redirect after a successful database update.
-- [ ] Surface database/update errors on the form.
+- [x] Surface database/update errors on the form.
 - [x] Remove the `Utility::dump($data)` debug output from `public/user/edit-account.php`.
 - [x] Fix the password label markup in `templates/user/edit-account.mustache`.
 - [x] Replace the current reset-style Cancel control with a link/button back to the account page.
@@ -87,7 +87,6 @@ Create an admin-only user management area under `public/admin`.
   - admin status
   - balance
   - registration date
-  - account age
 - [ ] Make pending/unapproved users easy to identify.
 - [ ] Optionally provide filters for:
   - pending
