@@ -59,20 +59,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             break;
 
-        case 'promote':
-            if (!$user->promote($userId)) {
-                http_response_code(500);
-                exit('Unable to promote user.');
+        case 'set_admin':
+            $admin = isset($_POST['admin']);
+
+            if (!$user->setAdmin($userId, $admin)) {
+                http_response_code(400);
+                exit(
+                    'Unable to change administrator access. '
+                    . 'The account may be the final active administrator.'
+                );
             }
             break;
 
-        case 'demote':
-            if (!$user->demote($userId)) {
+        case 'update_balance':
+            $balance = filter_input(
+                INPUT_POST,
+                'balance',
+                FILTER_VALIDATE_INT
+            );
+
+            if ($balance === false || $balance < 0) {
                 http_response_code(400);
-                exit(
-                    'Unable to remove administrator access. '
-                    . 'The account may be the final active administrator.'
-                );
+                exit('Balance must be a whole number of zero or greater.');
+            }
+
+            if (!$user->updateBalance($userId, $balance)) {
+                http_response_code(500);
+                exit('Unable to update user balance.');
             }
             break;
 
@@ -107,17 +120,11 @@ foreach ($data['users'] as &$account) {
         !empty($account['approved_at'])
         && !empty($account['disabled_at']);
 
-    $account['canPromote'] =
-        !$account['admin']
-        && !empty($account['approved_at'])
-        && empty($account['disabled_at']);
+    $account['canSetAdmin'] =
+        !empty($account['approved_at'])
+        && empty($account['disabled_at'])
+        && !$user->isLastActiveAdmin((int)$account['user_id']);
 
-    $account['canDemote'] =
-        $account['admin']
-        && !empty($account['approved_at'])
-        && empty($account['disabled_at']);
-
-    $account['adminDisplay'] = $account['admin'] ? 'Yes' : 'No';
 }
 unset($account);
 

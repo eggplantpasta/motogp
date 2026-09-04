@@ -463,50 +463,15 @@ class User {
         }
     }
 
-    public function promote(int $userId): bool
+    public function setAdmin(int $userId, bool $admin): bool
     {
         if (!$this->db) {
             throw new \Exception(
-                'Database connection required for promoting user.'
+                'Database connection required for changing administrator access.'
             );
         }
 
-        $sql = "
-            UPDATE users
-            SET admin = 1
-            WHERE user_id = :user_id
-            AND approved_at IS NOT NULL
-            AND disabled_at IS NULL
-        ";
-
-        try {
-            $this->db->query($sql, ['user_id' => $userId]);
-
-            $this->logger?->info(
-                'User promoted to administrator.',
-                ['user_id' => $userId]
-            );
-
-            return true;
-        } catch (\PDOException $e) {
-            $this->logger?->error(
-                'User promotion failed: ' . $e->getMessage(),
-                ['user_id' => $userId]
-            );
-
-            return false;
-        }
-    }
-
-    public function demote(int $userId): bool
-    {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for demoting user.'
-            );
-        }
-
-        if ($this->isLastActiveAdmin($userId)) {
+        if (!$admin && $this->isLastActiveAdmin($userId)) {
             $this->logger?->warning(
                 'Attempt to demote final active administrator.',
                 ['user_id' => $userId]
@@ -517,23 +482,30 @@ class User {
 
         $sql = "
             UPDATE users
-            SET admin = 0
+            SET admin = :admin
             WHERE user_id = :user_id
-            AND admin = 1
+            AND approved_at IS NOT NULL
+            AND disabled_at IS NULL
         ";
 
         try {
-            $this->db->query($sql, ['user_id' => $userId]);
+            $this->db->query($sql, [
+                'admin' => $admin ? 1 : 0,
+                'user_id' => $userId,
+            ]);
 
             $this->logger?->info(
-                'Administrator demoted.',
-                ['user_id' => $userId]
+                'User administrator status changed.',
+                [
+                    'user_id' => $userId,
+                    'admin' => $admin,
+                ]
             );
 
             return true;
         } catch (\PDOException $e) {
             $this->logger?->error(
-                'User demotion failed: ' . $e->getMessage(),
+                'Administrator status update failed: ' . $e->getMessage(),
                 ['user_id' => $userId]
             );
 
@@ -541,7 +513,7 @@ class User {
         }
     }
 
-    private function isLastActiveAdmin(int $userId): bool
+    public function isLastActiveAdmin(int $userId): bool
     {
         $sql = "
             SELECT COUNT(*) AS admin_count
@@ -569,6 +541,49 @@ class User {
         return !empty(
             $this->db->query($sql, ['user_id' => $userId])
         );
+    }
+
+    public function updateBalance(int $userId, int $balance): bool
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for updating balance.'
+            );
+        }
+
+        if ($balance < 0) {
+            return false;
+        }
+
+        $sql = "
+            UPDATE users
+            SET balance = :balance
+            WHERE user_id = :user_id
+        ";
+
+        try {
+            $this->db->query($sql, [
+                'balance' => $balance,
+                'user_id' => $userId,
+            ]);
+
+            $this->logger?->info(
+                'User balance updated.',
+                [
+                    'user_id' => $userId,
+                    'balance' => $balance,
+                ]
+            );
+
+            return true;
+        } catch (\PDOException $e) {
+            $this->logger?->error(
+                'User balance update failed: ' . $e->getMessage(),
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
     }
 
 }
