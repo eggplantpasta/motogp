@@ -24,7 +24,13 @@ class Database
 
         try {
             $this->connection = new PDO($dsn);
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->connection->setAttribute(
+                PDO::ATTR_ERRMODE,
+                PDO::ERRMODE_EXCEPTION
+            );
+
+            $this->connection->exec('PRAGMA foreign_keys = ON');
+
         } catch (PDOException $e) {
             $this->logger?->error("Failed to connect to the SQLite database: " . $e->getMessage());
             throw new PDOException("Failed to connect to the SQLite database: " . $e->getMessage());
