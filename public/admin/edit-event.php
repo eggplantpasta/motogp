@@ -5,15 +5,21 @@ use Webmin\User;
 use Webmin\Database;
 use MotoGp\Country;
 use MotoGp\Event;
-use MotoGp\Utility;
+use Webmin\Csrf;
 
 $tpl = new Template($config['template']);
 
 // redirect to home page if user not logged in or not an admin
 $user = new User();
-if (!$user->isAdmin()) {
-    header("Location: /");
+
+if (!$user->isLoggedIn()) {
+    header('Location: /user/login.php');
     exit();
+}
+
+if (!$user->isAdmin()) {
+    http_response_code(403);
+    exit('Forbidden');
 }
 
 $db = new Database($config['database']['dsn']);
@@ -49,7 +55,12 @@ if (!$eventData) {
 $data['event'] = $eventData;
 $data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]) . "?event_id=" . $eventId;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
+        http_response_code(403);
+        exit('Invalid CSRF token.');
+    }
+
     // Process form submission
     $startDateInput = trim($_POST['start_date'] ?? '');
 
@@ -108,5 +119,6 @@ $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Edit Event';
 $data['page']['heading'] = 'Edit Event';
+$data['csrfToken'] = Csrf::token();
 
 echo $tpl->render('admin/edit-event', $data);

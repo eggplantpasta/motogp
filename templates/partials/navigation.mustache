@@ -8,7 +8,17 @@
     <li><a href="/ladder.php" class="motogp-secondary">ladder</a></li>
 
     {{#user.admin}}
-    <li><a href="/admin/index.php" class="motogp-secondary">admin</a></li>
+    <li>
+        <details class="dropdown">
+            <summary>
+                <a href="/admin/index.php" class="motogp-secondary">admin</a>
+            </summary>
+            <ul>
+                <li><a href="/admin/users.php">users</a></li>
+                <li><a href="/admin/events.php">events</a></li>
+            </ul>
+        </details>
+    </li>
     {{/user.admin}}
 
     <li>
