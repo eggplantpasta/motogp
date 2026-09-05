@@ -102,16 +102,16 @@ Create an admin-only user management area under `public/admin`.
 
 ### User deletion and cleanup
 
-- [ ] Enable SQLite foreign key enforcement in the application connection
-- [ ] Review all foreign keys referencing `users`
-- [ ] Add `ON DELETE CASCADE` where dependent data should be removed with a user
-- [ ] Add server-side user deletion
-- [ ] Prevent deletion of the final active administrator
-- [ ] Detect whether a user has associated data
-- [ ] Add Delete action to admin user management
-- [ ] Require confirmation before deleting a user
-- [ ] Show stronger confirmation when the user has associated data
-- [ ] Hard-delete unapproved accounts older than 7 days
+- [x] Enable SQLite foreign key enforcement in the application connection
+- [x] Review all foreign keys referencing `users`
+- [x] Add `ON DELETE CASCADE` where dependent data should be removed with a user
+- [x] Add server-side user deletion
+- [x] Prevent deletion of the final active administrator
+- [x] Detect whether a user has associated data
+- [x] Add Delete action to admin user management
+- [x] Require confirmation before deleting a user
+- [x] Show stronger confirmation when the user has associated data
+- [x] Hard-delete unapproved accounts older than 7 days
 
 ### Security
 
