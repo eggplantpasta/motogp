@@ -88,7 +88,6 @@ Create an admin-only user management area under `public/admin`.
   - balance
   - registration date
 - [x] Make pending/unapproved users easy to identify.
-~~- [ ] Optionally provide filters for:~~
 
 ### Admin actions
 
@@ -102,58 +101,65 @@ Create an admin-only user management area under `public/admin`.
 
 ### User deletion and cleanup
 
-- [x] Enable SQLite foreign key enforcement in the application connection
-- [x] Review all foreign keys referencing `users`
-- [x] Add `ON DELETE CASCADE` where dependent data should be removed with a user
-- [x] Add server-side user deletion
-- [x] Prevent deletion of the final active administrator
-- [x] Detect whether a user has associated data
-- [x] Add Delete action to admin user management
-- [x] Require confirmation before deleting a user
-- [x] Show stronger confirmation when the user has associated data
-- [x] Hard-delete unapproved accounts older than 7 days
+- [x] Enable SQLite foreign key enforcement in the application connection.
+- [x] Review all foreign keys referencing `users`.
+- [x] Add `ON DELETE CASCADE` where dependent data should be removed with a user.
+- [x] Add server-side user deletion.
+- [x] Prevent deletion of the final active administrator.
+- [x] Detect whether a user has associated data.
+- [x] Add Delete action to admin user management.
+- [x] Require confirmation before deleting a user.
+- [x] Show stronger confirmation when the user has associated data.
+- [x] Hard-delete unapproved accounts older than 7 days.
+- [ ] Log expired-account deletion.
+- [ ] Document how the cleanup script is scheduled in production.
 
 ### Security
 
-- [ ] Require POST for all state-changing admin actions.
-- [ ] Add CSRF protection to all admin actions.
-- [ ] Verify admin permission server-side for every admin endpoint.
-- [ ] Never rely only on hiding admin controls in templates.
+- [x] Require POST for all state-changing admin actions.
+- [x] Add CSRF protection to all admin actions.
+- [x] Verify admin permission server-side for every admin endpoint.
+- [x] Never rely only on hiding admin controls in templates.
 - [ ] Log important admin actions.
 
-## Phase 5 — Expiry of unapproved accounts
+## Phase 5 — Admin event management
 
-- [x] Choose the unapproved-account lifetime.
-- [ ] Implement a cleanup mechanism for expired unapproved users.
-- [ ] Ensure approved users are never affected by this cleanup.
-- [ ] Decide whether deletion should be immediate or preceded by a disabled/expired state.
-- [ ] Log expired-account deletion.
-- [ ] Document how cleanup runs in production.
+Keep normal event pages user-facing. Administrative event operations live
+under `/admin/` and must not substantially change the normal pages based on
+whether the current user is an administrator.
 
-Possible implementation:
-
-- a small PHP CLI script under `bin/`
-- executed periodically by cron/systemd timer
-- deletes users where:
-  - `approved_at IS NULL`
-  - registration date is older than the configured expiry period
-  - account is not an administrator
+- [x] Add an admin landing page and admin navigation.
+- [ ] Add `/admin/events.php`.
+- [ ] Add corresponding `templates/admin/events.mustache`.
+- [ ] Show existing events in the admin event list.
+- [ ] Link each event to `/admin/edit-event.php`.
+- [ ] Review the existing event-editing page and move any remaining
+      administrative event behaviour out of normal user-facing pages.
+- [ ] Add event creation.
+- [ ] Add event deletion if required.
+- [ ] Require POST and CSRF protection for state-changing event actions.
+- [ ] Verify admin permission server-side for every event-management endpoint.
 
 ## Phase 6 — Database migration / deployment
 
-The project currently uses `db/schema.sql`, but existing deployed databases will need schema changes applied safely.
+The project currently uses `db/schema.sql`, but existing deployed databases
+will need schema changes applied safely.
 
-- [ ] Decide on a lightweight migration approach using plain SQL/scripts where practical; do not add a migration framework unless it becomes necessary.
-- [ ] Create migration SQL for user approval/status and unique constraints.
-- [ ] Check existing production data for duplicate usernames/emails before adding constraints.
+- [ ] Decide on a lightweight migration approach using plain SQL/scripts where
+      practical; do not add a migration framework unless it becomes necessary.
+- [ ] Create migration SQL for changes made to the user schema and foreign keys.
+- [ ] Check existing production data for duplicate usernames/emails before
+      adding constraints.
 - [ ] Document migration/deployment steps.
 - [x] Ensure `db/reset.sh` still produces the correct development schema.
 
 ## Phase 7 — Tests
 
-Add focused tests around user behaviour before extending the rest of the application.
+Add focused tests around user and administration behaviour.
 
-Prefer a lightweight test approach that does not introduce a large testing framework unless the project grows to justify one. Simple PHP test scripts and disposable SQLite databases are acceptable.
+Prefer a lightweight test approach that does not introduce a large testing
+framework unless the project grows to justify one. Simple PHP test scripts and
+disposable SQLite databases are acceptable.
 
 - [ ] Register a new user.
 - [ ] Reject duplicate username.
@@ -173,32 +179,17 @@ Prefer a lightweight test approach that does not introduce a large testing frame
 - [ ] Disable/revoke user.
 - [ ] Change balance.
 - [ ] Promote/demote admin.
+- [ ] Prevent demotion/deletion of final active administrator.
+- [ ] Delete user and cascade their bids.
 - [ ] Delete expired pending users.
 - [ ] Ensure approved users are not removed by expiry cleanup.
 
 ---
 
-## Suggested implementation order
+## Next work
 
-1. Database fields and uniqueness.
-2. Registration validation.
-3. Approval-aware login.
-4. Fix self-service account editing.
-5. Admin user list.
-6. Admin approval and account actions.
-7. Expiry cleanup job.
-8. Security hardening and CSRF.
-9. Lightweight automated tests.
-10. Deployment/migration documentation.
-
----
-
-## Decisions still required
-
-- [ ] How long should an unapproved account remain before expiry?
-- [ ] Should expired pending accounts be permanently deleted, or first marked expired/disabled?
-- [ ] Should an administrator be able to manually create accounts?
-- [ ] Should administrators be able to edit another user's username/email?
-- [ ] Should disabling an account preserve its bids/history indefinitely?
-- [ ] Should account deletion be blocked when the user has historical bids/results that should be retained?
-
+1. Admin event list.
+2. Event creation/editing/deletion.
+3. Finish admin-action logging and production cleanup scheduling.
+4. Lightweight automated tests.
+5. Database migration and deployment process.
