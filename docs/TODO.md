@@ -129,16 +129,16 @@ under `/admin/` and must not substantially change the normal pages based on
 whether the current user is an administrator.
 
 - [x] Add an admin landing page and admin navigation.
-- [ ] Add `/admin/events.php`.
-- [ ] Add corresponding `templates/admin/events.mustache`.
-- [ ] Show existing events in the admin event list.
-- [ ] Link each event to `/admin/edit-event.php`.
-- [ ] Review the existing event-editing page and move any remaining
+- [x] Add `/admin/events.php`.
+- [x] Add corresponding `templates/admin/events.mustache`.
+- [x] Show existing events in the admin event list.
+- [x] Link each event to `/admin/edit-event.php`.
+- [x] Review the existing event-editing page and move any remaining
       administrative event behaviour out of normal user-facing pages.
-- [ ] Add event creation.
-- [ ] Add event deletion if required.
-- [ ] Require POST and CSRF protection for state-changing event actions.
-- [ ] Verify admin permission server-side for every event-management endpoint.
+- [x] Add event creation.
+- [x] Add event deletion if required.
+- [x] Require POST and CSRF protection for state-changing event actions.
+- [x] Verify admin permission server-side for every event-management endpoint.
 
 ## Phase 6 — Database migration / deployment
 

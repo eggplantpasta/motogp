@@ -10,6 +10,12 @@
     <a href="/admin/create-event.php" role="button">Create Event</a>
 </p>
 
+{{#message}}
+<section role="alert" class="motogp-form-message {{message-class}}">
+    {{message}}
+</section>
+{{/message}}
+
 <table>
     <thead>
         <tr>
@@ -34,6 +40,32 @@
                 <a href="/admin/edit-event.php?event_id={{event_id}}">
                     Edit
                 </a>
+
+                {{#can_delete}}
+                <form
+                    action="/admin/events.php"
+                    method="post"
+                    class="motogp-inline-form"
+                    onsubmit="return confirm('Delete {{name}}?');"
+                >
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="{{csrfToken}}"
+                    >
+                    <input
+                        type="hidden"
+                        name="event_id"
+                        value="{{event_id}}"
+                    >
+                    <button
+                        type="submit"
+                        class="motogp-link-button"
+                    >
+                        Delete
+                    </button>
+                </form>
+                {{/can_delete}}
             </td>
         </tr>
         {{/events}}

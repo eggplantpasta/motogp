@@ -74,3 +74,21 @@ flex-direction: row;
 .motogp-form-actions > * {
     margin-bottom: 0;
 }
+
+.motogp-inline-form {
+    display: inline;
+    margin: 0;
+}
+
+.motogp-link-button {
+    display: inline;
+    width: auto;
+    margin: 0 0 0 0.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: var(--pico-del-color);
+    text-decoration: underline;
+    cursor: pointer;
+}
