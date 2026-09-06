@@ -110,7 +110,7 @@ class Event {
                 bids_open = :bids_open
             WHERE event_id = :event_id
             ';
-            $result = $this->db->execute($sql, $params);
+            $this->db->execute($sql, $params);
 
             // only one event bids can be open at a time, so if this event is open we need to close all other events
             if ($data['bids_open']) {
