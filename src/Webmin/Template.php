@@ -37,9 +37,10 @@ class Template
             $loader = new \Mustache\Loader\FilesystemLoader($templateDir, ['extension' => '.mustache']);
 
             $this->engine = new \Mustache\Engine([
-                'loader' => $loader,
-                'cache'  => ($cacheDir && is_dir($cacheDir)) ? $cacheDir : null,
-                'escape' => $escape,
+                'loader'          => $loader,
+                'partials_loader' => $loader,
+                'cache'           => ($cacheDir && is_dir($cacheDir)) ? $cacheDir : null,
+                'escape'          => $escape,
             ]);
             return;
             }

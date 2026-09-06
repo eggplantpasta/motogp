@@ -71,3 +71,6 @@ nav.top-nav ul {
 flex-direction: row;
 }
 
+.motogp-form-actions > * {
+    margin-bottom: 0;
+}

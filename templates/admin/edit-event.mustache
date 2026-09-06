@@ -18,58 +18,12 @@
   </section>
   {{/form.message}}
 
-  <fieldset>
-    <label>
-      Event Name
-      <input name="name" placeholder="Grand Prix Name" value="{{form.name}}"
-      aria-invalid="{{#form.errors.name}}true{{/form.errors.name}}" aria-describedby="invalid-name" />
-      <small id="invalid-name">{{form.errors.name}}</small>
-    </label>
+  {{> partials/event-form }}
 
-    <label>
-      Circuit
-      <input name="circuit" placeholder="Circuit Name" value="{{form.circuit}}" />
-    </label>
-
-  <div class="grid">
-
-    <label>
-      Country
-      <select name="country_code" aria-label="Select country...">
-        <option {{^form.country_code}}selected{{/form.country_code}} disabled value="">
-            Select country...
-        </option>
-        {{#countries}}
-        <option value="{{country_code}}" {{#selected}}selected{{/selected}}>{{name}}</option>
-        {{/countries}}
-      </select>
-    </label>
-
-    <label>
-      Start Date
-      <input type="date" name="start_date" min="{{app.season}}-01-01" max="{{app.season}}-12-31" value="{{form.start_date}}"
-      aria-invalid="{{#form.errors.start_date}}true{{/form.errors.start_date}}" aria-describedby="invalid-start_date" />
-      <small id="invalid-start_date">{{form.errors.start_date}}</small>
-    </label>
-
-  </div>
-
-    <label>
-      Bids Open
-      <input type="checkbox" name="bids_open" value="1" {{#form.bids_open}}checked{{/form.bids_open}}
-      aria-invalid="{{#form.errors.bids_open}}true{{/form.errors.bids_open}}" aria-describedby="invalid-bids_open" />
-      <small class="motogp-checkbox-error" id="invalid-bids_open">{{form.errors.bids_open}}</small>
-    </label>
-
+  <fieldset class="grid motogp-form-actions">
+    <a href="/admin/events.php" role="button" class="secondary">Cancel</a>
+    <button type="submit">Update Event</button>
   </fieldset>
-
-  <fieldset class="grid">
-
-      <input type="reset" value="Cancel" />
-      <input type="submit" value="Update Event" />
-
-  </fieldset>
-    <input type="hidden" name="csrf_token" value="{{csrfToken}}">
 </form>
 {{/ content }}
 

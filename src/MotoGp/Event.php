@@ -131,4 +131,40 @@ class Event {
             return false;
         }
     }
+
+    public function createEvent(array $data): ?int
+    {
+        try {
+            $sql = '
+                INSERT INTO events (
+                    start_date,
+                    name,
+                    circuit,
+                    country_code,
+                    bids_open
+                )
+                VALUES (
+                    :start_date,
+                    :name,
+                    :circuit,
+                    :country_code,
+                    :bids_open
+                )
+            ';
+
+            $this->db->execute($sql, [
+                ':start_date' => $data['start_date'],
+                ':name' => $data['name'],
+                ':circuit' => $data['circuit'],
+                ':country_code' => $data['country_code'],
+                ':bids_open' => $data['bids_open'] ? 1 : 0,
+            ]);
+
+            return (int)$this->db->getConnection()->lastInsertId();
+
+        } catch (\PDOException $e) {
+            return null;
+        }
+    }
+
 }
