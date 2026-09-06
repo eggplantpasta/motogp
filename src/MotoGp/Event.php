@@ -187,4 +187,48 @@ class Event {
         }
     }
 
+    public function hasBids(int $eventId): bool
+    {
+        $sql = '
+            SELECT 1
+            FROM bids
+            WHERE event_id = :event_id
+            LIMIT 1
+        ';
+
+        return $this->db->queryOne($sql, [
+            ':event_id' => $eventId
+        ]) !== null;
+    }
+
+    public function hasResults(int $eventId): bool
+    {
+        $sql = '
+            SELECT 1
+            FROM results
+            WHERE event_id = :event_id
+            LIMIT 1
+        ';
+
+        return $this->db->queryOne($sql, [
+            ':event_id' => $eventId
+        ]) !== null;
+    }
+
+    public function deleteEvent(int $eventId): bool
+    {
+        if ($this->hasBids($eventId) || $this->hasResults($eventId)) {
+            return false;
+        }
+
+        $sql = '
+            DELETE FROM events
+            WHERE event_id = :event_id
+        ';
+
+        return $this->db->execute($sql, [
+            ':event_id' => $eventId
+        ]) === 1;
+    }
+
 }
