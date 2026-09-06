@@ -9,6 +9,7 @@
       value="{{form.name}}"
       aria-invalid="{{#form.errors.name}}true{{/form.errors.name}}"
       aria-describedby="invalid-name"
+      autocomplete="off"
     />
     <small id="invalid-name">{{form.errors.name}}</small>
   </label>
@@ -19,13 +20,14 @@
       name="circuit"
       placeholder="Circuit Name"
       value="{{form.circuit}}"
+      autocomplete="off"
     />
   </label>
 
   <div class="grid">
     <label>
       Country
-      <select name="country_code" aria-label="Select country...">
+      <select name="country_code" aria-label="Select country..." autocomplete="off">
         <option
           {{^form.country_code}}selected{{/form.country_code}}
           disabled

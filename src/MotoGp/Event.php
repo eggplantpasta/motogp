@@ -135,6 +135,8 @@ class Event {
     public function createEvent(array $data): ?int
     {
         try {
+            $this->db->beginTransaction();
+
             $sql = '
                 INSERT INTO events (
                     start_date,
@@ -160,9 +162,27 @@ class Event {
                 ':bids_open' => $data['bids_open'] ? 1 : 0,
             ]);
 
-            return (int)$this->db->getConnection()->lastInsertId();
+            $eventId = (int)$this->db->getConnection()->lastInsertId();
 
-        } catch (\PDOException $e) {
+            // Only one event can have bids open at a time.
+            if ($data['bids_open']) {
+                $sql = '
+                    UPDATE events
+                    SET bids_open = 0
+                    WHERE event_id != :event_id
+                ';
+
+                $this->db->execute($sql, [
+                    ':event_id' => $eventId
+                ]);
+            }
+
+            $this->db->commit();
+
+            return $eventId;
+
+        } catch (\Exception $e) {
+            $this->db->rollBack();
             return null;
         }
     }

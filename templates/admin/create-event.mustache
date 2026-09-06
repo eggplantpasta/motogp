@@ -1,0 +1,32 @@
+{{< partials/layout }}
+
+{{$ title }}Create Event{{/ title }}
+
+{{$ content }}
+
+<form action="{{form.action}}" method="post" novalidate>
+  <h1>Create Event</h1>
+
+  <section>
+    Enter the event details below.
+  </section>
+
+  {{#form.message}}
+  <section role="alert" class="motogp-form-message {{form.message-class}}">
+    {{form.message}}
+  </section>
+  {{/form.message}}
+
+  {{> partials/event-form}}
+
+  <fieldset class="grid motogp-form-actions">
+    <a href="/admin/events.php" role="button" class="secondary">
+      Cancel
+    </a>
+    <button type="submit">Create Event</button>
+  </fieldset>
+</form>
+
+{{/ content }}
+
+{{/ partials/layout }}
