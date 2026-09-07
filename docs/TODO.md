@@ -110,7 +110,7 @@ Create an admin-only user management area under `public/admin`.
 - [x] Add Delete action to admin user management.
 - [x] Require confirmation before deleting a user.
 - [x] Show stronger confirmation when the user has associated data.
-- [ ] Hard-delete unapproved accounts older than 7 days.
+- [x] Hard-delete unapproved accounts older than 7 days.
 - [ ] Log expired-account deletion.
 - [ ] Document how the cleanup script is scheduled in production.
 
