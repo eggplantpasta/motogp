@@ -12,21 +12,19 @@ $user = new User();
 // get the data from the db
 $db = new Database($config['database']['dsn']);
 
-$event = new Event($db);
-$next_event_id = $event->getNextEventId();
-
-$all_events = $event->getEvents();
+$eventModel = new Event($db);
+$nextEventId = $eventModel->getNextEventId();
 
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Events';
 $data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Races';
-$data['events'] = $all_events;
+$data['events'] = $eventModel->getEvents();
 
 // manipulate columns for display
 foreach ($data['events'] as &$event) {
     // set row class
-    if ($event['event_id'] == $next_event_id) {
+    if ($event['event_id'] == $nextEventId) {
         $event['cell-class'] = '';
         $event['row-class'] = 'motogp-highlight';
         $event['results'] = false;
@@ -43,6 +41,8 @@ foreach ($data['events'] as &$event) {
     $event['display_date'] = Utility::formatDate($event['start_date'], 'M d');
 
 }
+
+unset($event);
 
 $tpl = new Template($config['template']);
 echo $tpl->render('events', $data);

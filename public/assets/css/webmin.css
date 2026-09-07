@@ -66,3 +66,14 @@ input[type="password"] {
   color: var(--pico-del-color);
   background: color-mix(in srgb, var(--pico-del-color) 8%, transparent);
 }
+
+.button-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.button-with-icon svg {
+    width: 1em;
+    height: 1em;
+}

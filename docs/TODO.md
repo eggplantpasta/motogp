@@ -110,7 +110,7 @@ Create an admin-only user management area under `public/admin`.
 - [x] Add Delete action to admin user management.
 - [x] Require confirmation before deleting a user.
 - [x] Show stronger confirmation when the user has associated data.
-- [x] Hard-delete unapproved accounts older than 7 days.
+- [ ] Hard-delete unapproved accounts older than 7 days.
 - [ ] Log expired-account deletion.
 - [ ] Document how the cleanup script is scheduled in production.
 
@@ -188,8 +188,8 @@ disposable SQLite databases are acceptable.
 
 ## Next work
 
-1. Admin event list.
-2. Event creation/editing/deletion.
+1. Simplify the normal user-facing events page and remove remaining admin/edit behaviour.
+2. Add automatic cleanup of unapproved accounts older than 7 days.
 3. Finish admin-action logging and production cleanup scheduling.
 4. Lightweight automated tests.
 5. Database migration and deployment process.
