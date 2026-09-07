@@ -94,15 +94,58 @@ class Riders {
 
     public function deleteRider(int $riderId): int
     {
+        if ($this->hasBids($riderId) || $this->hasResults($riderId)) {
+            return 0;
+        }
+
         try {
-            $sql = 'delete from riders where rider_id = :rider_id';
-            $result = $this->db->execute($sql, [':rider_id' => $riderId]);
-            $this->logger?->info("Rider deleted:", ['rider_id' => $riderId]);
-            return $result;
+            $sql = '
+                DELETE FROM riders
+                WHERE rider_id = :rider_id
+            ';
+
+            return $this->db->execute($sql, [
+                ':rider_id' => $riderId
+            ]);
         } catch (\PDOException $e) {
-            $this->logger?->error("Failed to delete rider:" , ['rider_id' => $riderId, 'message' => $e->getMessage()]);
+            $this->logger?->error(
+                'Failed to delete rider:',
+                [
+                    'rider_id' => $riderId,
+                    'message' => $e->getMessage()
+                ]
+            );
+
             throw $e;
         }
+    }
+
+    public function hasBids(int $riderId): bool
+    {
+        $sql = '
+            SELECT 1
+            FROM bids
+            WHERE rider_id = :rider_id
+            LIMIT 1
+        ';
+
+        return $this->db->queryOne($sql, [
+            ':rider_id' => $riderId
+        ]) !== null;
+    }
+
+    public function hasResults(int $riderId): bool
+    {
+        $sql = '
+            SELECT 1
+            FROM results
+            WHERE rider_id = :rider_id
+            LIMIT 1
+        ';
+
+        return $this->db->queryOne($sql, [
+            ':rider_id' => $riderId
+        ]) !== null;
     }
 
 }

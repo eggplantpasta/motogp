@@ -1,0 +1,85 @@
+{{< partials/layout-edit }}
+  {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+
+  {{$ content }}
+    <h1>{{ page.heading }}</h1>
+
+    <table>
+      <thead>
+        <tr>
+            <th>Rider Name</th>
+            <th>Team</th>
+            <th>Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td colspan="2"><strong>Add new rider...</strong></td>
+            <td><button data-target="modal-edit" onclick="addRider(event)">Add Rider</button></td>
+        </tr>
+      {{# riders }}
+        <tr data-rider-id="{{ rider_id }}" data-rider-active="{{ active }}" data-team-id="{{ team_id }}">
+            <td class="rider-name {{ cell-class }}">{{ name }}</td>
+            <td class="team_name {{ cell-class }}">{{ team_name }}</td>
+            <td class="motogp-button-group">
+            <button data-target="modal-edit" onclick="editRider(event)">Edit</button>
+            {{#can_delete}}
+            <button data-target="modal-confirm" onclick="deleteRider(event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+            {{/can_delete}}
+            </td>
+        </tr>
+      {{/ riders }}
+      </tbody>
+    </table>
+
+  {{/ content }}
+
+  {{$ form }}
+    <form id="rider-form" method="post" novalidate>
+      <h2>Edit Rider</h2>
+
+      <section id="rider-form-message" role="alert" class="motogp-form-message {{form.message-class}}">
+        {{#form.message}}
+        {{form.message}}
+        {{/form.message}}
+      </section>
+
+      <fieldset>
+        <input type="hidden" name="operation" id="operation" value="update" />
+        <input type="hidden" name="rider-id" id="rider-id" value="{{form.rider_id}}" />
+
+        <label>
+          Rider Name
+          <input name="rider-name" id="rider-name" placeholder="Rider Name" value="{{form.rider_name}}"
+          aria-invalid="{{#form.errors.rider_name}}true{{/form.errors.rider_name}}" aria-describedby="invalid-rider_name" />
+          <small id="invalid-rider_name">{{form.errors.rider_name}}</small>
+        </label>
+
+        <label>
+          Team
+          <select name="rider-team" id="rider-team" aria-label="Select team...">
+            <option {{^form.team_id}}selected{{/form.team_id}} disabled value="">
+              Select team...
+            </option>
+            {{#teams}}
+            <option value="{{team_id}}" {{#selected}}selected{{/selected}}>{{team_name}}</option>
+            {{/teams}}
+          </select>
+        </label>
+
+        <label>
+          Active
+          <input type="checkbox" name="rider-active" id="rider-active" {{#form.rider_active}}checked{{/form.rider_active}} />
+        </label>
+      </fieldset>
+
+      <fieldset class="grid">
+        <input type="reset" value="Cancel" data-target="modal-edit" onclick="toggleModal(event)"/>
+        <input type="submit" value="Save" data-target="modal-edit" onclick="submitAfterModal(event)"/>
+      </fieldset>
+      <input type="hidden" name="csrf_token" value="{{csrfToken}}">
+    </form>
+  {{/ form }}
+{{/ partials/layout-edit }}
