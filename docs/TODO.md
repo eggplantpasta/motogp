@@ -184,6 +184,14 @@ disposable SQLite databases are acceptable.
 - [ ] Delete expired pending users.
 - [ ] Ensure approved users are not removed by expiry cleanup.
 
+## Phase 8 — Rider, team and results administration
+
+- [ ] Add admin rider management under `/admin/`.
+- [ ] Add admin team management under `/admin/`.
+- [ ] Add admin results management under `/admin/`.
+- [ ] Add Riders, Teams and Results to the admin navigation.
+- [ ] Review the existing user-facing rider and results pages after the admin functionality has been separated.
+
 ---
 
 ## Next work
