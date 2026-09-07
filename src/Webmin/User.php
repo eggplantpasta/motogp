@@ -645,4 +645,29 @@ class User {
         return $result !== null;
     }
 
+    public function deleteExpiredPendingUsers(int $expiryDays): int
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for deleting expired users.'
+            );
+        }
+
+        if ($expiryDays < 1) {
+            throw new \InvalidArgumentException(
+                'Pending user expiry must be at least 1 day.'
+            );
+        }
+
+        $sql = "
+            DELETE FROM users
+            WHERE approved_at IS NULL
+            AND created_at < datetime('now', :expiry)
+        ";
+
+        return $this->db->execute($sql, [
+            'expiry' => "-{$expiryDays} days",
+        ]);
+    }
+
 }
