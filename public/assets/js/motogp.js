@@ -104,4 +104,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (feedbackModal && feedbackModal.dataset.openOnLoad === 'true' && !feedbackModal.open) {
         openTimedModal(feedbackModal, 2000); // Auto-close after 2 seconds
     }
+
+    // rider buttons
+    document.querySelectorAll('[data-action="add-rider"]').forEach(button => {
+        button.addEventListener('click', addRider);
+    });
+
+    document.querySelectorAll('[data-action="edit-rider"]').forEach(button => {
+        button.addEventListener('click', editRider);
+    });
+
+    document.querySelectorAll('[data-action="delete-rider"]').forEach(button => {
+        button.addEventListener('click', deleteRider);
+    });
+
+    document.getElementById('add-rider-btn')?.addEventListener('click', addRider);
 });

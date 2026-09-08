@@ -92,3 +92,18 @@ flex-direction: row;
     text-decoration: underline;
     cursor: pointer;
 }
+
+.motogp-icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+}
+
+.motogp-icon-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    display: block;
+}
