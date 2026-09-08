@@ -2,7 +2,14 @@
   {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
 
   {{$ content }}
-    <h1>{{ page.heading }}</h1>
+<h1>{{ page.heading }}</h1>
+
+    <p>
+        <button type="button" class="motogp-icon-text-button" data-action="add-rider" data-target="modal-edit" >
+          {{> partials/icons/add }}
+          Add Rider
+      </button>
+    </p>
 
     <table>
       <thead>
@@ -13,14 +20,6 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-            <td colspan="2"><strong>Add new rider...</strong></td>
-            <td>
-              <button type="button" class="motogp-icon-button" data-target="modal-edit" data-action="add-rider" data-tooltip="Add rider" aria-label="Add rider" >
-                {{> partials/icons/add }}
-              </button>
-            </td>
-        </tr>
       {{# riders }}
         <tr data-rider-id="{{ rider_id }}" data-rider-active="{{ active }}" data-team-id="{{ team_id }}">
             <td class="rider-name {{ cell-class }}">{{ name }}</td>
