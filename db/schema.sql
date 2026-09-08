@@ -26,6 +26,7 @@ create table if not exists teams (
 
 create table if not exists riders (
   rider_id integer primary key,
+  race_number integer not null unique,
   name varchar(255),
   team_id integer,
   active boolean,

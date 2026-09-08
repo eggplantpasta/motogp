@@ -12,16 +12,23 @@
     </p>
 
     <table>
-      <thead>
-        <tr>
-            <th>Rider Name</th>
-            <th>Team</th>
-            <th>Admin</th>
-        </tr>
-      </thead>
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Rider Name</th>
+                <th>Team</th>
+                <th>Admin</th>
+            </tr>
+        </thead>
       <tbody>
       {{# riders }}
-        <tr data-rider-id="{{ rider_id }}" data-rider-active="{{ active }}" data-team-id="{{ team_id }}">
+        <tr
+            data-rider-id="{{ rider_id }}"
+            data-rider-number="{{ race_number }}"
+            data-rider-active="{{ active }}"
+            data-team-id="{{ team_id }}"
+        >
+            <td class="{{ cell-class }}">{{ race_number }}</td>
             <td class="rider-name {{ cell-class }}">{{ name }}</td>
             <td class="team_name {{ cell-class }}">{{ team_name }}</td>
             <td class="motogp-button-group">
@@ -71,6 +78,21 @@
                       id="rider-id"
                       value="{{form.rider_id}}"
                   >
+                <label>
+                    Race Number
+                    <input
+                        type="number"
+                        name="rider-number"
+                        id="rider-number"
+                        min="1"
+                        value="{{form.race_number}}"
+                        aria-invalid="{{#form.errors.race_number}}true{{/form.errors.race_number}}"
+                        aria-describedby="invalid-race_number"
+                    >
+                    <small id="invalid-race_number">
+                        {{form.errors.race_number}}
+                    </small>
+                </label>
 
                   <label>
                       Rider Name
@@ -144,10 +166,16 @@
                   value="{{csrfToken}}"
               >
 
-          </form>
-      </article>
-  </dialog>
-  
-  {{/ content }}
+            </form>
+        </article>
+    </dialog>
+
+    {{> partials/modal-confirm }}
+
+    {{/ content }}
+
+    {{$ scripts }}
+        <script src="/assets/js/riders.js"></script>
+    {{/ scripts }}
 
 {{/ partials/layout }}

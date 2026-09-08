@@ -15,6 +15,7 @@ sqlite3 "$DB" -bail < "${ROOT_DIR}/db/schema.sql"
 # seed reference data
 sqlite3 "$DB" -bail < "${ROOT_DIR}/db/seed/countries.sql"
 sqlite3 "$DB" -bail < "${ROOT_DIR}/db/seed/motogp-calendar-2026.sql"
+sqlite3 "$DB" -bail < "${ROOT_DIR}/db/seed/motogp-teams-2026.sql"
 sqlite3 "$DB" -bail < "${ROOT_DIR}/db/seed/motogp-riders-2026.sql"
 
 # seed test data

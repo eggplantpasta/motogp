@@ -50,6 +50,7 @@ class Riders {
     {
         try {
             $params = [
+                ':race_number' => $data['race_number'],
                 ':name' => $data['name'],
                 ':team_id' => $data['team_id'] ?? null,
                 ':active' => $data['active'] ? 1 : 0,
@@ -57,9 +58,10 @@ class Riders {
             ];
             $sql = '
             update riders
-            set name = :name
-                , team_id = :team_id
-                , active = :active
+            set race_number = :race_number,
+                name = :name,
+                team_id = :team_id,
+                active = :active
             where rider_id = :rider_id
             ';
             $result = $this->db->execute($sql, $params);
@@ -75,14 +77,24 @@ class Riders {
     {
         try {
             $params = [
+                ':race_number' => $data['race_number'],
                 ':name' => $data['name'],
                 ':team_id' => $data['team_id'] ?? null,
                 ':active' => $data['active'] ? 1 : 0
             ];
             $sql = '
-            insert into riders (name, team_id, active)
-            values (:name, :team_id, :active)
-            ';
+            insert into riders (
+                race_number,
+                name,
+                team_id,
+                active
+            )
+            values (
+                :race_number,
+                :name,
+                :team_id,
+                :active
+            )';
             $result = $this->db->execute($sql, $params);
             $this->logger?->info("Rider created: ", $params);
             return $result;

@@ -29,6 +29,7 @@ function clearFormData(&$data) {
     $data['form']['message'] = '';
     $data['form']['message-class'] = '';
     $data['form']['rider_id'] = '';
+    $data['form']['race_number'] = '';
     $data['form']['rider_name'] = '';
     $data['form']['team_id'] = '';
     $data['form']['rider_active'] = 0;
@@ -49,6 +50,7 @@ $data['form'] = [
 	'message' => '',
 	'message-class' => '',
 	'rider_id' => '',
+	'race_number' => '',
 	'rider_name' => '',
 	'team_id' => '',
 	'rider_active' => 0,
@@ -65,12 +67,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$riderId = trim($_POST['rider-id'] ?? '');
     $operation = $_POST['operation'] ?? null;
 	$formData = [
+        'race_number' => trim($_POST['rider-number'] ?? ''),
 		'name' => trim($_POST['rider-name'] ?? ''),
 		'team_id' => trim($_POST['rider-team'] ?? ''),
 		'active' => isset($_POST['rider-active']) ? 1 : 0,
 	];
 
 	$data['form']['rider_id'] = $riderId;
+
+	$data['form']['race_number'] = $formData['race_number'];
 	$data['form']['rider_name'] = $formData['name'];
 	$data['form']['team_id'] = $formData['team_id'];
 	$data['form']['rider_active'] = $formData['active'];
@@ -97,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             } elseif ($operation === 'update') {
                 if ($riderId !== '' && ctype_digit($riderId)) {
+
                     $updatedRows = $riders->updateRider((int)$riderId, $formData);
                     if ($updatedRows > 0) {
                         header('Location: /admin/riders.php');

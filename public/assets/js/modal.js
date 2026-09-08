@@ -84,6 +84,25 @@ const isScrollbarVisible = () => {
   return document.body.scrollHeight > screen.height;
 };
 
+function confirmModal(message, onConfirm) {
+    const modal = document.getElementById('modal-confirm');
+    const content = document.getElementById('modal-confirm-content');
+    const confirmButton = document.getElementById('modal-confirm-btn');
+
+    if (!modal || !content || !confirmButton) {
+        return;
+    }
+
+    content.textContent = message;
+
+    confirmButton.onclick = () => {
+        closeModal(modal);
+        onConfirm();
+    };
+
+    openModal(modal);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-action="close-modal"]').forEach(button => {
         button.addEventListener('click', (event) => {
