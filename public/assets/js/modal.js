@@ -83,3 +83,17 @@ const getScrollbarWidth = () => {
 const isScrollbarVisible = () => {
   return document.body.scrollHeight > screen.height;
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-action="close-modal"]').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const modal = document.getElementById(
+                event.currentTarget.dataset.target
+            );
+
+            if (modal) {
+                closeModal(modal);
+            }
+        });
+    });
+});

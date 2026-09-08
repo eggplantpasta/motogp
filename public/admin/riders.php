@@ -121,11 +121,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             }
-        } catch (\Throwable $e) {
-            $data['form']['message'] = 'Unable to save rider changes';
-            $data['form']['message-class'] = 'error';
-            $data['form']['open_modal'] = true;
-        }
+            } catch (\Throwable $e) {
+                throw $e;
+            }
+        // } catch (\Throwable $e) {
+        //     $data['form']['message'] = 'Unable to save rider changes';
+        //     $data['form']['message-class'] = 'error';
+        //     $data['form']['open_modal'] = true;
+        // }
 	} else {
 		$data['form']['message'] = 'Please fix the highlighted fields';
 		$data['form']['message-class'] = 'error';
