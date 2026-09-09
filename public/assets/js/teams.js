@@ -8,6 +8,7 @@ function clearTeamFormMessage() {
 }
 
 function editTeam(event) {
+    document.getElementById('team-form-heading').textContent = 'Edit Team';
     document.getElementById('operation').value = 'update';
 
     const row = event.currentTarget.closest('tr');
@@ -30,6 +31,7 @@ function editTeam(event) {
 }
 
 function addTeam(event) {
+    document.getElementById('team-form-heading').textContent = 'Add Team';
     document.getElementById('operation').value = 'create';
 
     document.getElementById('team-id').value = '';
