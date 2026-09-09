@@ -10,7 +10,7 @@ function clearRiderFormMessage() {
 function editRider(event) {
     document.getElementById('operation').value = 'update';
 
-    const row = event.target.closest('tr');
+    const row = event.currentTarget.closest('tr');
     const riderId = row.getAttribute('data-rider-id');
     const riderNumber = row.getAttribute('data-rider-number');
     const riderActive = row.getAttribute('data-rider-active');
