@@ -25,6 +25,7 @@ function editTeam(event) {
         row.getAttribute('data-manufacturer');
 
     clearTeamFormMessage();
+    clearTeamFormErrors();
     toggleModal(event);
 }
 
@@ -37,6 +38,7 @@ function addTeam(event) {
     document.getElementById('manufacturer').value = '';
 
     clearTeamFormMessage();
+    clearTeamFormErrors();
     toggleModal(event);
 }
 
@@ -54,6 +56,12 @@ function deleteTeam(event) {
             document.getElementById('team-form').submit();
         }
     );
+}
+
+function clearTeamFormErrors() {
+    document.getElementById('invalid-team_name').textContent = '';
+    document.getElementById('invalid-short_team_name').textContent = '';
+    document.getElementById('invalid-manufacturer').textContent = '';
 }
 
 document.addEventListener('DOMContentLoaded', () => {

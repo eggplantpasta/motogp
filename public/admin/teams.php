@@ -70,6 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data['form']['errors']['team_name'] = 'Team name is required.';
         }
 
+        if ($formData['short_team_name'] === '') {
+            $data['form']['errors']['short_team_name'] = 'Short name is required.';
+        }
+
+        if ($formData['manufacturer'] === '') {
+            $data['form']['errors']['manufacturer'] = 'Manufacturer is required.';
+        }
         if (empty($data['form']['errors'])) {
             try {
                 if ($operation === 'create') {
