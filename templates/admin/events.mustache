@@ -1,20 +1,22 @@
 {{< partials/layout }}
 
-{{$ title }}Manage Events{{/ title }}
+{{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
 
 {{$ content }}
 
-<h1>Manage Events</h1>
+<h1>{{ page.heading }}</h1>
 
 <p>
-    <a href="/admin/create-event.php" role="button">Create Event</a>
+    <button
+        type="button"
+        class="motogp-icon-text-button"
+        data-action="add-event"
+        data-target="modal-edit"
+    >
+        {{> partials/icons/add }}
+        Add Event
+    </button>
 </p>
-
-{{#message}}
-<section role="alert" class="motogp-form-message {{message-class}}">
-    {{message}}
-</section>
-{{/message}}
 
 <table>
     <thead>
@@ -24,60 +26,194 @@
             <th>Circuit</th>
             <th>Country</th>
             <th>Bids Open</th>
-            <th>Actions</th>
+            <th>Admin</th>
         </tr>
     </thead>
 
     <tbody>
         {{#events}}
-        <tr>
+        <tr
+            data-event-id="{{event_id}}"
+            data-start-date="{{start_date}}"
+            data-event-name="{{name}}"
+            data-circuit="{{circuit}}"
+            data-country-code="{{country_code}}"
+            data-bids-open="{{bids_open}}"
+        >
             <td>{{display_date}}</td>
             <td>{{name}}</td>
             <td>{{circuit}}</td>
             <td>{{country_name}}</td>
-            <td>{{#bids_open}}Yes{{/bids_open}}{{^bids_open}}No{{/bids_open}}</td>
             <td>
-                <a href="/admin/edit-event.php?event_id={{event_id}}">
-                    Edit
-                </a>
+                {{#bids_open}}Yes{{/bids_open}}
+                {{^bids_open}}No{{/bids_open}}
+            </td>
+            <td class="motogp-button-group">
+                <button
+                    type="button"
+                    class="motogp-icon-button"
+                    data-action="edit-event"
+                    data-target="modal-edit"
+                    data-tooltip="Edit event"
+                    aria-label="Edit event"
+                >
+                    {{> partials/icons/edit }}
+                </button>
 
                 {{#can_delete}}
-                <form
-                    action="/admin/events.php"
-                    method="post"
-                    class="motogp-inline-form"
-                    onsubmit="return confirm('Delete {{name}}?');"
+                <button
+                    type="button"
+                    class="motogp-icon-button"
+                    data-action="delete-event"
+                    data-tooltip="Delete event"
+                    aria-label="Delete event"
                 >
-                    <input
-                        type="hidden"
-                        name="csrf_token"
-                        value="{{csrfToken}}"
-                    >
-                    <input
-                        type="hidden"
-                        name="event_id"
-                        value="{{event_id}}"
-                    >
-                    <button
-                        type="submit"
-                        class="motogp-link-button"
-                    >
-                        Delete
-                    </button>
-                </form>
+                    {{> partials/icons/delete }}
+                </button>
                 {{/can_delete}}
             </td>
-        </tr>
-        {{/events}}
-
-        {{^events}}
-        <tr>
-            <td colspan="6">No events found.</td>
         </tr>
         {{/events}}
     </tbody>
 </table>
 
+<dialog
+    id="modal-edit"
+    {{#form.open_modal}}data-open-on-load="true"{{/form.open_modal}}
+>
+    <article>
+        <form id="event-form" method="post" novalidate>
+
+            <h2 id="event-form-heading">Edit Event</h2>
+
+            <section
+                id="event-form-message"
+                role="alert"
+                class="motogp-form-message {{form.message-class}}"
+            >
+                {{#form.message}}
+                    {{form.message}}
+                {{/form.message}}
+            </section>
+
+            <fieldset>
+                <input
+                    type="hidden"
+                    name="operation"
+                    id="operation"
+                    value="update"
+                >
+
+                <input
+                    type="hidden"
+                    name="event-id"
+                    id="event-id"
+                    value="{{form.event_id}}"
+                >
+
+                <label>
+                    Start Date
+                    <input
+                        type="date"
+                        name="start-date"
+                        id="start-date"
+                        value="{{form.start_date}}"
+                        aria-invalid="{{#form.errors.start_date}}true{{/form.errors.start_date}}"
+                        aria-describedby="invalid-start_date"
+                    >
+                    <small id="invalid-start_date">
+                        {{form.errors.start_date}}
+                    </small>
+                </label>
+
+                <label>
+                    Event Name
+                    <input
+                        type="text"
+                        name="event-name"
+                        id="event-name"
+                        value="{{form.name}}"
+                        aria-invalid="{{#form.errors.name}}true{{/form.errors.name}}"
+                        aria-describedby="invalid-name"
+                    >
+                    <small id="invalid-name">
+                        {{form.errors.name}}
+                    </small>
+                </label>
+
+                <label>
+                    Circuit
+                    <input
+                        type="text"
+                        name="circuit"
+                        id="circuit"
+                        value="{{form.circuit}}"
+                    >
+                </label>
+
+                <label>
+                    Country
+                    <select
+                        name="country-code"
+                        id="country-code"
+                    >
+                        <option value="" disabled>Select country</option>
+
+                        {{#countries}}
+                        <option
+                            value="{{country_code}}"
+                            {{#selected}}selected{{/selected}}
+                        >
+                            {{name}}
+                        </option>
+                        {{/countries}}
+                    </select>
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="bids-open"
+                        id="bids-open"
+                        {{#form.bids_open}}checked{{/form.bids_open}}
+                    >
+                    Bids Open
+                </label>
+
+                <small id="invalid-bids_open">
+                    {{form.errors.bids_open}}
+                </small>
+            </fieldset>
+
+            <fieldset class="grid">
+                <button
+                    type="button"
+                    data-action="close-modal"
+                    data-target="modal-edit"
+                >
+                    Cancel
+                </button>
+
+                <button type="submit">
+                    Save
+                </button>
+            </fieldset>
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{csrfToken}}"
+            >
+        </form>
+    </article>
+</dialog>
+
+{{> partials/modal-confirm }}
+
 {{/ content }}
+
+{{$ scripts }}
+    <script src="/assets/js/events.js"></script>
+{{/ scripts }}
 
 {{/ partials/layout }}
