@@ -1,0 +1,162 @@
+{{< partials/layout }}
+  {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+
+  {{$ content }}
+  <h1>{{ page.heading }}</h1>
+
+    <p>
+        <button type="button" class="motogp-icon-text-button" data-action="add-team" data-target="modal-edit" >
+          {{> partials/icons/add }}
+          Add Team
+      </button>
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>Short Name</th>
+                <th>Manufacturer</th>
+                <th>Admin</th>
+            </tr>
+        </thead>
+      <tbody>
+      {{# teams }}
+        <tr
+            data-team-id="{{team_id}}"
+            data-team-name="{{team_name}}"
+            data-short-team-name="{{short_team_name}}"
+            data-manufacturer="{{manufacturer}}"
+        >
+            <td class="{{ cell-class }}">{{ team_name }}</td>
+            <td class="rider-name {{ cell-class }}">{{ short_team_name }}</td>
+            <td class="team_name {{ cell-class }}">{{ manufacturer }}</td>
+            <td class="motogp-button-group">
+            <button type="button" class="motogp-icon-button" data-target="modal-edit" data-action="edit-team" data-tooltip="Edit team" aria-label="Edit team" >
+                {{> partials/icons/edit }}
+            </button>
+            {{#can_delete}}
+            <button type="button" class="motogp-icon-button" data-target="modal-confirm" data-action="delete-team" data-tooltip="Delete team" aria-label="Delete team" >
+                {{> partials/icons/delete }}
+            </button>
+            {{/can_delete}}
+            </td>
+        </tr>
+      {{/ teams }}
+      </tbody>
+    </table>
+
+  <dialog
+      id="modal-edit"
+      {{#form.open_modal}}data-open-on-load="true"{{/form.open_modal}}>
+      <article>
+          <form id="team-form" method="post" novalidate>
+
+              <h2>Edit Team</h2>
+
+              <section
+                  id="team-form-message"
+                  role="alert"
+                  class="motogp-form-message {{form.message-class}}"
+              >
+                  {{#form.message}}
+                      {{form.message}}
+                  {{/form.message}}
+              </section>
+
+              <fieldset>
+                  <input
+                      type="hidden"
+                      name="operation"
+                      id="operation"
+                      value="update"
+                  >
+
+                  <input
+                      type="hidden"
+                      name="team-id"
+                      id="team-id"
+                      value="{{form.team_id}}"
+                  >
+                <label>
+                    Team Name
+                    <input
+                        type="text"
+                        name="team-name"
+                        id="team-name"
+                        placeholder="Team Name"
+                        value="{{form.team_name}}"
+                        aria-invalid="{{#form.errors.team_name}}true{{/form.errors.team_name}}"
+                        aria-describedby="invalid-team_name"
+                    >
+                    <small id="invalid-team_name">
+                        {{form.errors.team_name}}
+                    </small>
+                </label>
+
+                  <label>
+                      Short Name
+                      <input
+                          name="short-team-name"
+                          id="short-team-name"
+                          placeholder="Short Name"
+                          value="{{form.short_team_name}}"
+                          aria-invalid="{{#form.errors.short_team_name}}true{{/form.errors.short_team_name}}"
+                          aria-describedby="invalid-short_team_name"
+                      >
+                      <small id="invalid-short_team_name">
+                          {{form.errors.short_team_name}}
+                      </small>
+                  </label>
+
+                  <label>
+                      Manufacturer
+                      <input
+                          type="text"
+                          name="manufacturer"
+                          id="manufacturer"
+                          placeholder="Manufacturer"
+                          value="{{form.manufacturer}}"
+                          aria-invalid="{{#form.errors.manufacturer}}true{{/form.errors.manufacturer}}"
+                          aria-describedby="invalid-manufacturer"
+                      >
+                      <small id="invalid-manufacturer">
+                          {{form.errors.manufacturer}}
+                      </small>
+                  </label>
+
+              </fieldset>
+
+              <fieldset class="grid">
+                  <button
+                      type="button"
+                      data-action="close-modal"
+                      data-target="modal-edit"
+                  >
+                      Cancel
+                  </button>
+
+                  <button type="submit">
+                      Save
+                  </button>
+              </fieldset>
+
+              <input
+                  type="hidden"
+                  name="csrf_token"
+                  value="{{csrfToken}}"
+              >
+
+            </form>
+        </article>
+    </dialog>
+
+    {{> partials/modal-confirm }}
+
+    {{/ content }}
+
+    {{$ scripts }}
+        <script src="/assets/js/teams.js"></script>
+    {{/ scripts }}
+
+{{/ partials/layout }}
