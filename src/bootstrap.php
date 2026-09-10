@@ -13,7 +13,7 @@ $configCandidates = [
     $configDir . '/app.ini',
 ];
 
-$config = false;
+$config = null;
 foreach ($configCandidates as $configPath) {
     if (!is_readable($configPath)) {
         continue;
@@ -26,7 +26,7 @@ foreach ($configCandidates as $configPath) {
     }
 }
 
-if ($config === false) {
+if ($config === null) {
     throw new \RuntimeException('Unable to load configuration file.');
 }
 

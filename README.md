@@ -74,4 +74,4 @@ Note: app logs are date-rotated by Monolog (`app-YYYY-MM-DD.log`) using `log.day
 
 Built using [PHP](https://www.php.net), [SQLite](https://sqlite.org), vanilla [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Mustache](https://mustache.github.io) templates, and [semantic HTML](https://developer.mozilla.org/en-US/docs/Glossary/Semantics#semantics_in_html).
 
-Made pretty using [Pico CSS](https://picocss.com), [Lucide Icons](https://lucide.dev/icons/), and [Michroma](https://fonts.google.com/specimen/Michroma?preview.script=Latn) from [Google Fonts](https://fonts.google.com/?preview.script=Latn).
+Made pretty using [Pico CSS](https://picocss.com), [Lucide Icons](https://lucide.dev/icons/), [Font Awesome](https://fontawesome.com), and [Michroma](https://fonts.google.com/specimen/Michroma?preview.script=Latn) from [Google Fonts](https://fonts.google.com/?preview.script=Latn).
