@@ -43,19 +43,27 @@ if (isset($_GET['event_id']) && ctype_digit($_GET['event_id'])) {
     $eventId = $events->getLastEventId();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
-        http_response_code(403);
-        exit('Invalid CSRF token.');
-    }
+$postedEventId = $_POST['event-id'] ?? '';
 
-    $postedEventId = $_POST['event-id'] ?? '';
+if ($postedEventId === '' || !ctype_digit($postedEventId)) {
+    $data['form']['message'] = 'A valid event is required.';
+    $data['form']['message-class'] = 'error';
+} else {
+    $eventId = (int)$postedEventId;
+    $event = $events->getEventById($eventId);
 
-    if ($postedEventId === '' || !ctype_digit($postedEventId)) {
-        $data['form']['message'] = 'A valid event is required.';
+    if ($event === null) {
+        $data['form']['message'] = 'Event does not exist.';
         $data['form']['message-class'] = 'error';
     } else {
-        $eventId = (int)$postedEventId;
+        $riders = $results->getRidersForEventResults($eventId);
+
+        $validRiderIds = array_column(
+            $riders,
+            null,
+            'rider_id'
+        );
+
         $positions = $_POST['positions'] ?? [];
         $saveResults = [];
         $usedPositions = [];
@@ -67,7 +75,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 continue;
             }
 
-            if (!ctype_digit((string)$riderId) || !ctype_digit($position) || (int)$position < 1) {
+            if (
+                !ctype_digit((string)$riderId)
+                || !isset($validRiderIds[$riderId])
+            ) {
+                $data['form']['message'] = 'Invalid rider.';
+                $data['form']['message-class'] = 'error';
+                break;
+            }
+
+            if (!ctype_digit($position) || (int)$position < 1) {
                 $data['form']['message'] = 'Positions must be positive whole numbers.';
                 $data['form']['message-class'] = 'error';
                 break;
@@ -76,7 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $position = (int)$position;
 
             if (isset($usedPositions[$position])) {
-                $data['form']['message'] = "Position {$position} has been entered more than once.";
+                $data['form']['message'] =
+                    "Position {$position} has been entered more than once.";
                 $data['form']['message-class'] = 'error';
                 break;
             }
@@ -87,7 +105,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($data['form']['message'] === '') {
             if ($results->saveResults($eventId, $saveResults)) {
-                header('Location: /admin/results.php?event_id=' . $eventId);
+                header(
+                    'Location: /admin/results.php?event_id=' . $eventId
+                );
                 exit();
             }
 
