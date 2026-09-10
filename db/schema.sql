@@ -45,11 +45,15 @@ created_at datetime not null default current_timestamp,
 foreign key (country_code) references countries(country_code)
 );
 
-create table if not exists  results (
-    event_id integer,
-    rider_id integer,
-    position integer,
+create table if not exists results (
+    event_id integer not null,
+    rider_id integer not null,
+    position integer not null,
     created_at datetime not null default current_timestamp,
+
+    primary key (event_id, rider_id),
+    unique (event_id, position),
+
     foreign key (event_id) references events(event_id),
     foreign key (rider_id) references riders(rider_id)
 );
