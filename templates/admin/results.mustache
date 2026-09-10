@@ -1,0 +1,71 @@
+{{< partials/layout }}
+
+{{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+
+{{$ content }}
+
+<h1>{{ page.heading }}</h1>
+
+<form method="get" action="/admin/results.php">
+    <label for="event-id-select">Event</label>
+    <select
+        id="event-id-select"
+        name="event_id"
+        onchange="this.form.submit()"
+    >
+        {{# events }}
+        <option value="{{ event_id }}" {{# selected }}selected{{/ selected }}>
+            {{ name }}
+        </option>
+        {{/ events }}
+    </select>
+</form>
+
+{{# event }}
+
+<h2>{{ name }}</h2>
+
+{{# form.message }}
+<p class="{{ form.message-class }}">{{ form.message }}</p>
+{{/ form.message }}
+
+<form method="post" action="/admin/results.php">
+    <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+    <input type="hidden" name="event-id" value="{{ event_id }}">
+
+    <button type="submit">Save Results</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>#</th>
+                <th>Rider</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{# results }}
+            <tr>
+                <td>
+                    <input
+                        type="number"
+                        name="positions[{{ rider_id }}]"
+                        value="{{ position }}"
+                        min="1"
+                        step="1"
+                    >
+                </td>
+                <td>{{ race_number }}</td>
+                <td>{{ rider_name }}</td>
+            </tr>
+            {{/ results }}
+        </tbody>
+    </table>
+</form>
+
+{{/ event }}
+
+{{/ content }}
+
+{{/ partials/layout }}

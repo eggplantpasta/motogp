@@ -69,4 +69,29 @@ class Result
             return false;
         }
     }
+
+    public function getRidersForEventResults(int $eventId): array
+    {
+        $sql = '
+            SELECT
+                r.rider_id,
+                r.race_number,
+                r.name AS rider_name,
+                r.active,
+                res.position
+            FROM riders r
+            LEFT JOIN results res
+                ON res.rider_id = r.rider_id
+                AND res.event_id = :event_id
+            ORDER BY
+                r.active DESC,
+                CASE WHEN res.position IS NULL THEN 1 ELSE 0 END,
+                res.position,
+                r.name
+        ';
+
+        return $this->db->query($sql, [
+            ':event_id' => $eventId
+        ]);
+    }
 }
