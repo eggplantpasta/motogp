@@ -7,33 +7,42 @@ use MotoGp\Utility;
 use MotoGp\Event;
 use MotoGp\Result;
 
-// get session user
 $user = new User();
 
-// get the data from the db
 $db = new Database($config['database']['dsn']);
 
-$event = new Event($db);
-$result = new Result($db);
+$events = new Event($db);
+$results = new Result($db);
 
-if (isset($_GET['event_id']) && is_numeric($_GET['event_id'])) {
+if (isset($_GET['event_id'])) {
+    if (!ctype_digit($_GET['event_id'])) {
+        http_response_code(404);
+        exit('Event not found.');
+    }
+
     $eventId = (int)$_GET['event_id'];
+    $event = $events->getEventById($eventId);
+
+    if ($event === null) {
+        http_response_code(404);
+        exit('Event not found.');
+    }
 } else {
-    $eventId = $event->getLastEventId();
-    $data['results'] = $result->getResultsByEventId($eventId);
+    $eventId = $events->getLastEventId();
+    $event = $events->getEventById($eventId);
 }
-$data['event'] = $event->getEventById($eventId);
-$data['results'] = $result->getResultsByEventId($eventId);
+
+$data['event'] = $event;
+$data['results'] = $results->getResultsByEventId($eventId);
 
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Results';
 $data['page']['heading'] = 'Results';
 
-// format date
-$data['event']['display_date'] = Utility::formatDate($data['event']['start_date'], 'M d');
+$data['event']['display_date'] =
+    Utility::formatDate($data['event']['start_date'], 'M d');
 
 $tpl = new Template($config['template']);
+
 echo $tpl->render('results', $data);
-
-
