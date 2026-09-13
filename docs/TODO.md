@@ -190,7 +190,7 @@ disposable SQLite databases are acceptable.
 - [x] Add admin team management under `/admin/`.
 - [x] Add admin results management under `/admin/`.
 - [x] Add Riders, Teams and Results to the admin navigation.
-- [ ] Review the existing user-facing rider and results pages after the admin functionality has been separated.
+- [x] Review the existing user-facing rider and results pages after the admin functionality has been separated.
 
 ---
 
