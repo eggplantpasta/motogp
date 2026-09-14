@@ -39,6 +39,10 @@ foreach ($data['events'] as &$event) {
     }
     // format date
     $event['display_date'] = Utility::formatDate($event['start_date'], 'M d');
+    // if bids are open, results should not be shown
+    if ($event['bids_open']) {
+    $event['results'] = false;
+}
 
 }
 
