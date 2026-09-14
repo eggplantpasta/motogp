@@ -16,7 +16,20 @@
 </section>
 <section>
 <h2>Bidding</h2>
-<p><strong>{{ next_event.start_date }}</strong> <em>{{ next_event.name }}</em></p>
+<p>
+    <strong>{{ next_event.start_date }}</strong>
+    <em>{{ next_event.name }}</em>
+</p>
+
+{{# next_event.bidding_open }}
+<p>
+    <a href="/bids.php?event_id={{ next_event.event_id }}">
+        <button type="button">
+            Place Bids
+        </button>
+    </a>
+</p>
+{{/ next_event.bidding_open }}
 
 <p>Balance: {{ user.balance }} points.</p>
 

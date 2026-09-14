@@ -22,6 +22,14 @@ $tpl = new Template($config['template']);
 $data['user'] = $user->getSessionUser();
 $data['user']['created_ago'] = Utility::timeAgo($data['user']['created_at']);
 $data['next_event'] = $next_event;
-$data['next_event']['start_date'] = Utility::formatDate($data['next_event']['start_date'], 'M d');
+
+$data['next_event']['start_date'] =
+    Utility::formatDate(
+        $data['next_event']['start_date'],
+        'M d'
+    );
+
+$data['next_event']['bidding_open'] =
+    (bool)$data['next_event']['bids_open'];
 
 echo $tpl->render('user/account', $data);
