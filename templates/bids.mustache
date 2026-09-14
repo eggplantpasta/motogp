@@ -1,0 +1,80 @@
+{{< partials/layout }}
+
+{{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+
+{{$ content }}
+
+<h1>{{ page.heading }}</h1>
+
+<h2>{{ event.name }}</h2>
+
+<p>
+    {{ event.display_date }} · {{ event.circuit }}
+</p>
+
+<p>
+    Available points: <strong>{{ user.balance }}</strong>
+</p>
+
+{{#message}}
+<p>{{ message }}</p>
+{{/message}}
+
+<form method="post">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Bid</th>
+                <th>Rider</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#bid_rows}}
+            <tr>
+                <td>{{ bid_number }}</td>
+
+                <td>
+                    <select name="rider-{{ bid_number }}">
+                        <option value="">Select rider</option>
+
+                        {{#riders}}
+                        <option
+                            value="{{ rider_id }}"
+                            {{#selected}}selected{{/selected}}
+                        >
+                            #{{ race_number }} {{ name }}
+                        </option>
+                        {{/riders}}
+                    </select>
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        name="amount-{{ bid_number }}"
+                        value="{{ amount }}"
+                        min="0"
+                        step="1"
+                    >
+                </td>
+            </tr>
+            {{/bid_rows}}
+        </tbody>
+    </table>
+
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="{{ csrfToken }}"
+    >
+
+    <button type="submit">Save Bids</button>
+
+</form>
+
+{{/ content }}
+
+{{/ partials/layout }}

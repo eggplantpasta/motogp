@@ -30,6 +30,27 @@ class Riders {
         }
     }
 
+    public function getActiveRiders(): array
+    {
+        try {
+            $sql = '
+                SELECT r.*, t.team_name
+                FROM riders r
+                LEFT JOIN teams t ON r.team_id = t.team_id
+                WHERE r.active = 1
+                ORDER BY r.name
+            ';
+
+            return $this->db->query($sql);
+        } catch (\PDOException $e) {
+            $this->logger?->error(
+                'Failed to fetch active riders: ' . $e->getMessage()
+            );
+
+            throw $e;
+        }
+    }
+
     public function getRiderById(int $riderId): ?array
     {
         try {
