@@ -13,5 +13,9 @@ fi
 export APP_ENV="local"
 
 # Start the server
-php -S localhost:8080 -c ${ROOT_DIR}/config/php.local.ini -t ${ROOT_DIR}/public
+php -S localhost:8080 \
+    -d session.gc_probability=0 \
+    -c ${ROOT_DIR}/config/php.local.ini \
+    -t ${ROOT_DIR}/public
+
 
