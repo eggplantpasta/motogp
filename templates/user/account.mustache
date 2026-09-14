@@ -14,11 +14,12 @@
 </ul>
 <p>You can <a href="/user/edit-account.php">edit your registration details and password here</a>.</p>
 </section>
-<section>
-<h2>Bidding</h2>
+<article>
+<h2>Next Event</h2>
 <p>
     <strong>{{ next_event.start_date }}</strong>
-    <em>{{ next_event.name }}</em>
+    {{ next_event.name }} <span class="motogp-flag fi fi-{{ next_event.alpha_2 }}"></span><br>
+    <small class="motogp-secondary">{{ next_event.circuit }}</small>
 </p>
 
 {{# next_event.bidding_open }}
@@ -31,10 +32,10 @@
 </p>
 {{/ next_event.bidding_open }}
 
-<p>Balance: {{ user.balance }} points.</p>
+<p>Your current balance: <strong>{{ user.balance }}</strong> points.</p>
 
 
-</section>
+</article>
 {{/ content }}
 
 {{/ partials/layout }}
