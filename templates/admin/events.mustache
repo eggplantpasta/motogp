@@ -48,29 +48,31 @@
                 {{#bids_open}}Yes{{/bids_open}}
                 {{^bids_open}}No{{/bids_open}}
             </td>
-            <td class="motogp-button-group">
-                <button
-                    type="button"
-                    class="motogp-icon-button"
-                    data-action="edit-event"
-                    data-target="modal-edit"
-                    data-tooltip="Edit event"
-                    aria-label="Edit event"
-                >
-                    {{> partials/icons/edit }}
-                </button>
+            <td>
+                <div class="motogp-button-group">
+                    <button
+                        type="button"
+                        class="motogp-icon-button"
+                        data-action="edit-event"
+                        data-target="modal-edit"
+                        data-tooltip="Edit event"
+                        aria-label="Edit event"
+                    >
+                        {{> partials/icons/edit }}
+                    </button>
 
-                {{#can_delete}}
-                <button
-                    type="button"
-                    class="motogp-icon-button"
-                    data-action="delete-event"
-                    data-tooltip="Delete event"
-                    aria-label="Delete event"
-                >
-                    {{> partials/icons/delete }}
-                </button>
-                {{/can_delete}}
+                    {{#can_delete}}
+                    <button
+                        type="button"
+                        class="motogp-icon-button"
+                        data-action="delete-event"
+                        data-tooltip="Delete event"
+                        aria-label="Delete event"
+                    >
+                        {{> partials/icons/delete }}
+                    </button>
+                    {{/can_delete}}
+                </div>
             </td>
         </tr>
         {{/events}}
