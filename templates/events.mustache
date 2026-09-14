@@ -29,9 +29,14 @@
 
               {{# results }}
                   <a href="/results.php?event_id={{ event_id }}">
-                      <button type="button">
-                          Results
-                      </button>
+                    <button
+                      type="button"
+                      class="motogp-icon-button"
+                      data-tooltip="View results"
+                      aria-label="View results"
+                    >
+                      {{> partials/icons/flag }}
+                    </button>
                   </a>
               {{/ results }}
           </td>
