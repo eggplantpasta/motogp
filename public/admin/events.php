@@ -155,6 +155,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $data['events'] = $events->getEvents();
 
 foreach ($data['events'] as &$eventData) {
+    $eventData['start_date'] = normalizeDate(
+        $eventData['start_date']
+    );
+
     $eventData['display_date'] = Utility::formatDate(
         $eventData['start_date'],
         'M d'
