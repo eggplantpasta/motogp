@@ -157,7 +157,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data['errors'] = $errors;
 }
 
-if (isset($_GET['saved'])) {
+if (
+    $_SERVER['REQUEST_METHOD'] === 'GET' &&
+    isset($_GET['saved'])
+) {
     $data['message'] = 'Bids saved.';
 }
 
