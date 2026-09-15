@@ -11,7 +11,26 @@
     <figcaption>Zoooomm..</figcaption>
     </figure>
     <h2><span class="motogp-font">{{ page.next_race_name }}</span></h2>
-    <h2>{{ page.days_to_go }}</h2>
+    <strong>{{ page.days_to_go }}</strong>
+
     </section>
+    {{# show_ladder }}
+    <section class="motogp-leaders">
+        <h2>Top Players</h2>
+
+        <table>
+            <tbody>
+                {{# leaders }}
+                <tr>
+                    <td>{{ username }}</td>
+                    <td>{{ balance }}</td>
+                </tr>
+                {{/ leaders }}
+            </tbody>
+        </table>
+
+        <p><a href="/ladder.php">View full ladder</a></p>
+    </section>
+    {{/ show_ladder }}
   {{/ content }}
 {{/ partials/layout }}

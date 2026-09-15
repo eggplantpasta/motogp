@@ -11,8 +11,12 @@
     background-color: var(--pico-mark-background-color);
 }
 
+.motogp-primary {
+  color: var(--pico-primary);
+}
+
 .motogp-secondary {
-    color: var(--pico-secondary-color);
+    color: var(--pico-secondary);
 }
 
 .motogp-flag {
@@ -118,4 +122,14 @@ flex-direction: row;
     width: 1rem;
     height: 1rem;
     flex: 0 0 auto;
+}
+
+.motogp-leaders {
+    max-width: 30rem;
+    margin-inline: auto;
+}
+
+.motogp-nav-icon svg {
+    width: 1rem;
+    height: 1rem;
 }

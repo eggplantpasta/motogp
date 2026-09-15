@@ -1,11 +1,13 @@
 <nav>
     <ul>
-    <li><strong><a href="/index.php" class="motogp-secondary"><span class="motogp-font">MotoGP</span> Bidding</a></strong></li>
+    <li><strong><a href="/index.php"><span class="motogp-font">MotoGP</span> Bidding</a></strong></li>
     </ul>
     <ul>
-    <li><a href="/events.php" class="motogp-secondary">events</a></li>
-    <li><a href="/riders.php" class="motogp-secondary">riders</a></li>
-    <li><a href="/ladder.php" class="motogp-secondary">ladder</a></li>
+    <li><a href="/events.php">events</a></li>
+    <li><a href="/riders.php">riders</a></li>
+    {{# user }}
+    <li><a href="/ladder.php">Ladder</a></li>
+    {{/ user }}
 
     {{#user.admin}}
     <li>
@@ -37,8 +39,8 @@
     <li>
         <details class="dropdown">
         <summary>
-            <span {{#user}}class="webmin-highlight"{{/user}}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></g></svg>
+            <span class="motogp-nav-icon {{#user}}webmin-highlight{{/user}}">
+                {{> partials/icons/account }}
             </span>
         </summary>
         <ul>

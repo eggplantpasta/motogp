@@ -670,4 +670,24 @@ class User {
         ]);
     }
 
+    public function getLadder(?int $limit = null): array
+    {
+        $sql = '
+            SELECT
+                user_id,
+                username,
+                balance
+            FROM users
+            WHERE approved_at IS NOT NULL
+            AND disabled_at IS NULL
+            ORDER BY balance DESC, username
+        ';
+
+        if ($limit !== null) {
+            $sql .= ' LIMIT ' . (int)$limit;
+        }
+
+        return $this->db->query($sql);
+    }
+
 }

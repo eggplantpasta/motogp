@@ -16,6 +16,12 @@ $event = new Event($db);
 $eventData = $event->getNextEvent();
 
 $data['user'] = $user->getSessionUser();
+
+if ($user->isLoggedIn()) {
+    $data['show_ladder'] = true;
+    $data['leaders'] = $user->getLadder(3);
+}
+
 $data['app'] = $config['app'];
 $data['page'] = [
     'title' => 'Home',
