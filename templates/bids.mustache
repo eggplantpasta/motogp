@@ -20,6 +20,17 @@
 <p>{{ message }}</p>
 {{/message}}
 
+{{#has_errors}}
+<article>
+    <strong>Please check your bids:</strong>
+    <ul>
+        {{#errors}}
+        <li>{{ . }}</li>
+        {{/errors}}
+    </ul>
+</article>
+{{/has_errors}}
+
 <form method="post">
 
     <table>

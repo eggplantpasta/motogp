@@ -71,39 +71,95 @@ foreach ($bidModel->getUserBids($userId, $eventId) as $bid) {
     ];
 }
 
+$riders = $riderModel->getActiveRiders();
+
+$activeRiderIds = [];
+
+foreach ($riders as $rider) {
+    $activeRiderIds[(int)$rider['rider_id']] = true;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
         http_response_code(403);
         exit('Invalid CSRF token.');
     }
 
+    $errors = [];
+    $selectedRiders = [];
+    $totalBid = 0;
+
     foreach ($bids as $bidNumber => &$bid) {
-        $bid['rider_id'] =
+        $riderId =
             trim($_POST['rider-' . $bidNumber] ?? '');
 
         $amount =
-            trim($_POST['amount-' . $bidNumber] ?? '0');
+            trim($_POST['amount-' . $bidNumber] ?? '');
 
-        $bid['amount'] =
-            ctype_digit($amount) ? (int)$amount : 0;
+        $bid['rider_id'] = $riderId;
+        $bid['amount'] = $amount;
+
+        if (
+            $riderId === '' ||
+            !ctype_digit($riderId) ||
+            !isset($activeRiderIds[(int)$riderId])
+        ) {
+            $errors[] = 'Please select a valid rider for bid ' . $bidNumber . '.';
+        } else {
+            $selectedRiders[] = (int)$riderId;
+        }
+
+        if ($amount === '' || !ctype_digit($amount)) {
+            $errors[] =
+                'Bid ' . $bidNumber .
+                ' must be a whole number of zero or more.';
+        } else {
+            $bid['amount'] = (int)$amount;
+            $totalBid += $bid['amount'];
+        }
     }
+
     unset($bid);
 
-    if ($bidModel->saveUserBids($userId, $eventId, $bids)) {
-        header(
-            'Location: /bids.php?event_id=' . $eventId . '&saved=1'
-        );
-        exit();
+    if (
+        count($selectedRiders) === 3 &&
+        count(array_unique($selectedRiders)) !== 3
+    ) {
+        $errors[] = 'You must select three different riders.';
     }
 
-    $data['message'] = 'Unable to save bids.';
+    if ($totalBid > (int)$sessionUser['balance']) {
+        $errors[] =
+            'Your bids total ' . $totalBid .
+            ' points, but you only have ' .
+            (int)$sessionUser['balance'] .
+            ' points available.';
+    }
+
+    if (!$errors) {
+        if ($bidModel->saveUserBids(
+            $userId,
+            $eventId,
+            $bids
+        )) {
+            header(
+                'Location: /bids.php?event_id=' .
+                $eventId .
+                '&saved=1'
+            );
+            exit();
+        }
+
+        $errors[] = 'Unable to save bids.';
+    }
+
+    $data['has_errors'] = !empty($errors);
+    $data['errors'] = $errors;
 }
 
 if (isset($_GET['saved'])) {
     $data['message'] = 'Bids saved.';
 }
-
-$riders = $riderModel->getActiveRiders();
 
 $data['bid_rows'] = [];
 
