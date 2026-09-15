@@ -12,16 +12,21 @@ When choosing between two reasonable implementations, prefer the one that can be
 
 Modern security practices are still expected; simplicity should not come at the expense of security.
 
-## Game rules
+### Game rules
 
 ### Bidding
 
 For each event:
 
-- Each player may bid on three riders.
+- Each player must bid on exactly three riders.
 - A bid may be any whole number of points, including zero.
+- The total of a player's three bids cannot exceed their current balance.
 - The highest bid for a rider wins that rider.
 - If two or more players tie for the highest bid, they all win that rider.
+- Only winning bids are deducted from a player's balance. Losing bids cost nothing.
+- Players may change their bids while bidding remains open.
+- Bids are visible to other players.
+- Bidding closes at a lockout time selected for the event.
 
 ### Points pool
 
@@ -31,7 +36,7 @@ After bidding closes, the total points pool for the event is calculated from all
 
 Each winning bid therefore adds one new point to the game economy.
 
-For example, if two players both make a winning bid of 5 points on the same rider, both bids are included in the pool. Subject to confirmation, those bids would contribute:
+For example, if two players both make a winning bid of 5 points on the same rider, both winning bids are included in the pool:
 
 **5 + 5 + 2 = 12 points**
 
@@ -50,23 +55,27 @@ The points pool is distributed according to the finishing positions of the rider
 | 7th | 7% |
 | 8th | 6% |
 
-The percentages total 100% of the event points pool.
+Only riders finishing in the top eight receive a payout.
 
-### Rules requiring clarification
+Fractional payouts are rounded up to the next whole point.
 
-The following details still need to be confirmed before the game logic is implemented:
+### Tied winning bids
 
-- How are fractional payouts rounded?
-- Does each player have to bid on exactly three different riders, or may they bid on fewer than three?
-- Are the three bids deducted from the player's balance when submitted, or only winning bids?
-- Can a player bid more points than their current balance?
-- Can bids be changed or withdrawn while bidding remains open?
-- When exactly does bidding close?
-- Are bids hidden from other players until bidding closes?
-- If multiple players tie for the highest bid on a rider, confirm that every tied winning bid is included separately in the points pool.
-- If multiple players win the same rider, does each player receive the full payout for that rider's finishing position?
-- What happens to a winning rider who does not start, does not finish, or finishes outside the top eight?
+If multiple players tie for the highest bid on the same rider, each tied bid is a winning bid:
 
+- each winning bid is deducted from its player's balance;
+- each winning bid is included separately when calculating the points pool; and
+- the tied players share the payouts for the finishing positions they collectively occupy.
+
+For example, if two players jointly win a rider and that rider finishes first, they share the first- and second-place payouts:
+
+**(23% + 18%) / 2 = 20.5% each**
+
+If three players jointly win a rider that finishes first, they share the first-, second- and third-place payouts:
+
+**(23% + 18% + 15%) / 3 = 18.67% each**
+
+The resulting points payout for each player is rounded up to a whole point.
 
 ## Development
 
