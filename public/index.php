@@ -6,11 +6,9 @@ use Webmin\User;
 use MotoGp\Event;
 use MotoGp\Utility;
 
-// get session user
-$user = new User();
-
-// get the data from the db
 $db = new Database($config['database']['dsn']);
+
+$user = new User($db);
 
 $event = new Event($db);
 $eventData = $event->getNextEvent();
