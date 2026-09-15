@@ -9,7 +9,9 @@ use MotoGp\Riders;
 use MotoGp\Bid;
 use MotoGp\Utility;
 
-$user = new User();
+$db = new Database($config['database']['dsn']);
+
+$user = new User($db);
 
 if (!$user->isLoggedIn()) {
     header('Location: /user/login.php');
@@ -25,8 +27,6 @@ if (
 }
 
 $eventId = (int)$_GET['event_id'];
-
-$db = new Database($config['database']['dsn']);
 
 $eventModel = new Event($db);
 $riderModel = new Riders($db);
@@ -47,8 +47,16 @@ if (!(bool)$event['bids_open']) {
 $sessionUser = $user->getSessionUser();
 $userId = (int)$sessionUser['user_id'];
 
+$balance = $user->getBalance($userId);
+
+if ($balance === null) {
+    http_response_code(403);
+    exit('User account not found.');
+}
+
 $data['app'] = $config['app'];
 $data['user'] = $sessionUser;
+$data['user']['balance'] = $balance;
 $data['event'] = $event;
 $data['event']['display_date'] =
     Utility::formatDate($event['start_date'], 'M d');
@@ -128,11 +136,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'You must select three different riders.';
     }
 
-    if ($totalBid > (int)$sessionUser['balance']) {
+    if ($totalBid > $balance) {
         $errors[] =
             'Your bids total ' . $totalBid .
             ' points, but you only have ' .
-            (int)$sessionUser['balance'] .
+            $balance .
             ' points available.';
     }
 

@@ -690,4 +690,24 @@ class User {
         return $this->db->query($sql);
     }
 
+    public function getBalance(int $userId): ?int
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for getting user balance.'
+            );
+        }
+
+        $result = $this->db->queryOne(
+            'SELECT balance FROM users WHERE user_id = :user_id',
+            ['user_id' => $userId]
+        );
+
+        if ($result === null) {
+            return null;
+        }
+
+        return (int)$result['balance'];
+    }
+
 }
