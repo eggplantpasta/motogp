@@ -58,11 +58,11 @@ h1, .motogp-font {
     padding: var(--pico-spacing-2);
 }
 
-.motogp-form-message.success {
+.valid {
     color: var(--pico-form-element-valid-focus-color);
 }
 
-.motogp-form-message.error {
+.invalid {
     color: var(--pico-form-element-invalid-focus-color);
 }
 
@@ -132,4 +132,14 @@ flex-direction: row;
 .motogp-nav-icon svg {
     width: 1rem;
     height: 1rem;
+}
+
+.motogp-text-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+.motogp-text-icon svg {
+    width: 1.5em;
+    height: 1.5em;
 }

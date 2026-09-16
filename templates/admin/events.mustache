@@ -23,8 +23,6 @@
         <tr>
             <th>Date</th>
             <th>Event</th>
-            <th>Circuit</th>
-            <th>Country</th>
             <th>Bids Open</th>
             <th>Admin</th>
         </tr>
@@ -41,12 +39,10 @@
             data-bids-open="{{bids_open}}"
         >
             <td>{{display_date}}</td>
-            <td>{{name}}</td>
-            <td>{{circuit}}</td>
-            <td>{{country_name}}</td>
+            <td>{{ name }} <span class="motogp-flag fi fi-{{ alpha_2 }}"></span><br><small class="motogp-secondary">{{ circuit }}</small></td>
             <td>
-                {{#bids_open}}Yes{{/bids_open}}
-                {{^bids_open}}No{{/bids_open}}
+                {{#bids_open}}<span class="motogp-text-icon valid">{{> partials/icons/unlock }}</span>{{/bids_open}}
+                {{^bids_open}}<span class="motogp-text-icon">{{> partials/icons/lock }}</span>{{/bids_open}}
             </td>
             <td>
                 <div class="motogp-button-group">
