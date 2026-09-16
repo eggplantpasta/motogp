@@ -41,7 +41,7 @@
             <td>{{display_date}}</td>
             <td>{{ name }} <span class="motogp-flag fi fi-{{ alpha_2 }}"></span><br><small class="motogp-secondary">{{ circuit }}</small></td>
             <td>
-                {{#bids_open}}<span class="motogp-text-icon valid">{{> partials/icons/unlock }}</span>{{/bids_open}}
+                {{#bids_open}}<span class="motogp-text-icon motogp-valid-color">{{> partials/icons/unlock }}</span>{{/bids_open}}
                 {{^bids_open}}<span class="motogp-text-icon">{{> partials/icons/lock }}</span>{{/bids_open}}
             </td>
             <td>
@@ -173,12 +173,14 @@
                         type="checkbox"
                         name="bids-open"
                         id="bids-open"
+                        aria-invalid="{{#form.errors.bids_open}}true{{/form.errors.bids_open}}"
+                        aria-describedby="invalid-bids_open"
                         {{#form.bids_open}}checked{{/form.bids_open}}
                     >
                     Bids Open
                 </label>
 
-                <small id="invalid-bids_open">
+                <small id="invalid-bids_open" class="motogp-form-error">
                     {{form.errors.bids_open}}
                 </small>
             </fieldset>

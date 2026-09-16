@@ -58,12 +58,23 @@ h1, .motogp-font {
     padding: var(--pico-spacing-2);
 }
 
-.valid {
+.motogp-valid-color {
     color: var(--pico-form-element-valid-focus-color);
 }
 
-.invalid {
+.motogp-invalid-color {
     color: var(--pico-form-element-invalid-focus-color);
+}
+
+/* Form error indicator for accessibility */
+label:has([aria-invalid="true"]) small,
+.motogp-form-error {
+    color: var(--pico-form-element-invalid-border-color);
+    padding-left: 1.5rem;
+    background-image: var(--pico-icon-invalid);
+    background-position: left center;
+    background-size: 1em 1em;
+    background-repeat: no-repeat;
 }
 
 .motogp-button-group {
