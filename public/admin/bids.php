@@ -19,24 +19,24 @@ if (!$user->isAdmin()) {
     exit('Forbidden');
 }
 
-if (
-    !isset($_GET['event_id']) ||
-    !ctype_digit($_GET['event_id'])
-) {
-    http_response_code(404);
-    exit('Event not found.');
-}
-
-$eventId = (int)$_GET['event_id'];
-
 $db = new Database($config['database']['dsn']);
 
 $eventModel = new Event($db);
 $bidModel = new Bid($db);
 
-$event = $eventModel->getEventById($eventId);
+$eventId = null;
 
-if ($event === null) {
+if (isset($_GET['event_id']) && ctype_digit($_GET['event_id'])) {
+    $eventId = (int)$_GET['event_id'];
+} else {
+    $eventId = $eventModel->getLastEventId();
+}
+
+$event = $eventId !== null
+    ? $eventModel->getEventById($eventId)
+    : null;
+
+if ($eventId !== null && $event === null) {
     http_response_code(404);
     exit('Event not found.');
 }
@@ -44,14 +44,27 @@ if ($event === null) {
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 
-$data['event'] = $event;
-$data['event']['display_date'] =
-    Utility::formatDate($event['start_date'], 'M d');
-
 $data['page']['title'] = 'Bid Resolution';
 $data['page']['heading'] = 'Bid Resolution';
 
-$bids = $bidModel->getEventBids($eventId);
+$data['event'] = $event;
+
+if ($event !== null) {
+    $data['event']['display_date'] =
+        Utility::formatDate($event['start_date'], 'M d');
+}
+
+$data['events'] = $eventModel->getEvents();
+
+foreach ($data['events'] as &$eventOption) {
+    $eventOption['selected'] =
+        (int)$eventOption['event_id'] === $eventId;
+}
+unset($eventOption);
+
+$bids = $eventId !== null
+    ? $bidModel->getEventBids($eventId)
+    : [];
 
 $riders = [];
 

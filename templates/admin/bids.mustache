@@ -6,9 +6,29 @@
 
 <h1>Bid Resolution</h1>
 
-<h2>{{ event.name }}</h2>
+<form method="get" action="/admin/bids.php">
+    <label for="event-id-select">Event</label>
+    <select
+        id="event-id-select"
+        name="event_id"
+        onchange="this.form.submit()"
+    >
+        {{#events}}
+        <option
+            value="{{event_id}}"
+            {{#selected}}selected{{/selected}}
+        >
+            {{name}}
+        </option>
+        {{/events}}
+    </select>
+</form>
 
-<p>{{ event.display_date }} · {{ event.circuit }}</p>
+{{#event}}
+
+<h2>{{name}}</h2>
+
+<p>{{display_date}} · {{circuit}}</p>
 
 {{#event.bids_open}}
 <article>
@@ -50,6 +70,8 @@
 {{^riders}}
 <p>No bids have been placed for this event.</p>
 {{/riders}}
+
+{{/event}}
 
 {{/ content }}
 
