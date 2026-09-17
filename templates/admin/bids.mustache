@@ -1,0 +1,56 @@
+{{< partials/layout }}
+
+{{$ title }}{{ app.name }} • Bid Resolution{{/ title }}
+
+{{$ content }}
+
+<h1>Bid Resolution</h1>
+
+<h2>{{ event.name }}</h2>
+
+<p>{{ event.display_date }} · {{ event.circuit }}</p>
+
+{{#event.bids_open}}
+<article>
+    Bidding is still open. These results are provisional.
+</article>
+{{/event.bids_open}}
+
+{{#riders}}
+<article>
+    <header>
+        <strong>#{{ race_number }} {{ name }}</strong>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Bid</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#bids}}
+            <tr>
+                <td>{{ username }}</td>
+                <td>{{ amount }}</td>
+                <td>
+                    {{#winner}}
+                    <strong>Winner</strong>
+                    {{/winner}}
+                </td>
+            </tr>
+            {{/bids}}
+        </tbody>
+    </table>
+</article>
+{{/riders}}
+
+{{^riders}}
+<p>No bids have been placed for this event.</p>
+{{/riders}}
+
+{{/ content }}
+
+{{/ partials/layout }}

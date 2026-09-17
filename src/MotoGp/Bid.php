@@ -87,4 +87,32 @@ class Bid
             return false;
         }
     }
+
+    public function getEventBids(int $eventId): array
+    {
+        $sql = '
+            SELECT
+                b.bid_id,
+                b.user_id,
+                b.rider_id,
+                b.amount,
+                u.username,
+                r.name AS rider_name,
+                r.race_number
+            FROM bids b
+            JOIN users u ON u.user_id = b.user_id
+            JOIN riders r ON r.rider_id = b.rider_id
+            WHERE b.event_id = :event_id
+            ORDER BY
+                r.race_number,
+                b.amount DESC,
+                u.username
+        ';
+
+        return $this->db->query(
+            $sql,
+            ['event_id' => $eventId]
+        );
+    }
+
 }

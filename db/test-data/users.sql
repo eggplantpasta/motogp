@@ -21,4 +21,36 @@ insert into users (
     0,
     null,
     20
+),
+(
+    'alice',
+    '$2y$12$lTjsepyMfuiOSCN0Mka/T.k.jjm.sbTS7I6V2ziBYI.rBQFEXB82e',
+    'alice@example.com',
+    0,
+    current_timestamp,
+    20
+),
+(
+    'bob',
+    '$2y$12$lTjsepyMfuiOSCN0Mka/T.k.jjm.sbTS7I6V2ziBYI.rBQFEXB82e',
+    'bob@example.com',
+    0,
+    current_timestamp,
+    20
+),
+(
+    'charlie',
+    '$2y$12$lTjsepyMfuiOSCN0Mka/T.k.jjm.sbTS7I6V2ziBYI.rBQFEXB82e',
+    'charlie@example.com',
+    0,
+    current_timestamp,
+    20
+),
+(
+    'daisy',
+    '$2y$12$lTjsepyMfuiOSCN0Mka/T.k.jjm.sbTS7I6V2ziBYI.rBQFEXB82e',
+    'daisy@example.com',
+    0,
+    current_timestamp,
+    20
 );

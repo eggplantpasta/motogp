@@ -34,15 +34,16 @@ create table if not exists riders (
   foreign key (team_id) references teams(team_id)
 );
 
-create table if not exists  events (
-event_id integer primary key,
-start_date date,
-name varchar(255),
-circuit varchar(255),
-country_code integer,
-bids_open integer not null default 0,
-created_at datetime not null default current_timestamp,
-foreign key (country_code) references countries(country_code)
+create table if not exists events (
+    event_id integer primary key,
+    start_date date,
+    name varchar(255),
+    circuit varchar(255),
+    country_code integer,
+    bids_open integer not null default 0,
+    bids_resolved_at datetime default null,
+    created_at datetime not null default current_timestamp,
+    foreign key (country_code) references countries(country_code)
 );
 
 create table if not exists results (
@@ -59,16 +60,17 @@ create table if not exists results (
 );
 
 create table if not exists bids (
-  bid_id integer primary key,
-  user_id integer,
-  rider_id integer,
-  event_id integer,
-  bid_number integer,
-  amount integer,
-  created_at datetime not null default current_timestamp,
-  foreign key (user_id)
-    references users(user_id)
-    on delete cascade,
-  foreign key (rider_id) references riders(rider_id),
-  foreign key (event_id) references events(event_id)
+    bid_id integer primary key,
+    user_id integer,
+    rider_id integer,
+    event_id integer,
+    bid_number integer,
+    amount integer,
+    won integer default null,
+    created_at datetime not null default current_timestamp,
+    foreign key (user_id)
+        references users(user_id)
+        on delete cascade,
+    foreign key (rider_id) references riders(rider_id),
+    foreign key (event_id) references events(event_id)
 );
