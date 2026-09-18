@@ -3,6 +3,7 @@
 use Webmin\Template;
 use Webmin\User;
 use Webmin\Database;
+use Webmin\Csrf;
 
 // redirect to account page if already logged in
 $user = new User();
@@ -13,11 +14,14 @@ if ($user->isLoggedIn()) {
 
 $tpl = new Template($config['template']);
 
-$data = ['form' => [
-    'action' => htmlspecialchars($_SERVER["PHP_SELF"])],
-];
+$data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
+        http_response_code(403);
+        exit('Invalid CSRF token.');
+    }
 
     $db = new Database($config['database']['dsn']);
     $user = new User($db);
@@ -57,4 +61,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+$data['form']['csrfToken'] = Csrf::token();
 echo $tpl->render('user/register', $data);

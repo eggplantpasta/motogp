@@ -25,6 +25,10 @@
       <input type="submit" value="Login" />
   </fieldset>
   <p>Don't have an account? <a href="/user/register.php">Register here</a>.</p>
+  <input
+    type="hidden"
+    name="csrf_token"
+    value="{{form.csrfToken}}" />
 </form>
 {{/ content }}
 
