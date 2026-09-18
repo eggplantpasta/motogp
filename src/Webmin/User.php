@@ -54,9 +54,9 @@ class User
                 $params['user_id'] = $userId;
             }
 
-            $results = $this->db->query($sql, $params);
+            $result = $this->db->queryOne($sql, $params);
 
-            if (!empty($results)) {
+            if ($result !== null) {
                 $this->usernameErr = 'That username is already taken.';
             }
         }
@@ -83,9 +83,9 @@ class User
                 $params['user_id'] = $userId;
             }
 
-            $results = $this->db->query($sql, $params);
+            $result = $this->db->queryOne($sql, $params);
 
-            if (!empty($results)) {
+            if ($result !== null) {
                 $this->emailErr = 'That email address is already registered.';
             }
         }
@@ -293,11 +293,11 @@ class User
                 WHERE username = :username
                 OR email = :username";
 
-        $results = $this->db->query($sql, [
+        $user = $this->db->queryOne($sql, [
             'username' => $this->username
         ]);
 
-        if (empty($results)) {
+        if ($user === null) {
             $this->logger?->warning(
                 "Login attempt with non-existent user: " . $this->username
             );
@@ -305,8 +305,6 @@ class User
             $this->loginErr = 'Invalid username or password.';
             return false;
         }
-
-        $user = $results[0];
 
         if (!password_verify($this->password, $user['password'])) {
             $this->logger?->warning(
@@ -558,9 +556,9 @@ class User
             AND disabled_at IS NULL
         ";
 
-        $results = $this->db->query($sql);
+        $result = $this->db->queryOne($sql);
 
-        if ((int)$results[0]['admin_count'] !== 1) {
+        if ((int)$result['admin_count'] !== 1) {
             return false;
         }
 
@@ -573,9 +571,10 @@ class User
             AND disabled_at IS NULL
         ";
 
-        return !empty(
-            $this->db->query($sql, ['user_id' => $userId])
-        );
+        return $this->db->queryOne(
+            $sql,
+            ['user_id' => $userId]
+        ) !== null;
     }
 
     public function adjustBalance(int $userId, int $balance): bool
