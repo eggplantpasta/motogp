@@ -1,19 +1,73 @@
-INSERT INTO events (event_id,start_date,name,circuit,country_code,bids_open) VALUES
- (1,'2026-03-01 00:00:00','Thailand Grand Prix','Chang International Circuit',764,0),
- (2,'2026-03-22 00:00:00','Brazil Grand Prix','Autódromo Internacional de Goiânia – Ayrton Senna',76,0),
- (3,'2026-03-29 00:00:00','USA Grand Prix','Circuit Of The Americas',840,0),
- (4,'2026-04-12 00:00:00','Qatar Grand Prix','Lusail International Circuit',634,0),
- (5,'2026-04-26 00:00:00','Spain Grand Prix','Circuito de Jerez - Ángel Nieto',724,0),
- (6,'2026-05-10 00:00:00','France Grand Prix','Le Mans',250,0),
- (7,'2026-05-17 00:00:00','Catalonia Grand Prix','Circuit de Barcelona-Catalunya',724,0),
- (8,'2026-05-31 00:00:00','Italy Grand Prix','Autodromo Internazionale del Mugello',380,0),
- (9,'2026-06-07 00:00:00','Hungary Grand Prix','Balaton Park',348,0),
- (10,'2026-06-21 00:00:00','Czechia Grand Prix','Automotodrom Brno',203,0),
- (11,'2026-06-28 00:00:00','Netherlands Grand Prix','TT Circuit Assen',528,0),
- (12,'2026-07-12 00:00:00','Germany Grand Prix','Sachsenring',276,0),
- (13,'2026-08-30 00:00:00','Aragon Grand Prix','MotorLand Aragón',724,0),
- (14,'2026-09-13 00:00:00','San Marino Grand Prix','Misano World Circuit Marco Simoncelli',710,0),
- (15,'2026-09-20 00:00:00','Austria Grand Prix','Red Bull Ring - Spielberg',724,0),
- (16,'2026-10-11 00:00:00','Indonesia Grand Prix','Pertamina Mandalika Circuit',360,0),
- (17,'2026-10-25 00:00:00','Australia Grand Prix','Phillip Island',36,0),
- (18,'2026-11-01 00:00:00','Malaysia Grand Prix','Petronas Sepang International Circuit',458,0);
+INSERT INTO events (
+    event_id,
+    start_date,
+    name,
+    circuit,
+    country_code,
+    bids_open
+) VALUES
+    (1,  '2026-03-01 00:00:00', 'Thailand Grand Prix',
+        'Chang International Circuit', 764, 0),
+
+    (2,  '2026-03-22 00:00:00', 'Brazil Grand Prix',
+        'Autódromo Internacional de Goiânia – Ayrton Senna', 76, 0),
+
+    (3,  '2026-03-29 00:00:00', 'USA Grand Prix',
+        'Circuit Of The Americas', 840, 0),
+
+    (4,  '2026-04-26 00:00:00', 'Spain Grand Prix',
+        'Circuito de Jerez - Ángel Nieto', 724, 0),
+
+    (5,  '2026-05-10 00:00:00', 'France Grand Prix',
+        'Le Mans', 250, 0),
+
+    (6,  '2026-05-17 00:00:00', 'Catalonia Grand Prix',
+        'Circuit de Barcelona-Catalunya', 724, 0),
+
+    (7,  '2026-05-31 00:00:00', 'Italy Grand Prix',
+        'Autodromo Internazionale del Mugello', 380, 0),
+
+    (8,  '2026-06-07 00:00:00', 'Hungary Grand Prix',
+        'Balaton Park', 348, 0),
+
+    (9,  '2026-06-21 00:00:00', 'Czechia Grand Prix',
+        'Automotodrom Brno', 203, 0),
+
+    (10, '2026-06-28 00:00:00', 'Netherlands Grand Prix',
+        'TT Circuit Assen', 528, 0),
+
+    (11, '2026-07-12 00:00:00', 'Germany Grand Prix',
+        'Sachsenring', 276, 0),
+
+    (12, '2026-08-09 00:00:00', 'Great Britain Grand Prix',
+        'Silverstone Circuit', 826, 0),
+
+    (13, '2026-08-30 00:00:00', 'Aragon Grand Prix',
+        'MotorLand Aragón', 724, 0),
+
+    (14, '2026-09-13 00:00:00', 'San Marino Grand Prix',
+        'Misano World Circuit Marco Simoncelli', 710, 0),
+
+    (15, '2026-09-20 00:00:00', 'Austria Grand Prix',
+        'Red Bull Ring - Spielberg', 40, 0),
+
+    (16, '2026-10-04 00:00:00', 'Japan Grand Prix',
+        'Mobility Resort Motegi', 392, 0),
+
+    (17, '2026-10-11 00:00:00', 'Indonesia Grand Prix',
+        'Pertamina Mandalika Circuit', 360, 0),
+
+    (18, '2026-10-25 00:00:00', 'Australia Grand Prix',
+        'Phillip Island Grand Prix Circuit', 36, 0),
+
+    (19, '2026-11-01 00:00:00', 'Malaysia Grand Prix',
+        'Petronas Sepang International Circuit', 458, 0),
+
+    (20, '2026-11-08 00:00:00', 'Qatar Grand Prix',
+        'Lusail International Circuit', 634, 0),
+
+    (21, '2026-11-22 00:00:00', 'Portugal Grand Prix',
+        'Autódromo Internacional do Algarve', 620, 0),
+
+    (22, '2026-11-29 00:00:00', 'Valencia Grand Prix',
+        'Circuit Ricardo Tormo', 724, 0);

@@ -21,3 +21,24 @@ insert into riders (rider_id, race_number, name, team_id, active) values
     (20, 79, 'Ai Ogura',               2,  1),
     (21, 89, 'Jorge Martin',           1,  1),
     (22, 93, 'Marc Marquez',           3,  1);
+
+-- Substitute and wildcard riders.
+-- These riders are retained for historical results but are not
+-- available for bidding by default.
+
+insert into riders (
+    rider_id,
+    race_number,
+    name,
+    team_id,
+    active
+) values
+    (23, 16, 'Nicolo Bulega',       3,  0),
+    (24, 27, 'Iker Lecuona',        6,  0),
+    (25, 32, 'Lorenzo Savadori',    2,  0),
+    (26, 35, 'Cal Crutchlow',       8,  0),
+    (27, 40, 'Takaaki Nakagami',    7,  0),
+    (28, 44, 'Pol Espargaro',       9,  0),
+    (29, 51, 'Michele Pirro',       6,  0),
+    (30, 94, 'Jonas Folger',        9,  0),
+    (31, 47, 'Augusto Fernandez',   10, 0);
