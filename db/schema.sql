@@ -60,6 +60,8 @@ create table if not exists results (
     foreign key (event_id) references events(event_id),
     foreign key (rider_id) references riders(rider_id),
 
+    check status in ('classified', 'dnf', 'dns', 'dsq'),
+
     check (
         (status = 'classified' and position is not null)
         or
@@ -69,16 +71,20 @@ create table if not exists results (
 
 create table if not exists bids (
     bid_id integer primary key,
-    user_id integer,
-    rider_id integer,
-    event_id integer,
-    bid_number integer,
-    amount integer,
+    user_id integer not null,
+    rider_id integer not null,
+    event_id integer not null,
+    bid_number integer not null,
+    amount integer not null,
     won integer default null,
     created_at datetime not null default current_timestamp,
+
+    unique (user_id, event_id, bid_number),
+
     foreign key (user_id)
         references users(user_id)
         on delete cascade,
+
     foreign key (rider_id) references riders(rider_id),
     foreign key (event_id) references events(event_id)
 );
