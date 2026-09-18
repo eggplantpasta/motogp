@@ -42,6 +42,7 @@ create table if not exists events (
     country_code integer,
     bids_open integer not null default 0,
     bids_resolved_at datetime default null,
+    payouts_settled_at datetime default null,
     created_at datetime not null default current_timestamp,
     foreign key (country_code) references countries(country_code)
 );
@@ -81,3 +82,42 @@ create table if not exists bids (
     foreign key (rider_id) references riders(rider_id),
     foreign key (event_id) references events(event_id)
 );
+
+create table if not exists balance_transactions (
+    transaction_id integer primary key,
+    user_id integer not null,
+    event_id integer,
+    bid_id integer,
+    transaction_type text not null,
+    amount integer not null,
+    created_at datetime not null default current_timestamp,
+
+    foreign key (user_id)
+        references users(user_id),
+
+    foreign key (event_id)
+        references events(event_id),
+
+    foreign key (bid_id)
+        references bids(bid_id),
+
+    check (
+        transaction_type in (
+            'opening_balance',
+            'winning_bid',
+            'payout'
+        )
+    ),
+    check (
+        (transaction_type = 'opening_balance' and amount >= 0)
+        or
+        (transaction_type = 'winning_bid' and amount <= 0)
+        or
+        (transaction_type = 'payout' and amount >= 0)
+    )
+);
+
+create unique index if not exists
+    idx_balance_transactions_opening
+on balance_transactions (user_id)
+where transaction_type = 'opening_balance';

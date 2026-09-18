@@ -54,3 +54,16 @@ insert into users (
     current_timestamp,
     20
 );
+
+insert into balance_transactions (
+    user_id,
+    transaction_type,
+    amount
+)
+values
+(1, 'opening_balance', 20),
+(2, 'opening_balance', 20),
+(3, 'opening_balance', 20),
+(4, 'opening_balance', 20),
+(5, 'opening_balance', 20),
+(6, 'opening_balance', 20);

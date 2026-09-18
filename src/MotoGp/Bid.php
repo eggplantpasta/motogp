@@ -199,6 +199,31 @@ class Bid
                             ':user_id' => $bid['user_id'],
                         ]
                     );
+
+                    $this->db->execute(
+                        '
+                            INSERT INTO balance_transactions (
+                                user_id,
+                                event_id,
+                                bid_id,
+                                transaction_type,
+                                amount
+                            )
+                            VALUES (
+                                :user_id,
+                                :event_id,
+                                :bid_id,
+                                \'winning_bid\',
+                                :amount
+                            )
+                        ',
+                        [
+                            ':user_id' => $bid['user_id'],
+                            ':event_id' => $eventId,
+                            ':bid_id' => $bid['bid_id'],
+                            ':amount' => -(int)$bid['amount'],
+                        ]
+                    );
                 }
             }
 
@@ -386,6 +411,95 @@ class Bid
             'winning_bids' => $winningBidCount,
             'payouts' => $payouts,
         ];
+    }
+
+    public function settlePayouts(int $eventId): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $event = $this->db->queryOne(
+                '
+                    SELECT
+                        bids_resolved_at,
+                        payouts_settled_at
+                    FROM events
+                    WHERE event_id = :event_id
+                ',
+                [':event_id' => $eventId]
+            );
+
+            if (
+                $event === null
+                || $event['bids_resolved_at'] === null
+                || $event['payouts_settled_at'] !== null
+            ) {
+                $this->db->rollBack();
+                return false;
+            }
+
+            $calculation = $this->calculatePayouts($eventId);
+
+            if (empty($calculation['payouts'])) {
+                $this->db->rollBack();
+                return false;
+            }
+
+            foreach ($calculation['payouts'] as $payout) {
+                $this->db->execute(
+                    '
+                        UPDATE users
+                        SET balance = balance + :amount
+                        WHERE user_id = :user_id
+                    ',
+                    [
+                        ':amount' => $payout['payout'],
+                        ':user_id' => $payout['user_id'],
+                    ]
+                );
+
+                $this->db->execute(
+                    '
+                        INSERT INTO balance_transactions (
+                            user_id,
+                            event_id,
+                            bid_id,
+                            transaction_type,
+                            amount
+                        )
+                        VALUES (
+                            :user_id,
+                            :event_id,
+                            :bid_id,
+                            \'payout\',
+                            :amount
+                        )
+                    ',
+                    [
+                        ':user_id' => $payout['user_id'],
+                        ':event_id' => $eventId,
+                        ':bid_id' => $payout['bid_id'],
+                        ':amount' => $payout['payout'],
+                    ]
+                );
+            }
+
+            $this->db->execute(
+                '
+                    UPDATE events
+                    SET payouts_settled_at = current_timestamp
+                    WHERE event_id = :event_id
+                ',
+                [':event_id' => $eventId]
+            );
+
+            $this->db->commit();
+
+            return true;
+        } catch (\Throwable $e) {
+            $this->db->rollBack();
+            return false;
+        }
     }
 
 }
