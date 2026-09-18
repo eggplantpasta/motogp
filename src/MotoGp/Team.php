@@ -1,4 +1,5 @@
 <?php
+
 namespace MotoGp;
 
 use Psr\Log\LoggerInterface;

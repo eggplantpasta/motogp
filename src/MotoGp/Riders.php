@@ -4,12 +4,13 @@ namespace MotoGp;
 
 use Psr\Log\LoggerInterface;
 
-class Riders {
-
+class Riders
+{
     private $db;
     private ?LoggerInterface $logger;
 
-    public function __construct($db, ?LoggerInterface $logger = null) {
+    public function __construct($db, ?LoggerInterface $logger = null)
+    {
         $this->db = $db;
         $this->logger = $logger;
     }

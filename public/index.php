@@ -30,5 +30,3 @@ $data['page'] = [
 
 $tpl = new Template($config['template']);
 echo $tpl->render('main', $data);
-
-

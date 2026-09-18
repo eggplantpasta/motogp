@@ -25,7 +25,8 @@ if (!$user->isAdmin()) {
 $riders = new Riders($db, $logger);
 $teams = new Team($db, $logger);
 
-function clearFormData(&$data) {
+function clearFormData(&$data)
+{
     $data['form']['message'] = '';
     $data['form']['message-class'] = '';
     $data['form']['rider_id'] = '';
@@ -36,7 +37,8 @@ function clearFormData(&$data) {
     $data['form']['open_modal'] = false;
 }
 
-function withSelectedTeam(array $teams, string $selectedTeamId): array {
+function withSelectedTeam(array $teams, string $selectedTeamId): array
+{
     foreach ($teams as &$team) {
         $team['selected'] = (string)($team['team_id'] ?? '') === $selectedTeamId;
     }
@@ -46,15 +48,15 @@ function withSelectedTeam(array $teams, string $selectedTeamId): array {
 }
 
 $data['form'] = [
-	'errors' => [],
-	'message' => '',
-	'message-class' => '',
-	'rider_id' => '',
-	'race_number' => '',
-	'rider_name' => '',
-	'team_id' => '',
-	'rider_active' => 0,
-	'open_modal' => false,
+    'errors' => [],
+    'message' => '',
+    'message-class' => '',
+    'rider_id' => '',
+    'race_number' => '',
+    'rider_name' => '',
+    'team_id' => '',
+    'rider_active' => 0,
+    'open_modal' => false,
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -64,21 +66,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit('Invalid CSRF token.');
     }
 
-	$riderId = trim($_POST['rider-id'] ?? '');
+    $riderId = trim($_POST['rider-id'] ?? '');
     $operation = $_POST['operation'] ?? null;
-	$formData = [
+    $formData = [
         'race_number' => trim($_POST['rider-number'] ?? ''),
-		'name' => trim($_POST['rider-name'] ?? ''),
-		'team_id' => trim($_POST['rider-team'] ?? ''),
-		'active' => isset($_POST['rider-active']) ? 1 : 0,
-	];
+        'name' => trim($_POST['rider-name'] ?? ''),
+        'team_id' => trim($_POST['rider-team'] ?? ''),
+        'active' => isset($_POST['rider-active']) ? 1 : 0,
+    ];
 
-	$data['form']['rider_id'] = $riderId;
+    $data['form']['rider_id'] = $riderId;
 
-	$data['form']['race_number'] = $formData['race_number'];
-	$data['form']['rider_name'] = $formData['name'];
-	$data['form']['team_id'] = $formData['team_id'];
-	$data['form']['rider_active'] = $formData['active'];
+    $data['form']['race_number'] = $formData['race_number'];
+    $data['form']['rider_name'] = $formData['name'];
+    $data['form']['team_id'] = $formData['team_id'];
+    $data['form']['rider_active'] = $formData['active'];
 
     if ($operation !== 'delete') {
         // For insert and update, validate the name and team fields
@@ -87,8 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-	if (empty($data['form']['errors'])) {
-		try {
+    if (empty($data['form']['errors'])) {
+        try {
             if ($operation === 'create') {
                 // Insert logic
                 $createdRows = $riders->createRider($formData);
@@ -127,19 +129,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             }
-            } catch (\Throwable $e) {
-                throw $e;
-            }
+        } catch (\Throwable $e) {
+            throw $e;
+        }
         // } catch (\Throwable $e) {
         //     $data['form']['message'] = 'Unable to save rider changes';
         //     $data['form']['message-class'] = 'error';
         //     $data['form']['open_modal'] = true;
         // }
-	} else {
-		$data['form']['message'] = 'Please fix the highlighted fields';
-		$data['form']['message-class'] = 'error';
-		$data['form']['open_modal'] = true;
-	}
+    } else {
+        $data['form']['message'] = 'Please fix the highlighted fields';
+        $data['form']['message-class'] = 'error';
+        $data['form']['open_modal'] = true;
+    }
 }
 
 $results = $riders->getRiders();

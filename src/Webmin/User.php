@@ -5,8 +5,8 @@ namespace Webmin;
 use Database;
 use Psr\Log\LoggerInterface;
 
-class User {
-
+class User
+{
     public $username = '';
     public $usernameErr = '';
     public $email = '';
@@ -19,7 +19,8 @@ class User {
     private $db;
     private ?LoggerInterface $logger;
 
-    public function __construct($db = null, ?LoggerInterface $logger = null) {
+    public function __construct($db = null, ?LoggerInterface $logger = null)
+    {
         $this->logger = $logger;
         if ($db) {
             $this->db = $db;
@@ -195,8 +196,7 @@ class User {
         ?string $username = null,
         ?string $email = null,
         ?string $password = null
-    ): bool
-    {
+    ): bool {
         if (!$this->db) {
             throw new \Exception('Database connection required for updating account.');
         }

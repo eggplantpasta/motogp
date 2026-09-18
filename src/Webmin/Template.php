@@ -43,8 +43,7 @@ class Template
                 'escape'          => $escape,
             ]);
             return;
-            }
-        catch (\Error $e) {
+        } catch (\Error $e) {
             $this->logger?->error("Failed to initialize Mustache engine: " . $e->getMessage());
             throw new \Exception($e->getMessage());
         }

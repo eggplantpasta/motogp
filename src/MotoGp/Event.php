@@ -2,11 +2,12 @@
 
 namespace MotoGp;
 
-class Event {
-
+class Event
+{
     private $db;
-    public function __construct($db) {
-            $this->db = $db;
+    public function __construct($db)
+    {
+        $this->db = $db;
     }
 
     public function getNextEventId(): ?int
