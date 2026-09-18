@@ -99,7 +99,11 @@ class Result
                 ON res.rider_id = r.rider_id
                 AND res.event_id = :event_id
             ORDER BY
-                CASE WHEN res.status = \'classified\' THEN 0 ELSE 1 END,
+                CASE
+                    WHEN res.status = \'classified\' THEN 0
+                    WHEN res.status IS NOT NULL THEN 1
+                    ELSE 2
+                END,
                 res.position,
                 r.active DESC,
                 r.name
