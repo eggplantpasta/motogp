@@ -7,19 +7,23 @@ use MotoGp\Utility;
 use MotoGp\Event;
 
 // redirect to login page if not logged in
-$user = new User();
+$db = new Database($config['database']['dsn']);
+$user = new User($db);
+
 if (!$user->isLoggedIn()) {
     header("Location: /user/login.php");
     exit();
 }
 
-$db = new Database($config['database']['dsn']);
 $event = new Event($db);
 
 $next_event = $event->getEventById($event->getNextEventId());
 
 $tpl = new Template($config['template']);
 $data['user'] = $user->getSessionUser();
+$data['user']['balance'] = $user->getBalance(
+    (int)$data['user']['user_id']
+);
 $data['user']['created_ago'] = Utility::timeAgo($data['user']['created_at']);
 $data['next_event'] = $next_event;
 
