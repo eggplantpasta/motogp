@@ -135,6 +135,15 @@
 <p>No classified winning riders are eligible for a payout.</p>
 {{/payouts}}
 
+{{#resolved}}
+{{^results_complete}}
+<article>
+    Results must be entered for all winning riders before
+    payouts can be settled.
+</article>
+{{/results_complete}}
+{{/resolved}}
+
 {{#can_settle}}
 <form
     method="post"

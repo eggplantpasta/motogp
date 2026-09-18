@@ -182,9 +182,14 @@ $data['settled'] =
     $event !== null
     && $event['payouts_settled_at'] !== null;
 
+$data['results_complete'] =
+    $data['resolved']
+    && $bidModel->resultsCompleteForPayout($eventId);
+
 $data['can_settle'] =
     $data['resolved']
-    && !$data['settled'];
+    && !$data['settled']
+    && $data['results_complete'];
 
 if ($data['resolved']) {
     $data['payout'] =

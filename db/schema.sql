@@ -93,7 +93,8 @@ create table if not exists balance_transactions (
     created_at datetime not null default current_timestamp,
 
     foreign key (user_id)
-        references users(user_id),
+        references users(user_id)
+        on delete cascade,
 
     foreign key (event_id)
         references events(event_id),

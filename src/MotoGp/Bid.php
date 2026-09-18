@@ -438,6 +438,11 @@ class Bid
                 return false;
             }
 
+            if (!$this->resultsCompleteForPayout($eventId)) {
+                $this->db->rollBack();
+                return false;
+            }
+
             $calculation = $this->calculatePayouts($eventId);
 
             if (empty($calculation['payouts'])) {
@@ -500,6 +505,27 @@ class Bid
             $this->db->rollBack();
             return false;
         }
+    }
+
+    public function resultsCompleteForPayout(int $eventId): bool
+    {
+        $result = $this->db->queryOne(
+            '
+                SELECT COUNT(DISTINCT b.rider_id) AS missing_results
+                FROM bids b
+                LEFT JOIN results r
+                    ON r.event_id = b.event_id
+                    AND r.rider_id = b.rider_id
+                WHERE b.event_id = :event_id
+                AND b.won = 1
+                AND r.rider_id IS NULL
+            ',
+            [
+                ':event_id' => $eventId,
+            ]
+        );
+
+        return (int)$result['missing_results'] === 0;
     }
 
 }
