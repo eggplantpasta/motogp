@@ -25,7 +25,11 @@
     <tbody>
       {{#users}}
       <tr>
-        <td>{{username}}</td>
+        <td>
+            <a href="/statement.php?user_id={{user_id}}">
+                {{username}}
+            </a>
+        </td>
         <td>{{email}}</td>
         <td>{{status}}</td>
         <td>

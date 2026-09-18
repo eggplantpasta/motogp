@@ -53,27 +53,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit('Event not found.');
     }
 
-    if ((bool)$event['bids_open']) {
-        http_response_code(400);
-        exit('Bidding must be closed before bids can be resolved.');
-    }
+    $action = $_POST['action'] ?? '';
 
-    if ($event['bids_resolved_at'] !== null) {
-        http_response_code(400);
-        exit('Bids have already been resolved.');
-    }
+    switch ($action) {
+        case 'resolve':
+            if ((bool)$event['bids_open']) {
+                http_response_code(400);
+                exit(
+                    'Bidding must be closed before bids can be resolved.'
+                );
+            }
 
-    if (!$bidModel->resolveBids($eventId)) {
-        http_response_code(500);
-        exit('Unable to resolve bids.');
-    }
+            if ($event['bids_resolved_at'] !== null) {
+                http_response_code(400);
+                exit('Bids have already been resolved.');
+            }
 
-    header(
-        'Location: /admin/bids.php?event_id=' .
-        $eventId .
-        '&resolved=1'
-    );
-    exit();
+            if (!$bidModel->resolveBids($eventId)) {
+                http_response_code(500);
+                exit('Unable to resolve bids.');
+            }
+
+            header(
+                'Location: /admin/bids.php?event_id='
+                . $eventId
+                . '&resolved=1'
+            );
+            exit();
+
+        case 'settle':
+            if ($event['bids_resolved_at'] === null) {
+                http_response_code(400);
+                exit(
+                    'Bids must be resolved before payouts can be settled.'
+                );
+            }
+
+            if ($event['payouts_settled_at'] !== null) {
+                http_response_code(400);
+                exit('Payouts have already been settled.');
+            }
+
+            if (!$bidModel->settlePayouts($eventId)) {
+                http_response_code(500);
+                exit('Unable to settle payouts.');
+            }
+
+            header(
+                'Location: /admin/bids.php?event_id='
+                . $eventId
+                . '&settled=1'
+            );
+            exit();
+
+        default:
+            http_response_code(400);
+            exit('Invalid action.');
+    }
 }
 
 $data['app'] = $config['app'];
@@ -142,9 +178,21 @@ $data['can_resolve'] =
 
 $data['payout'] = null;
 
+$data['settled'] =
+    $event !== null
+    && $event['payouts_settled_at'] !== null;
+
+$data['can_settle'] =
+    $data['resolved']
+    && !$data['settled'];
+
 if ($data['resolved']) {
     $data['payout'] =
         $bidModel->calculatePayouts($eventId);
+
+    $data['can_settle'] =
+        $data['can_settle']
+        && !empty($data['payout']['payouts']);
 }
 
 $tpl = new Template($config['template']);

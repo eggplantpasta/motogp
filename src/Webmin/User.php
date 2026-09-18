@@ -124,12 +124,6 @@ class User {
             throw new \Exception('Database connection required for registration.');
         }
 
-        $params = [
-            'username' => $this->username,
-            'email' => $this->email,
-            'password' => password_hash($this->password, PASSWORD_DEFAULT),
-        ];
-
         try {
             $this->db->beginTransaction();
 
@@ -184,13 +178,13 @@ class User {
         } catch (\PDOException $e) {
             $this->db->rollBack();
 
-            $this->logger?->error(
-                'User registration failed: ' . $message,
-                [
-                    'username' => $this->username,
-                    'email' => $this->email,
-                ]
-            );
+            $message = $e->getMessage();
+
+            if (str_contains($message, 'users.username')) {
+                $this->usernameErr = 'That username is already taken.';
+            } elseif (str_contains($message, 'users.email')) {
+                $this->emailErr = 'That email address is already registered.';
+            }
 
             return false;
         }
@@ -802,6 +796,61 @@ class User {
         }
 
         return (int)$result['balance'];
+    }
+
+    public function getUserById(int $userId): ?array
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for retrieving user.'
+            );
+        }
+
+        return $this->db->queryOne(
+            '
+                SELECT
+                    user_id,
+                    username,
+                    balance
+                FROM users
+                WHERE user_id = :user_id
+            ',
+            [':user_id' => $userId]
+        );
+    }
+
+    public function getBalanceTransactions(int $userId): array
+    {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for retrieving transactions.'
+            );
+        }
+
+        return $this->db->query(
+            '
+                SELECT
+                    bt.transaction_id,
+                    bt.transaction_type,
+                    bt.amount,
+                    bt.created_at,
+                    e.name AS event_name,
+                    r.name AS rider_name,
+                    r.race_number
+                FROM balance_transactions bt
+                LEFT JOIN events e
+                    ON e.event_id = bt.event_id
+                LEFT JOIN bids b
+                    ON b.bid_id = bt.bid_id
+                LEFT JOIN riders r
+                    ON r.rider_id = b.rider_id
+                WHERE bt.user_id = :user_id
+                ORDER BY
+                    bt.created_at,
+                    bt.transaction_id
+            ',
+            [':user_id' => $userId]
+        );
     }
 
 }

@@ -49,6 +49,11 @@
         name="csrf_token"
         value="{{csrfToken}}"
     >
+    <input
+        type="hidden"
+        name="action"
+        value="resolve"
+    >
 
     <button type="submit">
         Resolve Bidding
@@ -93,7 +98,7 @@
 
 {{#payout}}
 
-<h2>Payout Preview</h2>
+<h2>Payout{{^settled}} Preview{{/settled}}</h2>
 
 <p>
     Prize pool:
@@ -129,6 +134,35 @@
 {{^payouts}}
 <p>No classified winning riders are eligible for a payout.</p>
 {{/payouts}}
+
+{{#can_settle}}
+<form
+    method="post"
+    action="/admin/bids.php?event_id={{event.event_id}}"
+    onsubmit="return confirm('Settle these payouts? Player balances will be updated and this cannot be repeated.');"
+>
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="{{csrfToken}}"
+    >
+    <input
+        type="hidden"
+        name="action"
+        value="settle"
+    >
+
+    <button type="submit">
+        Settle Payouts
+    </button>
+</form>
+{{/can_settle}}
+
+{{#settled}}
+<article>
+    Payouts have been settled.
+</article>
+{{/settled}}
 
 {{/payout}}
 
