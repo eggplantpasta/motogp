@@ -5,8 +5,7 @@ use Webmin\Database;
 use Webmin\User;
 
 $db = new Database($config['database']['dsn']);
-
-$user = new User();
+$user = new User($db);
 
 if (!$user->isLoggedIn()) {
     header('Location: /user/login.php');

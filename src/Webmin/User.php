@@ -759,6 +759,12 @@ class User
 
     public function getLadder(?int $limit = null): array
     {
+        if (!$this->db) {
+            throw new \Exception(
+                'Database connection required for retrieving ladder.'
+            );
+        }
+
         $sql = '
             SELECT
                 user_id,

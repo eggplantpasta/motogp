@@ -3,5 +3,6 @@
         "alexcvzz.vscode-sqlite",
         "editorconfig.editorconfig",
         "dawhite.mustache",
+        "muuvmuuv.vscode-just-php-cs-fixer",
     ]
 }
