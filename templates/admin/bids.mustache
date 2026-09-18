@@ -36,6 +36,26 @@
 </article>
 {{/event.bids_open}}
 
+{{#resolved}}
+<article>
+    Bidding has been resolved.
+</article>
+{{/resolved}}
+
+{{#can_resolve}}
+<form method="post" action="/admin/bids.php?event_id={{event.event_id}}">
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="{{csrfToken}}"
+    >
+
+    <button type="submit">
+        Resolve Bidding
+    </button>
+</form>
+{{/can_resolve}}
+
 {{#riders}}
 <article>
     <header>

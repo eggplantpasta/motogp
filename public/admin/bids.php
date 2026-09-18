@@ -6,6 +6,7 @@ use Webmin\User;
 use MotoGp\Event;
 use MotoGp\Utility;
 use MotoGp\Bid;
+use Webmin\Csrf;
 
 $user = new User();
 
@@ -39,6 +40,40 @@ $event = $eventId !== null
 if ($eventId !== null && $event === null) {
     http_response_code(404);
     exit('Event not found.');
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
+        http_response_code(403);
+        exit('Invalid CSRF token.');
+    }
+
+    if ($event === null) {
+        http_response_code(404);
+        exit('Event not found.');
+    }
+
+    if ((bool)$event['bids_open']) {
+        http_response_code(400);
+        exit('Bidding must be closed before bids can be resolved.');
+    }
+
+    if ($event['bids_resolved_at'] !== null) {
+        http_response_code(400);
+        exit('Bids have already been resolved.');
+    }
+
+    if (!$bidModel->resolveBids($eventId)) {
+        http_response_code(500);
+        exit('Unable to resolve bids.');
+    }
+
+    header(
+        'Location: /admin/bids.php?event_id=' .
+        $eventId .
+        '&resolved=1'
+    );
+    exit();
 }
 
 $data['app'] = $config['app'];
@@ -80,14 +115,30 @@ foreach ($bids as $bid) {
         ];
     }
 
-    $bid['winner'] =
-        (int)$bid['amount'] ===
-        $riders[$riderId]['highest_bid'];
+    if ($event['bids_resolved_at'] !== null) {
+        $bid['winner'] = (bool)$bid['won'];
+    } else {
+        $bid['winner'] =
+            (int)$bid['amount'] ===
+            $riders[$riderId]['highest_bid'];
+    }
 
     $riders[$riderId]['bids'][] = $bid;
 }
 
 $data['riders'] = array_values($riders);
+
+$data['csrfToken'] = Csrf::token();
+
+$data['resolved'] =
+    $event !== null
+    && $event['bids_resolved_at'] !== null;
+
+$data['can_resolve'] =
+    $event !== null
+    && !(bool)$event['bids_open']
+    && $event['bids_resolved_at'] === null
+    && !empty($bids);
 
 $tpl = new Template($config['template']);
 
