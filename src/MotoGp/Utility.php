@@ -19,11 +19,6 @@ class Utility {
         return "just now";
     }
 
-    public static function dump($data): string
-    {
-        return '<pre>' . print_r($data, true) . '</pre>';
-    }
-
     public static function formatDate($dateString, $format = 'd M Y'): string
     {
         $date = new \DateTime($dateString);
