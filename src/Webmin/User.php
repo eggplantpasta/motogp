@@ -124,7 +124,6 @@ class User {
             throw new \Exception('Database connection required for registration.');
         }
 
-        $sql = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
         $params = [
             'username' => $this->username,
             'email' => $this->email,
@@ -132,16 +131,58 @@ class User {
         ];
 
         try {
-            $this->db->query($sql, $params);
+            $this->db->beginTransaction();
+
+            $this->db->execute(
+                '
+                    INSERT INTO users (
+                        username,
+                        email,
+                        password
+                    )
+                    VALUES (
+                        :username,
+                        :email,
+                        :password
+                    )
+                ',
+                [
+                    ':username' => $this->username,
+                    ':email' => $this->email,
+                    ':password' => password_hash(
+                        $this->password,
+                        PASSWORD_DEFAULT
+                    ),
+                ]
+            );
+
+            $userId = (int)$this->db
+                ->getConnection()
+                ->lastInsertId();
+
+            $this->db->execute(
+                '
+                    INSERT INTO balance_transactions (
+                        user_id,
+                        transaction_type,
+                        amount
+                    )
+                    VALUES (
+                        :user_id,
+                        \'opening_balance\',
+                        20
+                    )
+                ',
+                [
+                    ':user_id' => $userId,
+                ]
+            );
+
+            $this->db->commit();
+
             return true;
         } catch (\PDOException $e) {
-            $message = $e->getMessage();
-
-            if (str_contains($message, 'users.username')) {
-                $this->usernameErr = 'That username is already taken.';
-            } elseif (str_contains($message, 'users.email')) {
-                $this->emailErr = 'That email address is already registered.';
-            }
+            $this->db->rollBack();
 
             $this->logger?->error(
                 'User registration failed: ' . $message,
@@ -543,11 +584,11 @@ class User {
         );
     }
 
-    public function updateBalance(int $userId, int $balance): bool
+    public function adjustBalance(int $userId, int $balance): bool
     {
         if (!$this->db) {
             throw new \Exception(
-                'Database connection required for updating balance.'
+                'Database connection required for adjusting balance.'
             );
         }
 
@@ -555,30 +596,83 @@ class User {
             return false;
         }
 
-        $sql = "
-            UPDATE users
-            SET balance = :balance
-            WHERE user_id = :user_id
-        ";
-
         try {
-            $this->db->query($sql, [
-                'balance' => $balance,
-                'user_id' => $userId,
-            ]);
+            $this->db->beginTransaction();
+
+            $user = $this->db->queryOne(
+                '
+                    SELECT balance
+                    FROM users
+                    WHERE user_id = :user_id
+                ',
+                ['user_id' => $userId]
+            );
+
+            if ($user === null) {
+                $this->db->rollBack();
+                return false;
+            }
+
+            $currentBalance = (int)$user['balance'];
+            $adjustment = $balance - $currentBalance;
+
+            /*
+            * Nothing has changed, so there is nothing to record.
+            */
+            if ($adjustment === 0) {
+                $this->db->rollBack();
+                return true;
+            }
+
+            $this->db->execute(
+                '
+                    UPDATE users
+                    SET balance = :balance
+                    WHERE user_id = :user_id
+                ',
+                [
+                    ':balance' => $balance,
+                    ':user_id' => $userId,
+                ]
+            );
+
+            $this->db->execute(
+                '
+                    INSERT INTO balance_transactions (
+                        user_id,
+                        transaction_type,
+                        amount
+                    )
+                    VALUES (
+                        :user_id,
+                        \'admin_adjustment\',
+                        :amount
+                    )
+                ',
+                [
+                    ':user_id' => $userId,
+                    ':amount' => $adjustment,
+                ]
+            );
+
+            $this->db->commit();
 
             $this->logger?->info(
-                'User balance updated.',
+                'User balance adjusted.',
                 [
                     'user_id' => $userId,
-                    'balance' => $balance,
+                    'old_balance' => $currentBalance,
+                    'new_balance' => $balance,
+                    'adjustment' => $adjustment,
                 ]
             );
 
             return true;
-        } catch (\PDOException $e) {
+        } catch (\Throwable $e) {
+            $this->db->rollBack();
+
             $this->logger?->error(
-                'User balance update failed: ' . $e->getMessage(),
+                'User balance adjustment failed: ' . $e->getMessage(),
                 ['user_id' => $userId]
             );
 

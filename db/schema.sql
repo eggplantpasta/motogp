@@ -105,7 +105,8 @@ create table if not exists balance_transactions (
         transaction_type in (
             'opening_balance',
             'winning_bid',
-            'payout'
+            'payout',
+            'admin_adjustment'
         )
     ),
     check (
@@ -114,6 +115,8 @@ create table if not exists balance_transactions (
         (transaction_type = 'winning_bid' and amount <= 0)
         or
         (transaction_type = 'payout' and amount >= 0)
+        or
+        (transaction_type = 'admin_adjustment')
     )
 );
 

@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit('Balance must be a whole number of zero or greater.');
             }
 
-            if (!$user->updateBalance($userId, $balance)) {
+            if (!$user->adjustBalance($userId, $balance)) {
                 http_response_code(500);
                 exit('Unable to update user balance.');
             }
