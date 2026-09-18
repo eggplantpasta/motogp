@@ -228,7 +228,7 @@ class User
             . ' WHERE user_id = :user_id';
 
         try {
-            $this->db->query($sql, $params);
+            $this->db->execute($sql, $params);
             return true;
         } catch (\PDOException $e) {
             $message = $e->getMessage();
@@ -395,7 +395,7 @@ class User
         ";
 
         try {
-            $this->db->query($sql, [
+            $this->db->execute($sql, [
                 'user_id' => $userId,
             ]);
 
@@ -441,7 +441,7 @@ class User
         ";
 
         try {
-            $this->db->query($sql, [
+            $this->db->execute($sql, [
                 'user_id' => $userId,
             ]);
 
@@ -478,7 +478,7 @@ class User
         ";
 
         try {
-            $this->db->query($sql, [
+            $this->db->execute($sql, [
                 'user_id' => $userId,
             ]);
 
@@ -524,7 +524,7 @@ class User
         ";
 
         try {
-            $this->db->query($sql, [
+            $this->db->execute($sql, [
                 'admin' => $admin ? 1 : 0,
                 'user_id' => $userId,
             ]);
