@@ -29,6 +29,39 @@
 <p class="{{ form.message-class }}">{{ form.message }}</p>
 {{/ form.message }}
 
+{{#settled}}
+<article>
+    Payouts have been settled. Results are now locked.
+</article>
+
+<table>
+    <thead>
+        <tr>
+            <th>Position</th>
+            <th>Status</th>
+            <th>#</th>
+            <th>Rider</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#results}}
+        <tr>
+            <td>{{position}}</td>
+            <td>
+                {{#status_dnf}}DNF{{/status_dnf}}
+                {{#status_dns}}DNS{{/status_dns}}
+                {{#status_dsq}}DSQ{{/status_dsq}}
+            </td>
+            <td>{{race_number}}</td>
+            <td>{{rider_name}}</td>
+        </tr>
+        {{/results}}
+    </tbody>
+</table>
+{{/settled}}
+
+{{^settled}}
 <form method="post" action="/admin/results.php">
     <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
     <input type="hidden" name="event-id" value="{{ event_id }}">
@@ -85,6 +118,7 @@
     <button type="submit">Save Results</button>
 
 </form>
+{{/settled}}
 
 {{/ event }}
 

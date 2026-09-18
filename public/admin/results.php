@@ -61,9 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($event === null) {
             $data['form']['message'] = 'Event does not exist.';
             $data['form']['message-class'] = 'error';
+        } elseif ($event['payouts_settled_at'] !== null) {
+            http_response_code(400);
+            exit('Results cannot be changed after payouts have been settled.');
         } else {
             $riders = $results->getRidersForEventResults($eventId);
-
             $validRiderIds = array_column(
                 $riders,
                 null,
@@ -175,6 +177,10 @@ $data['events'] = $events->getEvents();
 $data['event'] = $eventId !== null
     ? $events->getEventById($eventId)
     : null;
+
+$data['settled'] =
+    $data['event'] !== null
+    && $data['event']['payouts_settled_at'] !== null;
 
 $data['results'] = $eventId !== null
     ? $results->getRidersForEventResults($eventId)
