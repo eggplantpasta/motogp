@@ -257,3 +257,109 @@ insert into results (event_id, rider_id, position) values
 (14, 10, 11),
 (14, 2,  12),
 (14, 7,  13);
+
+-- Additional classified riders and non-finishers.
+-- Existing rows use the default status of 'classified'.
+
+insert into results (event_id, rider_id, position, status) values
+
+-- 1 Thailand
+(1, 29, 19,   'classified'), -- Michele Pirro
+(1, 11, null, 'dnf'),        -- Joan Mir
+(1, 19, null, 'dnf'),        -- Alex Marquez
+(1, 22, null, 'dnf'),        -- Marc Marquez
+
+-- 2 Brazil
+(2, 11, null, 'dnf'),        -- Joan Mir
+(2, 17, null, 'dnf'),        -- Francesco Bagnaia
+(2, 10, null, 'dnf'),        -- Brad Binder
+(2, 14, null, 'dnf'),        -- Jack Miller
+
+-- 3 USA
+(3, 1,  null, 'dnf'),        -- Johann Zarco
+(3, 20, null, 'dnf'),        -- Ai Ogura
+(3, 11, null, 'dnf'),        -- Joan Mir
+
+-- 4 Spain
+(4, 31, 20,   'classified'), -- Augusto Fernandez
+(4, 17, null, 'dnf'),        -- Francesco Bagnaia
+(4, 25, null, 'dnf'),        -- Lorenzo Savadori
+(4, 22, null, 'dnf'),        -- Marc Marquez
+
+-- 5 France
+(5, 30, 16,   'classified'), -- Jonas Folger
+(5, 10, null, 'dnf'),        -- Brad Binder
+(5, 11, null, 'dnf'),        -- Joan Mir
+(5, 17, null, 'dnf'),        -- Francesco Bagnaia
+(5, 4,  null, 'dnf'),        -- Diogo Moreira
+(5, 19, null, 'dnf'),        -- Alex Marquez
+
+-- 6 Catalonia
+(6, 21, null, 'dnf'),        -- Jorge Martin
+(6, 12, null, 'dnf'),        -- Pedro Acosta
+(6, 19, null, 'dnf'),        -- Alex Marquez
+(6, 8,  null, 'dnf'),        -- Enea Bastianini
+(6, 1,  null, 'dnf'),        -- Johann Zarco
+
+-- 7 Italy
+(7, 29, 19,   'classified'), -- Michele Pirro
+(7, 8,  null, 'dnf'),        -- Enea Bastianini
+(7, 13, null, 'dnf'),        -- Alex Rins
+(7, 26, null, 'dnf'),        -- Cal Crutchlow
+
+-- 8 Hungary
+(8, 26, 16,   'classified'), -- Cal Crutchlow
+(8, 6,  null, 'dnf'),        -- Fabio Quartararo
+(8, 11, null, 'dnf'),        -- Joan Mir
+(8, 16, null, 'dnf'),        -- Fermin Aldeguer
+(8, 18, null, 'dnf'),        -- Marco Bezzecchi
+(8, 9,  null, 'dnf'),        -- Raul Fernandez
+(8, 21, null, 'dnf'),        -- Jorge Martin
+
+-- 9 Czechia
+(9, 26, 17,   'classified'), -- Cal Crutchlow
+(9, 12, null, 'dnf'),        -- Pedro Acosta
+(9, 13, null, 'dnf'),        -- Alex Rins
+(9, 6,  null, 'dnf'),        -- Fabio Quartararo
+
+-- 10 Netherlands
+(10, 31, 15,   'classified'), -- Augusto Fernandez
+(10, 26, 16,   'classified'), -- Cal Crutchlow
+(10, 17, null, 'dnf'),        -- Francesco Bagnaia
+(10, 2,  null, 'dnf'),        -- Toprak Razgatlioglu
+(10, 12, null, 'dnf'),        -- Pedro Acosta
+(10, 7,  null, 'dnf'),        -- Franco Morbidelli
+(10, 18, null, 'dnf'),        -- Marco Bezzecchi
+(10, 11, null, 'dnf'),        -- Joan Mir
+
+-- 11 Germany
+(11, 5,  null, 'dnf'),        -- Maverick Vinales
+(11, 26, null, 'dnf'),        -- Cal Crutchlow
+(11, 19, null, 'dnf'),        -- Alex Marquez
+(11, 11, null, 'dnf'),        -- Joan Mir
+(11, 15, null, 'dnf'),        -- Fabio Di Giannantonio
+
+-- 12 Great Britain
+(12, 20, null, 'dnf'),        -- Ai Ogura
+(12, 17, null, 'dnf'),        -- Francesco Bagnaia
+(12, 26, null, 'dnf'),        -- Cal Crutchlow
+(12, 24, null, 'dnf'),        -- Iker Lecuona
+(12, 8,  null, 'dnf'),        -- Enea Bastianini
+(12, 13, null, 'dnf'),        -- Alex Rins
+(12, 11, null, 'dnf'),        -- Joan Mir
+
+-- 13 Aragon
+(13, 2,  null, 'dnf'),        -- Toprak Razgatlioglu
+(13, 9,  null, 'dnf'),        -- Raul Fernandez
+(13, 17, null, 'dnf'),        -- Francesco Bagnaia
+(13, 7,  null, 'dnf'),        -- Franco Morbidelli
+
+-- 14 San Marino
+(14, 28, 14,   'classified'), -- Pol Espargaro
+(14, 1,  null, 'dnf'),        -- Johann Zarco
+(14, 13, null, 'dnf'),        -- Alex Rins
+(14, 17, null, 'dnf'),        -- Francesco Bagnaia
+(14, 11, null, 'dnf'),        -- Joan Mir
+(14, 4,  null, 'dnf'),        -- Diogo Moreira
+(14, 14, null, 'dnf'),        -- Jack Miller
+(14, 18, null, 'dnf');        -- Marco Bezzecchi

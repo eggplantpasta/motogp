@@ -35,6 +35,17 @@ if (isset($_GET['event_id'])) {
 $data['event'] = $event;
 $data['results'] = $results->getResultsByEventId($eventId);
 
+foreach ($data['results'] as &$result) {
+    $result['display_status'] = match ($result['status']) {
+        'classified' => '',
+        'dnf' => 'DNF',
+        'dns' => 'DNS',
+        'dsq' => 'DSQ',
+        default => strtoupper($result['status']),
+    };
+}
+unset($result);
+
 $data['app'] = $config['app'];
 $data['user'] = $user->getSessionUser();
 $data['page']['title'] = 'Results';

@@ -14,11 +14,23 @@ class Result
     public function getResultsByEventId(int $eventId): array
     {
         $sql = '
-            SELECT r.*, p.name AS rider_name
+            SELECT
+                r.*,
+                p.name AS rider_name,
+                p.race_number
             FROM results r
             JOIN riders p ON r.rider_id = p.rider_id
             WHERE r.event_id = :event_id
-            ORDER BY r.position ASC
+            ORDER BY
+                CASE r.status
+                    WHEN \'classified\' THEN 0
+                    WHEN \'dnf\' THEN 1
+                    WHEN \'dns\' THEN 2
+                    WHEN \'dsq\' THEN 3
+                    ELSE 4
+                END,
+                r.position ASC,
+                p.name
         ';
 
         return $this->db->query($sql, [
@@ -31,33 +43,35 @@ class Result
         try {
             $this->db->beginTransaction();
 
-            $sql = '
-                DELETE FROM results
-                WHERE event_id = :event_id
-            ';
-
-            $this->db->execute($sql, [
-                ':event_id' => $eventId
-            ]);
+            $this->db->execute(
+                '
+                    DELETE FROM results
+                    WHERE event_id = :event_id
+                ',
+                [':event_id' => $eventId]
+            );
 
             $sql = '
                 INSERT INTO results (
                     event_id,
                     rider_id,
-                    position
+                    position,
+                    status
                 )
                 VALUES (
                     :event_id,
                     :rider_id,
-                    :position
+                    :position,
+                    :status
                 )
             ';
 
-            foreach ($results as $riderId => $position) {
+            foreach ($results as $riderId => $result) {
                 $this->db->execute($sql, [
                     ':event_id' => $eventId,
                     ':rider_id' => $riderId,
-                    ':position' => $position,
+                    ':position' => $result['position'],
+                    ':status' => $result['status'],
                 ]);
             }
 
@@ -78,15 +92,16 @@ class Result
                 r.race_number,
                 r.name AS rider_name,
                 r.active,
-                res.position
+                res.position,
+                res.status
             FROM riders r
             LEFT JOIN results res
                 ON res.rider_id = r.rider_id
                 AND res.event_id = :event_id
             ORDER BY
-                r.active DESC,
-                CASE WHEN res.position IS NULL THEN 1 ELSE 0 END,
+                CASE WHEN res.status = \'classified\' THEN 0 ELSE 1 END,
                 res.position,
+                r.active DESC,
                 r.name
         ';
 
@@ -94,4 +109,5 @@ class Result
             ':event_id' => $eventId
         ]);
     }
+
 }

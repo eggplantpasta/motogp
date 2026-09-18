@@ -39,6 +39,7 @@
         <thead>
             <tr>
                 <th>Position</th>
+                <th>Status</th>
                 <th>#</th>
                 <th>Rider</th>
             </tr>
@@ -56,6 +57,24 @@
                         step="1"
                     >
                 </td>
+
+                <td>
+                    <select name="statuses[{{ rider_id }}]">
+                        <option value="" {{#status_none}}selected{{/status_none}}>
+                            Finish
+                        </option>
+                        <option value="dnf" {{#status_dnf}}selected{{/status_dnf}}>
+                            DNF
+                        </option>
+                        <option value="dns" {{#status_dns}}selected{{/status_dns}}>
+                            DNS
+                        </option>
+                        <option value="dsq" {{#status_dsq}}selected{{/status_dsq}}>
+                            DSQ
+                        </option>
+                    </select>
+                </td>
+
                 <td>{{ race_number }}</td>
                 <td>{{ rider_name }}</td>
             </tr>

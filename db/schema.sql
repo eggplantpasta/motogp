@@ -49,14 +49,21 @@ create table if not exists events (
 create table if not exists results (
     event_id integer not null,
     rider_id integer not null,
-    position integer not null,
+    position integer,
+    status text not null default 'classified',
     created_at datetime not null default current_timestamp,
 
     primary key (event_id, rider_id),
     unique (event_id, position),
 
     foreign key (event_id) references events(event_id),
-    foreign key (rider_id) references riders(rider_id)
+    foreign key (rider_id) references riders(rider_id),
+
+    check (
+        (status = 'classified' and position is not null)
+        or
+        (status != 'classified' and position is null)
+    )
 );
 
 create table if not exists bids (
