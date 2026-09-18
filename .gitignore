@@ -16,3 +16,4 @@ config/php.ini
 config/app.local.ini
 config/php.local.ini
 .DS_Store
+.php-cs-fixer.cache
