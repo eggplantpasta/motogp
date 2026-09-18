@@ -140,6 +140,13 @@ $data['can_resolve'] =
     && $event['bids_resolved_at'] === null
     && !empty($bids);
 
+$data['payout'] = null;
+
+if ($data['resolved']) {
+    $data['payout'] =
+        $bidModel->calculatePayouts($eventId);
+}
+
 $tpl = new Template($config['template']);
 
 echo $tpl->render('admin/bids', $data);

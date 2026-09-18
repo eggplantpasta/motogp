@@ -91,6 +91,47 @@
 <p>No bids have been placed for this event.</p>
 {{/riders}}
 
+{{#payout}}
+
+<h2>Payout Preview</h2>
+
+<p>
+    Prize pool:
+    <strong>{{pool}}</strong>
+    points from
+    <strong>{{winning_bids}}</strong>
+    winning bids.
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Finish</th>
+            <th>Rider</th>
+            <th>Player</th>
+            <th>Share</th>
+            <th>Payout</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#payouts}}
+        <tr>
+            <td>{{finish_position}}</td>
+            <td>#{{race_number}} {{rider_name}}</td>
+            <td>{{username}}</td>
+            <td>{{percentage}}%</td>
+            <td><strong>{{payout}}</strong></td>
+        </tr>
+        {{/payouts}}
+    </tbody>
+</table>
+
+{{^payouts}}
+<p>No classified winning riders are eligible for a payout.</p>
+{{/payouts}}
+
+{{/payout}}
+
 {{/event}}
 
 {{/ content }}

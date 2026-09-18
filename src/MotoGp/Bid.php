@@ -220,4 +220,172 @@ class Bid
         }
     }
 
+    public function calculatePayouts(int $eventId): array
+    {
+        $bids = $this->db->query(
+            '
+                SELECT
+                    b.bid_id,
+                    b.user_id,
+                    b.rider_id,
+                    b.amount,
+                    u.username,
+                    r.name AS rider_name,
+                    r.race_number,
+                    res.position,
+                    res.status
+                FROM bids b
+                JOIN users u
+                    ON u.user_id = b.user_id
+                JOIN riders r
+                    ON r.rider_id = b.rider_id
+                LEFT JOIN results res
+                    ON res.event_id = b.event_id
+                    AND res.rider_id = b.rider_id
+                WHERE b.event_id = :event_id
+                AND b.won = 1
+                ORDER BY
+                    res.position,
+                    r.race_number,
+                    u.username
+            ',
+            [':event_id' => $eventId]
+        );
+
+        if (empty($bids)) {
+            return [
+                'pool' => 0,
+                'winning_bids' => 0,
+                'payouts' => [],
+            ];
+        }
+
+        /*
+        * Every winning bid contributes:
+        *
+        *     bid amount + 1 new point
+        *
+        * to the prize pool.
+        */
+        $winningAmount = 0;
+
+        foreach ($bids as $bid) {
+            $winningAmount += (int)$bid['amount'];
+        }
+
+        $winningBidCount = count($bids);
+        $pool = $winningAmount + $winningBidCount;
+
+        /*
+        * Percentage paid by payout position.
+        */
+        $percentages = [
+            23,
+            18,
+            15,
+            12,
+            11,
+            8,
+            7,
+            6,
+        ];
+
+        /*
+        * Group classified winning bids by rider.
+        *
+        * Multiple owners of the same rider occupy consecutive
+        * payout positions and share their combined percentages.
+        */
+        $riders = [];
+
+        foreach ($bids as $bid) {
+            if (
+                $bid['status'] !== 'classified'
+                || $bid['position'] === null
+            ) {
+                continue;
+            }
+
+            $riderId = (int)$bid['rider_id'];
+
+            if (!isset($riders[$riderId])) {
+                $riders[$riderId] = [
+                    'rider_id' => $riderId,
+                    'rider_name' => $bid['rider_name'],
+                    'race_number' => $bid['race_number'],
+                    'position' => (int)$bid['position'],
+                    'owners' => [],
+                ];
+            }
+
+            $riders[$riderId]['owners'][] = $bid;
+        }
+
+        usort(
+            $riders,
+            fn ($a, $b) => $a['position'] <=> $b['position']
+        );
+
+        $payouts = [];
+        $slot = 0;
+
+        foreach ($riders as $rider) {
+            $ownerCount = count($rider['owners']);
+
+            if ($slot >= count($percentages)) {
+                break;
+            }
+
+            $combinedPercentage = 0;
+            $firstSlot = $slot + 1;
+
+            for ($i = 0; $i < $ownerCount; $i++) {
+                if ($slot >= count($percentages)) {
+                    break;
+                }
+
+                $combinedPercentage += $percentages[$slot];
+                $slot++;
+            }
+
+            $paidOwnerCount = min(
+                $ownerCount,
+                count($percentages) - $firstSlot + 1
+            );
+
+            if ($paidOwnerCount < 1) {
+                break;
+            }
+
+            /*
+            * All owners of a tied rider share the percentages
+            * occupied by that rider.
+            */
+            $percentagePerOwner =
+                $combinedPercentage / $ownerCount;
+
+            foreach ($rider['owners'] as $owner) {
+                $payouts[] = [
+                    'bid_id' => (int)$owner['bid_id'],
+                    'user_id' => (int)$owner['user_id'],
+                    'username' => $owner['username'],
+                    'rider_id' => $rider['rider_id'],
+                    'rider_name' => $rider['rider_name'],
+                    'race_number' => $rider['race_number'],
+                    'finish_position' => $rider['position'],
+                    'percentage' => $percentagePerOwner,
+                    'payout' => (int)ceil(
+                        $pool * $percentagePerOwner / 100
+                    ),
+                ];
+            }
+        }
+
+        return [
+            'pool' => $pool,
+            'winning_bids' => $winningBidCount,
+            'payouts' => $payouts,
+        ];
+    }
+
 }
