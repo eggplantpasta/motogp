@@ -60,7 +60,9 @@ create table if not exists results (
     foreign key (event_id) references events(event_id),
     foreign key (rider_id) references riders(rider_id),
 
-    check status in ('classified', 'dnf', 'dns', 'dsq'),
+    check (
+        status in ('classified', 'dnf', 'dns', 'dsq')
+    ),
 
     check (
         (status = 'classified' and position is not null)
