@@ -33,7 +33,7 @@ class Database
 
         } catch (PDOException $e) {
             $this->logger?->error("Failed to connect to the SQLite database: " . $e->getMessage());
-            throw new PDOException("Failed to connect to the SQLite database: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -58,7 +58,9 @@ class Database
      */
     public function rollBack(): void
     {
-        $this->connection->rollBack();
+        if ($this->connection->inTransaction()) {
+            $this->connection->rollBack();
+        }
     }
 
     /**
@@ -73,7 +75,7 @@ class Database
             return $stmt->rowCount();
         } catch (PDOException $e) {
             $this->logger?->error("Execution failed: " . $e->getMessage(), ['query' => $query]);
-            throw new PDOException("Execution failed: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -92,7 +94,7 @@ class Database
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->logger?->error("Query failed: " . $e->getMessage(), ['query' => $query]);
-            throw new PDOException("Query failed: " . $e->getMessage());
+            throw $e;
         }
     }
 
