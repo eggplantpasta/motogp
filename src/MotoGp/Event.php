@@ -15,7 +15,6 @@ class Event
 
     public function getNextEventId(): ?int
     {
-        // Define the SQL query to get the next event
         $sql = '
             select event_id
             from events
@@ -31,7 +30,6 @@ class Event
 
     public function getLastEventId(): ?int
     {
-        // Define the SQL query to get the last event
         $sql = '
             select event_id
             from events
@@ -93,7 +91,6 @@ class Event
     public function updateEvent(int $eventId, array $data): bool
     {
         try {
-
             $params = [
                 ':event_id' => $eventId,
                 ':start_date' => $data['start_date'],
@@ -116,7 +113,7 @@ class Event
             ';
             $this->db->execute($sql, $params);
 
-            // only one event bids can be open at a time, so if this event is open we need to close all other events
+            // Only one event can have bids open at a time.
             if ($data['bids_open']) {
                 $sql = '
                     update events
@@ -129,7 +126,6 @@ class Event
             $this->db->commit();
 
             return true;
-
         } catch (\Exception $e) {
             $this->db->rollBack();
             return false;
@@ -184,7 +180,6 @@ class Event
             $this->db->commit();
 
             return $eventId;
-
         } catch (\Exception $e) {
             $this->db->rollBack();
             return null;

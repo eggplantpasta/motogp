@@ -3,7 +3,6 @@
 namespace Webmin;
 
 use Psr\Log\LoggerInterface;
-use Webmin\Database;
 
 class User
 {
@@ -76,7 +75,7 @@ class User
         }
 
         if (empty($this->emailErr) && $this->db) {
-            $sql = "SELECT user_id FROM users WHERE email = :email";
+            $sql = 'select user_id from users where email = :email';
             $params = ['email' => $this->email];
 
             if ($userId !== null) {
@@ -252,13 +251,11 @@ class User
 
     public function isLoggedIn(): bool
     {
-        // Check session or cookie here as needed
         return isset($_SESSION['user']);
     }
 
     public function isAdmin(): bool
     {
-        // Check if the logged-in user has admin privileges
         return (isset($_SESSION['user']['admin']) && $_SESSION['user']['admin'] == 1);
     }
 
@@ -290,9 +287,12 @@ class User
 
         $this->loginErr = '';
 
-        $sql = "SELECT * FROM users
-                WHERE username = :username
-                OR email = :username";
+        $sql = '
+            select *
+            from users
+            where username = :username
+            or email = :username
+        ';
 
         $user = $this->db->queryOne($sql, [
             'username' => $this->username
@@ -387,10 +387,10 @@ class User
 
         $sql = '
             update users
-            set approved_at = CURRENT_TIMESTAMP,
-                disabled_at = NULL
+            set approved_at = current_timestamp,
+                disabled_at = null
             where user_id = :user_id
-            and approved_at IS NULL
+            and approved_at is null
         ';
 
         try {
@@ -693,7 +693,7 @@ class User
 
         try {
             $rows = $this->db->execute(
-                'DELETE FROM users WHERE user_id = :user_id',
+                'delete from users where user_id = :user_id',
                 ['user_id' => $userId]
             );
 
@@ -726,7 +726,7 @@ class User
         }
 
         $result = $this->db->queryOne(
-            'SELECT 1 FROM bids WHERE user_id = :user_id LIMIT 1',
+            'select 1 from bids where user_id = :user_id limit 1',
             ['user_id' => $userId]
         );
 
@@ -747,11 +747,11 @@ class User
             );
         }
 
-        $sql = "
-            DELETE FROM users
-            WHERE approved_at IS NULL
-            AND created_at < datetime('now', :expiry)
-        ";
+        $sql = '
+            delete from users
+            where approved_at is null
+            and created_at < datetime(\'now\', :expiry)
+        ';
 
         return $this->db->execute($sql, [
             'expiry' => "-{$expiryDays} days",
@@ -778,7 +778,7 @@ class User
         ';
 
         if ($limit !== null) {
-            $sql .= ' LIMIT ' . (int)$limit;
+            $sql .= ' limit ' . (int)$limit;
         }
 
         return $this->db->query($sql);
