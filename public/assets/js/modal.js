@@ -79,11 +79,6 @@ const getScrollbarWidth = () => {
   return scrollbarWidth;
 };
 
-// Is scrollbar visible
-const isScrollbarVisible = () => {
-  return document.body.scrollHeight > screen.height;
-};
-
 function confirmModal(message, onConfirm) {
     const modal = document.getElementById('modal-confirm');
     const content = document.getElementById('modal-confirm-content');
