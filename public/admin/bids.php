@@ -20,7 +20,7 @@ if (!$user->isAdmin()) {
     exit('Forbidden');
 }
 
-$db = new Database($config['database']['dsn']);
+$db = new Database($config['database']['dsn'], $logger);
 
 $eventModel = new Event($db);
 $bidModel = new Bid($db);

@@ -20,7 +20,7 @@ if (!$user->isAdmin()) {
     exit('Forbidden');
 }
 
-$db = new Database($config['database']['dsn']);
+$db = new Database($config['database']['dsn'], $logger);
 $events = new Event($db);
 $country = new Country($db);
 

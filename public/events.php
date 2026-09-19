@@ -1,52 +1,89 @@
 <?php
 
-use Webmin\Template;
 use Webmin\Database;
+use Webmin\Template;
 use Webmin\User;
-use MotoGp\Utility;
-use MotoGp\Event;
 
-// get session user
-$user = new User();
+$db = new Database($config['database']['dsn'], $logger);
+$user = new User($db);
 
-// get the data from the db
-$db = new Database($config['database']['dsn']);
-
-$eventModel = new Event($db);
-$nextEventId = $eventModel->getNextEventId();
-
-$data['app'] = $config['app'];
-$data['user'] = $user->getSessionUser();
-$data['page']['title'] = 'Events';
-$data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Races';
-$data['events'] = $eventModel->getEvents();
-
-// manipulate columns for display
-foreach ($data['events'] as &$event) {
-    // set row class
-    if ($event['event_id'] == $nextEventId) {
-        $event['cell-class'] = '';
-        $event['row-class'] = 'motogp-highlight';
-        $event['results'] = false;
-    } elseif (strtotime($event['start_date']) < time()) {
-        $event['cell-class'] = 'motogp-disable';
-        $event['row-class'] = '';
-        $event['results'] = true;
-    } else {
-        $event['cell-class'] = '';
-        $event['row-class'] = '';
-        $event['results'] = false;
-    }
-    // format date
-    $event['display_date'] = Utility::formatDate($event['start_date'], 'M d');
-    // if bids are open, results should not be shown
-    if ($event['bids_open']) {
-        $event['results'] = false;
-    }
-
+if (!$user->isLoggedIn()) {
+    header('Location: /user/login.php');
+    exit();
 }
 
-unset($event);
+$sessionUser = $user->getSessionUser();
+$userId = (int)$sessionUser['user_id'];
+
+if (isset($_GET['user_id'])) {
+    if (!$user->isAdmin()) {
+        http_response_code(403);
+        exit('Forbidden');
+    }
+
+    if (!ctype_digit($_GET['user_id'])) {
+        http_response_code(400);
+        exit('Invalid user.');
+    }
+
+    $userId = (int)$_GET['user_id'];
+}
+
+$account = $user->getUserById($userId);
+
+if ($account === null) {
+    http_response_code(404);
+    exit('User not found.');
+}
+
+$transactions = $user->getBalanceTransactions($userId);
+
+$runningBalance = 0;
+
+foreach ($transactions as &$transaction) {
+    $amount = (int)$transaction['amount'];
+
+    $runningBalance += $amount;
+
+    $transaction['amount_display'] =
+        ($amount > 0 ? '+' : '') . $amount;
+
+    $transaction['description'] =
+        match ($transaction['transaction_type']) {
+            'opening_balance' =>
+                'Opening balance',
+
+            'winning_bid' =>
+                $transaction['event_name']
+                . ' — #'
+                . $transaction['race_number']
+                . ' '
+                . $transaction['rider_name']
+                . ' winning bid',
+
+            'payout' =>
+                $transaction['event_name']
+                . ' — #'
+                . $transaction['race_number']
+                . ' '
+                . $transaction['rider_name']
+                . ' payout',
+
+            'admin_adjustment' =>
+                'Admin adjustment',
+
+            default =>
+                $transaction['transaction_type'],
+        };
+
+    $transaction['running_balance'] = $runningBalance;
+}
+unset($transaction);
+
+$data['user'] = $sessionUser;
+$data['account'] = $account;
+$data['transactions'] = $transactions;
 
 $tpl = new Template($config['template']);
-echo $tpl->render('events', $data);
+
+echo $tpl->render('statement', $data);

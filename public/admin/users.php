@@ -6,7 +6,7 @@ use Webmin\User;
 use Webmin\Csrf;
 
 $tpl = new Template($config['template']);
-$db = new Database($config['database']['dsn']);
+$db = new Database($config['database']['dsn'], $logger);
 $user = new User($db);
 
 if (!$user->isLoggedIn()) {

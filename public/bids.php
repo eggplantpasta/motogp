@@ -9,7 +9,7 @@ use MotoGp\Riders;
 use MotoGp\Bid;
 use MotoGp\Utility;
 
-$db = new Database($config['database']['dsn']);
+$db = new Database($config['database']['dsn'], $logger);
 
 $user = new User($db);
 

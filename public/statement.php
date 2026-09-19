@@ -4,7 +4,7 @@ use Webmin\Database;
 use Webmin\Template;
 use Webmin\User;
 
-$db = new Database($config['database']['dsn']);
+$db = new Database($config['database']['dsn'], $logger);
 $user = new User($db);
 
 if (!$user->isLoggedIn()) {

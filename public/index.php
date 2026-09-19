@@ -6,7 +6,7 @@ use Webmin\User;
 use MotoGp\Event;
 use MotoGp\Utility;
 
-$db = new Database($config['database']['dsn']);
+$db = new Database($config['database']['dsn'], $logger);
 
 $user = new User($db);
 

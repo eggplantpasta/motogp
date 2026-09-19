@@ -18,7 +18,7 @@ if (!$user->isAdmin()) {
     exit('Forbidden');
 }
 
-$db = new Database($config['database']['dsn']);
+$db = new Database($config['database']['dsn'], $logger);
 $teams = new Team($db);
 
 $data['user'] = $user->getSessionUser();

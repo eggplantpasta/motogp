@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit('Invalid CSRF token.');
     }
 
-    $db = new Database($config['database']['dsn']);
+    $db = new Database($config['database']['dsn'], $logger);
     $user = new User($db);
 
     // Process form submission
