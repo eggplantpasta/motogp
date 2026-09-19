@@ -2,11 +2,13 @@
 
 namespace MotoGp;
 
+use Webmin\Database;
+
 class Team
 {
-    private $db;
+    private Database $db;
 
-    public function __construct($db)
+    public function __construct(Database $db)
     {
         $this->db = $db;
     }

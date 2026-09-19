@@ -2,8 +2,8 @@
 
 namespace Webmin;
 
-use Database;
 use Psr\Log\LoggerInterface;
+use Webmin\Database;
 
 class User
 {
@@ -16,15 +16,14 @@ class User
     public $loginErr = '';
     public $accountErr = '';
 
-    private $db;
+    private ?Database $db;
     private ?LoggerInterface $logger;
 
-    public function __construct($db = null, ?LoggerInterface $logger = null)
+    public function __construct(?Database $db = null, ?LoggerInterface $logger = null)
     {
+        $this->db = $db;
         $this->logger = $logger;
-        if ($db) {
-            $this->db = $db;
-        }
+
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }

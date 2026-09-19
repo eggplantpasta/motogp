@@ -2,14 +2,15 @@
 
 namespace MotoGp;
 
+use Webmin\Database;
 use Psr\Log\LoggerInterface;
 
 class Riders
 {
-    private $db;
+    private Database $db;
     private ?LoggerInterface $logger;
 
-    public function __construct($db, ?LoggerInterface $logger = null)
+    public function __construct(Database $db, ?LoggerInterface $logger = null)
     {
         $this->db = $db;
         $this->logger = $logger;

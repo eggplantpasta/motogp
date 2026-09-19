@@ -2,10 +2,13 @@
 
 namespace MotoGp;
 
+use Webmin\Database;
+
 class Country
 {
-    private $db;
-    public function __construct($db)
+    private Database $db;
+
+    public function __construct(Database $db)
     {
         $this->db = $db;
     }
