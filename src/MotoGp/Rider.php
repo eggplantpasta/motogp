@@ -5,7 +5,7 @@ namespace MotoGp;
 use Webmin\Database;
 use Psr\Log\LoggerInterface;
 
-class Riders
+class Rider
 {
     private Database $db;
     private ?LoggerInterface $logger;

@@ -3,13 +3,13 @@
 use Webmin\Template;
 use Webmin\Database;
 use Webmin\User;
-use MotoGp\Riders;
+use MotoGp\Rider;
 
 $logger = $GLOBALS['logger'] ?? null;
 
 $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db, $logger);
-$riders = new Riders($db, $logger);
+$riders = new Rider($db, $logger);
 
 $data['riders'] = $riders->getRiders();
 

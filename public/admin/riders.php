@@ -4,7 +4,7 @@ use Webmin\Template;
 use Webmin\Database;
 use Webmin\User;
 use Webmin\Csrf;
-use MotoGp\Riders;
+use MotoGp\Rider;
 use MotoGp\Team;
 
 $logger = $GLOBALS['logger'] ?? null;
@@ -22,7 +22,7 @@ if (!$user->isAdmin()) {
     exit('Forbidden');
 }
 
-$riders = new Riders($db, $logger);
+$riders = new Rider($db, $logger);
 $teams = new Team($db, $logger);
 
 function withSelectedTeam(array $teams, string $selectedTeamId): array

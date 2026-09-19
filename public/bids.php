@@ -5,7 +5,7 @@ use Webmin\Database;
 use Webmin\User;
 use Webmin\Csrf;
 use MotoGp\Event;
-use MotoGp\Riders;
+use MotoGp\Rider;
 use MotoGp\Bid;
 use MotoGp\Utility;
 
@@ -29,7 +29,7 @@ if (
 $eventId = (int)$_GET['event_id'];
 
 $eventModel = new Event($db);
-$riderModel = new Riders($db);
+$riderModel = new Rider($db);
 $bidModel = new Bid($db);
 
 $event = $eventModel->getEventById($eventId);
