@@ -25,18 +25,6 @@ if (!$user->isAdmin()) {
 $riders = new Riders($db, $logger);
 $teams = new Team($db, $logger);
 
-function clearFormData(&$data)
-{
-    $data['form']['message'] = '';
-    $data['form']['message-class'] = '';
-    $data['form']['rider_id'] = '';
-    $data['form']['race_number'] = '';
-    $data['form']['rider_name'] = '';
-    $data['form']['team_id'] = '';
-    $data['form']['rider_active'] = 0;
-    $data['form']['open_modal'] = false;
-}
-
 function withSelectedTeam(array $teams, string $selectedTeamId): array
 {
     foreach ($teams as &$team) {
