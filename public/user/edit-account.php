@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($username !== '') {
         $user->username = $username;
-        $valid = $user->validateUsername($userId) && $valid;
+        $valid = $user->validateUsername($userId);
     }
 
     if ($email !== '') {

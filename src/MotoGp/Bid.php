@@ -364,7 +364,6 @@ class Bid
             }
 
             $combinedPercentage = 0;
-            $firstSlot = $slot + 1;
 
             for ($i = 0; $i < $ownerCount; $i++) {
                 if ($slot >= count($percentages)) {
@@ -373,15 +372,6 @@ class Bid
 
                 $combinedPercentage += $percentages[$slot];
                 $slot++;
-            }
-
-            $paidOwnerCount = min(
-                $ownerCount,
-                count($percentages) - $firstSlot + 1
-            );
-
-            if ($paidOwnerCount < 1) {
-                break;
             }
 
             /*

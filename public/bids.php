@@ -161,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Unable to save bids.';
     }
 
-    $data['has_errors'] = !empty($errors);
+    $data['has_errors'] = true;
     $data['errors'] = $errors;
 }
 
