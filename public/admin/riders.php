@@ -23,7 +23,7 @@ if (!$user->isAdmin()) {
 }
 
 $riders = new Rider($db, $logger);
-$teams = new Team($db, $logger);
+$teams = new Team($db);
 
 function withSelectedTeam(array $teams, string $selectedTeamId): array
 {
