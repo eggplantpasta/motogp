@@ -10,7 +10,7 @@ use MotoGp\Event;
 $user = new User();
 
 // get the data from the db
-$db = new Database($config['database']['dsn']);
+$db = new Database($config['database']['dsn'], $logger);
 
 $eventModel = new Event($db);
 $nextEventId = $eventModel->getNextEventId();
