@@ -16,9 +16,9 @@ class Country
     public function getCountries(): array
     {
         $sql = '
-        SELECT *
-        FROM countries
-        ORDER BY name
+            select *
+            from countries
+            order by name
         ';
 
         return $this->db->query($sql);

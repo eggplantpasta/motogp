@@ -16,10 +16,10 @@ class Team
     public function getTeams(): array
     {
         $sql = '
-                SELECT t.*
-                FROM teams t
-                ORDER BY t.team_name
-            ';
+            select t.*
+            from teams t
+            order by t.team_name
+        ';
 
         return $this->db->query($sql);
     }
@@ -27,12 +27,12 @@ class Team
     public function createTeam(array $data): int
     {
         $sql = '
-            INSERT INTO teams (
+            insert into teams (
                 team_name,
                 short_team_name,
                 manufacturer
             )
-            VALUES (
+            values (
                 :team_name,
                 :short_team_name,
                 :manufacturer
@@ -49,11 +49,11 @@ class Team
     public function updateTeam(int $teamId, array $data): int
     {
         $sql = '
-            UPDATE teams
-            SET team_name = :team_name,
+            update teams
+            set team_name = :team_name,
                 short_team_name = :short_team_name,
                 manufacturer = :manufacturer
-            WHERE team_id = :team_id
+            where team_id = :team_id
         ';
 
         return $this->db->execute($sql, [
@@ -67,10 +67,10 @@ class Team
     public function hasRiders(int $teamId): bool
     {
         $sql = '
-            SELECT 1
-            FROM riders
-            WHERE team_id = :team_id
-            LIMIT 1
+            select 1
+            from riders
+            where team_id = :team_id
+            limit 1
         ';
 
         return $this->db->queryOne($sql, [
@@ -85,8 +85,8 @@ class Team
         }
 
         $sql = '
-            DELETE FROM teams
-            WHERE team_id = :team_id
+            delete from teams
+            where team_id = :team_id
         ';
 
         return $this->db->execute($sql, [

@@ -16,11 +16,11 @@ class Bid
     public function getUserBids(int $userId, int $eventId): array
     {
         $sql = '
-            SELECT *
-            FROM bids
-            WHERE user_id = :user_id
-              AND event_id = :event_id
-            ORDER BY bid_number
+            select *
+            from bids
+            where user_id = :user_id
+            and event_id = :event_id
+            order by bid_number
         ';
 
         return $this->db->query($sql, [
@@ -39,9 +39,9 @@ class Bid
 
             $this->db->execute(
                 '
-                    DELETE FROM bids
-                    WHERE user_id = :user_id
-                      AND event_id = :event_id
+                    delete from bids
+                    where user_id = :user_id
+                    and event_id = :event_id
                 ',
                 [
                     ':user_id' => $userId,
@@ -56,14 +56,14 @@ class Bid
 
                 $this->db->execute(
                     '
-                        INSERT INTO bids (
+                        insert into bids (
                             user_id,
                             rider_id,
                             event_id,
                             bid_number,
                             amount
                         )
-                        VALUES (
+                        values (
                             :user_id,
                             :rider_id,
                             :event_id,
@@ -93,28 +93,28 @@ class Bid
     public function getEventBids(int $eventId): array
     {
         $sql = '
-            SELECT
+            select
                 b.bid_id,
                 b.user_id,
                 b.rider_id,
                 b.amount,
                 b.won,
                 u.username,
-                r.name AS rider_name,
+                r.name as rider_name,
                 r.race_number
-            FROM bids b
-            JOIN users u ON u.user_id = b.user_id
-            JOIN riders r ON r.rider_id = b.rider_id
-            WHERE b.event_id = :event_id
-            ORDER BY
+            from bids b
+            join users u on u.user_id = b.user_id
+            join riders r on r.rider_id = b.rider_id
+            where b.event_id = :event_id
+            order by
                 r.race_number,
-                b.amount DESC,
+                b.amount desc,
                 u.username
         ';
 
         return $this->db->query(
             $sql,
-            ['event_id' => $eventId]
+            [':event_id' => $eventId]
         );
     }
 
@@ -125,11 +125,11 @@ class Bid
 
             $event = $this->db->queryOne(
                 '
-                    SELECT
+                    select
                         bids_open,
                         bids_resolved_at
-                    FROM events
-                    WHERE event_id = :event_id
+                    from events
+                    where event_id = :event_id
                 ',
                 [':event_id' => $eventId]
             );
@@ -145,14 +145,14 @@ class Bid
 
             $bids = $this->db->query(
                 '
-                    SELECT
+                    select
                         bid_id,
                         user_id,
                         rider_id,
                         amount
-                    FROM bids
-                    WHERE event_id = :event_id
-                    ORDER BY rider_id, amount DESC
+                    from bids
+                    where event_id = :event_id
+                    order by rider_id, amount desc
                 ',
                 [':event_id' => $eventId]
             );
@@ -179,9 +179,9 @@ class Bid
 
                 $this->db->execute(
                     '
-                        UPDATE bids
-                        SET won = :won
-                        WHERE bid_id = :bid_id
+                        update bids
+                        set won = :won
+                        where bid_id = :bid_id
                     ',
                     [
                         ':won' => $won ? 1 : 0,
@@ -192,9 +192,9 @@ class Bid
                 if ($won) {
                     $this->db->execute(
                         '
-                            UPDATE users
-                            SET balance = balance - :amount
-                            WHERE user_id = :user_id
+                            update users
+                            set balance = balance - :amount
+                            where user_id = :user_id
                         ',
                         [
                             ':amount' => $bid['amount'],
@@ -204,14 +204,14 @@ class Bid
 
                     $this->db->execute(
                         '
-                            INSERT INTO balance_transactions (
+                            insert into balance_transactions (
                                 user_id,
                                 event_id,
                                 bid_id,
                                 transaction_type,
                                 amount
                             )
-                            VALUES (
+                            values (
                                 :user_id,
                                 :event_id,
                                 :bid_id,
@@ -231,9 +231,9 @@ class Bid
 
             $this->db->execute(
                 '
-                    UPDATE events
-                    SET bids_resolved_at = current_timestamp
-                    WHERE event_id = :event_id
+                    update events
+                    set bids_resolved_at = current_timestamp
+                    where event_id = :event_id
                 ',
                 [':event_id' => $eventId]
             );
@@ -251,27 +251,27 @@ class Bid
     {
         $bids = $this->db->query(
             '
-                SELECT
+                select
                     b.bid_id,
                     b.user_id,
                     b.rider_id,
                     b.amount,
                     u.username,
-                    r.name AS rider_name,
+                    r.name as rider_name,
                     r.race_number,
                     res.position,
                     res.status
-                FROM bids b
-                JOIN users u
-                    ON u.user_id = b.user_id
-                JOIN riders r
-                    ON r.rider_id = b.rider_id
-                LEFT JOIN results res
-                    ON res.event_id = b.event_id
-                    AND res.rider_id = b.rider_id
-                WHERE b.event_id = :event_id
-                AND b.won = 1
-                ORDER BY
+                from bids b
+                join users u
+                    on u.user_id = b.user_id
+                join riders r
+                    on r.rider_id = b.rider_id
+                left join results res
+                    on res.event_id = b.event_id
+                    and res.rider_id = b.rider_id
+                where b.event_id = :event_id
+                and b.won = 1
+                order by
                     res.position,
                     r.race_number,
                     u.username
@@ -422,11 +422,11 @@ class Bid
 
             $event = $this->db->queryOne(
                 '
-                    SELECT
+                    select
                         bids_resolved_at,
                         payouts_settled_at
-                    FROM events
-                    WHERE event_id = :event_id
+                    from events
+                    where event_id = :event_id
                 ',
                 [':event_id' => $eventId]
             );
@@ -455,9 +455,9 @@ class Bid
             foreach ($calculation['payouts'] as $payout) {
                 $this->db->execute(
                     '
-                        UPDATE users
-                        SET balance = balance + :amount
-                        WHERE user_id = :user_id
+                        update users
+                        set balance = balance + :amount
+                        where user_id = :user_id
                     ',
                     [
                         ':amount' => $payout['payout'],
@@ -467,14 +467,14 @@ class Bid
 
                 $this->db->execute(
                     '
-                        INSERT INTO balance_transactions (
+                        insert into balance_transactions (
                             user_id,
                             event_id,
                             bid_id,
                             transaction_type,
                             amount
                         )
-                        VALUES (
+                        values (
                             :user_id,
                             :event_id,
                             :bid_id,

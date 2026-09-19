@@ -17,12 +17,11 @@ class Event
     {
         // Define the SQL query to get the next event
         $sql = '
-        SELECT
-        event_id
-        FROM events
-        WHERE date(start_date) > date("now")
-        ORDER BY start_date
-        LIMIT 1
+            select event_id
+            from events
+            where date(start_date) > date("now")
+            order by start_date
+            limit 1
         ';
 
         $result = $this->db->queryOne($sql);
@@ -34,12 +33,11 @@ class Event
     {
         // Define the SQL query to get the last event
         $sql = '
-        SELECT
-        event_id
-        FROM events
-        WHERE date(start_date) <= date("now")
-        ORDER BY start_date DESC
-        LIMIT 1
+            select event_id
+            from events
+            where date(start_date) <= date("now")
+            order by start_date desc
+            limit 1
         ';
 
         $result = $this->db->queryOne($sql);
@@ -49,12 +47,15 @@ class Event
     public function getNextEvent(): ?array
     {
         $sql = '
-        SELECT e.*, c.name AS country_name, lower(c.alpha_2) AS alpha_2
-        FROM events e
-        LEFT JOIN countries c ON e.country_code = c.country_code
-        WHERE date(e.start_date) > date("now")
-        ORDER BY e.start_date
-        LIMIT 1
+            select
+                e.*,
+                c.name as country_name,
+                lower(c.alpha_2) as alpha_2
+            from events e
+            left join countries c on e.country_code = c.country_code
+            where date(e.start_date) > date("now")
+            order by e.start_date
+            limit 1
         ';
 
         return $this->db->queryOne($sql);
@@ -63,10 +64,12 @@ class Event
     public function getEventById(int $eventId): ?array
     {
         $sql = '
-        SELECT e.*, c.name AS country_name, lower(c.alpha_2) AS alpha_2
-        FROM events e
-        LEFT JOIN countries c ON e.country_code = c.country_code
-        WHERE e.event_id = :event_id
+            select
+                e.*, c.name as country_name,
+                lower(c.alpha_2) as alpha_2
+            from events e
+            left join countries c on e.country_code = c.country_code
+            where e.event_id = :event_id
         ';
 
         return $this->db->queryOne($sql, [':event_id' => $eventId]);
@@ -75,10 +78,13 @@ class Event
     public function getEvents(): array
     {
         $sql = '
-        SELECT e.*, c.name AS country_name, lower(c.alpha_2) AS alpha_2
-        FROM events e
-        LEFT JOIN countries c ON e.country_code = c.country_code
-        ORDER BY e.start_date
+            select
+                e.*,
+                c.name as country_name,
+                lower(c.alpha_2) as alpha_2
+            from events e
+            left join countries c on e.country_code = c.country_code
+            order by e.start_date
         ';
 
         return $this->db->query($sql);
@@ -100,22 +106,22 @@ class Event
             $this->db->beginTransaction();
 
             $sql = '
-            UPDATE events
-            SET start_date = :start_date,
-                name = :name,
-                circuit = :circuit,
-                country_code = :country_code,
-                bids_open = :bids_open
-            WHERE event_id = :event_id
+                update events
+                set start_date = :start_date,
+                    name = :name,
+                    circuit = :circuit,
+                    country_code = :country_code,
+                    bids_open = :bids_open
+                where event_id = :event_id
             ';
             $this->db->execute($sql, $params);
 
             // only one event bids can be open at a time, so if this event is open we need to close all other events
             if ($data['bids_open']) {
                 $sql = '
-                UPDATE events
-                SET bids_open = 0
-                WHERE event_id != :event_id
+                    update events
+                    set bids_open = 0
+                    where event_id != :event_id
                 ';
                 $this->db->execute($sql, [':event_id' => $eventId]);
             }
@@ -136,14 +142,14 @@ class Event
             $this->db->beginTransaction();
 
             $sql = '
-                INSERT INTO events (
+                insert into events (
                     start_date,
                     name,
                     circuit,
                     country_code,
                     bids_open
                 )
-                VALUES (
+                values (
                     :start_date,
                     :name,
                     :circuit,
@@ -165,9 +171,9 @@ class Event
             // Only one event can have bids open at a time.
             if ($data['bids_open']) {
                 $sql = '
-                    UPDATE events
-                    SET bids_open = 0
-                    WHERE event_id != :event_id
+                    update events
+                    set bids_open = 0
+                    where event_id != :event_id
                 ';
 
                 $this->db->execute($sql, [
@@ -188,10 +194,10 @@ class Event
     public function hasBids(int $eventId): bool
     {
         $sql = '
-            SELECT 1
-            FROM bids
-            WHERE event_id = :event_id
-            LIMIT 1
+            select 1
+            from bids
+            where event_id = :event_id
+            limit 1
         ';
 
         return $this->db->queryOne($sql, [
@@ -202,10 +208,10 @@ class Event
     public function hasResults(int $eventId): bool
     {
         $sql = '
-            SELECT 1
-            FROM results
-            WHERE event_id = :event_id
-            LIMIT 1
+            select 1
+            from results
+            where event_id = :event_id
+            limit 1
         ';
 
         return $this->db->queryOne($sql, [
@@ -220,8 +226,8 @@ class Event
         }
 
         $sql = '
-            DELETE FROM events
-            WHERE event_id = :event_id
+            delete from events
+            where event_id = :event_id
         ';
 
         return $this->db->execute($sql, [

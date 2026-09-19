@@ -42,9 +42,11 @@ class User
         }
 
         if (empty($this->usernameErr) && $this->db) {
-            $sql = "SELECT user_id
-                    FROM users
-                    WHERE username = :username";
+            $sql = '
+                select user_id
+                from users
+                where username = :username
+            ';
 
             $params = ['username' => $this->username];
 
@@ -129,12 +131,12 @@ class User
 
             $this->db->execute(
                 '
-                    INSERT INTO users (
+                    insert into users (
                         username,
                         email,
                         password
                     )
-                    VALUES (
+                    values (
                         :username,
                         :email,
                         :password
@@ -156,12 +158,12 @@ class User
 
             $this->db->execute(
                 '
-                    INSERT INTO balance_transactions (
+                    insert into balance_transactions (
                         user_id,
                         transaction_type,
                         amount
                     )
-                    VALUES (
+                    values (
                         :user_id,
                         \'opening_balance\',
                         20
@@ -222,9 +224,9 @@ class User
             return true;
         }
 
-        $sql = 'UPDATE users SET '
+        $sql = 'update users set '
             . implode(', ', $fields)
-            . ' WHERE user_id = :user_id';
+            . ' where user_id = :user_id';
 
         try {
             $this->db->execute($sql, $params);
@@ -358,8 +360,8 @@ class User
             );
         }
 
-        $sql = "
-            SELECT
+        $sql = '
+            select
                 user_id,
                 username,
                 email,
@@ -368,9 +370,9 @@ class User
                 disabled_at,
                 balance,
                 created_at
-            FROM users
-            ORDER BY created_at DESC
-        ";
+            from users
+            order by created_at desc
+        ';
 
         return $this->db->query($sql);
     }
@@ -383,13 +385,13 @@ class User
             );
         }
 
-        $sql = "
-            UPDATE users
-            SET approved_at = CURRENT_TIMESTAMP,
+        $sql = '
+            update users
+            set approved_at = CURRENT_TIMESTAMP,
                 disabled_at = NULL
-            WHERE user_id = :user_id
-            AND approved_at IS NULL
-        ";
+            where user_id = :user_id
+            and approved_at IS NULL
+        ';
 
         try {
             $this->db->execute($sql, [
@@ -429,13 +431,13 @@ class User
             return false;
         }
 
-        $sql = "
-            UPDATE users
-            SET disabled_at = CURRENT_TIMESTAMP
-            WHERE user_id = :user_id
-            AND approved_at IS NOT NULL
-            AND disabled_at IS NULL
-        ";
+        $sql = '
+            update users
+            set disabled_at = current_timestamp
+            where user_id = :user_id
+            and approved_at is not null
+            and disabled_at is null
+        ';
 
         try {
             $this->db->execute($sql, [
@@ -466,13 +468,13 @@ class User
             );
         }
 
-        $sql = "
-            UPDATE users
-            SET disabled_at = NULL
-            WHERE user_id = :user_id
-            AND approved_at IS NOT NULL
-            AND disabled_at IS NOT NULL
-        ";
+        $sql = '
+            update users
+            set disabled_at = null
+            where user_id = :user_id
+            and approved_at is not null
+            and disabled_at is not null
+        ';
 
         try {
             $this->db->execute($sql, [
@@ -512,13 +514,13 @@ class User
             return false;
         }
 
-        $sql = "
-            UPDATE users
-            SET admin = :admin
-            WHERE user_id = :user_id
-            AND approved_at IS NOT NULL
-            AND disabled_at IS NULL
-        ";
+        $sql = '
+            update users
+            set admin = :admin
+            where user_id = :user_id
+            and approved_at is not null
+            and disabled_at is null
+        ';
 
         try {
             $this->db->execute($sql, [
@@ -547,13 +549,13 @@ class User
 
     public function isLastActiveAdmin(int $userId): bool
     {
-        $sql = "
-            SELECT COUNT(*) AS admin_count
-            FROM users
-            WHERE admin = 1
-            AND approved_at IS NOT NULL
-            AND disabled_at IS NULL
-        ";
+        $sql = '
+            select count(*) as admin_count
+            from users
+            where admin = 1
+            and approved_at is not null
+            and disabled_at is null
+        ';
 
         $result = $this->db->queryOne($sql);
 
@@ -561,14 +563,14 @@ class User
             return false;
         }
 
-        $sql = "
-            SELECT user_id
-            FROM users
-            WHERE user_id = :user_id
-            AND admin = 1
-            AND approved_at IS NOT NULL
-            AND disabled_at IS NULL
-        ";
+        $sql = '
+            select user_id
+            from users
+            where user_id = :user_id
+            and admin = 1
+            and approved_at is not null
+            and disabled_at is null
+        ';
 
         return $this->db->queryOne(
             $sql,
@@ -593,9 +595,9 @@ class User
 
             $user = $this->db->queryOne(
                 '
-                    SELECT balance
-                    FROM users
-                    WHERE user_id = :user_id
+                    select balance
+                    from users
+                    where user_id = :user_id
                 ',
                 ['user_id' => $userId]
             );
@@ -618,9 +620,9 @@ class User
 
             $this->db->execute(
                 '
-                    UPDATE users
-                    SET balance = :balance
-                    WHERE user_id = :user_id
+                    update users
+                    set balance = :balance
+                    where user_id = :user_id
                 ',
                 [
                     ':balance' => $balance,
@@ -630,12 +632,12 @@ class User
 
             $this->db->execute(
                 '
-                    INSERT INTO balance_transactions (
+                    insert into balance_transactions (
                         user_id,
                         transaction_type,
                         amount
                     )
-                    VALUES (
+                    values (
                         :user_id,
                         \'admin_adjustment\',
                         :amount
@@ -765,14 +767,14 @@ class User
         }
 
         $sql = '
-            SELECT
+            select
                 user_id,
                 username,
                 balance
-            FROM users
-            WHERE approved_at IS NOT NULL
-            AND disabled_at IS NULL
-            ORDER BY balance DESC, username
+            from users
+            where approved_at is not null
+            and disabled_at is null
+            order by balance desc, username
         ';
 
         if ($limit !== null) {
@@ -791,7 +793,7 @@ class User
         }
 
         $result = $this->db->queryOne(
-            'SELECT balance FROM users WHERE user_id = :user_id',
+            'select balance from users where user_id = :user_id',
             ['user_id' => $userId]
         );
 
@@ -812,12 +814,12 @@ class User
 
         return $this->db->queryOne(
             '
-                SELECT
+                select
                     user_id,
                     username,
                     balance
-                FROM users
-                WHERE user_id = :user_id
+                from users
+                where user_id = :user_id
             ',
             [':user_id' => $userId]
         );
@@ -833,23 +835,23 @@ class User
 
         return $this->db->query(
             '
-                SELECT
+                select
                     bt.transaction_id,
                     bt.transaction_type,
                     bt.amount,
                     bt.created_at,
-                    e.name AS event_name,
-                    r.name AS rider_name,
+                    e.name as event_name,
+                    r.name as rider_name,
                     r.race_number
-                FROM balance_transactions bt
-                LEFT JOIN events e
-                    ON e.event_id = bt.event_id
-                LEFT JOIN bids b
-                    ON b.bid_id = bt.bid_id
-                LEFT JOIN riders r
-                    ON r.rider_id = b.rider_id
-                WHERE bt.user_id = :user_id
-                ORDER BY
+                from balance_transactions bt
+                left join events e
+                    on e.event_id = bt.event_id
+                left join bids b
+                    on b.bid_id = bt.bid_id
+                left join riders r
+                    on r.rider_id = b.rider_id
+                where bt.user_id = :user_id
+                order by
                     bt.created_at,
                     bt.transaction_id
             ',

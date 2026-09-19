@@ -16,21 +16,21 @@ class Result
     public function getResultsByEventId(int $eventId): array
     {
         $sql = '
-            SELECT
+            select
                 r.*,
-                p.name AS rider_name,
+                p.name as rider_name,
                 p.race_number
-            FROM results r
-            JOIN riders p ON r.rider_id = p.rider_id
-            WHERE r.event_id = :event_id
-            ORDER BY
-                CASE r.status
-                    WHEN \'classified\' THEN 0
-                    WHEN \'dnf\' THEN 1
-                    WHEN \'dns\' THEN 2
-                    WHEN \'dsq\' THEN 3
-                    ELSE 4
-                END,
+            from results r
+            join riders p on r.rider_id = p.rider_id
+            where r.event_id = :event_id
+            order by
+                case r.status
+                    when \'classified\' then 0
+                    when \'dnf\' then 1
+                    when \'dns\' then 2
+                    when \'dsq\' then 3
+                    else 4
+                end,
                 r.position ASC,
                 p.name
         ';
@@ -47,20 +47,20 @@ class Result
 
             $this->db->execute(
                 '
-                    DELETE FROM results
-                    WHERE event_id = :event_id
+                    delete from results
+                    where event_id = :event_id
                 ',
                 [':event_id' => $eventId]
             );
 
             $sql = '
-                INSERT INTO results (
+                insert into results (
                     event_id,
                     rider_id,
                     position,
                     status
                 )
-                VALUES (
+                values (
                     :event_id,
                     :rider_id,
                     :position,
@@ -89,23 +89,23 @@ class Result
     public function getRidersForEventResults(int $eventId): array
     {
         $sql = '
-            SELECT
+            select
                 r.rider_id,
                 r.race_number,
-                r.name AS rider_name,
+                r.name as rider_name,
                 r.active,
                 res.position,
                 res.status
-            FROM riders r
-            LEFT JOIN results res
-                ON res.rider_id = r.rider_id
-                AND res.event_id = :event_id
-            ORDER BY
-                CASE
-                    WHEN res.status = \'classified\' THEN 0
-                    WHEN res.status IS NOT NULL THEN 1
-                    ELSE 2
-                END,
+            from riders r
+            left join results res
+                on res.rider_id = r.rider_id
+                and res.event_id = :event_id
+            order by
+                case
+                    when res.status = \'classified\' then 0
+                    when res.status is not null then 1
+                    else 2
+                end,
                 res.position,
                 r.active DESC,
                 r.name

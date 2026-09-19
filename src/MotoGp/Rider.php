@@ -19,7 +19,9 @@ class Rider
     public function getRiders(): array
     {
         $sql = '
-            select r.*, t.team_name
+            select
+                r.*,
+                t.team_name
             from riders r
             left join teams t on r.team_id = t.team_id
             order by r.name
@@ -30,11 +32,13 @@ class Rider
     public function getActiveRiders(): array
     {
         $sql = '
-            SELECT r.*, t.team_name
-            FROM riders r
-            LEFT JOIN teams t ON r.team_id = t.team_id
-            WHERE r.active = 1
-            ORDER BY r.name
+            select
+                r.*,
+                t.team_name
+            from riders r
+            left join teams t on r.team_id = t.team_id
+            where r.active = 1
+            order by r.name
         ';
         return $this->db->query($sql);
     }
@@ -42,7 +46,9 @@ class Rider
     public function getRiderById(int $riderId): ?array
     {
         $sql = '
-            select r.*, t.team_name
+            select
+                r.*,
+                t.team_name
             from riders r
             left join teams t on r.team_id = t.team_id
             where r.rider_id = :rider_id
@@ -60,12 +66,12 @@ class Rider
             ':rider_id' => $riderId
         ];
         $sql = '
-        update riders
-        set race_number = :race_number,
-            name = :name,
-            team_id = :team_id,
-            active = :active
-        where rider_id = :rider_id
+            update riders
+            set race_number = :race_number,
+                name = :name,
+                team_id = :team_id,
+                active = :active
+            where rider_id = :rider_id
         ';
         $result = $this->db->execute($sql, $params);
         $this->logger?->info("Rider updated: ID " . $riderId, ['data' => $data]);
@@ -81,18 +87,19 @@ class Rider
             ':active' => $data['active'] ? 1 : 0
         ];
         $sql = '
-        insert into riders (
-            race_number,
-            name,
-            team_id,
-            active
-        )
-        values (
-            :race_number,
-            :name,
-            :team_id,
-            :active
-        )';
+            insert into riders (
+                race_number,
+                name,
+                team_id,
+                active
+            )
+            values (
+                :race_number,
+                :name,
+                :team_id,
+                :active
+            )
+        ';
         $result = $this->db->execute($sql, $params);
         $this->logger?->info("Rider created: ", $params);
         return $result;
@@ -105,8 +112,8 @@ class Rider
         }
 
         $sql = '
-            DELETE FROM riders
-            WHERE rider_id = :rider_id
+            delete from riders
+            where rider_id = :rider_id
         ';
 
         return $this->db->execute($sql, [
@@ -117,10 +124,10 @@ class Rider
     public function hasBids(int $riderId): bool
     {
         $sql = '
-            SELECT 1
-            FROM bids
-            WHERE rider_id = :rider_id
-            LIMIT 1
+            select 1
+            from bids
+            where rider_id = :rider_id
+            limit 1
         ';
 
         return $this->db->queryOne($sql, [
@@ -131,10 +138,10 @@ class Rider
     public function hasResults(int $riderId): bool
     {
         $sql = '
-            SELECT 1
-            FROM results
-            WHERE rider_id = :rider_id
-            LIMIT 1
+            select 1
+            from results
+            where rider_id = :rider_id
+            limit 1
         ';
 
         return $this->db->queryOne($sql, [
