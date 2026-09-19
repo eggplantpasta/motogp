@@ -90,53 +90,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($data['form']['errors'])) {
-        try {
-            if ($operation === 'create') {
-                // Insert logic
-                $createdRows = $riders->createRider($formData);
-                if ($createdRows > 0) {
+        if ($operation === 'create') {
+            $createdRows = $riders->createRider($formData);
+            if ($createdRows > 0) {
+                header('Location: /admin/riders.php');
+                exit();
+            } else {
+                $data['form']['message'] = 'Failed to create rider';
+                $data['form']['message-class'] = 'error';
+                $data['form']['open_modal'] = true;
+            }
+        } elseif ($operation === 'update') {
+            if ($riderId !== '' && ctype_digit($riderId)) {
+
+                $updatedRows = $riders->updateRider((int)$riderId, $formData);
+                if ($updatedRows > 0) {
                     header('Location: /admin/riders.php');
                     exit();
                 } else {
-                    $data['form']['message'] = 'Failed to create rider';
+                    $data['form']['message'] = 'No rider was updated';
                     $data['form']['message-class'] = 'error';
                     $data['form']['open_modal'] = true;
                 }
-            } elseif ($operation === 'update') {
-                if ($riderId !== '' && ctype_digit($riderId)) {
-
-                    $updatedRows = $riders->updateRider((int)$riderId, $formData);
-                    if ($updatedRows > 0) {
-                        header('Location: /admin/riders.php');
-                        exit();
-                    } else {
-                        $data['form']['message'] = 'No rider was updated';
-                        $data['form']['message-class'] = 'error';
-                        $data['form']['open_modal'] = true;
-                    }
-                }
-            } elseif ($operation === 'delete') {
-                // Delete logic
-                if ($riderId !== '' && ctype_digit($riderId)) {
-                    $deletedRows = $riders->deleteRider((int)$riderId);
-                    if ($deletedRows > 0) {
-                        header('Location: /admin/riders.php');
-                        exit();
-                    } else {
-                        $data['form']['message'] = 'No rider was deleted';
-                        $data['form']['message-class'] = 'error';
-                        $data['form']['open_modal'] = true;
-                    }
+            }
+        } elseif ($operation === 'delete') {
+            if ($riderId !== '' && ctype_digit($riderId)) {
+                $deletedRows = $riders->deleteRider((int)$riderId);
+                if ($deletedRows > 0) {
+                    header('Location: /admin/riders.php');
+                    exit();
+                } else {
+                    $data['form']['message'] = 'No rider was deleted';
+                    $data['form']['message-class'] = 'error';
+                    $data['form']['open_modal'] = true;
                 }
             }
-        } catch (\Throwable $e) {
-            throw $e;
         }
-        // } catch (\Throwable $e) {
-        //     $data['form']['message'] = 'Unable to save rider changes';
-        //     $data['form']['message-class'] = 'error';
-        //     $data['form']['open_modal'] = true;
-        // }
+
     } else {
         $data['form']['message'] = 'Please fix the highlighted fields';
         $data['form']['message-class'] = 'error';
