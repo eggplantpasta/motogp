@@ -17,113 +17,84 @@ class Riders
 
     public function getRiders(): array
     {
-        try {
-            $sql = '
-                select r.*, t.team_name
-                from riders r
-                left join teams t on r.team_id = t.team_id
-                order by r.name
-            ';
-            return $this->db->query($sql);
-        } catch (\PDOException $e) {
-            $this->logger?->error("Failed to fetch riders: " . $e->getMessage());
-            throw $e;
-        }
+        $sql = '
+            select r.*, t.team_name
+            from riders r
+            left join teams t on r.team_id = t.team_id
+            order by r.name
+        ';
+        return $this->db->query($sql);
     }
 
     public function getActiveRiders(): array
     {
-        try {
-            $sql = '
-                SELECT r.*, t.team_name
-                FROM riders r
-                LEFT JOIN teams t ON r.team_id = t.team_id
-                WHERE r.active = 1
-                ORDER BY r.name
-            ';
-
-            return $this->db->query($sql);
-        } catch (\PDOException $e) {
-            $this->logger?->error(
-                'Failed to fetch active riders: ' . $e->getMessage()
-            );
-
-            throw $e;
-        }
+        $sql = '
+            SELECT r.*, t.team_name
+            FROM riders r
+            LEFT JOIN teams t ON r.team_id = t.team_id
+            WHERE r.active = 1
+            ORDER BY r.name
+        ';
+        return $this->db->query($sql);
     }
 
     public function getRiderById(int $riderId): ?array
     {
-        try {
-            $sql = '
-                select r.*, t.team_name
-                from riders r
-                left join teams t on r.team_id = t.team_id
-                where r.rider_id = :rider_id
-            ';
-            return $this->db->queryOne($sql, [':rider_id' => $riderId]);
-        } catch (\PDOException $e) {
-            $this->logger?->error("Failed to fetch rider ID " . $riderId . ": " . $e->getMessage());
-            throw $e;
-        }
+        $sql = '
+            select r.*, t.team_name
+            from riders r
+            left join teams t on r.team_id = t.team_id
+            where r.rider_id = :rider_id
+        ';
+        return $this->db->queryOne($sql, [':rider_id' => $riderId]);
     }
 
     public function updateRider(int $riderId, array $data): int
     {
-        try {
-            $params = [
-                ':race_number' => $data['race_number'],
-                ':name' => $data['name'],
-                ':team_id' => $data['team_id'] ?? null,
-                ':active' => $data['active'] ? 1 : 0,
-                ':rider_id' => $riderId
-            ];
-            $sql = '
-            update riders
-            set race_number = :race_number,
-                name = :name,
-                team_id = :team_id,
-                active = :active
-            where rider_id = :rider_id
-            ';
-            $result = $this->db->execute($sql, $params);
-            $this->logger?->info("Rider updated: ID " . $riderId, ['data' => $data]);
-            return $result;
-        } catch (\PDOException $e) {
-            $this->logger?->error("Failed to update rider ID " . $riderId . ": " . $e->getMessage());
-            throw $e;
-        }
+        $params = [
+            ':race_number' => $data['race_number'],
+            ':name' => $data['name'],
+            ':team_id' => $data['team_id'] ?? null,
+            ':active' => $data['active'] ? 1 : 0,
+            ':rider_id' => $riderId
+        ];
+        $sql = '
+        update riders
+        set race_number = :race_number,
+            name = :name,
+            team_id = :team_id,
+            active = :active
+        where rider_id = :rider_id
+        ';
+        $result = $this->db->execute($sql, $params);
+        $this->logger?->info("Rider updated: ID " . $riderId, ['data' => $data]);
+        return $result;
     }
 
     public function createRider(array $data): int
     {
-        try {
-            $params = [
-                ':race_number' => $data['race_number'],
-                ':name' => $data['name'],
-                ':team_id' => $data['team_id'] ?? null,
-                ':active' => $data['active'] ? 1 : 0
-            ];
-            $sql = '
-            insert into riders (
-                race_number,
-                name,
-                team_id,
-                active
-            )
-            values (
-                :race_number,
-                :name,
-                :team_id,
-                :active
-            )';
-            $result = $this->db->execute($sql, $params);
-            $this->logger?->info("Rider created: ", $params);
-            return $result;
-        } catch (\PDOException $e) {
-            $this->logger?->error("Failed to create rider: " . $e->getMessage(), ['data' => $data]);
-            throw $e;
-        }
+        $params = [
+            ':race_number' => $data['race_number'],
+            ':name' => $data['name'],
+            ':team_id' => $data['team_id'] ?? null,
+            ':active' => $data['active'] ? 1 : 0
+        ];
+        $sql = '
+        insert into riders (
+            race_number,
+            name,
+            team_id,
+            active
+        )
+        values (
+            :race_number,
+            :name,
+            :team_id,
+            :active
+        )';
+        $result = $this->db->execute($sql, $params);
+        $this->logger?->info("Rider created: ", $params);
+        return $result;
     }
 
     public function deleteRider(int $riderId): int
@@ -132,26 +103,14 @@ class Riders
             return 0;
         }
 
-        try {
-            $sql = '
-                DELETE FROM riders
-                WHERE rider_id = :rider_id
-            ';
+        $sql = '
+            DELETE FROM riders
+            WHERE rider_id = :rider_id
+        ';
 
-            return $this->db->execute($sql, [
-                ':rider_id' => $riderId
-            ]);
-        } catch (\PDOException $e) {
-            $this->logger?->error(
-                'Failed to delete rider:',
-                [
-                    'rider_id' => $riderId,
-                    'message' => $e->getMessage()
-                ]
-            );
-
-            throw $e;
-        }
+        return $this->db->execute($sql, [
+            ':rider_id' => $riderId
+        ]);
     }
 
     public function hasBids(int $riderId): bool

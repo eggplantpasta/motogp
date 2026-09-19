@@ -2,42 +2,24 @@
 
 namespace MotoGp;
 
-use Psr\Log\LoggerInterface;
-
 class Team
 {
     private $db;
-    private ?LoggerInterface $logger;
 
-    public function __construct($db, ?LoggerInterface $logger = null)
+    public function __construct($db)
     {
         $this->db = $db;
-        $this->logger = $logger;
     }
 
     public function getTeams(): array
     {
-        try {
-            $sql = '
+        $sql = '
                 SELECT t.*
                 FROM teams t
                 ORDER BY t.team_name
             ';
 
-            $results = $this->db->query($sql);
-
-            $this->logger?->info('Fetched teams', [
-                'count' => count($results)
-            ]);
-
-            return $results;
-        } catch (\PDOException $e) {
-            $this->logger?->error('Failed to fetch teams', [
-                'message' => $e->getMessage()
-            ]);
-
-            throw $e;
-        }
+        return $this->db->query($sql);
     }
 
     public function createTeam(array $data): int
