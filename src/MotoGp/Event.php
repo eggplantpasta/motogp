@@ -25,7 +25,6 @@ class Event
         LIMIT 1
         ';
 
-        // Execute the query and return the result
         $result = $this->db->queryOne($sql);
         return $result ? (int)$result['event_id'] : null;
 
@@ -43,7 +42,6 @@ class Event
         LIMIT 1
         ';
 
-        // Execute the query and return the result
         $result = $this->db->queryOne($sql);
         return $result ? (int)$result['event_id'] : null;
     }
@@ -59,8 +57,6 @@ class Event
         LIMIT 1
         ';
 
-
-        // Execute the query and return the result
         return $this->db->queryOne($sql);
     }
 
@@ -85,9 +81,7 @@ class Event
         ORDER BY e.start_date
         ';
 
-        $results = $this->db->query($sql);
-
-        return !empty($results) && $results[0] ? $results : []; // return results or empty array
+        return $this->db->query($sql);
     }
 
     public function updateEvent(int $eventId, array $data): bool

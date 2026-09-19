@@ -21,8 +21,7 @@ class Country
         ORDER BY name
         ';
 
-        $results = $this->db->query($sql);
-        return !empty($results) && $results[0] ? $results : []; // return results or empty array
+        return $this->db->query($sql);
     }
 
     public function getCountriesSelected(string|int $selectedCode): array
