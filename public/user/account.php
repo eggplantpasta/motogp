@@ -6,7 +6,10 @@ use Webmin\Database;
 use MotoGp\Utility;
 use MotoGp\Event;
 
-require_once __DIR__ . '/../../src/bootstrap.php';
+$app = require_once __DIR__ . '/../../src/bootstrap.php';
+
+$config = $app->config;
+$logger = $app->logger;
 
 // redirect to login page if not logged in
 $db = new Database($config['database']['dsn'], $logger);

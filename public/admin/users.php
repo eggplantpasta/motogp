@@ -5,7 +5,10 @@ use Webmin\Template;
 use Webmin\User;
 use Webmin\Csrf;
 
-require_once __DIR__ . '/../../src/bootstrap.php';
+$app = require_once __DIR__ . '/../../src/bootstrap.php';
+
+$config = $app->config;
+$logger = $app->logger;
 
 $tpl = new Template($config['template']);
 $db = new Database($config['database']['dsn'], $logger);

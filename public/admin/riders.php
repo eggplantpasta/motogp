@@ -7,9 +7,10 @@ use Webmin\Csrf;
 use MotoGp\Rider;
 use MotoGp\Team;
 
-require_once __DIR__ . '/../../src/bootstrap.php';
+$app = require_once __DIR__ . '/../../src/bootstrap.php';
 
-$logger = $GLOBALS['logger'] ?? null;
+$config = $app->config;
+$logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db, $logger);

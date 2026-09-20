@@ -8,7 +8,10 @@ use MotoGp\Event;
 use MotoGp\Country;
 use MotoGp\Utility;
 
-require_once __DIR__ . '/../../src/bootstrap.php';
+$app = require_once __DIR__ . '/../../src/bootstrap.php';
+
+$config = $app->config;
+$logger = $app->logger;
 
 $user = new User();
 

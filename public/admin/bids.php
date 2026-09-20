@@ -8,7 +8,10 @@ use MotoGp\Utility;
 use MotoGp\Bid;
 use Webmin\Csrf;
 
-require_once __DIR__ . '/../../src/bootstrap.php';
+$app = require_once __DIR__ . '/../../src/bootstrap.php';
+
+$config = $app->config;
+$logger = $app->logger;
 
 $user = new User();
 
@@ -205,7 +208,6 @@ if ($data['resolved']) {
 $tpl = new Template($config['template']);
 
 echo $tpl->render('admin/bids', $data);
-a);
 
 $data['countries'] = $country->getCountriesSelected(
     $data['form']['country_code']

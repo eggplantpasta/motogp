@@ -5,7 +5,10 @@ use Webmin\User;
 use Webmin\Database;
 use Webmin\Csrf;
 
-require_once __DIR__ . '/../../src/bootstrap.php';
+$app = require_once __DIR__ . '/../../src/bootstrap.php';
+
+$config = $app->config;
+$logger = $app->logger;
 
 // redirect to account page if already logged in
 $user = new User();

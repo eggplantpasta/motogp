@@ -9,7 +9,10 @@ use MotoGp\Rider;
 use MotoGp\Bid;
 use MotoGp\Utility;
 
-require_once __DIR__ . '/../src/bootstrap.php';
+$app = require __DIR__ . '/../src/bootstrap.php';
+
+$config = $app->config;
+$logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
 
