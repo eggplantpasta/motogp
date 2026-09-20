@@ -208,11 +208,3 @@ if ($data['resolved']) {
 $tpl = new Template($config['template']);
 
 echo $tpl->render('admin/bids', $data);
-
-$data['countries'] = $country->getCountriesSelected(
-    $data['form']['country_code']
-);
-
-$tpl = new Template($config['template']);
-
-echo $tpl->render('admin/events', $data);
