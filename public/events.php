@@ -6,6 +6,8 @@ use Webmin\User;
 use MotoGp\Utility;
 use MotoGp\Event;
 
+require_once __DIR__ . '/../src/bootstrap.php';
+
 // get session user
 $user = new User();
 

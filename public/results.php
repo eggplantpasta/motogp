@@ -7,6 +7,8 @@ use MotoGp\Utility;
 use MotoGp\Event;
 use MotoGp\Result;
 
+require_once __DIR__ . '/../src/bootstrap.php';
+
 $user = new User();
 
 $db = new Database($config['database']['dsn'], $logger);

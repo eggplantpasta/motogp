@@ -5,6 +5,8 @@ use Webmin\Database;
 use Webmin\User;
 use MotoGp\Rider;
 
+require_once __DIR__ . '/../src/bootstrap.php';
+
 $logger = $GLOBALS['logger'] ?? null;
 
 $db = new Database($config['database']['dsn'], $logger);

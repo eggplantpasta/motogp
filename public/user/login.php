@@ -5,6 +5,8 @@ use Webmin\User;
 use Webmin\Database;
 use Webmin\Csrf;
 
+require_once __DIR__ . '/../../src/bootstrap.php';
+
 // redirect to account page if already logged in
 $user = new User();
 if ($user->isLoggedIn()) {

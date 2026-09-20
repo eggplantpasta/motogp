@@ -4,6 +4,8 @@ use Webmin\Template;
 use Webmin\Database;
 use Webmin\User;
 
+require_once __DIR__ . '/../src/bootstrap.php';
+
 $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db);
 

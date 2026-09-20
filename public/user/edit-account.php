@@ -5,6 +5,8 @@ use Webmin\User;
 use Webmin\Database;
 use Webmin\Csrf;
 
+require_once __DIR__ . '/../../src/bootstrap.php';
+
 $tpl = new Template($config['template']);
 
 // redirect to login page if not logged in

@@ -8,6 +8,8 @@ use MotoGp\Event;
 use MotoGp\Country;
 use MotoGp\Utility;
 
+require_once __DIR__ . '/../../src/bootstrap.php';
+
 $user = new User();
 
 if (!$user->isLoggedIn()) {

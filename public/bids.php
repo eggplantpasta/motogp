@@ -9,6 +9,8 @@ use MotoGp\Rider;
 use MotoGp\Bid;
 use MotoGp\Utility;
 
+require_once __DIR__ . '/../src/bootstrap.php';
+
 $db = new Database($config['database']['dsn'], $logger);
 
 $user = new User($db);
