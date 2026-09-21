@@ -196,6 +196,6 @@ foreach ($bids as $bidNumber => $bid) {
     ];
 }
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 echo $tpl->render('bids', $data);

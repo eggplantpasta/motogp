@@ -17,7 +17,7 @@ if ($user->isLoggedIn()) {
     exit();
 }
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 $data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]);
 

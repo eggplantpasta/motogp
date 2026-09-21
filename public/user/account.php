@@ -24,7 +24,7 @@ $event = new Event($db);
 
 $next_event = $event->getEventById($event->getNextEventId());
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 $data['user'] = $user->getSessionUser();
 $data['user']['balance'] = $user->getBalance(
     (int)$data['user']['user_id']

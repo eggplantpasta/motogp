@@ -205,6 +205,6 @@ if ($data['resolved']) {
         && !empty($data['payout']['payouts']);
 }
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 echo $tpl->render('admin/bids', $data);

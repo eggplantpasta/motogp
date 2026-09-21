@@ -10,7 +10,7 @@ $app = require_once __DIR__ . '/../../src/bootstrap.php';
 $config = $app->config;
 $logger = $app->logger;
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db);
 

@@ -59,6 +59,6 @@ $data['page']['heading'] = 'Results';
 $data['event']['display_date'] =
     Utility::formatDate($data['event']['start_date'], 'M d');
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 echo $tpl->render('results', $data);

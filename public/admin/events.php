@@ -180,6 +180,6 @@ $data['countries'] = $country->getCountriesSelected(
     $data['form']['country_code']
 );
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 echo $tpl->render('admin/events', $data);

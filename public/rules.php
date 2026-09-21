@@ -22,6 +22,6 @@ $data['page'] = [
     'heading' => 'Game Rules',
 ];
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 echo $tpl->render('rules', $data);

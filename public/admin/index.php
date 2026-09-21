@@ -20,7 +20,7 @@ if (!$user->isAdmin()) {
     exit('Forbidden');
 }
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 $data['user'] = $user->getSessionUser();
 

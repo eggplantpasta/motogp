@@ -33,5 +33,5 @@ $data['page'] = [
     'next_race_name' => $eventData ? $eventData['name'] : 'N/A'
 ];
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 echo $tpl->render('main', $data);

@@ -116,6 +116,6 @@ foreach ($data['teams'] as &$team) {
 
 unset($team);
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 echo $tpl->render('admin/teams', $data);

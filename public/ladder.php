@@ -32,6 +32,6 @@ foreach ($data['ladder'] as &$player) {
 
 unset($player);
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 echo $tpl->render('ladder', $data);

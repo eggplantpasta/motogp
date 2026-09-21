@@ -53,5 +53,5 @@ foreach ($data['events'] as &$event) {
 
 unset($event);
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 echo $tpl->render('events', $data);

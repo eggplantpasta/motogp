@@ -89,6 +89,6 @@ $data['user'] = $sessionUser;
 $data['account'] = $account;
 $data['transactions'] = $transactions;
 
-$tpl = new Template($config['template']);
+$tpl = new Template($config['template'], $logger);
 
 echo $tpl->render('statement', $data);
