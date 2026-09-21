@@ -3,6 +3,7 @@
 use Webmin\Template;
 use Webmin\Database;
 use Webmin\User;
+use Webmin\Session;
 use MotoGp\Event;
 use MotoGp\Utility;
 
@@ -13,14 +14,15 @@ $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
 
-$user = new User($db);
+$user = new User($db, $logger);
+$session = new Session();
 
 $event = new Event($db);
 $eventData = $event->getNextEvent();
 
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 
-if ($user->isLoggedIn()) {
+if ($session->isLoggedIn()) {
     $data['show_ladder'] = true;
     $data['leaders'] = $user->getLadder(3);
 }

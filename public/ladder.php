@@ -3,6 +3,7 @@
 use Webmin\Template;
 use Webmin\Database;
 use Webmin\User;
+use Webmin\Session;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
 
@@ -10,15 +11,16 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db);
+$user = new User($db, $logger);
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
 
 $data['app'] = $config['app'];
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['page']['title'] = 'Ladder';
 $data['page']['heading'] = 'Ladder';
 

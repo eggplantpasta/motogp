@@ -7,7 +7,7 @@ use Webmin\Database;
 use Webmin\User;
 
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db);
+$user = new User($db, $logger);
 
 $expiryDays = (int)($config['app']['pending_user_expiry_days'] ?? 7);
 

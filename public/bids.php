@@ -3,6 +3,7 @@
 use Webmin\Template;
 use Webmin\Database;
 use Webmin\User;
+use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
 use MotoGp\Rider;
@@ -16,9 +17,10 @@ $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
 
-$user = new User($db);
+$user = new User($db, $logger);
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
@@ -49,7 +51,7 @@ if (!(bool)$event['bids_open']) {
     exit('Bidding is not open for this event.');
 }
 
-$sessionUser = $user->getSessionUser();
+$sessionUser = $session->getUser();
 $userId = (int)$sessionUser['user_id'];
 
 $balance = $user->getBalance($userId);

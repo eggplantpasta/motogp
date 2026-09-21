@@ -3,6 +3,7 @@
 use Webmin\Database;
 use Webmin\Template;
 use Webmin\User;
+use Webmin\Session;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
 
@@ -10,18 +11,19 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db);
+$user = new User($db, $logger);
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
 
-$sessionUser = $user->getSessionUser();
+$sessionUser = $session->getUser();
 $userId = (int)$sessionUser['user_id'];
 
 if (isset($_GET['user_id'])) {
-    if (!$user->isAdmin()) {
+    if (!$session->isAdmin()) {
         http_response_code(403);
         exit('Forbidden');
     }

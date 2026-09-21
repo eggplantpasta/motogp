@@ -2,6 +2,7 @@
 
 use Webmin\Template;
 use Webmin\User;
+use Webmin\Session;
 use Webmin\Database;
 use MotoGp\Utility;
 use MotoGp\Event;
@@ -13,9 +14,10 @@ $logger = $app->logger;
 
 // redirect to login page if not logged in
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db);
+$user = new User($db, $logger);
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header("Location: /user/login.php");
     exit();
 }
@@ -25,7 +27,7 @@ $event = new Event($db);
 $next_event = $event->getEventById($event->getNextEventId());
 
 $tpl = new Template($config['template'], $logger);
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['user']['balance'] = $user->getBalance(
     (int)$data['user']['user_id']
 );

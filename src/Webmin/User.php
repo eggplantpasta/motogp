@@ -15,17 +15,15 @@ class User
     public $loginErr = '';
     public $accountErr = '';
 
-    private ?Database $db;
-    private ?LoggerInterface $logger;
+    private Database $db;
+    private LoggerInterface $logger;
 
-    public function __construct(?Database $db = null, ?LoggerInterface $logger = null)
-    {
+    public function __construct(
+        Database $db,
+        LoggerInterface $logger
+    ) {
         $this->db = $db;
         $this->logger = $logger;
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
     }
 
     public function validateUsername(?int $userId = null): bool
@@ -121,10 +119,6 @@ class User
 
     public function register(): bool
     {
-        if (!$this->db) {
-            throw new \Exception('Database connection required for registration.');
-        }
-
         try {
             $this->db->beginTransaction();
 
@@ -197,10 +191,6 @@ class User
         ?string $email = null,
         ?string $password = null
     ): bool {
-        if (!$this->db) {
-            throw new \Exception('Database connection required for updating account.');
-        }
-
         $fields = [];
         $params = ['user_id' => $userId];
 
@@ -241,7 +231,7 @@ class User
 
             $this->accountErr = 'Unable to update your account. Please try again.';
 
-            $this->logger?->error(
+            $this->logger->error(
                 'Account update failed for user ID: ' . $userId . '. ' . $message
             );
 
@@ -249,42 +239,8 @@ class User
         }
     }
 
-    public function isLoggedIn(): bool
-    {
-        return isset($_SESSION['user']);
-    }
-
-    public function isAdmin(): bool
-    {
-        return (isset($_SESSION['user']['admin']) && $_SESSION['user']['admin'] == 1);
-    }
-
-    public function logout(): void
-    {
-        $_SESSION = [];
-
-        if (ini_get('session.use_cookies')) {
-            $params = session_get_cookie_params();
-
-            setcookie(session_name(), '', [
-                'expires' => time() - 42000,
-                'path' => $params['path'],
-                'domain' => $params['domain'],
-                'secure' => $params['secure'],
-                'httponly' => $params['httponly'],
-                'samesite' => $params['samesite'],
-            ]);
-        }
-
-        session_destroy();
-    }
-
     public function login(): bool
     {
-        if (!$this->db) {
-            throw new \Exception('Database connection required for login.');
-        }
-
         $this->loginErr = '';
 
         $sql = '
@@ -299,7 +255,7 @@ class User
         ]);
 
         if ($user === null) {
-            $this->logger?->warning(
+            $this->logger->warning(
                 "Login attempt with non-existent user: " . $this->username
             );
 
@@ -308,7 +264,7 @@ class User
         }
 
         if (!password_verify($this->password, $user['password'])) {
-            $this->logger?->warning(
+            $this->logger->warning(
                 "Login attempt with incorrect password for user: " . $this->username
             );
 
@@ -317,7 +273,7 @@ class User
         }
 
         if (empty($user['approved_at'])) {
-            $this->logger?->info(
+            $this->logger->info(
                 "Login attempt for unapproved user: " . $this->username
             );
 
@@ -326,7 +282,7 @@ class User
         }
 
         if (!empty($user['disabled_at'])) {
-            $this->logger?->info(
+            $this->logger->info(
                 "Login attempt for disabled user: " . $this->username
             );
 
@@ -340,26 +296,15 @@ class User
 
         $_SESSION['user'] = $user;
 
-        $this->logger?->info(
+        $this->logger->info(
             "User logged in successfully: " . $this->username
         );
 
         return true;
     }
 
-    public function getSessionUser(): array
-    {
-        return $_SESSION['user'] ?? [];
-    }
-
     public function getUsers(): array
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for retrieving users.'
-            );
-        }
-
         $sql = '
             select
                 user_id,
@@ -379,12 +324,6 @@ class User
 
     public function approve(int $userId): bool
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for approving user.'
-            );
-        }
-
         $sql = '
             update users
             set approved_at = current_timestamp,
@@ -398,14 +337,14 @@ class User
                 'user_id' => $userId,
             ]);
 
-            $this->logger?->info(
+            $this->logger->info(
                 'User approved.',
                 ['user_id' => $userId]
             );
 
             return true;
         } catch (\PDOException $e) {
-            $this->logger?->error(
+            $this->logger->error(
                 'User approval failed: ' . $e->getMessage(),
                 ['user_id' => $userId]
             );
@@ -416,14 +355,8 @@ class User
 
     public function disable(int $userId): bool
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for disabling user.'
-            );
-        }
-
         if ($this->isLastActiveAdmin($userId)) {
-            $this->logger?->warning(
+            $this->logger->warning(
                 'Attempt to disable final active administrator.',
                 ['user_id' => $userId]
             );
@@ -444,14 +377,14 @@ class User
                 'user_id' => $userId,
             ]);
 
-            $this->logger?->info(
+            $this->logger->info(
                 'User disabled.',
                 ['user_id' => $userId]
             );
 
             return true;
         } catch (\PDOException $e) {
-            $this->logger?->error(
+            $this->logger->error(
                 'User disable failed: ' . $e->getMessage(),
                 ['user_id' => $userId]
             );
@@ -462,12 +395,6 @@ class User
 
     public function enable(int $userId): bool
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for enabling user.'
-            );
-        }
-
         $sql = '
             update users
             set disabled_at = null
@@ -481,14 +408,14 @@ class User
                 'user_id' => $userId,
             ]);
 
-            $this->logger?->info(
+            $this->logger->info(
                 'User enabled.',
                 ['user_id' => $userId]
             );
 
             return true;
         } catch (\PDOException $e) {
-            $this->logger?->error(
+            $this->logger->error(
                 'User enable failed: ' . $e->getMessage(),
                 ['user_id' => $userId]
             );
@@ -499,14 +426,8 @@ class User
 
     public function setAdmin(int $userId, bool $admin): bool
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for changing administrator access.'
-            );
-        }
-
         if (!$admin && $this->isLastActiveAdmin($userId)) {
-            $this->logger?->warning(
+            $this->logger->warning(
                 'Attempt to demote final active administrator.',
                 ['user_id' => $userId]
             );
@@ -528,7 +449,7 @@ class User
                 'user_id' => $userId,
             ]);
 
-            $this->logger?->info(
+            $this->logger->info(
                 'User administrator status changed.',
                 [
                     'user_id' => $userId,
@@ -538,7 +459,7 @@ class User
 
             return true;
         } catch (\PDOException $e) {
-            $this->logger?->error(
+            $this->logger->error(
                 'Administrator status update failed: ' . $e->getMessage(),
                 ['user_id' => $userId]
             );
@@ -580,12 +501,6 @@ class User
 
     public function adjustBalance(int $userId, int $balance): bool
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for adjusting balance.'
-            );
-        }
-
         if ($balance < 0) {
             return false;
         }
@@ -651,7 +566,7 @@ class User
 
             $this->db->commit();
 
-            $this->logger?->info(
+            $this->logger->info(
                 'User balance adjusted.',
                 [
                     'user_id' => $userId,
@@ -665,7 +580,7 @@ class User
         } catch (\Throwable $e) {
             $this->db->rollBack();
 
-            $this->logger?->error(
+            $this->logger->error(
                 'User balance adjustment failed: ' . $e->getMessage(),
                 ['user_id' => $userId]
             );
@@ -676,14 +591,8 @@ class User
 
     public function deleteUser(int $userId): bool
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for deleting user.'
-            );
-        }
-
         if ($this->isLastActiveAdmin($userId)) {
-            $this->logger?->warning(
+            $this->logger->warning(
                 'Attempt to delete final active administrator.',
                 ['user_id' => $userId]
             );
@@ -701,14 +610,14 @@ class User
                 return false;
             }
 
-            $this->logger?->info(
+            $this->logger->info(
                 'User deleted.',
                 ['user_id' => $userId]
             );
 
             return true;
         } catch (\PDOException $e) {
-            $this->logger?->error(
+            $this->logger->error(
                 'User deletion failed: ' . $e->getMessage(),
                 ['user_id' => $userId]
             );
@@ -719,12 +628,6 @@ class User
 
     public function hasBids(int $userId): bool
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for checking user bids.'
-            );
-        }
-
         $result = $this->db->queryOne(
             'select 1 from bids where user_id = :user_id limit 1',
             ['user_id' => $userId]
@@ -735,12 +638,6 @@ class User
 
     public function deleteExpiredPendingUsers(int $expiryDays): int
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for deleting expired users.'
-            );
-        }
-
         if ($expiryDays < 1) {
             throw new \InvalidArgumentException(
                 'Pending user expiry must be at least 1 day.'
@@ -760,12 +657,6 @@ class User
 
     public function getLadder(?int $limit = null): array
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for retrieving ladder.'
-            );
-        }
-
         $sql = '
             select
                 user_id,
@@ -786,12 +677,6 @@ class User
 
     public function getBalance(int $userId): ?int
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for getting user balance.'
-            );
-        }
-
         $result = $this->db->queryOne(
             'select balance from users where user_id = :user_id',
             ['user_id' => $userId]
@@ -806,12 +691,6 @@ class User
 
     public function getUserById(int $userId): ?array
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for retrieving user.'
-            );
-        }
-
         return $this->db->queryOne(
             '
                 select
@@ -827,12 +706,6 @@ class User
 
     public function getBalanceTransactions(int $userId): array
     {
-        if (!$this->db) {
-            throw new \Exception(
-                'Database connection required for retrieving transactions.'
-            );
-        }
-
         return $this->db->query(
             '
                 select

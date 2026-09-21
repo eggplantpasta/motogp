@@ -3,6 +3,7 @@
 use Webmin\Database;
 use Webmin\Template;
 use Webmin\User;
+use Webmin\Session;
 use Webmin\Csrf;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
@@ -12,14 +13,15 @@ $logger = $app->logger;
 
 $tpl = new Template($config['template'], $logger);
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db);
+$user = new User($db, $logger);
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
 
-if (!$user->isAdmin()) {
+if (!$session->isAdmin()) {
     http_response_code(403);
     exit('Forbidden');
 }
@@ -154,7 +156,7 @@ foreach ($data['users'] as &$account) {
 }
 unset($account);
 
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['csrfToken'] = Csrf::token();
 
 echo $tpl->render('admin/users', $data);

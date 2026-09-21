@@ -2,7 +2,7 @@
 
 use Webmin\Template;
 use Webmin\Database;
-use Webmin\User;
+use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Rider;
 use MotoGp\Team;
@@ -13,14 +13,14 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db, $logger);
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
 
-if (!$user->isAdmin()) {
+if (!$session->isAdmin()) {
     http_response_code(403);
     exit('Forbidden');
 }
@@ -144,7 +144,7 @@ $data['teams'] = withSelectedTeam($allTeams, (string)$data['form']['team_id']);
 $tpl = new Template($config['template'], $logger);
 
 $data['app'] = $config['app'];
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['page']['title'] = 'Riders';
 $data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Riders';
 $data['csrfToken'] = Csrf::token();

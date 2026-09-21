@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $db = new Database($config['database']['dsn'], $logger);
-    $user = new User($db);
+    $user = new User($db, $logger);
 
     // Process form submission
     $user->username = trim($_POST['username'] ?? '');
