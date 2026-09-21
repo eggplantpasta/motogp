@@ -4,5 +4,6 @@
         "editorconfig.editorconfig",
         "dawhite.mustache",
         "muuvmuuv.vscode-just-php-cs-fixer",
+        "sanderronde.phpstan-vscode"
     ]
 }

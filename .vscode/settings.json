@@ -2,5 +2,8 @@
     "[php]": {
         "editor.defaultFormatter": "muuvmuuv.vscode-just-php-cs-fixer",
         "editor.formatOnSave": true
-    }
+    },
+    "phpstan.enabled": true,
+    "phpstan.binPath": "${workspaceFolder}/vendor/bin/phpstan",
+    "phpstan.configFile": "phpstan.neon"
 }
