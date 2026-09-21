@@ -4,8 +4,7 @@ use Webmin\Template;
 use Webmin\Database;
 use Webmin\User;
 use Webmin\Csrf;
-use MotoGp\Event;
-use MotoGp\Result;
+use MotoGp\Team;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
@@ -25,28 +24,23 @@ if (!$user->isAdmin()) {
 }
 
 $db = new Database($config['database']['dsn'], $logger);
-
-$events = new Event($db);
-$results = new Result($db);
+$teams = new Team($db);
 
 $data['user'] = $user->getSessionUser();
-$data['page']['title'] = 'Results';
-$data['page']['heading'] = 'Manage Results';
+$data['page']['title'] = 'Teams';
+$data['page']['heading'] = 'Manage Teams';
 $data['csrfToken'] = Csrf::token();
 
 $data['form'] = [
     'message' => '',
     'message-class' => '',
+    'open_modal' => false,
+    'team_id' => '',
+    'team_name' => '',
+    'short_team_name' => '',
+    'manufacturer' => '',
     'errors' => [],
 ];
-
-$eventId = null;
-
-if (isset($_GET['event_id']) && ctype_digit($_GET['event_id'])) {
-    $eventId = (int)$_GET['event_id'];
-} elseif ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    $eventId = $events->getLastEventId();
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
@@ -54,164 +48,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit('Invalid CSRF token.');
     }
 
-    $postedEventId = $_POST['event-id'] ?? '';
+    $operation = $_POST['operation'] ?? '';
+    $teamId = trim($_POST['team-id'] ?? '');
 
-    if ($postedEventId === '' || !ctype_digit($postedEventId)) {
-        $data['form']['message'] = 'A valid event is required.';
+    $formData = [
+        'team_name' => trim($_POST['team-name'] ?? ''),
+        'short_team_name' => trim($_POST['short-team-name'] ?? ''),
+        'manufacturer' => trim($_POST['manufacturer'] ?? ''),
+    ];
+
+    $data['form']['team_id'] = $teamId;
+    $data['form']['team_name'] = $formData['team_name'];
+    $data['form']['short_team_name'] = $formData['short_team_name'];
+    $data['form']['manufacturer'] = $formData['manufacturer'];
+
+    if ($operation === 'delete') {
+        if ($teamId !== '' && ctype_digit($teamId) && $teams->deleteTeam((int)$teamId)) {
+            header('Location: /admin/teams.php');
+            exit();
+        }
+
+        $data['form']['message'] = 'Team could not be deleted. It may still have riders.';
         $data['form']['message-class'] = 'error';
     } else {
-        $eventId = (int)$postedEventId;
-        $event = $events->getEventById($eventId);
+        if ($formData['team_name'] === '') {
+            $data['form']['errors']['team_name'] = 'Team name is required.';
+        }
 
-        if ($event === null) {
-            $data['form']['message'] = 'Event does not exist.';
-            $data['form']['message-class'] = 'error';
-        } elseif ($event['payouts_settled_at'] !== null) {
-            http_response_code(400);
-            exit('Results cannot be changed after payouts have been settled.');
-        } else {
-            $riders = $results->getRidersForEventResults($eventId);
-            $validRiderIds = array_column(
-                $riders,
-                null,
-                'rider_id'
-            );
+        if ($formData['short_team_name'] === '') {
+            $data['form']['errors']['short_team_name'] = 'Short name is required.';
+        }
 
-            $positions = $_POST['positions'] ?? [];
-            $statuses = $_POST['statuses'] ?? [];
+        if ($formData['manufacturer'] === '') {
+            $data['form']['errors']['manufacturer'] = 'Manufacturer is required.';
+        }
 
-            $saveResults = [];
-            $usedPositions = [];
+        if (empty($data['form']['errors'])) {
+            try {
+                if ($operation === 'create') {
+                    $teams->createTeam($formData);
 
-            foreach ($validRiderIds as $riderId => $rider) {
-                $position = trim(
-                    (string)($positions[$riderId] ?? '')
-                );
-
-                $status = trim(
-                    (string)($statuses[$riderId] ?? '')
-                );
-
-                /*
-                * Completely blank means this rider did not
-                * participate in this event.
-                */
-                if ($position === '' && $status === '') {
-                    continue;
-                }
-
-                /*
-                * A position without an explicit status is
-                * a normal classified finish.
-                */
-                if ($position !== '' && $status === '') {
-                    $status = 'classified';
-                }
-
-                if (!in_array(
-                    $status,
-                    ['classified', 'dnf', 'dns', 'dsq'],
-                    true
-                )) {
-                    $data['form']['message'] =
-                        'Invalid result status.';
-                    $data['form']['message-class'] = 'error';
-                    break;
-                }
-
-                if ($status === 'classified') {
-                    if (
-                        !ctype_digit($position)
-                        || (int)$position < 1
-                    ) {
-                        $data['form']['message'] =
-                            'Classified riders require a valid position.';
-                        $data['form']['message-class'] = 'error';
-                        break;
-                    }
-
-                    $position = (int)$position;
-
-                    if (isset($usedPositions[$position])) {
-                        $data['form']['message'] =
-                            "Position {$position} has been entered more than once.";
-                        $data['form']['message-class'] = 'error';
-                        break;
-                    }
-
-                    $usedPositions[$position] = true;
-                } else {
-                    if ($position !== '') {
-                        $data['form']['message'] =
-                            strtoupper($status) .
-                            ' riders cannot have a finishing position.';
-                        $data['form']['message-class'] = 'error';
-                        break;
-                    }
-
-                    $position = null;
-                }
-
-                $saveResults[(int)$riderId] = [
-                    'position' => $position,
-                    'status' => $status,
-                ];
-            }
-
-            if ($data['form']['message'] === '') {
-                if ($results->saveResults(
-                    $eventId,
-                    $saveResults
-                )) {
-                    header(
-                        'Location: /admin/results.php?event_id=' .
-                        $eventId
-                    );
+                    header('Location: /admin/teams.php');
                     exit();
                 }
 
-                $data['form']['message'] =
-                    'Unable to save results.';
+                if ($operation === 'update' && $teamId !== '' && ctype_digit($teamId)) {
+                    $teams->updateTeam((int)$teamId, $formData);
+
+                    header('Location: /admin/teams.php');
+                    exit();
+                }
+            } catch (\Throwable $e) {
+                $data['form']['message'] = 'Unable to save team changes.';
                 $data['form']['message-class'] = 'error';
             }
         }
+
+        $data['form']['open_modal'] = true;
     }
 }
 
-$data['events'] = $events->getEvents();
-$data['event'] = $eventId !== null
-    ? $events->getEventById($eventId)
-    : null;
+$data['teams'] = $teams->getTeams();
 
-$data['settled'] =
-    $data['event'] !== null
-    && $data['event']['payouts_settled_at'] !== null;
-
-$data['results'] = $eventId !== null
-    ? $results->getRidersForEventResults($eventId)
-    : [];
-
-foreach ($data['results'] as &$result) {
-    $result['status_none'] =
-        $result['status'] === null
-        || $result['status'] === 'classified';
-
-    $result['status_dnf'] =
-        $result['status'] === 'dnf';
-
-    $result['status_dns'] =
-        $result['status'] === 'dns';
-
-    $result['status_dsq'] =
-        $result['status'] === 'dsq';
+foreach ($data['teams'] as &$team) {
+    $team['can_delete'] = !$teams->hasRiders((int)$team['team_id']);
 }
-unset($result);
 
-foreach ($data['events'] as &$event) {
-    $event['selected'] = (int)$event['event_id'] === $eventId;
-}
-unset($event);
+unset($team);
 
 $tpl = new Template($config['template']);
 
-echo $tpl->render('admin/results', $data);
+echo $tpl->render('admin/teams', $data);
