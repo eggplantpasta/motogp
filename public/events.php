@@ -2,9 +2,9 @@
 
 use Webmin\Template;
 use Webmin\Database;
-use Webmin\User;
 use MotoGp\Utility;
 use MotoGp\Event;
+use Webmin\Session;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
 
@@ -12,7 +12,7 @@ $config = $app->config;
 $logger = $app->logger;
 
 // get session user
-$user = new User();
+$session = new Session();
 
 // get the data from the db
 $db = new Database($config['database']['dsn'], $logger);
@@ -21,7 +21,7 @@ $eventModel = new Event($db);
 $nextEventId = $eventModel->getNextEventId();
 
 $data['app'] = $config['app'];
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['page']['title'] = 'Events';
 $data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Races';
 $data['events'] = $eventModel->getEvents();

@@ -2,7 +2,7 @@
 
 use Webmin\Template;
 use Webmin\Database;
-use Webmin\User;
+use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
 use MotoGp\Country;
@@ -13,14 +13,14 @@ $app = require_once __DIR__ . '/../../src/bootstrap.php';
 $config = $app->config;
 $logger = $app->logger;
 
-$user = new User();
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
 
-if (!$user->isAdmin()) {
+if (!$session->isAdmin()) {
     http_response_code(403);
     exit('Forbidden');
 }
@@ -41,7 +41,7 @@ function normalizeDate(?string $dateValue): string
     return $date ? $date->format('Y-m-d') : '';
 }
 
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['page']['title'] = 'Events';
 $data['page']['heading'] = 'Manage Events';
 $data['csrfToken'] = Csrf::token();

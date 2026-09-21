@@ -2,7 +2,7 @@
 
 use Webmin\Template;
 use Webmin\Database;
-use Webmin\User;
+use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Team;
 
@@ -11,14 +11,14 @@ $app = require_once __DIR__ . '/../../src/bootstrap.php';
 $config = $app->config;
 $logger = $app->logger;
 
-$user = new User();
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
 
-if (!$user->isAdmin()) {
+if (!$session->isAdmin()) {
     http_response_code(403);
     exit('Forbidden');
 }
@@ -26,7 +26,7 @@ if (!$user->isAdmin()) {
 $db = new Database($config['database']['dsn'], $logger);
 $teams = new Team($db);
 
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['page']['title'] = 'Teams';
 $data['page']['heading'] = 'Manage Teams';
 $data['csrfToken'] = Csrf::token();

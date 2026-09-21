@@ -2,6 +2,7 @@
 
 use Webmin\Template;
 use Webmin\User;
+use Webmin\Session;
 use Webmin\Database;
 use Webmin\Csrf;
 
@@ -11,8 +12,8 @@ $config = $app->config;
 $logger = $app->logger;
 
 // redirect to account page if already logged in
-$user = new User();
-if ($user->isLoggedIn()) {
+$session = new Session();
+if ($session->isLoggedIn()) {
     header('Location: /user/account.php');
     exit();
 }

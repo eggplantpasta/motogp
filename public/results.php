@@ -2,7 +2,7 @@
 
 use Webmin\Template;
 use Webmin\Database;
-use Webmin\User;
+use Webmin\Session;
 use MotoGp\Utility;
 use MotoGp\Event;
 use MotoGp\Result;
@@ -12,7 +12,7 @@ $app = require __DIR__ . '/../src/bootstrap.php';
 $config = $app->config;
 $logger = $app->logger;
 
-$user = new User();
+$session = new Session();
 
 $db = new Database($config['database']['dsn'], $logger);
 
@@ -52,7 +52,7 @@ foreach ($data['results'] as &$result) {
 unset($result);
 
 $data['app'] = $config['app'];
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['page']['title'] = 'Results';
 $data['page']['heading'] = 'Results';
 

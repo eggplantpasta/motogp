@@ -1,27 +1,27 @@
 <?php
 
 use Webmin\Template;
-use Webmin\User;
+use Webmin\Session;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
 $config = $app->config;
 $logger = $app->logger;
 
-$user = new User();
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
 
-if (!$user->isAdmin()) {
+if (!$session->isAdmin()) {
     http_response_code(403);
     exit('Forbidden');
 }
 
 $tpl = new Template($config['template'], $logger);
 
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 
 echo $tpl->render('admin/index', $data);

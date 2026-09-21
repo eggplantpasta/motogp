@@ -2,7 +2,7 @@
 
 use Webmin\Template;
 use Webmin\Database;
-use Webmin\User;
+use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
 use MotoGp\Result;
@@ -12,14 +12,14 @@ $app = require_once __DIR__ . '/../../src/bootstrap.php';
 $config = $app->config;
 $logger = $app->logger;
 
-$user = new User();
+$session = new Session();
 
-if (!$user->isLoggedIn()) {
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
 
-if (!$user->isAdmin()) {
+if (!$session->isAdmin()) {
     http_response_code(403);
     exit('Forbidden');
 }
@@ -29,7 +29,7 @@ $db = new Database($config['database']['dsn'], $logger);
 $events = new Event($db);
 $results = new Result($db);
 
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['page']['title'] = 'Results';
 $data['page']['heading'] = 'Manage Results';
 $data['csrfToken'] = Csrf::token();

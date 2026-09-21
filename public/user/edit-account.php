@@ -2,6 +2,7 @@
 
 use Webmin\Template;
 use Webmin\User;
+use Webmin\Session;
 use Webmin\Database;
 use Webmin\Csrf;
 
@@ -13,14 +14,14 @@ $logger = $app->logger;
 $tpl = new Template($config['template'], $logger);
 
 // redirect to login page if not logged in
-$user = new User();
-if (!$user->isLoggedIn()) {
+$session = new Session();
+if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
     exit();
 }
 
 $data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]);
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -32,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = new Database($config['database']['dsn'], $logger);
     $user = new User($db);
 
-    $sessionUser = $user->getSessionUser();
+    $sessionUser = $session->getUser();
     $userId = $sessionUser['user_id'];
 
     $username = trim($_POST['username'] ?? '');
