@@ -15,14 +15,14 @@ $tpl = new Template($config['template'], $logger);
 // redirect to login page if not logged in
 $user = new User();
 if (!$user->isLoggedIn()) {
-    header("Location: /user/login.php");
+    header('Location: /user/login.php');
     exit();
 }
 
 $data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]);
 $data['user'] = $user->getSessionUser();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
         http_response_code(403);
@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user']['email'] = $email;
             }
 
-            header("Location: /user/account.php");
+            header('Location: /user/account.php');
             exit();
         }
 

@@ -13,7 +13,7 @@ $logger = $app->logger;
 // redirect to account page if already logged in
 $user = new User();
 if ($user->isLoggedIn()) {
-    header("Location: /user/account.php");
+    header('Location: /user/account.php');
     exit();
 }
 
@@ -22,7 +22,7 @@ $tpl = new Template($config['template'], $logger);
 $data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]);
 $data['form']['csrfToken'] = Csrf::token();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
         http_response_code(403);
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If no errors, proceed with login logic (e.g., check credentials)
     if (empty($user->usernameErr) && empty($user->passwordErr)) {
         if ($user->login()) {
-            header("Location: /user/account.php");
+            header('Location: /user/account.php');
             exit();
         }
 
