@@ -483,9 +483,9 @@ class Bid
 
             $this->db->execute(
                 '
-                    UPDATE events
-                    SET payouts_settled_at = current_timestamp
-                    WHERE event_id = :event_id
+                    update events
+                    set payouts_settled_at = current_timestamp
+                    where event_id = :event_id
                 ',
                 [':event_id' => $eventId]
             );
@@ -503,14 +503,14 @@ class Bid
     {
         $result = $this->db->queryOne(
             '
-                SELECT COUNT(DISTINCT b.rider_id) AS missing_results
-                FROM bids b
-                LEFT JOIN results r
-                    ON r.event_id = b.event_id
-                    AND r.rider_id = b.rider_id
-                WHERE b.event_id = :event_id
-                AND b.won = 1
-                AND r.rider_id IS NULL
+                select count(distinct b.rider_id) as missing_results
+                from bids b
+                left join results r
+                    on r.event_id = b.event_id
+                    and r.rider_id = b.rider_id
+                where b.event_id = :event_id
+                and b.won = 1
+                and r.rider_id is null
             ',
             [
                 ':event_id' => $eventId,
