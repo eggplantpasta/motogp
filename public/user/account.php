@@ -24,7 +24,23 @@ if (!$session->isLoggedIn()) {
 $event = new Event($db);
 $player = new Player($db, $logger);
 
-$next_event = $event->getEventById($event->getNextEventId());
+$nextEventId = $event->getNextEventId();
+$nextEvent = $nextEventId !== null
+    ? $event->getEventById($nextEventId)
+    : null;
+
+if ($nextEvent !== null) {
+    $nextEvent['start_date'] =
+        Utility::formatDate(
+            $nextEvent['start_date'],
+            'M d'
+        );
+
+    $nextEvent['bidding_open'] =
+        (bool)$nextEvent['bids_open'];
+}
+
+$data['next_event'] = $nextEvent;
 
 $tpl = new Template($config['template'], $logger);
 $data['user'] = $session->getUser();
@@ -32,13 +48,6 @@ $data['user']['balance'] = $player->getBalance(
     (int)$data['user']['user_id']
 );
 $data['user']['created_ago'] = Utility::timeAgo($data['user']['created_at']);
-$data['next_event'] = $next_event;
-
-$data['next_event']['start_date'] =
-    Utility::formatDate(
-        $data['next_event']['start_date'],
-        'M d'
-    );
 
 $data['next_event']['bidding_open'] =
     (bool)$data['next_event']['bids_open'];

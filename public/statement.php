@@ -45,6 +45,8 @@ if ($account === null) {
     exit('User not found.');
 }
 
+$account['balance'] = $player->getBalance($userId);
+
 $transactions = $player->getBalanceTransactions($userId);
 
 $runningBalance = 0;

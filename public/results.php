@@ -34,7 +34,18 @@ if (isset($_GET['event_id'])) {
     }
 } else {
     $eventId = $events->getLastEventId();
+
+    if ($eventId === null) {
+        http_response_code(404);
+        exit('No results available.');
+    }
+
     $event = $events->getEventById($eventId);
+
+    if ($event === null) {
+        http_response_code(404);
+        exit('Event not found.');
+    }
 }
 
 $data['event'] = $event;
