@@ -2,7 +2,6 @@
 
 use Webmin\Template;
 use Webmin\Database;
-use Webmin\User;
 use Webmin\Session;
 use MotoGp\Player;
 
@@ -12,7 +11,6 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db, $logger);
 $player = new Player($db, $logger);
 $session = new Session();
 

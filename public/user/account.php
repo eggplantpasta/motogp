@@ -1,7 +1,6 @@
 <?php
 
 use Webmin\Template;
-use Webmin\User;
 use Webmin\Session;
 use Webmin\Database;
 use MotoGp\Utility;
@@ -15,7 +14,6 @@ $logger = $app->logger;
 
 // redirect to login page if not logged in
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db, $logger);
 $session = new Session();
 
 if (!$session->isLoggedIn()) {

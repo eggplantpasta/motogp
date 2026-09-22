@@ -2,7 +2,6 @@
 
 use Webmin\Template;
 use Webmin\Database;
-use Webmin\User;
 use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
@@ -19,7 +18,6 @@ $logger = $app->logger;
 $db = new Database($config['database']['dsn'], $logger);
 $player = new Player($db, $logger);
 
-$user = new User($db, $logger);
 $session = new Session();
 
 if (!$session->isLoggedIn()) {
