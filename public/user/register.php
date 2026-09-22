@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $db = new Database($config['database']['dsn'], $logger);
     $user = new User($db, $logger);
-    $player = new Player($db, $logger);
+    $playerModel = new Player($db, $logger);
 
     // Process form submission
     $user->username = trim($_POST['username'] ?? '');
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $userId = $user->register();
 
-        if ($userId !== null && $player->create($userId)) {
+        if ($userId !== null && $playerModel->create($userId)) {
             $db->commit();
 
             header('Location: /user/login.php');

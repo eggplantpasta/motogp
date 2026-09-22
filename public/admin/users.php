@@ -16,7 +16,7 @@ $tpl = new Template($config['template'], $logger);
 $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db, $logger);
 $session = new Session();
-$player = new Player($db, $logger);
+$playerModel = new Player($db, $logger);
 
 if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit('Balance must be a whole number of zero or greater.');
             }
 
-            if (!$player->adjustBalance($userId, $balance)) {
+            if (!$playerModel->adjustBalance($userId, $balance)) {
                 http_response_code(500);
                 exit('Unable to update user balance.');
             }
@@ -149,7 +149,7 @@ foreach ($data['users'] as &$account) {
         && empty($account['disabled_at'])
         && !$account['isLastActiveAdmin'];
 
-    $account['hasBids'] = $player->hasBids(
+    $account['hasBids'] = $playerModel->hasBids(
         (int)$account['user_id']
     );
 

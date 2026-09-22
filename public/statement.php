@@ -14,7 +14,7 @@ $logger = $app->logger;
 $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db, $logger);
 $session = new Session();
-$player = new Player($db, $logger);
+$playerModel = new Player($db, $logger);
 
 if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
@@ -45,9 +45,9 @@ if ($account === null) {
     exit('User not found.');
 }
 
-$account['balance'] = $player->getBalance($userId);
+$account['balance'] = $playerModel->getBalance($userId);
 
-$transactions = $player->getBalanceTransactions($userId);
+$transactions = $playerModel->getBalanceTransactions($userId);
 
 $runningBalance = 0;
 

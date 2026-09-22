@@ -13,18 +13,18 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
-$player = new Player($db, $logger);
+$playerModel = new Player($db, $logger);
 
 $session = new Session();
 
-$event = new Event($db);
-$eventData = $event->getNextEvent();
+$eventModel = new Event($db);
+$eventData = $eventModel->getNextEvent();
 
 $data['user'] = $session->getUser();
 
 if ($session->isLoggedIn()) {
     $data['show_ladder'] = true;
-    $data['leaders'] = $player->getLadder(3);
+    $data['leaders'] = $playerModel->getLadder(3);
 }
 
 $data['app'] = $config['app'];

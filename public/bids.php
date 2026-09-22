@@ -16,7 +16,7 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
-$player = new Player($db, $logger);
+$playerModel = new Player($db, $logger);
 
 $session = new Session();
 
@@ -54,7 +54,7 @@ if (!(bool)$event['bids_open']) {
 $sessionUser = $session->getUser();
 $userId = (int)$sessionUser['user_id'];
 
-$balance = $player->getBalance($userId);
+$balance = $playerModel->getBalance($userId);
 
 if ($balance === null) {
     http_response_code(403);

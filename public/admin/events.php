@@ -26,7 +26,7 @@ if (!$session->isAdmin()) {
 }
 
 $db = new Database($config['database']['dsn'], $logger);
-$events = new Event($db);
+$eventModel = new Event($db);
 $country = new Country($db);
 
 function normalizeDate(?string $dateValue): string
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (
             $eventId !== '' &&
             ctype_digit($eventId) &&
-            $events->deleteEvent((int)$eventId)
+            $eventModel->deleteEvent((int)$eventId)
         ) {
             header('Location: /admin/events.php');
             exit();
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($data['form']['errors'])) {
             if ($operation === 'create') {
-                if ($events->createEvent($formData) !== null) {
+                if ($eventModel->createEvent($formData) !== null) {
                     header('Location: /admin/events.php');
                     exit();
                 }
@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $eventId !== '' &&
                 ctype_digit($eventId)
             ) {
-                if ($events->updateEvent((int)$eventId, $formData)) {
+                if ($eventModel->updateEvent((int)$eventId, $formData)) {
                     header('Location: /admin/events.php');
                     exit();
                 }
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$data['events'] = $events->getEvents();
+$data['events'] = $eventModel->getEvents();
 
 foreach ($data['events'] as &$eventData) {
     $eventData['start_date'] = normalizeDate(
@@ -170,8 +170,8 @@ foreach ($data['events'] as &$eventData) {
     );
 
     $eventData['can_delete'] =
-        !$events->hasBids((int)$eventData['event_id']) &&
-        !$events->hasResults((int)$eventData['event_id']);
+        !$eventModel->hasBids((int)$eventData['event_id']) &&
+        !$eventModel->hasResults((int)$eventData['event_id']);
 }
 
 unset($eventData);

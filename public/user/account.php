@@ -21,12 +21,12 @@ if (!$session->isLoggedIn()) {
     exit();
 }
 
-$event = new Event($db);
-$player = new Player($db, $logger);
+$eventModel = new Event($db);
+$playerModel = new Player($db, $logger);
 
-$nextEventId = $event->getNextEventId();
+$nextEventId = $eventModel->getNextEventId();
 $nextEvent = $nextEventId !== null
-    ? $event->getEventById($nextEventId)
+    ? $eventModel->getEventById($nextEventId)
     : null;
 
 if ($nextEvent !== null) {
@@ -44,7 +44,7 @@ $data['next_event'] = $nextEvent;
 
 $tpl = new Template($config['template'], $logger);
 $data['user'] = $session->getUser();
-$data['user']['balance'] = $player->getBalance(
+$data['user']['balance'] = $playerModel->getBalance(
     (int)$data['user']['user_id']
 );
 $data['user']['created_ago'] = Utility::timeAgo($data['user']['created_at']);

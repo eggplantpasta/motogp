@@ -11,7 +11,7 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
-$player = new Player($db, $logger);
+$playerModel = new Player($db, $logger);
 $session = new Session();
 
 if (!$session->isLoggedIn()) {
@@ -24,7 +24,7 @@ $data['user'] = $session->getUser();
 $data['page']['title'] = 'Ladder';
 $data['page']['heading'] = 'Ladder';
 
-$data['ladder'] = $player->getLadder();
+$data['ladder'] = $playerModel->getLadder();
 
 $position = 1;
 

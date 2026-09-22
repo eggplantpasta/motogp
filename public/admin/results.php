@@ -26,8 +26,8 @@ if (!$session->isAdmin()) {
 
 $db = new Database($config['database']['dsn'], $logger);
 
-$events = new Event($db);
-$results = new Result($db);
+$eventModel = new Event($db);
+$resultModel = new Result($db);
 
 $data['user'] = $session->getUser();
 $data['page']['title'] = 'Results';
@@ -45,7 +45,7 @@ $eventId = null;
 if (isset($_GET['event_id']) && ctype_digit($_GET['event_id'])) {
     $eventId = (int)$_GET['event_id'];
 } elseif ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    $eventId = $events->getLastEventId();
+    $eventId = $eventModel->getLastEventId();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data['form']['message-class'] = 'error';
     } else {
         $eventId = (int)$postedEventId;
-        $event = $events->getEventById($eventId);
+        $event = $eventModel->getEventById($eventId);
 
         if ($event === null) {
             $data['form']['message'] = 'Event does not exist.';
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             http_response_code(400);
             exit('Results cannot be changed after payouts have been settled.');
         } else {
-            $riders = $results->getRidersForEventResults($eventId);
+            $riders = $resultModel->getRidersForEventResults($eventId);
             $validRiderIds = array_column(
                 $riders,
                 null,
@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($data['form']['message'] === '') {
-                if ($results->saveResults(
+                if ($resultModel->saveResults(
                     $eventId,
                     $saveResults
                 )) {
@@ -178,9 +178,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$data['events'] = $events->getEvents();
+$data['events'] = $eventModel->getEvents();
 $data['event'] = $eventId !== null
-    ? $events->getEventById($eventId)
+    ? $eventModel->getEventById($eventId)
     : null;
 
 $data['settled'] =
@@ -188,7 +188,7 @@ $data['settled'] =
     && $data['event']['payouts_settled_at'] !== null;
 
 $data['results'] = $eventId !== null
-    ? $results->getRidersForEventResults($eventId)
+    ? $resultModel->getRidersForEventResults($eventId)
     : [];
 
 foreach ($data['results'] as &$result) {

@@ -11,29 +11,30 @@ $app = require __DIR__ . '/../src/bootstrap.php';
 $config = $app->config;
 $logger = $app->logger;
 
-// get session user
 $session = new Session();
 
-// get the data from the db
 $db = new Database($config['database']['dsn'], $logger);
 
 $eventModel = new Event($db);
 $nextEventId = $eventModel->getNextEventId();
 
-$data['app'] = $config['app'];
-$data['user'] = $session->getUser();
-$data['page']['title'] = 'Events';
-$data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Races';
 $data['events'] = $eventModel->getEvents();
 
-// manipulate columns for display
+$data['app'] = $config['app'];
+$data['user'] = $session->getUser();
+$data['page'] = [
+    'title' => 'Events',
+    'heading' => 'Season ' . $config['app']['season'] . ' Races',
+];
+
+$today = date('Y-m-d');
+
 foreach ($data['events'] as &$event) {
-    // set row class
-    if ($event['event_id'] == $nextEventId) {
+    if ($event['event_id'] === $nextEventId) {
         $event['cell-class'] = '';
         $event['row-class'] = 'motogp-highlight';
         $event['results'] = false;
-    } elseif (strtotime($event['start_date']) < time()) {
+    } elseif ($event['start_date'] < $today) {
         $event['cell-class'] = 'motogp-disable';
         $event['row-class'] = '';
         $event['results'] = true;
@@ -42,15 +43,14 @@ foreach ($data['events'] as &$event) {
         $event['row-class'] = '';
         $event['results'] = false;
     }
-    // format date
-    $event['display_date'] = Utility::formatDate($event['start_date'], 'M d');
-    // if bids are open, results should not be shown
+
+    $event['display_date'] =
+        Utility::formatDate($event['start_date'], 'M d');
+
     if ($event['bids_open']) {
         $event['results'] = false;
     }
-
 }
-
 unset($event);
 
 $tpl = new Template($config['template'], $logger);

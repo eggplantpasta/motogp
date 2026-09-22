@@ -16,8 +16,8 @@ $session = new Session();
 
 $db = new Database($config['database']['dsn'], $logger);
 
-$events = new Event($db);
-$results = new Result($db);
+$eventModel = new Event($db);
+$resultModel = new Result($db);
 
 if (isset($_GET['event_id'])) {
     if (!ctype_digit($_GET['event_id'])) {
@@ -26,21 +26,21 @@ if (isset($_GET['event_id'])) {
     }
 
     $eventId = (int)$_GET['event_id'];
-    $event = $events->getEventById($eventId);
+    $event = $eventModel->getEventById($eventId);
 
     if ($event === null) {
         http_response_code(404);
         exit('Event not found.');
     }
 } else {
-    $eventId = $events->getLastEventId();
+    $eventId = $eventModel->getLastEventId();
 
     if ($eventId === null) {
         http_response_code(404);
         exit('No results available.');
     }
 
-    $event = $events->getEventById($eventId);
+    $event = $eventModel->getEventById($eventId);
 
     if ($event === null) {
         http_response_code(404);
@@ -48,8 +48,11 @@ if (isset($_GET['event_id'])) {
     }
 }
 
+$event['display_date'] =
+    Utility::formatDate($event['start_date'], 'M d');
+
 $data['event'] = $event;
-$data['results'] = $results->getResultsByEventId($eventId);
+$data['results'] = $resultModel->getResultsByEventId($eventId);
 
 foreach ($data['results'] as &$result) {
     $result['display_status'] = match ($result['status']) {
@@ -64,11 +67,10 @@ unset($result);
 
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page']['title'] = 'Results';
-$data['page']['heading'] = 'Results';
-
-$data['event']['display_date'] =
-    Utility::formatDate($data['event']['start_date'], 'M d');
+$data['page'] = [
+    'title' => 'Results',
+    'heading' => 'Results',
+];
 
 $tpl = new Template($config['template'], $logger);
 
