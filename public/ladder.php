@@ -21,8 +21,10 @@ if (!$session->isLoggedIn()) {
 
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page']['title'] = 'Ladder';
-$data['page']['heading'] = 'Ladder';
+$data['page'] = [
+    'title' => 'Ladder',
+    'heading' => 'Ladder',
+];
 
 $data['ladder'] = $playerModel->getLadder();
 

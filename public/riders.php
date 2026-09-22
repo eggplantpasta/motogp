@@ -12,9 +12,9 @@ $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
 $session = new Session();
-$riders = new Rider($db, $logger);
+$riderModel = new Rider($db, $logger);
 
-$data['riders'] = $riders->getRiders();
+$data['riders'] = $riderModel->getRiders();
 
 foreach ($data['riders'] as &$rider) {
     $rider['cell-class'] = $rider['active'] ? '' : 'motogp-inactive';
@@ -23,9 +23,10 @@ unset($rider);
 
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page']['title'] = 'Riders';
-$data['page']['heading'] =
-    'Season ' . $config['app']['season'] . ' Riders';
+$data['page'] = [
+    'title' => 'Riders',
+    'heading' => 'Season ' . $config['app']['season'] . ' Riders',
+];
 
 $tpl = new Template($config['template'], $logger);
 

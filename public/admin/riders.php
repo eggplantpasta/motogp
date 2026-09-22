@@ -25,7 +25,7 @@ if (!$session->isAdmin()) {
     exit('Forbidden');
 }
 
-$riders = new Rider($db, $logger);
+$riderModel = new Rider($db, $logger);
 $teams = new Team($db);
 
 function withSelectedTeam(array $teams, string $selectedTeamId): array
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($data['form']['errors'])) {
         if ($operation === 'create') {
-            $createdRows = $riders->createRider($formData);
+            $createdRows = $riderModel->createRider($formData);
             if ($createdRows > 0) {
                 header('Location: /admin/riders.php');
                 exit();
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($operation === 'update') {
             if ($riderId !== '' && ctype_digit($riderId)) {
 
-                $updatedRows = $riders->updateRider((int)$riderId, $formData);
+                $updatedRows = $riderModel->updateRider((int)$riderId, $formData);
                 if ($updatedRows > 0) {
                     header('Location: /admin/riders.php');
                     exit();
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } elseif ($operation === 'delete') {
             if ($riderId !== '' && ctype_digit($riderId)) {
-                $deletedRows = $riders->deleteRider((int)$riderId);
+                $deletedRows = $riderModel->deleteRider((int)$riderId);
                 if ($deletedRows > 0) {
                     header('Location: /admin/riders.php');
                     exit();
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$results = $riders->getRiders();
+$results = $riderModel->getRiders();
 $allTeams = $teams->getTeams();
 
 $data['riders'] = $results;
@@ -133,8 +133,8 @@ foreach ($data['riders'] as &$rider) {
     $rider['cell-class'] = $rider['active'] ? '' : 'motogp-inactive';
 
     $rider['can_delete'] =
-        !$riders->hasBids((int)$rider['rider_id']) &&
-        !$riders->hasResults((int)$rider['rider_id']);
+        !$riderModel->hasBids((int)$rider['rider_id']) &&
+        !$riderModel->hasResults((int)$rider['rider_id']);
 }
 unset($rider);
 
@@ -145,8 +145,10 @@ $tpl = new Template($config['template'], $logger);
 
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page']['title'] = 'Riders';
-$data['page']['heading'] = 'Season ' . $config['app']['season'] . ' Riders';
+$data['page'] = [
+    'title' => 'Riders',
+    'heading' => 'Season ' . $config['app']['season'] . ' Riders',
+];
 $data['csrfToken'] = Csrf::token();
 
 echo $tpl->render('admin/riders', $data);
