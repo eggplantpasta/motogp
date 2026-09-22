@@ -7,7 +7,13 @@ function clearRiderFormMessage() {
     }
 }
 
+function clearRiderFormErrors() {
+    document.getElementById('invalid-rider_name').textContent = '';
+    document.getElementById('invalid-race_number').textContent = '';
+}
+
 function editRider(event) {
+    document.getElementById('rider-form-heading').textContent = 'Edit Rider';
     document.getElementById('operation').value = 'update';
 
     const row = event.currentTarget.closest('tr');
@@ -18,8 +24,7 @@ function editRider(event) {
     const riderName = row.querySelector('.rider-name').textContent;
 
     clearRiderFormMessage();
-    document.getElementById('invalid-rider_name').textContent = '';
-    document.getElementById('invalid-race_number').textContent = '';
+    clearRiderFormErrors();
 
     document.getElementById('rider-id').value = riderId;
     document.getElementById('rider-number').value = riderNumber;
@@ -31,12 +36,12 @@ function editRider(event) {
 }
 
 function addRider(event) {
+    document.getElementById('rider-form-heading').textContent = 'Add Rider';
     document.getElementById('operation').value = 'create';
 
     clearRiderFormMessage();
-    document.getElementById('invalid-rider_name').textContent = '';
-    document.getElementById('invalid-race_number').textContent = '';
-    // Clear the form
+    clearRiderFormErrors();
+
     document.getElementById('rider-id').value = '';
     document.getElementById('rider-number').value = '';
     document.getElementById('rider-name').value = '';

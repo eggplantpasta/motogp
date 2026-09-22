@@ -1,10 +1,10 @@
 {{< partials/layout}}
 
-    {{$title}}{{ app.name }} • Bid Resolution{{/title}}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
 
     {{$content}}
 
-        <h1>Bid Resolution</h1>
+        <h1>{{ page.heading }}</h1>
 
         <form method="get" action="/admin/bids.php">
             <label for="event-id-select">Event</label>

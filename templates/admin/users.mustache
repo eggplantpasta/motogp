@@ -1,10 +1,10 @@
 {{< partials/layout}}
 
-    {{$title}}User Administration{{/title}}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
 
     {{$content}}
 
-        <h1>User Administration</h1>
+        <h1>{{ page.heading }}</h1>
 
         <p>Manage registered MotoGP users.</p>
 
@@ -111,17 +111,23 @@
                                     <form
                                         method="post"
                                         action="/admin/users.php"
-                                        {{#hasBids}}
-                                        onsubmit="return confirm('This user has existing bids. Deleting this account will permanently delete the user and all of their bids. This cannot be undone.');"
-                                        {{/hasBids}}
-                                        {{^hasBids}}
-                                        onsubmit="return confirm('Delete this user? This cannot be undone.');"
-                                        {{/hasBids}}
+                                        class="user-delete-form"
+                                        data-username="{{ username }}"
+                                        data-has-bids="{{#hasBids}}1{{/hasBids}}{{^hasBids}}0{{/hasBids}}"
                                     >
                                         <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
                                         <input type="hidden" name="user_id" value="{{ user_id }}">
                                         <input type="hidden" name="action" value="delete">
-                                        <button type="submit">Delete</button>
+
+                                        <button
+                                            type="button"
+                                            class="motogp-icon-button"
+                                            data-action="delete-user"
+                                            data-tooltip="Delete user"
+                                            aria-label="Delete user"
+                                        >
+                                            {{> partials/icons/delete }}
+                                        </button>
                                     </form>
                                 {{/isLastActiveAdmin}}
 
@@ -138,6 +144,10 @@
             </table>
         </figure>
 
-    {{/content}}
+        {{> partials/modal-confirm }}
 
+    {{/content}}
+    {{$scripts}}
+        <script src="/assets/js/users.js"></script>
+    {{/scripts}}
 {{/partials/layout}}
