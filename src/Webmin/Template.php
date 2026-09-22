@@ -17,7 +17,12 @@ class Template
 
         $templateDir = $options['dir'];
         $cacheDir = $options['cache_dir'] ?? null;
-        $escape = $options['escape'] ?? 'htmlspecialchars';
+        $escape = $options['escape'] ?? static fn ($value) =>
+            htmlspecialchars(
+                (string)$value,
+                ENT_QUOTES | ENT_SUBSTITUTE,
+                'UTF-8'
+            );
 
         try {
             $loader = new \Mustache\Loader\FilesystemLoader(
@@ -30,7 +35,14 @@ class Template
                 'partials_loader' => $loader,
                 'cache' => ($cacheDir && is_dir($cacheDir)) ? $cacheDir : null,
                 'escape' => $escape,
+                'pragmas' => [\Mustache\Engine::PRAGMA_FILTERS],
+                'helpers' => [
+                    'count' => function ($value) {
+                        return is_countable($value) ? count($value) : 0;
+                    },
+                ],
             ]);
+
         } catch (\Error $e) {
             $this->logger?->error(
                 'Failed to initialize Mustache engine: ' . $e->getMessage()
