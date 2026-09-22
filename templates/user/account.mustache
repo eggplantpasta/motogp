@@ -16,29 +16,34 @@
 </section>
 <article>
 <h2>Next Event</h2>
+
+{{# next_event }}
 <p>
-    <strong>{{ next_event.start_date }}</strong>
-    {{ next_event.name }} <span class="motogp-flag fi fi-{{ next_event.alpha_2 }}"></span><br>
-    <small class="motogp-secondary">{{ next_event.circuit }}</small>
+    <strong>{{ start_date }}</strong>
+    {{ name }} <span class="motogp-flag fi fi-{{ alpha_2 }}"></span><br>
+    <small class="motogp-secondary">{{ circuit }}</small>
 </p>
 
-{{# next_event.bidding_open }}
+{{# bidding_open }}
 <p>
-    <a href="/bids.php?event_id={{ next_event.event_id }}">
+    <a href="/bids.php?event_id={{ event_id }}">
         <button type="button">
             Place Bids
         </button>
     </a>
 </p>
-{{/ next_event.bidding_open }}
+{{/ bidding_open }}
+{{/ next_event }}
+
+{{^ next_event }}
+<p>No upcoming events.</p>
+{{/ next_event }}
 
 <p>
     Your current balance:
     <strong>{{ user.balance }}</strong> points.
     <a href="/statement.php">View statement</a>
 </p>
-
-
 </article>
 {{/ content }}
 

@@ -49,7 +49,4 @@ $data['user']['balance'] = $player->getBalance(
 );
 $data['user']['created_ago'] = Utility::timeAgo($data['user']['created_at']);
 
-$data['next_event']['bidding_open'] =
-    (bool)$data['next_event']['bids_open'];
-
 echo $tpl->render('user/account', $data);
