@@ -5,6 +5,7 @@ use Webmin\User;
 use Webmin\Session;
 use Webmin\Database;
 use Webmin\Csrf;
+use MotoGp\Player;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $db = new Database($config['database']['dsn'], $logger);
     $user = new User($db, $logger);
+    $player = new Player($db, $logger);
 
     // Process form submission
     $user->username = trim($_POST['username'] ?? '');
@@ -55,10 +57,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // If no errors, proceed with registration logic (e.g., save to database)
     if (empty($user->usernameErr) && empty($user->emailErr) && empty($user->passwordErr)) {
-        if ($user->register()) {
+        $db->beginTransaction();
+
+        $userId = $user->register();
+
+        if ($userId !== null && $player->create($userId)) {
+            $db->commit();
+
             header('Location: /user/login.php');
             exit();
         }
+
+        $db->rollBack();
 
         $data['form']['usernameErr'] = $user->usernameErr;
         $data['form']['usernameInvalid'] = !empty($user->usernameErr) ? 'true' : 'false';

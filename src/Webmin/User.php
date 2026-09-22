@@ -117,11 +117,9 @@ class User
         return empty($this->usernameErr) && empty($this->passwordErr);
     }
 
-    public function register(): bool
+    public function register(): ?int
     {
         try {
-            $this->db->beginTransaction();
-
             $this->db->execute(
                 '
                     insert into users (
@@ -149,29 +147,8 @@ class User
                 ->getConnection()
                 ->lastInsertId();
 
-            $this->db->execute(
-                '
-                    insert into balance_transactions (
-                        user_id,
-                        transaction_type,
-                        amount
-                    )
-                    values (
-                        :user_id,
-                        \'opening_balance\',
-                        20
-                    )
-                ',
-                [
-                    ':user_id' => $userId,
-                ]
-            );
-
-            $this->db->commit();
-
-            return true;
+            return $userId;
         } catch (\PDOException $e) {
-            $this->db->rollBack();
 
             $message = $e->getMessage();
 
@@ -181,7 +158,7 @@ class User
                 $this->emailErr = 'That email address is already registered.';
             }
 
-            return false;
+            return null;
         }
     }
 
@@ -313,7 +290,6 @@ class User
                 admin,
                 approved_at,
                 disabled_at,
-                balance,
                 created_at
             from users
             order by created_at desc
@@ -559,13 +535,17 @@ class User
     {
         return $this->db->queryOne(
             '
-                select
-                    user_id,
-                    username,
-                    balance
-                from users
-                where user_id = :user_id
-            ',
+            select
+                user_id,
+                username,
+                email,
+                admin,
+                approved_at,
+                disabled_at,
+                created_at
+            from users
+            where user_id = :user_id
+        ',
             [':user_id' => $userId]
         );
     }

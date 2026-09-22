@@ -8,6 +8,12 @@ $rootDir = __DIR__ . '/..';
 
 require_once $rootDir . '/vendor/autoload.php';
 
+require_once $rootDir . '/vendor/autoload.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $appEnv = getenv('APP_ENV') ?: 'prod';
 $configDir = $rootDir . '/config';
 

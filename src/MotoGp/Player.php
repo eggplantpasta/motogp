@@ -176,4 +176,46 @@ class Player
         return $this->db->query($sql);
     }
 
+    public function create(int $userId): bool
+    {
+        try {
+            $this->db->execute(
+                '
+                update users
+                set balance = 20
+                where user_id = :user_id
+            ',
+                [
+                    ':user_id' => $userId,
+                ]
+            );
+
+            $this->db->execute(
+                '
+                insert into balance_transactions (
+                    user_id,
+                    transaction_type,
+                    amount
+                )
+                values (
+                    :user_id,
+                    \'opening_balance\',
+                    20
+                )
+            ',
+                [
+                    ':user_id' => $userId,
+                ]
+            );
+
+            return true;
+        } catch (\PDOException $e) {
+            $this->logger->error(
+                'Player creation failed: ' . $e->getMessage(),
+                ['user_id' => $userId]
+            );
+
+            return false;
+        }
+    }
 }
