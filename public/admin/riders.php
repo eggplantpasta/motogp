@@ -158,10 +158,7 @@ $tpl = new Template($config['template'], $logger);
 
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page'] = [
-    'title' => 'Riders',
-    'heading' => 'Season ' . $config['app']['season'] . ' Riders',
-];
+
 $data['csrfToken'] = Csrf::token();
 
 echo $tpl->render('admin/riders', $data);

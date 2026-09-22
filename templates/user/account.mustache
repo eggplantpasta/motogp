@@ -1,6 +1,6 @@
 {{< partials/layout}}
 
-    {{$title}}Account{{/title}}
+    {{$title}}{{ app.name }} • Account{{/title}}
 
     {{$content}}
         <h1>{{ user.username }} {{#user.admin}}(admin){{/user.admin}}</h1>

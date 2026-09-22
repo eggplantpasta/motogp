@@ -29,8 +29,6 @@ if ($session->isLoggedIn()) {
 
 $data['app'] = $config['app'];
 $data['page'] = [
-    'title' => 'Home',
-    'heading' => $config['app']['season'] . ' Season',
     'days_to_go' => $eventData ? Utility::daysToGo($eventData['start_date']) : 'N/A',
     'next_race_name' => $eventData ? $eventData['name'] : 'N/A'
 ];

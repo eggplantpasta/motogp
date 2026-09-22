@@ -23,10 +23,6 @@ unset($rider);
 
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page'] = [
-    'title' => 'Riders',
-    'heading' => 'Season ' . $config['app']['season'] . ' Riders',
-];
 
 $tpl = new Template($config['template'], $logger);
 

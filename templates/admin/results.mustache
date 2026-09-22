@@ -1,10 +1,10 @@
 {{< partials/layout}}
 
-    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
+    {{$title}}{{ app.name }} • Manage Results{{/title}}
 
     {{$content}}
 
-        <h1>{{ page.heading }}</h1>
+        <h1>Manage Results</h1>
 
         {{#events | count}}
             <form method="get" action="/admin/results.php">

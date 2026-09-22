@@ -125,11 +125,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 
-$data['page'] = [
-    'title' => 'Bid Resolution',
-    'heading' => 'Bid Resolution',
-];
-
 if ($event !== null) {
     $event['display_date'] =
         Utility::formatDate($event['start_date'], 'M d');

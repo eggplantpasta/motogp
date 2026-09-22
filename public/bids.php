@@ -68,10 +68,6 @@ $data['event'] = $event;
 $data['event']['display_date'] =
     Utility::formatDate($event['start_date'], 'M d');
 
-$data['page'] = [
-    'title' => 'Bids',
-    'heading' => 'Place Bids',
-];
 $data['csrfToken'] = Csrf::token();
 $data['message'] = '';
 

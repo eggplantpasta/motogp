@@ -161,9 +161,5 @@ unset($account);
 
 $data['user'] = $session->getUser();
 $data['csrfToken'] = Csrf::token();
-$data['page'] = [
-    'title' => 'Users',
-    'heading' => 'Manage Users',
-];
 
 echo $tpl->render('admin/users', $data);

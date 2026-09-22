@@ -17,10 +17,6 @@ if (!$session->isLoggedIn()) {
 
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page'] = [
-    'title' => 'Game Rules',
-    'heading' => 'Game Rules',
-];
 
 $tpl = new Template($config['template'], $logger);
 

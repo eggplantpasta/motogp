@@ -67,10 +67,6 @@ unset($result);
 
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page'] = [
-    'title' => 'Results',
-    'heading' => 'Results',
-];
 
 $tpl = new Template($config['template'], $logger);
 

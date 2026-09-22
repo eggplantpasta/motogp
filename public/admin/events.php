@@ -42,10 +42,7 @@ function normalizeDate(?string $dateValue): string
 }
 
 $data['user'] = $session->getUser();
-$data['page'] = [
-    'title' => 'Events',
-    'heading' => 'Manage Events',
-];
+
 $data['csrfToken'] = Csrf::token();
 
 $data['form'] = [

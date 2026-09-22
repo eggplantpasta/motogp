@@ -30,10 +30,7 @@ $eventModel = new Event($db);
 $resultModel = new Result($db);
 
 $data['user'] = $session->getUser();
-$data['page'] = [
-    'title' => 'Results',
-    'heading' => 'Manage Results',
-];
+
 $data['csrfToken'] = Csrf::token();
 
 $data['form'] = [

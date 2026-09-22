@@ -27,10 +27,7 @@ $db = new Database($config['database']['dsn'], $logger);
 $teamModel = new Team($db);
 
 $data['user'] = $session->getUser();
-$data['page'] = [
-    'title' => 'Teams',
-    'heading' => 'Manage Teams',
-];
+
 $data['csrfToken'] = Csrf::token();
 
 $data['form'] = [
@@ -139,9 +136,6 @@ unset($team);
 $tpl = new Template($config['template'], $logger);
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page'] = [
-    'title' => 'Teams',
-    'heading' => 'Season ' . $config['app']['season'] . ' Teams',
-];
+
 $data['csrfToken'] = Csrf::token();
 echo $tpl->render('admin/teams', $data);

@@ -22,10 +22,6 @@ $data['events'] = $eventModel->getEvents();
 
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
-$data['page'] = [
-    'title' => 'Events',
-    'heading' => 'Season ' . $config['app']['season'] . ' Races',
-];
 
 $today = date('Y-m-d');
 
