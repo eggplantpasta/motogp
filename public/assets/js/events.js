@@ -28,8 +28,7 @@ function editEvent(event) {
     document.getElementById('event-name').value =
         row.getAttribute('data-event-name');
 
-    document.getElementById('circuit').value =
-        row.getAttribute('data-circuit');
+    document.getElementById('circuit').value = row.getAttribute('data-circuit');
 
     document.getElementById('country-code').value =
         row.getAttribute('data-country-code');
@@ -66,26 +65,27 @@ function deleteEvent(event) {
     const eventId = row.getAttribute('data-event-id');
     const eventName = row.getAttribute('data-event-name');
 
-    confirmModal(
-        `Delete "${eventName}"? This action cannot be undone.`,
-        () => {
-            document.getElementById('operation').value = 'delete';
-            document.getElementById('event-id').value = eventId;
-            document.getElementById('event-form').submit();
-        }
-    );
+    confirmModal(`Delete "${eventName}"? This action cannot be undone.`, () => {
+        document.getElementById('operation').value = 'delete';
+        document.getElementById('event-id').value = eventId;
+        document.getElementById('event-form').submit();
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-action="add-event"]').forEach(button => {
+    document.querySelectorAll('[data-action="add-event"]').forEach((button) => {
         button.addEventListener('click', addEvent);
     });
 
-    document.querySelectorAll('[data-action="edit-event"]').forEach(button => {
-        button.addEventListener('click', editEvent);
-    });
+    document
+        .querySelectorAll('[data-action="edit-event"]')
+        .forEach((button) => {
+            button.addEventListener('click', editEvent);
+        });
 
-    document.querySelectorAll('[data-action="delete-event"]').forEach(button => {
-        button.addEventListener('click', deleteEvent);
-    });
+    document
+        .querySelectorAll('[data-action="delete-event"]')
+        .forEach((button) => {
+            button.addEventListener('click', deleteEvent);
+        });
 });

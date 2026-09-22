@@ -6,77 +6,78 @@
  */
 
 // Config
-const isOpenClass = "modal-is-open";
-const openingClass = "modal-is-opening";
-const closingClass = "modal-is-closing";
-const scrollbarWidthCssVar = "--pico-scrollbar-width";
+const isOpenClass = 'modal-is-open';
+const openingClass = 'modal-is-opening';
+const closingClass = 'modal-is-closing';
+const scrollbarWidthCssVar = '--pico-scrollbar-width';
 const animationDuration = 400; // ms
 let visibleModal = null;
 
 // Toggle modal
 const toggleModal = (event) => {
-  event.preventDefault();
-  const modal = document.getElementById(event.currentTarget.dataset.target);
-  if (!modal) return;
-  modal && (modal.open ? closeModal(modal) : openModal(modal));
+    event.preventDefault();
+    const modal = document.getElementById(event.currentTarget.dataset.target);
+    if (!modal) return;
+    modal && (modal.open ? closeModal(modal) : openModal(modal));
 };
 
 // Open modal
 const openModal = (modal) => {
-  const { documentElement: html } = document;
-  const scrollbarWidth = getScrollbarWidth();
-  if (scrollbarWidth) {
-    html.style.setProperty(scrollbarWidthCssVar, `${scrollbarWidth}px`);
-  }
-  html.classList.add(isOpenClass, openingClass);
-  setTimeout(() => {
-    visibleModal = modal;
-    html.classList.remove(openingClass);
-  }, animationDuration);
-  modal.showModal();
+    const { documentElement: html } = document;
+    const scrollbarWidth = getScrollbarWidth();
+    if (scrollbarWidth) {
+        html.style.setProperty(scrollbarWidthCssVar, `${scrollbarWidth}px`);
+    }
+    html.classList.add(isOpenClass, openingClass);
+    setTimeout(() => {
+        visibleModal = modal;
+        html.classList.remove(openingClass);
+    }, animationDuration);
+    modal.showModal();
 };
 
 // Open modal with auto-close after timeout
 const openTimedModal = (modal, timeoutMs = 3000) => {
-  openModal(modal);
-  setTimeout(() => {
-    if (visibleModal === modal) {
-      closeModal(modal);
-    }
-  }, timeoutMs);
+    openModal(modal);
+    setTimeout(() => {
+        if (visibleModal === modal) {
+            closeModal(modal);
+        }
+    }, timeoutMs);
 };
 
 // Close modal
 const closeModal = (modal) => {
-  visibleModal = null;
-  const { documentElement: html } = document;
-  html.classList.add(closingClass);
-  setTimeout(() => {
-    html.classList.remove(closingClass, isOpenClass);
-    html.style.removeProperty(scrollbarWidthCssVar);
-    modal.close();
-  }, animationDuration);
+    visibleModal = null;
+    const { documentElement: html } = document;
+    html.classList.add(closingClass);
+    setTimeout(() => {
+        html.classList.remove(closingClass, isOpenClass);
+        html.style.removeProperty(scrollbarWidthCssVar);
+        modal.close();
+    }, animationDuration);
 };
 
 // Close with a click outside
-document.addEventListener("click", (event) => {
-  if (visibleModal === null) return;
-  const modalContent = visibleModal.querySelector("article");
-  const isClickInside = modalContent.contains(event.target);
-  !isClickInside && closeModal(visibleModal);
+document.addEventListener('click', (event) => {
+    if (visibleModal === null) return;
+    const modalContent = visibleModal.querySelector('article');
+    const isClickInside = modalContent.contains(event.target);
+    !isClickInside && closeModal(visibleModal);
 });
 
 // Close with Esc key
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && visibleModal) {
-    closeModal(visibleModal);
-  }
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && visibleModal) {
+        closeModal(visibleModal);
+    }
 });
 
 // Get scrollbar width
 const getScrollbarWidth = () => {
-  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-  return scrollbarWidth;
+    const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+    return scrollbarWidth;
 };
 
 function confirmModal(message, onConfirm) {
@@ -99,28 +100,37 @@ function confirmModal(message, onConfirm) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-
-      // Check for modal-edit
+    // Check for modal-edit
     const editModal = document.getElementById('modal-edit');
-    if (editModal && editModal.dataset.openOnLoad === 'true' && !editModal.open) {
+    if (
+        editModal &&
+        editModal.dataset.openOnLoad === 'true' &&
+        !editModal.open
+    ) {
         openModal(editModal);
     }
 
     // Check for feedback modal and open temporarily
     const feedbackModal = document.getElementById('modal-feedback');
-    if (feedbackModal && feedbackModal.dataset.openOnLoad === 'true' && !feedbackModal.open) {
+    if (
+        feedbackModal &&
+        feedbackModal.dataset.openOnLoad === 'true' &&
+        !feedbackModal.open
+    ) {
         openTimedModal(feedbackModal, 2000); // Auto-close after 2 seconds
     }
 
-    document.querySelectorAll('[data-action="close-modal"]').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const modal = document.getElementById(
-                event.currentTarget.dataset.target
-            );
+    document
+        .querySelectorAll('[data-action="close-modal"]')
+        .forEach((button) => {
+            button.addEventListener('click', (event) => {
+                const modal = document.getElementById(
+                    event.currentTarget.dataset.target,
+                );
 
-            if (modal) {
-                closeModal(modal);
-            }
+                if (modal) {
+                    closeModal(modal);
+                }
+            });
         });
-    });
 });

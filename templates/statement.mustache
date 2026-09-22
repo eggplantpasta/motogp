@@ -1,45 +1,45 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}Account Statement{{/ title }}
+    {{$title}}Account Statement{{/title}}
 
-{{$ content }}
+    {{$content}}
 
-<h1>{{account.username}} — Account Statement</h1>
+        <h1>{{ account.username }} — Account Statement</h1>
 
-<p>
-    Current balance:
-    <strong>{{account.balance}}</strong> points.
-</p>
+        <p>
+            Current balance:
+            <strong>{{ account.balance }}</strong> points.
+        </p>
 
-<figure>
-<table>
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Balance</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#transactions}}
-        <tr>
-            <td>{{created_at}}</td>
-            <td>{{description}}</td>
-            <td>{{amount_display}}</td>
-            <td>{{running_balance}}</td>
-        </tr>
-        {{/transactions}}
+        <figure>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#transactions}}
+                        <tr>
+                            <td>{{ created_at }}</td>
+                            <td>{{ description }}</td>
+                            <td>{{ amount_display }}</td>
+                            <td>{{ running_balance }}</td>
+                        </tr>
+                    {{/transactions}}
 
-        {{^transactions}}
-        <tr>
-            <td colspan="4">No transactions.</td>
-        </tr>
-        {{/transactions}}
-    </tbody>
-</table>
-</figure>
+                    {{^transactions}}
+                        <tr>
+                            <td colspan="4">No transactions.</td>
+                        </tr>
+                    {{/transactions}}
+                </tbody>
+            </table>
+        </figure>
 
-{{/ content }}
+    {{/content}}
 
-{{/ partials/layout }}
+{{/partials/layout}}

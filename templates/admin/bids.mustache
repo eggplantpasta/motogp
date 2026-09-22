@@ -1,182 +1,182 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}{{ app.name }} • Bid Resolution{{/ title }}
+    {{$title}}{{ app.name }} • Bid Resolution{{/title}}
 
-{{$ content }}
+    {{$content}}
 
-<h1>Bid Resolution</h1>
+        <h1>Bid Resolution</h1>
 
-<form method="get" action="/admin/bids.php">
-    <label for="event-id-select">Event</label>
-    <select
-        id="event-id-select"
-        name="event_id"
-        onchange="this.form.submit()"
-    >
-        {{#events}}
-        <option
-            value="{{event_id}}"
-            {{#selected}}selected{{/selected}}
-        >
-            {{name}}
-        </option>
-        {{/events}}
-    </select>
-</form>
+        <form method="get" action="/admin/bids.php">
+            <label for="event-id-select">Event</label>
+            <select
+                id="event-id-select"
+                name="event_id"
+                onchange="this.form.submit()"
+            >
+                {{#events}}
+                    <option
+                        value="{{ event_id }}"
+                        {{#selected}}selected{{/selected}}
+                    >
+                        {{ name }}
+                    </option>
+                {{/events}}
+            </select>
+        </form>
 
-{{#event}}
+        {{#event}}
 
-<h2>{{name}}</h2>
+            <h2>{{ name }}</h2>
 
-<p>{{display_date}} · {{circuit}}</p>
+            <p>{{ display_date }} · {{ circuit }}</p>
 
-{{#event.bids_open}}
-<article>
-    Bidding is still open. These results are provisional.
-</article>
-{{/event.bids_open}}
+            {{#event.bids_open}}
+                <article>
+                    Bidding is still open. These results are provisional.
+                </article>
+            {{/event.bids_open}}
 
-{{#resolved}}
-<article>
-    Bidding has been resolved.
-</article>
-{{/resolved}}
+            {{#resolved}}
+                <article>
+                    Bidding has been resolved.
+                </article>
+            {{/resolved}}
 
-{{#can_resolve}}
-<form method="post" action="/admin/bids.php?event_id={{event.event_id}}">
-    <input
-        type="hidden"
-        name="csrf_token"
-        value="{{csrfToken}}"
-    >
-    <input
-        type="hidden"
-        name="action"
-        value="resolve"
-    >
+            {{#can_resolve}}
+                <form method="post" action="/admin/bids.php?event_id={{ event.event_id }}">
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="{{ csrfToken }}"
+                    >
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="resolve"
+                    >
 
-    <button type="submit">
-        Resolve Bidding
-    </button>
-</form>
-{{/can_resolve}}
+                    <button type="submit">
+                        Resolve Bidding
+                    </button>
+                </form>
+            {{/can_resolve}}
 
-{{#riders}}
-<article>
-    <header>
-        <strong>#{{ race_number }} {{ name }}</strong>
-    </header>
+            {{#riders}}
+                <article>
+                    <header>
+                        <strong>#{{ race_number }} {{ name }}</strong>
+                    </header>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Player</th>
-                <th>Bid</th>
-                <th>Result</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#bids}}
-            <tr>
-                <td>{{ username }}</td>
-                <td>{{ amount }}</td>
-                <td>
-                    {{#winner}}
-                    <strong>Winner</strong>
-                    {{/winner}}
-                </td>
-            </tr>
-            {{/bids}}
-        </tbody>
-    </table>
-</article>
-{{/riders}}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Bid</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#bids}}
+                                <tr>
+                                    <td>{{ username }}</td>
+                                    <td>{{ amount }}</td>
+                                    <td>
+                                        {{#winner}}
+                                            <strong>Winner</strong>
+                                        {{/winner}}
+                                    </td>
+                                </tr>
+                            {{/bids}}
+                        </tbody>
+                    </table>
+                </article>
+            {{/riders}}
 
-{{^riders}}
-<p>No bids have been placed for this event.</p>
-{{/riders}}
+            {{^riders}}
+                <p>No bids have been placed for this event.</p>
+            {{/riders}}
 
-{{#payout}}
+            {{#payout}}
 
-<h2>Payout{{^settled}} Preview{{/settled}}</h2>
+                <h2>Payout{{^settled}} Preview{{/settled}}</h2>
 
-<p>
-    Prize pool:
-    <strong>{{pool}}</strong>
-    points from
-    <strong>{{winning_bids}}</strong>
-    winning bids.
-</p>
+                <p>
+                    Prize pool:
+                    <strong>{{ pool }}</strong>
+                    points from
+                    <strong>{{ winning_bids }}</strong>
+                    winning bids.
+                </p>
 
-<table>
-    <thead>
-        <tr>
-            <th>Finish</th>
-            <th>Rider</th>
-            <th>Player</th>
-            <th>Share</th>
-            <th>Payout</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#payouts}}
-        <tr>
-            <td>{{finish_position}}</td>
-            <td>#{{race_number}} {{rider_name}}</td>
-            <td>{{username}}</td>
-            <td>{{percentage}}%</td>
-            <td><strong>{{payout}}</strong></td>
-        </tr>
-        {{/payouts}}
-    </tbody>
-</table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Finish</th>
+                            <th>Rider</th>
+                            <th>Player</th>
+                            <th>Share</th>
+                            <th>Payout</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#payouts}}
+                            <tr>
+                                <td>{{ finish_position }}</td>
+                                <td>#{{ race_number }} {{ rider_name }}</td>
+                                <td>{{ username }}</td>
+                                <td>{{ percentage }}%</td>
+                                <td><strong>{{ payout }}</strong></td>
+                            </tr>
+                        {{/payouts}}
+                    </tbody>
+                </table>
 
-{{^payouts}}
-<p>No classified winning riders are eligible for a payout.</p>
-{{/payouts}}
+                {{^payouts}}
+                    <p>No classified winning riders are eligible for a payout.</p>
+                {{/payouts}}
 
-{{#resolved}}
-{{^results_complete}}
-<article>
-    Results must be entered for all winning riders before
-    payouts can be settled.
-</article>
-{{/results_complete}}
-{{/resolved}}
+                {{#resolved}}
+                    {{^results_complete}}
+                        <article>
+                            Results must be entered for all winning riders before
+                            payouts can be settled.
+                        </article>
+                    {{/results_complete}}
+                {{/resolved}}
 
-{{#can_settle}}
-<form
-    method="post"
-    action="/admin/bids.php?event_id={{event.event_id}}"
-    onsubmit="return confirm('Settle these payouts? Player balances will be updated and this cannot be repeated.');"
->
-    <input
-        type="hidden"
-        name="csrf_token"
-        value="{{csrfToken}}"
-    >
-    <input
-        type="hidden"
-        name="action"
-        value="settle"
-    >
+                {{#can_settle}}
+                    <form
+                        method="post"
+                        action="/admin/bids.php?event_id={{ event.event_id }}"
+                        onsubmit="return confirm('Settle these payouts? Player balances will be updated and this cannot be repeated.');"
+                    >
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrfToken }}"
+                        >
+                        <input
+                            type="hidden"
+                            name="action"
+                            value="settle"
+                        >
 
-    <button type="submit">
-        Settle Payouts
-    </button>
-</form>
-{{/can_settle}}
+                        <button type="submit">
+                            Settle Payouts
+                        </button>
+                    </form>
+                {{/can_settle}}
 
-{{#settled}}
-<article>
-    Payouts have been settled.
-</article>
-{{/settled}}
+                {{#settled}}
+                    <article>
+                        Payouts have been settled.
+                    </article>
+                {{/settled}}
 
-{{/payout}}
+            {{/payout}}
 
-{{/event}}
+        {{/event}}
 
-{{/ content }}
+    {{/content}}
 
-{{/ partials/layout }}
+{{/partials/layout}}

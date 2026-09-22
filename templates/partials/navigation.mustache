@@ -1,64 +1,64 @@
 <nav>
     <ul>
-    <li><strong><a href="/index.php"><span class="motogp-font">MotoGP</span> Bidding</a></strong></li>
+        <li><strong><a href="/index.php"><span class="motogp-font">MotoGP</span> Bidding</a></strong></li>
     </ul>
     <ul>
-    <li><a href="/events.php">events</a></li>
-    <li><a href="/riders.php">riders</a></li>
-    {{# user }}
-    <li><a href="/ladder.php">ladder</a></li>
-    {{/ user }}
-
-    {{#user.admin}}
-    <li>
-        <details class="dropdown">
-            <summary>
-                <a href="/admin/index.php">admin</a>
-            </summary>
-            <ul>
-                <li><a href="/admin/users.php">users</a></li>
-                <li><a href="/admin/teams.php">teams</a></li>
-                <li><a href="/admin/riders.php">riders</a></li>
-                <li><a href="/admin/events.php">events</a></li>
-                <li><a href="/admin/bids.php">bids</a></li>
-                <li><a href="/admin/results.php">results</a></li>
-            </ul>
-        </details>
-    </li>
-    {{/user.admin}}
-
-    <li>
+        <li><a href="/events.php">events</a></li>
+        <li><a href="/riders.php">riders</a></li>
         {{#user}}
-            <span class="webmin-highlight"><a href="/user/account.php">{{username}}</a></span>
+            <li><a href="/ladder.php">ladder</a></li>
         {{/user}}
-        {{^user}}
-            <a href="/user/login.php">login</a>
-        {{/user}}
-    </li>
-    <li>
-        <details class="dropdown">
-        <summary>
-            <span class="motogp-nav-icon {{#user}}webmin-highlight{{/user}}">
-                {{> partials/icons/account }}
-            </span>
-        </summary>
-        <ul>
+
+        {{#user.admin}}
+            <li>
+                <details class="dropdown">
+                    <summary>
+                        <a href="/admin/index.php">admin</a>
+                    </summary>
+                    <ul>
+                        <li><a href="/admin/users.php">users</a></li>
+                        <li><a href="/admin/teams.php">teams</a></li>
+                        <li><a href="/admin/riders.php">riders</a></li>
+                        <li><a href="/admin/events.php">events</a></li>
+                        <li><a href="/admin/bids.php">bids</a></li>
+                        <li><a href="/admin/results.php">results</a></li>
+                    </ul>
+                </details>
+            </li>
+        {{/user.admin}}
+
+        <li>
             {{#user}}
-                <li class="webmin-nav-disabled">login</li>
-                <li class="webmin-nav-disabled">register</li>
-                <li><a href="/user/edit-account.php">edit account</a></li>
-                <li><a href="/user/logout.php">logout</a></li>
+                <span class="webmin-highlight"><a href="/user/account.php">{{ username }}</a></span>
             {{/user}}
             {{^user}}
-                <li><a href="/user/login.php">login</a></li>
-                <li><a href="/user/register.php">register</a></li>
-                <li class="webmin-nav-disabled">edit account</li>
-                <li class="webmin-nav-disabled">logout</li>
+                <a href="/user/login.php">login</a>
             {{/user}}
+        </li>
+        <li>
+            <details class="dropdown">
+                <summary>
+                    <span class="motogp-nav-icon {{#user}}webmin-highlight{{/user}}">
+                        {{> partials/icons/account }}
+                    </span>
+                </summary>
+                <ul>
+                    {{#user}}
+                        <li class="webmin-nav-disabled">login</li>
+                        <li class="webmin-nav-disabled">register</li>
+                        <li><a href="/user/edit-account.php">edit account</a></li>
+                        <li><a href="/user/logout.php">logout</a></li>
+                    {{/user}}
+                    {{^user}}
+                        <li><a href="/user/login.php">login</a></li>
+                        <li><a href="/user/register.php">register</a></li>
+                        <li class="webmin-nav-disabled">edit account</li>
+                        <li class="webmin-nav-disabled">logout</li>
+                    {{/user}}
 
-        </ul>
-        </details>
-    </li>
+                </ul>
+            </details>
+        </li>
 
     </ul>
 </nav>

@@ -1,0 +1,27 @@
+{
+  "name": "motogp",
+  "version": "1.0.0",
+  "description": "A redevelopment of [Noisy's](https://www.partymeeple.com.au/contact.html) original code.",
+  "main": "index.js",
+  "devDependencies": {
+    "prettier": "^3.9.8",
+    "prettier-plugin-mustache": "^0.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"public/assets/js/**/*.js\" \"templates/**/*.mustache\"",
+    "format-check": "prettier --check \"public/assets/js/**/*.js\" \"templates/**/*.mustache\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eggplantpasta/motogp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/eggplantpasta/motogp/issues"
+  },
+  "homepage": "https://github.com/eggplantpasta/motogp#readme"
+}

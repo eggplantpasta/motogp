@@ -1,34 +1,34 @@
 
-{{< partials/layout }}
-  {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+{{< partials/layout}}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
 
-  {{$ content }}
-    <h1>{{ event.name }} - {{ page.heading }}</h1>
+    {{$content}}
+        <h1>{{ event.name }} - {{ page.heading }}</h1>
 
-    <p>Results for {{ event.name }} at {{ event.circuit }} on {{ event.display_date }}.</p>
+        <p>Results for {{ event.name }} at {{ event.circuit }} on {{ event.display_date }}.</p>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Position</th>
-                <th>#</th>
-                <th>Rider</th>
-                <th>Status</th>
-            </tr>
-        </thead>
+        <table>
+            <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>#</th>
+                    <th>Rider</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            {{# results }}
-            <tr>
-                <td>{{ position }}</td>
-                <td>{{ race_number }}</td>
-                <td>{{ rider_name }}</td>
-                <td>{{ display_status }}</td>
-            </tr>
-            {{/ results }}
-        </tbody>
-    </table>
+            <tbody>
+                {{#results}}
+                    <tr>
+                        <td>{{ position }}</td>
+                        <td>{{ race_number }}</td>
+                        <td>{{ rider_name }}</td>
+                        <td>{{ display_status }}</td>
+                    </tr>
+                {{/results}}
+            </tbody>
+        </table>
 
-  <p><a href="https://www.motogp.com/en/world-standing/2026/motogp/championship-standings" target="_blank">Results and standings</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en" target="_blank">official site.</a></p>
-  {{/ content }}
-{{/ partials/layout }}
+        <p><a href="https://www.motogp.com/en/world-standing/2026/motogp/championship-standings" target="_blank">Results and standings</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en" target="_blank">official site.</a></p>
+    {{/content}}
+{{/partials/layout}}

@@ -1,46 +1,46 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}Register{{/ title }}
+    {{$title}}Register{{/title}}
 
-{{$ content }}
-<form action="{{form.action}}" method="post" novalidate>
-  <h1>Register</h1>
-  <fieldset>
-    <label>
-      User name
-      <input name="username" placeholder="nickname" autocomplete="username"
-      aria-invalid="{{form.usernameInvalid}}" aria-describedby="invalid-username" value="{{form.username}}"/>
-      <small id="invalid-username">{{form.usernameErr}}</small>
-    </label>
+    {{$content}}
+        <form action="{{ form.action }}" method="post" novalidate>
+            <h1>Register</h1>
+            <fieldset>
+                <label>
+                    User name
+                    <input name="username" placeholder="nickname" autocomplete="username"
+                        aria-invalid="{{ form.usernameInvalid }}" aria-describedby="invalid-username" value="{{ form.username }}"/>
+                    <small id="invalid-username">{{ form.usernameErr }}</small>
+                </label>
 
-    <label>
-      Email
-      <input type="email" name="email" placeholder="name@example.com" autocomplete="email"
-      aria-invalid="{{form.emailInvalid}}" aria-describedby="invalid-email" value="{{form.email}}"/>
-      <small id="invalid-email">{{form.emailErr}}</small>
-    </label>
+                <label>
+                    Email
+                    <input type="email" name="email" placeholder="name@example.com" autocomplete="email"
+                        aria-invalid="{{ form.emailInvalid }}" aria-describedby="invalid-email" value="{{ form.email }}"/>
+                    <small id="invalid-email">{{ form.emailErr }}</small>
+                </label>
 
-    <label>
-      Password
-      <button class="password-toggle" type="button" tabindex="-1" aria-label="Toggle password visibility"></button>
-      <input type="password" name="password" placeholder="********" autocomplete="new-password"
-      aria-invalid="{{form.passwordInvalid}}" aria-describedby="invalid-password" />
-      <small id="invalid-password">{{form.passwordErr}}</small>
-    </label>
-  </fieldset>
+                <label>
+                    Password
+                    <button class="password-toggle" type="button" tabindex="-1" aria-label="Toggle password visibility"></button>
+                    <input type="password" name="password" placeholder="********" autocomplete="new-password"
+                        aria-invalid="{{ form.passwordInvalid }}" aria-describedby="invalid-password" />
+                    <small id="invalid-password">{{ form.passwordErr }}</small>
+                </label>
+            </fieldset>
 
-  <fieldset class="grid">
-    <input type="button" value="Cancel" onclick="window.location.href='/user/login.php'" class="motogp-secondary" />
-    <input type="submit" value="Register" />
-  </fieldset>
+            <fieldset class="grid">
+                <input type="button" value="Cancel" onclick="window.location.href='/user/login.php'" class="motogp-secondary" />
+                <input type="submit" value="Register" />
+            </fieldset>
 
-  <p>Already have an account? <a href="/user/login.php">Login here</a>.</p>
+            <p>Already have an account? <a href="/user/login.php">Login here</a>.</p>
 
-  <input
-    type="hidden"
-    name="csrf_token"
-    value="{{form.csrfToken}}" />
-</form>
-{{/ content }}
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ form.csrfToken }}" />
+        </form>
+    {{/content}}
 
-{{/ partials/layout }}
+{{/partials/layout}}

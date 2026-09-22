@@ -1,60 +1,60 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}Edit Account{{/ title }}
+    {{$title}}Edit Account{{/title}}
 
-{{$ content }}
-<form action="{{form.action}}" method="post" novalidate>
-  <h1>Edit Account</h1>
-  <p>Update your account information below. Ignore fields you want to leave unchanged.</p>
-    {{#form.accountErr}}
-    <p class="form-error" role="alert">
-        {{form.accountErr}}
-    </p>
-    {{/form.accountErr}}
-  <fieldset>
-    <label>
-      New User name
-      <input name="username" placeholder="{{user.username}}" autocomplete="username"
-      aria-invalid="{{form.usernameInvalid}}" aria-describedby="invalid-username" value="{{form.username}}"/>
-      <small id="invalid-username">{{form.usernameErr}}</small>
-    </label>
-    <label>
-      New Email
-      <input type="email" name="email" placeholder="{{user.email}}" autocomplete="email"
-      aria-invalid="{{form.emailInvalid}}" aria-describedby="invalid-email" value="{{form.email}}" />
-      <small id="invalid-email">{{form.emailErr}}</small>
-    </label>
-    <label>
-    New Password
-    <button
-        class="password-toggle"
-        type="button"
-        tabindex="-1"
-        aria-label="Toggle password visibility">
-    </button>
-    <input
-        type="password"
-        name="password"
-        placeholder=""
-        autocomplete="new-password"
-        aria-invalid="{{form.passwordInvalid}}"
-        aria-describedby="invalid-password" />
-    <small id="invalid-password">{{form.passwordErr}}</small>
-    </label>
-    </fieldset>
-    <fieldset class="grid">
-        <input
-            type="button"
-            value="Cancel"
-            onclick="window.location.href='/user/account.php'"
-            class="motogp-secondary" />
-        <input type="submit" value="Change Details" />
-    </fieldset>
-    <input
-    type="hidden"
-    name="csrf_token"
-    value="{{form.csrfToken}}" />
-</form>
-{{/ content }}
+    {{$content}}
+        <form action="{{ form.action }}" method="post" novalidate>
+            <h1>Edit Account</h1>
+            <p>Update your account information below. Ignore fields you want to leave unchanged.</p>
+            {{#form.accountErr}}
+                <p class="form-error" role="alert">
+                    {{ form.accountErr }}
+                </p>
+            {{/form.accountErr}}
+            <fieldset>
+                <label>
+                    New User name
+                    <input name="username" placeholder="{{ user.username }}" autocomplete="username"
+                        aria-invalid="{{ form.usernameInvalid }}" aria-describedby="invalid-username" value="{{ form.username }}"/>
+                    <small id="invalid-username">{{ form.usernameErr }}</small>
+                </label>
+                <label>
+                    New Email
+                    <input type="email" name="email" placeholder="{{ user.email }}" autocomplete="email"
+                        aria-invalid="{{ form.emailInvalid }}" aria-describedby="invalid-email" value="{{ form.email }}" />
+                    <small id="invalid-email">{{ form.emailErr }}</small>
+                </label>
+                <label>
+                    New Password
+                    <button
+                        class="password-toggle"
+                        type="button"
+                        tabindex="-1"
+                        aria-label="Toggle password visibility">
+                    </button>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder=""
+                        autocomplete="new-password"
+                        aria-invalid="{{ form.passwordInvalid }}"
+                        aria-describedby="invalid-password" />
+                    <small id="invalid-password">{{ form.passwordErr }}</small>
+                </label>
+            </fieldset>
+            <fieldset class="grid">
+                <input
+                    type="button"
+                    value="Cancel"
+                    onclick="window.location.href='/user/account.php'"
+                    class="motogp-secondary" />
+                <input type="submit" value="Change Details" />
+            </fieldset>
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ form.csrfToken }}" />
+        </form>
+    {{/content}}
 
-{{/ partials/layout }}
+{{/partials/layout}}

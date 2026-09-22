@@ -1,50 +1,50 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}Account{{/ title }}
+    {{$title}}Account{{/title}}
 
-{{$ content }}
-<h1>{{ user.username }} {{# user.admin }}(admin){{/ user.admin }}</h1>
-<section class="grid">
-<section>
-<h2>Account Information</h2>
-<ul>
-    <li>Email: {{ user.email }}</li>
-    <li>Username: {{ user.username }}</li>
-    <li>Account created: {{ user.created_ago }}</li>
-</ul>
-<p>You can <a href="/user/edit-account.php">edit your registration details and password here</a>.</p>
-</section>
-<article>
-<h2>Next Event</h2>
+    {{$content}}
+        <h1>{{ user.username }} {{#user.admin}}(admin){{/user.admin}}</h1>
+        <section class="grid">
+            <section>
+                <h2>Account Information</h2>
+                <ul>
+                    <li>Email: {{ user.email }}</li>
+                    <li>Username: {{ user.username }}</li>
+                    <li>Account created: {{ user.created_ago }}</li>
+                </ul>
+                <p>You can <a href="/user/edit-account.php">edit your registration details and password here</a>.</p>
+            </section>
+            <article>
+                <h2>Next Event</h2>
 
-{{# next_event }}
-<p>
-    <strong>{{ start_date }}</strong>
-    {{ name }} <span class="motogp-flag fi fi-{{ alpha_2 }}"></span><br>
-    <small class="motogp-secondary">{{ circuit }}</small>
-</p>
+                {{#next_event}}
+                    <p>
+                        <strong>{{ start_date }}</strong>
+                        {{ name }} <span class="motogp-flag fi fi-{{ alpha_2 }}"></span><br>
+                        <small class="motogp-secondary">{{ circuit }}</small>
+                    </p>
 
-{{# bidding_open }}
-<p>
-    <a href="/bids.php?event_id={{ event_id }}">
-        <button type="button">
-            Place Bids
-        </button>
-    </a>
-</p>
-{{/ bidding_open }}
-{{/ next_event }}
+                    {{#bidding_open}}
+                        <p>
+                            <a href="/bids.php?event_id={{ event_id }}">
+                                <button type="button">
+                                    Place Bids
+                                </button>
+                            </a>
+                        </p>
+                    {{/bidding_open}}
+                {{/next_event}}
 
-{{^ next_event }}
-<p>No upcoming events.</p>
-{{/ next_event }}
+                {{^next_event}}
+                    <p>No upcoming events.</p>
+                {{/next_event}}
 
-<p>
-    Your current balance:
-    <strong>{{ user.balance }}</strong> points.
-    <a href="/statement.php">View statement</a>
-</p>
-</article>
-{{/ content }}
+                <p>
+                    Your current balance:
+                    <strong>{{ user.balance }}</strong> points.
+                    <a href="/statement.php">View statement</a>
+                </p>
+            </article>
+        {{/content}}
 
-{{/ partials/layout }}
+    {{/partials/layout}}

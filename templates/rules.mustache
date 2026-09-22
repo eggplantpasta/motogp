@@ -1,112 +1,112 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
 
-{{$ content }}
+    {{$content}}
 
-<h1>{{ page.heading }}</h1>
+        <h1>{{ page.heading }}</h1>
 
-<h2>Bidding</h2>
+        <h2>Bidding</h2>
 
-<p>For each event:</p>
+        <p>For each event:</p>
 
-<ul>
-    <li>Each player must bid on exactly three riders.</li>
-    <li>A bid may be any whole number of points, including zero.</li>
-    <li>The total of a player's three bids cannot exceed their current balance.</li>
-    <li>The highest bid for a rider wins that rider.</li>
-    <li>If two or more players tie for the highest bid, they all win that rider.</li>
-    <li>Only winning bids are deducted from a player's balance. Losing bids cost nothing.</li>
-    <li>Players may change their bids while bidding remains open.</li>
-    <li>Bids are visible to other players.</li>
-    <li>Bidding closes at a lockout time selected for the event.</li>
-</ul>
+        <ul>
+            <li>Each player must bid on exactly three riders.</li>
+            <li>A bid may be any whole number of points, including zero.</li>
+            <li>The total of a player's three bids cannot exceed their current balance.</li>
+            <li>The highest bid for a rider wins that rider.</li>
+            <li>If two or more players tie for the highest bid, they all win that rider.</li>
+            <li>Only winning bids are deducted from a player's balance. Losing bids cost nothing.</li>
+            <li>Players may change their bids while bidding remains open.</li>
+            <li>Bids are visible to other players.</li>
+            <li>Bidding closes at a lockout time selected for the event.</li>
+        </ul>
 
-<h2>Points pool</h2>
+        <h2>Points pool</h2>
 
-<p>
-    After bidding closes, the total points pool for the event is calculated
-    from all winning bids:
-</p>
+        <p>
+            After bidding closes, the total points pool for the event is calculated
+            from all winning bids:
+        </p>
 
-<p>
-    <strong>
-        points pool = sum of all winning bids + number of winning bids
-    </strong>
-</p>
+        <p>
+            <strong>
+                points pool = sum of all winning bids + number of winning bids
+            </strong>
+        </p>
 
-<p>
-    Each winning bid therefore adds one new point to the game economy.
-</p>
+        <p>
+            Each winning bid therefore adds one new point to the game economy.
+        </p>
 
-<p>
-    For example, if two players both make a winning bid of 5 points on the
-    same rider, both winning bids are included in the pool:
-</p>
+        <p>
+            For example, if two players both make a winning bid of 5 points on the
+            same rider, both winning bids are included in the pool:
+        </p>
 
-<p><strong>5 + 5 + 2 = 12 points</strong></p>
+        <p><strong>5 + 5 + 2 = 12 points</strong></p>
 
-<h2>Payouts</h2>
+        <h2>Payouts</h2>
 
-<p>
-    The points pool is distributed according to the finishing positions of
-    the riders won by players.
-</p>
+        <p>
+            The points pool is distributed according to the finishing positions of
+            the riders won by players.
+        </p>
 
-<table>
-    <thead>
-        <tr>
-            <th>Position</th>
-            <th>Payout</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr><td>1st</td><td>23%</td></tr>
-        <tr><td>2nd</td><td>18%</td></tr>
-        <tr><td>3rd</td><td>15%</td></tr>
-        <tr><td>4th</td><td>12%</td></tr>
-        <tr><td>5th</td><td>11%</td></tr>
-        <tr><td>6th</td><td>8%</td></tr>
-        <tr><td>7th</td><td>7%</td></tr>
-        <tr><td>8th</td><td>6%</td></tr>
-    </tbody>
-</table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Payout</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1st</td><td>23%</td></tr>
+                <tr><td>2nd</td><td>18%</td></tr>
+                <tr><td>3rd</td><td>15%</td></tr>
+                <tr><td>4th</td><td>12%</td></tr>
+                <tr><td>5th</td><td>11%</td></tr>
+                <tr><td>6th</td><td>8%</td></tr>
+                <tr><td>7th</td><td>7%</td></tr>
+                <tr><td>8th</td><td>6%</td></tr>
+            </tbody>
+        </table>
 
-<p>Only riders finishing in the top eight receive a payout.</p>
+        <p>Only riders finishing in the top eight receive a payout.</p>
 
-<p>Fractional payouts are rounded up to the next whole point.</p>
+        <p>Fractional payouts are rounded up to the next whole point.</p>
 
-<h2>Tied winning bids</h2>
+        <h2>Tied winning bids</h2>
 
-<p>
-    If multiple players tie for the highest bid on the same rider, each tied
-    bid is a winning bid:
-</p>
+        <p>
+            If multiple players tie for the highest bid on the same rider, each tied
+            bid is a winning bid:
+        </p>
 
-<ul>
-    <li>each winning bid is deducted from its player's balance;</li>
-    <li>each winning bid is included separately when calculating the points pool; and</li>
-    <li>the tied players share the payouts for the finishing positions they collectively occupy.</li>
-</ul>
+        <ul>
+            <li>each winning bid is deducted from its player's balance;</li>
+            <li>each winning bid is included separately when calculating the points pool; and</li>
+            <li>the tied players share the payouts for the finishing positions they collectively occupy.</li>
+        </ul>
 
-<p>
-    For example, if two players jointly win a rider and that rider finishes
-    first, they share the first- and second-place payouts:
-</p>
+        <p>
+            For example, if two players jointly win a rider and that rider finishes
+            first, they share the first- and second-place payouts:
+        </p>
 
-<p><strong>(23% + 18%) / 2 = 20.5% each</strong></p>
+        <p><strong>(23% + 18%) / 2 = 20.5% each</strong></p>
 
-<p>
-    If three players jointly win a rider that finishes first, they share the
-    first-, second- and third-place payouts:
-</p>
+        <p>
+            If three players jointly win a rider that finishes first, they share the
+            first-, second- and third-place payouts:
+        </p>
 
-<p><strong>(23% + 18% + 15%) / 3 = 18.67% each</strong></p>
+        <p><strong>(23% + 18% + 15%) / 3 = 18.67% each</strong></p>
 
-<p>
-    The resulting points payout for each player is rounded up to a whole point.
-</p>
+        <p>
+            The resulting points payout for each player is rounded up to a whole point.
+        </p>
 
-{{/ content }}
+    {{/content}}
 
-{{/ partials/layout }}
+{{/partials/layout}}

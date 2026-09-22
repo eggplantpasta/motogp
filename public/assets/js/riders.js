@@ -51,26 +51,27 @@ function deleteRider(event) {
     const riderId = row.getAttribute('data-rider-id');
     const riderName = row.querySelector('.rider-name').textContent;
 
-    confirmModal(
-        `Delete "${riderName}"? This action cannot be undone.`,
-        () => {
-            document.getElementById('operation').value = 'delete';
-            document.getElementById('rider-id').value = riderId;
-            document.getElementById('rider-form').submit();
-        }
-    );
+    confirmModal(`Delete "${riderName}"? This action cannot be undone.`, () => {
+        document.getElementById('operation').value = 'delete';
+        document.getElementById('rider-id').value = riderId;
+        document.getElementById('rider-form').submit();
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-action="add-rider"]').forEach(button => {
+    document.querySelectorAll('[data-action="add-rider"]').forEach((button) => {
         button.addEventListener('click', addRider);
     });
 
-    document.querySelectorAll('[data-action="edit-rider"]').forEach(button => {
-        button.addEventListener('click', editRider);
-    });
+    document
+        .querySelectorAll('[data-action="edit-rider"]')
+        .forEach((button) => {
+            button.addEventListener('click', editRider);
+        });
 
-    document.querySelectorAll('[data-action="delete-rider"]').forEach(button => {
-        button.addEventListener('click', deleteRider);
-    });
+    document
+        .querySelectorAll('[data-action="delete-rider"]')
+        .forEach((button) => {
+            button.addEventListener('click', deleteRider);
+        });
 });

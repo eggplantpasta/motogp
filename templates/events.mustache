@@ -1,49 +1,49 @@
 
-{{< partials/layout }}
-  {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+{{< partials/layout}}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
 
-  {{$ content }}
-    <h1>{{ page.heading }}</h1>
+    {{$content}}
+        <h1>{{ page.heading }}</h1>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Event</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-    {{# events }}
-        <tr class="{{ row-class }}">
-          <td class="{{ cell-class }}">{{ display_date }}</td>
-          <td class="{{ cell-class }}">{{ name }} <span class="motogp-flag fi fi-{{ alpha_2 }}"></span><br><small class="motogp-secondary">{{ circuit }}</small></td>
-          <td>
-              {{# bids_open }}
-                  <a href="/bids.php?event_id={{ event_id }}">
-                      <button type="button">
-                          Place Bids
-                      </button>
-                  </a>
-              {{/ bids_open }}
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Event</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#events}}
+                    <tr class="{{ row-class }}">
+                        <td class="{{ cell-class }}">{{ display_date }}</td>
+                        <td class="{{ cell-class }}">{{ name }} <span class="motogp-flag fi fi-{{ alpha_2 }}"></span><br><small class="motogp-secondary">{{ circuit }}</small></td>
+                        <td>
+                            {{#bids_open}}
+                                <a href="/bids.php?event_id={{ event_id }}">
+                                    <button type="button">
+                                        Place Bids
+                                    </button>
+                                </a>
+                            {{/bids_open}}
 
-              {{# results }}
-                  <a href="/results.php?event_id={{ event_id }}">
-                    <button
-                      type="button"
-                      class="motogp-icon-button"
-                      data-tooltip="View results"
-                      aria-label="View results"
-                    >
-                      {{> partials/icons/flag }}
-                    </button>
-                  </a>
-              {{/ results }}
-          </td>
-        </tr>
-    {{/ events }}
-      </tbody>
-    </table>
-  <p><a href="https://www.motogp.com/en/calendar?view=grid" target="_blank">Calendar of events</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en" target="_blank">official site.</a></p>
-  {{/ content }}
-{{/ partials/layout }}
+                            {{#results}}
+                                <a href="/results.php?event_id={{ event_id }}">
+                                    <button
+                                        type="button"
+                                        class="motogp-icon-button"
+                                        data-tooltip="View results"
+                                        aria-label="View results"
+                                    >
+                                        {{> partials/icons/flag }}
+                                    </button>
+                                </a>
+                            {{/results}}
+                        </td>
+                    </tr>
+                {{/events}}
+            </tbody>
+        </table>
+        <p><a href="https://www.motogp.com/en/calendar?view=grid" target="_blank">Calendar of events</a> for the MotoGP 2026 season from the <a href="https://www.motogp.com/en" target="_blank">official site.</a></p>
+    {{/content}}
+{{/partials/layout}}

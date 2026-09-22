@@ -1,91 +1,91 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
 
-{{$ content }}
+    {{$content}}
 
-<h1>{{ page.heading }}</h1>
+        <h1>{{ page.heading }}</h1>
 
-<h2>{{ event.name }}</h2>
+        <h2>{{ event.name }}</h2>
 
-<p>
-    {{ event.display_date }} · {{ event.circuit }}
-</p>
+        <p>
+            {{ event.display_date }} · {{ event.circuit }}
+        </p>
 
-<p>
-    Available points: <strong>{{ user.balance }}</strong>
-</p>
+        <p>
+            Available points: <strong>{{ user.balance }}</strong>
+        </p>
 
-{{#message}}
-<p>{{ message }}</p>
-{{/message}}
+        {{#message}}
+            <p>{{ message }}</p>
+        {{/message}}
 
-{{#has_errors}}
-<article>
-    <strong>Please check your bids:</strong>
-    <ul>
-        {{#errors}}
-        <li>{{ . }}</li>
-        {{/errors}}
-    </ul>
-</article>
-{{/has_errors}}
+        {{#has_errors}}
+            <article>
+                <strong>Please check your bids:</strong>
+                <ul>
+                    {{#errors}}
+                        <li>{{ . }}</li>
+                    {{/errors}}
+                </ul>
+            </article>
+        {{/has_errors}}
 
-<form method="post">
+        <form method="post">
 
-    <table>
-        <thead>
-            <tr>
-                <th>Bid</th>
-                <th>Rider</th>
-                <th>Points</th>
-            </tr>
-        </thead>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bid</th>
+                        <th>Rider</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
 
-        <tbody>
-            {{#bid_rows}}
-            <tr>
-                <td>{{ bid_number }}</td>
+                <tbody>
+                    {{#bid_rows}}
+                        <tr>
+                            <td>{{ bid_number }}</td>
 
-                <td>
-                    <select name="rider-{{ bid_number }}">
-                        <option value="">Select rider</option>
+                            <td>
+                                <select name="rider-{{ bid_number }}">
+                                    <option value="">Select rider</option>
 
-                        {{#riders}}
-                        <option
-                            value="{{ rider_id }}"
-                            {{#selected}}selected{{/selected}}
-                        >
-                            #{{ race_number }} {{ name }}
-                        </option>
-                        {{/riders}}
-                    </select>
-                </td>
+                                    {{#riders}}
+                                        <option
+                                            value="{{ rider_id }}"
+                                            {{#selected}}selected{{/selected}}
+                                        >
+                                            #{{ race_number }} {{ name }}
+                                        </option>
+                                    {{/riders}}
+                                </select>
+                            </td>
 
-                <td>
-                    <input
-                        type="number"
-                        name="amount-{{ bid_number }}"
-                        value="{{ amount }}"
-                        min="0"
-                        step="1"
-                    >
-                </td>
-            </tr>
-            {{/bid_rows}}
-        </tbody>
-    </table>
+                            <td>
+                                <input
+                                    type="number"
+                                    name="amount-{{ bid_number }}"
+                                    value="{{ amount }}"
+                                    min="0"
+                                    step="1"
+                                >
+                            </td>
+                        </tr>
+                    {{/bid_rows}}
+                </tbody>
+            </table>
 
-    <input
-        type="hidden"
-        name="csrf_token"
-        value="{{ csrfToken }}"
-    >
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrfToken }}"
+            >
 
-    <button type="submit">Save Bids</button>
+            <button type="submit">Save Bids</button>
 
-</form>
+        </form>
 
-{{/ content }}
+    {{/content}}
 
-{{/ partials/layout }}
+{{/partials/layout}}

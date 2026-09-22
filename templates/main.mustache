@@ -1,38 +1,38 @@
 
-{{< partials/layout }}
-  {{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
-  {{$ content }}
-  <section class="motogp-center-text">
-    <h1>{{ page.heading }}</h1>
-    <figure>
-    <img
-      src="/assets/images/DannyPed.png"
-      alt="Danny Pedroza, 2017 Australian MotoGP at Phillip Island. Photo by Noisy." />
-    <figcaption>Zoooomm..</figcaption>
-    </figure>
-    <h2><span class="motogp-font">{{ page.next_race_name }}</span></h2>
-    <strong>{{ page.days_to_go }}</strong>
+{{< partials/layout}}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
+    {{$content}}
+        <section class="motogp-center-text">
+            <h1>{{ page.heading }}</h1>
+            <figure>
+                <img
+                    src="/assets/images/DannyPed.png"
+                    alt="Danny Pedroza, 2017 Australian MotoGP at Phillip Island. Photo by Noisy." />
+                <figcaption>Zoooomm..</figcaption>
+            </figure>
+            <h2><span class="motogp-font">{{ page.next_race_name }}</span></h2>
+            <strong>{{ page.days_to_go }}</strong>
 
-    </section>
-    {{# show_ladder }}
-    <section class="motogp-leaders">
-        <h2>Top Players</h2>
+        </section>
+        {{#show_ladder}}
+            <section class="motogp-leaders">
+                <h2>Top Players</h2>
 
-        <table>
-            <tbody>
-                {{# leaders }}
-                <tr>
-                    <td>{{ username }}</td>
-                    <td>{{ balance }}</td>
-                </tr>
-                {{/ leaders }}
-            </tbody>
-        </table>
-        <p>
-            <a role="button" href="/ladder.php">View full ladder</a>
-            <a role="button" href="/rules.php">Game rules</a>
-        </p>
-    </section>
-    {{/ show_ladder }}
-  {{/ content }}
-{{/ partials/layout }}
+                <table>
+                    <tbody>
+                        {{#leaders}}
+                            <tr>
+                                <td>{{ username }}</td>
+                                <td>{{ balance }}</td>
+                            </tr>
+                        {{/leaders}}
+                    </tbody>
+                </table>
+                <p>
+                    <a role="button" href="/ladder.php">View full ladder</a>
+                    <a role="button" href="/rules.php">Game rules</a>
+                </p>
+            </section>
+        {{/show_ladder}}
+    {{/content}}
+{{/partials/layout}}

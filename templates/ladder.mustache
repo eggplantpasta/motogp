@@ -1,31 +1,31 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
 
-{{$ content }}
+    {{$content}}
 
-<h1>{{ page.heading }}</h1>
+        <h1>{{ page.heading }}</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Position</th>
-            <th>Player</th>
-            <th>Points</th>
-        </tr>
-    </thead>
+        <table>
+            <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Player</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
 
-    <tbody>
-        {{# ladder }}
-        <tr>
-            <td>{{ position }}</td>
-            <td>{{ username }}</td>
-            <td>{{ balance }}</td>
-        </tr>
-        {{/ ladder }}
-    </tbody>
-</table>
+            <tbody>
+                {{#ladder}}
+                    <tr>
+                        <td>{{ position }}</td>
+                        <td>{{ username }}</td>
+                        <td>{{ balance }}</td>
+                    </tr>
+                {{/ladder}}
+            </tbody>
+        </table>
 
-{{/ content }}
+    {{/content}}
 
-{{/ partials/layout }}
+{{/partials/layout}}

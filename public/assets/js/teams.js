@@ -13,14 +13,14 @@ function editTeam(event) {
 
     const row = event.currentTarget.closest('tr');
 
-    document.getElementById('team-id').value =
-        row.getAttribute('data-team-id');
+    document.getElementById('team-id').value = row.getAttribute('data-team-id');
 
     document.getElementById('team-name').value =
         row.getAttribute('data-team-name');
 
-    document.getElementById('short-team-name').value =
-        row.getAttribute('data-short-team-name');
+    document.getElementById('short-team-name').value = row.getAttribute(
+        'data-short-team-name',
+    );
 
     document.getElementById('manufacturer').value =
         row.getAttribute('data-manufacturer');
@@ -50,14 +50,11 @@ function deleteTeam(event) {
     const teamId = row.getAttribute('data-team-id');
     const teamName = row.getAttribute('data-team-name');
 
-    confirmModal(
-        `Delete "${teamName}"? This action cannot be undone.`,
-        () => {
-            document.getElementById('operation').value = 'delete';
-            document.getElementById('team-id').value = teamId;
-            document.getElementById('team-form').submit();
-        }
-    );
+    confirmModal(`Delete "${teamName}"? This action cannot be undone.`, () => {
+        document.getElementById('operation').value = 'delete';
+        document.getElementById('team-id').value = teamId;
+        document.getElementById('team-form').submit();
+    });
 }
 
 function clearTeamFormErrors() {
@@ -67,15 +64,17 @@ function clearTeamFormErrors() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-action="add-team"]').forEach(button => {
+    document.querySelectorAll('[data-action="add-team"]').forEach((button) => {
         button.addEventListener('click', addTeam);
     });
 
-    document.querySelectorAll('[data-action="edit-team"]').forEach(button => {
+    document.querySelectorAll('[data-action="edit-team"]').forEach((button) => {
         button.addEventListener('click', editTeam);
     });
 
-    document.querySelectorAll('[data-action="delete-team"]').forEach(button => {
-        button.addEventListener('click', deleteTeam);
-    });
+    document
+        .querySelectorAll('[data-action="delete-team"]')
+        .forEach((button) => {
+            button.addEventListener('click', deleteTeam);
+        });
 });

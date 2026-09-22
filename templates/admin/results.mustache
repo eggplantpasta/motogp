@@ -1,127 +1,127 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}{{ app.name }} • {{ page.title }}{{/ title }}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
 
-{{$ content }}
+    {{$content}}
 
-<h1>{{ page.heading }}</h1>
+        <h1>{{ page.heading }}</h1>
 
-<form method="get" action="/admin/results.php">
-    <label for="event-id-select">Event</label>
-    <select
-        id="event-id-select"
-        name="event_id"
-        onchange="this.form.submit()"
-    >
-        {{# events }}
-        <option value="{{ event_id }}" {{# selected }}selected{{/ selected }}>
-            {{ name }}
-        </option>
-        {{/ events }}
-    </select>
-</form>
+        <form method="get" action="/admin/results.php">
+            <label for="event-id-select">Event</label>
+            <select
+                id="event-id-select"
+                name="event_id"
+                onchange="this.form.submit()"
+            >
+                {{#events}}
+                    <option value="{{ event_id }}" {{#selected}}selected{{/selected}}>
+                        {{ name }}
+                    </option>
+                {{/events}}
+            </select>
+        </form>
 
-{{# event }}
+        {{#event}}
 
-<h2>{{ name }}</h2>
+            <h2>{{ name }}</h2>
 
-{{# form.message }}
-<p class="{{ form.message-class }}">{{ form.message }}</p>
-{{/ form.message }}
+            {{#form.message}}
+                <p class="{{ form.message-class }}">{{ form.message }}</p>
+            {{/form.message}}
 
-{{#settled}}
-<article>
-    Payouts have been settled. Results are now locked.
-</article>
+            {{#settled}}
+                <article>
+                    Payouts have been settled. Results are now locked.
+                </article>
 
-<table>
-    <thead>
-        <tr>
-            <th>Position</th>
-            <th>Status</th>
-            <th>#</th>
-            <th>Rider</th>
-        </tr>
-    </thead>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Status</th>
+                            <th>#</th>
+                            <th>Rider</th>
+                        </tr>
+                    </thead>
 
-    <tbody>
-        {{#results}}
-        <tr>
-            <td>{{position}}</td>
-            <td>
-                {{#status_dnf}}DNF{{/status_dnf}}
-                {{#status_dns}}DNS{{/status_dns}}
-                {{#status_dsq}}DSQ{{/status_dsq}}
-            </td>
-            <td>{{race_number}}</td>
-            <td>{{rider_name}}</td>
-        </tr>
-        {{/results}}
-    </tbody>
-</table>
-{{/settled}}
+                    <tbody>
+                        {{#results}}
+                            <tr>
+                                <td>{{ position }}</td>
+                                <td>
+                                    {{#status_dnf}}DNF{{/status_dnf}}
+                                    {{#status_dns}}DNS{{/status_dns}}
+                                    {{#status_dsq}}DSQ{{/status_dsq}}
+                                </td>
+                                <td>{{ race_number }}</td>
+                                <td>{{ rider_name }}</td>
+                            </tr>
+                        {{/results}}
+                    </tbody>
+                </table>
+            {{/settled}}
 
-{{^settled}}
-<form method="post" action="/admin/results.php">
-    <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-    <input type="hidden" name="event-id" value="{{ event_id }}">
+            {{^settled}}
+                <form method="post" action="/admin/results.php">
+                    <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                    <input type="hidden" name="event-id" value="{{ event_id }}">
 
-    <button type="submit">Save Results</button>
+                    <button type="submit">Save Results</button>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Position</th>
-                <th>Status</th>
-                <th>#</th>
-                <th>Rider</th>
-            </tr>
-        </thead>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>Status</th>
+                                <th>#</th>
+                                <th>Rider</th>
+                            </tr>
+                        </thead>
 
-        <tbody>
-            {{# results }}
-            <tr>
-                <td>
-                    <input
-                        type="number"
-                        name="positions[{{ rider_id }}]"
-                        value="{{ position }}"
-                        min="1"
-                        step="1"
-                    >
-                </td>
+                        <tbody>
+                            {{#results}}
+                                <tr>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            name="positions[{{ rider_id }}]"
+                                            value="{{ position }}"
+                                            min="1"
+                                            step="1"
+                                        >
+                                    </td>
 
-                <td>
-                    <select name="statuses[{{ rider_id }}]">
-                        <option value="" {{#status_none}}selected{{/status_none}}>
-                            Finish
-                        </option>
-                        <option value="dnf" {{#status_dnf}}selected{{/status_dnf}}>
-                            DNF
-                        </option>
-                        <option value="dns" {{#status_dns}}selected{{/status_dns}}>
-                            DNS
-                        </option>
-                        <option value="dsq" {{#status_dsq}}selected{{/status_dsq}}>
-                            DSQ
-                        </option>
-                    </select>
-                </td>
+                                    <td>
+                                        <select name="statuses[{{ rider_id }}]">
+                                            <option value="" {{#status_none}}selected{{/status_none}}>
+                                                Finish
+                                            </option>
+                                            <option value="dnf" {{#status_dnf}}selected{{/status_dnf}}>
+                                                DNF
+                                            </option>
+                                            <option value="dns" {{#status_dns}}selected{{/status_dns}}>
+                                                DNS
+                                            </option>
+                                            <option value="dsq" {{#status_dsq}}selected{{/status_dsq}}>
+                                                DSQ
+                                            </option>
+                                        </select>
+                                    </td>
 
-                <td>{{ race_number }}</td>
-                <td>{{ rider_name }}</td>
-            </tr>
-            {{/ results }}
-        </tbody>
-    </table>
+                                    <td>{{ race_number }}</td>
+                                    <td>{{ rider_name }}</td>
+                                </tr>
+                            {{/results}}
+                        </tbody>
+                    </table>
 
-    <button type="submit">Save Results</button>
+                    <button type="submit">Save Results</button>
 
-</form>
-{{/settled}}
+                </form>
+            {{/settled}}
 
-{{/ event }}
+        {{/event}}
 
-{{/ content }}
+    {{/content}}
 
-{{/ partials/layout }}
+{{/partials/layout}}

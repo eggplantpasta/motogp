@@ -1,143 +1,143 @@
-{{< partials/layout }}
+{{< partials/layout}}
 
-{{$ title }}User Administration{{/ title }}
+    {{$title}}User Administration{{/title}}
 
-{{$ content }}
+    {{$content}}
 
-<h1>User Administration</h1>
+        <h1>User Administration</h1>
 
-<p>Manage registered MotoGP users.</p>
+        <p>Manage registered MotoGP users.</p>
 
-<figure>
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Username</th>
-        <th scope="col">Email</th>
-        <th scope="col">Status</th>
-        <th scope="col">Admin</th>
-        <th scope="col">Balance</th>
-        <th scope="col">Registered</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
+        <figure>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Admin</th>
+                        <th scope="col">Balance</th>
+                        <th scope="col">Registered</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
 
-    <tbody>
-      {{#users}}
-      <tr>
-        <td>
-            <a href="/statement.php?user_id={{user_id}}">
-                {{username}}
-            </a>
-        </td>
-        <td>{{email}}</td>
-        <td>{{status}}</td>
-        <td>
-            <form method="post" action="/admin/users.php">
-                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
-                <input type="hidden" name="user_id" value="{{user_id}}">
-                <input type="hidden" name="action" value="set_admin">
+                <tbody>
+                    {{#users}}
+                        <tr>
+                            <td>
+                                <a href="/statement.php?user_id={{ user_id }}">
+                                    {{ username }}
+                                </a>
+                            </td>
+                            <td>{{ email }}</td>
+                            <td>{{ status }}</td>
+                            <td>
+                                <form method="post" action="/admin/users.php">
+                                    <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                                    <input type="hidden" name="action" value="set_admin">
 
-                {{#canSetAdmin}}
-                    <input
-                        type="checkbox"
-                        name="admin"
-                        value="1"
-                        {{#admin}}checked{{/admin}}
-                        onchange="this.form.submit()"
-                        aria-label="Administrator"
-                    >
-                    {{/canSetAdmin}}
+                                    {{#canSetAdmin}}
+                                        <input
+                                            type="checkbox"
+                                            name="admin"
+                                            value="1"
+                                            {{#admin}}checked{{/admin}}
+                                            onchange="this.form.submit()"
+                                            aria-label="Administrator"
+                                        >
+                                    {{/canSetAdmin}}
 
-                    {{^canSetAdmin}}
-                    <input
-                        type="checkbox"
-                        {{#admin}}checked{{/admin}}
-                        disabled
-                        aria-label="Administrator"
-                    >
-                    {{/canSetAdmin}}
-            </form>
-        </td>
-        <td>
-            <form method="post" action="/admin/users.php">
-                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
-                <input type="hidden" name="user_id" value="{{user_id}}">
-                <input type="hidden" name="action" value="update_balance">
-                <fieldset role="group">
-                    <input
-                        type="number"
-                        name="balance"
-                        value="{{balance}}"
-                        min="0"
-                        step="1"
-                        required
-                    >
+                                    {{^canSetAdmin}}
+                                        <input
+                                            type="checkbox"
+                                            {{#admin}}checked{{/admin}}
+                                            disabled
+                                            aria-label="Administrator"
+                                        >
+                                    {{/canSetAdmin}}
+                                </form>
+                            </td>
+                            <td>
+                                <form method="post" action="/admin/users.php">
+                                    <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                                    <input type="hidden" name="action" value="update_balance">
+                                    <fieldset role="group">
+                                        <input
+                                            type="number"
+                                            name="balance"
+                                            value="{{ balance }}"
+                                            min="0"
+                                            step="1"
+                                            required
+                                        >
 
-                    <button type="submit">Update</button>
-                </fieldset>
-            </form>
-        </td>
-        <td>{{created_at}}</td>
-        <td>
-            {{#canApprove}}
-            <form method="post" action="/admin/users.php" style="display:inline">
-                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
-                <input type="hidden" name="user_id" value="{{user_id}}">
-                <input type="hidden" name="action" value="approve">
-                <button type="submit">Approve</button>
-            </form>
-            {{/canApprove}}
+                                        <button type="submit">Update</button>
+                                    </fieldset>
+                                </form>
+                            </td>
+                            <td>{{ created_at }}</td>
+                            <td>
+                                {{#canApprove}}
+                                    <form method="post" action="/admin/users.php" style="display:inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                        <input type="hidden" name="user_id" value="{{ user_id }}">
+                                        <input type="hidden" name="action" value="approve">
+                                        <button type="submit">Approve</button>
+                                    </form>
+                                {{/canApprove}}
 
-            {{#canDisable}}
-            <form method="post" action="/admin/users.php" style="display:inline">
-                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
-                <input type="hidden" name="user_id" value="{{user_id}}">
-                <input type="hidden" name="action" value="disable">
-                <button type="submit" class="secondary">Disable</button>
-            </form>
-            {{/canDisable}}
+                                {{#canDisable}}
+                                    <form method="post" action="/admin/users.php" style="display:inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                        <input type="hidden" name="user_id" value="{{ user_id }}">
+                                        <input type="hidden" name="action" value="disable">
+                                        <button type="submit" class="secondary">Disable</button>
+                                    </form>
+                                {{/canDisable}}
 
-            {{#canEnable}}
-            <form method="post" action="/admin/users.php" style="display:inline">
-                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
-                <input type="hidden" name="user_id" value="{{user_id}}">
-                <input type="hidden" name="action" value="enable">
-                <button type="submit">Enable</button>
-            </form>
-            {{/canEnable}}
+                                {{#canEnable}}
+                                    <form method="post" action="/admin/users.php" style="display:inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                        <input type="hidden" name="user_id" value="{{ user_id }}">
+                                        <input type="hidden" name="action" value="enable">
+                                        <button type="submit">Enable</button>
+                                    </form>
+                                {{/canEnable}}
 
-            {{^isLastActiveAdmin}}
-            <form
-                method="post"
-                action="/admin/users.php"
-                {{#hasBids}}
-                onsubmit="return confirm('This user has existing bids. Deleting this account will permanently delete the user and all of their bids. This cannot be undone.');"
-                {{/hasBids}}
-                {{^hasBids}}
-                onsubmit="return confirm('Delete this user? This cannot be undone.');"
-                {{/hasBids}}
-            >
-                <input type="hidden" name="csrf_token" value="{{csrfToken}}">
-                <input type="hidden" name="user_id" value="{{user_id}}">
-                <input type="hidden" name="action" value="delete">
-                <button type="submit">Delete</button>
-            </form>
-            {{/isLastActiveAdmin}}
+                                {{^isLastActiveAdmin}}
+                                    <form
+                                        method="post"
+                                        action="/admin/users.php"
+                                        {{#hasBids}}
+                                        onsubmit="return confirm('This user has existing bids. Deleting this account will permanently delete the user and all of their bids. This cannot be undone.');"
+                                        {{/hasBids}}
+                                        {{^hasBids}}
+                                        onsubmit="return confirm('Delete this user? This cannot be undone.');"
+                                        {{/hasBids}}
+                                    >
+                                        <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                        <input type="hidden" name="user_id" value="{{ user_id }}">
+                                        <input type="hidden" name="action" value="delete">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                {{/isLastActiveAdmin}}
 
-        </td>
-      </tr>
-      {{/users}}
+                            </td>
+                        </tr>
+                    {{/users}}
 
-      {{^users}}
-      <tr>
-        <td colspan="7">No users found.</td>
-      </tr>
-      {{/users}}
-    </tbody>
-  </table>
-</figure>
+                    {{^users}}
+                        <tr>
+                            <td colspan="7">No users found.</td>
+                        </tr>
+                    {{/users}}
+                </tbody>
+            </table>
+        </figure>
 
-{{/ content }}
+    {{/content}}
 
-{{/ partials/layout }}
+{{/partials/layout}}

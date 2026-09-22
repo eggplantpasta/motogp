@@ -1,35 +1,35 @@
 <!-- layout.mustache -->
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <meta name="description" content="MotoGP Bidding.">
-    <link rel="stylesheet" href="/assets/css/pico.orange.min.css">
-    <link rel="stylesheet" href="/assets/css/pico.colors.min.css">
-    <link rel="stylesheet" href="/assets/css/webmin.css">
-    <link rel="stylesheet" href="/assets/css/motogp.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css">
-    <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
-    <title>{{$ title }}Title Here{{/ title }}</title>
-  </head>
-  <body>
-    <header class="container">
-      {{> partials/navigation }}
-    </header>
-    <main class="container">
-      {{$ content }}
-        <p>Content Here</p>
-      {{/ content }}
-    </main>
-    <footer  class="container">
-      <p><i><small>A rewrite of the old bidding website based on <a href="https://www.partymeeple.com.au/contact.html">Noisy's</a> code.</small></i></p>
-    </footer>
-    <script src="/assets/js/webmin.js"></script>
-    <script src="/assets/js/modal.js"></script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="color-scheme" content="light dark">
+        <meta name="description" content="MotoGP Bidding.">
+        <link rel="stylesheet" href="/assets/css/pico.orange.min.css">
+        <link rel="stylesheet" href="/assets/css/pico.colors.min.css">
+        <link rel="stylesheet" href="/assets/css/webmin.css">
+        <link rel="stylesheet" href="/assets/css/motogp.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css">
+        <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+        <title>{{$ title }}Title Here{{/ title }}</title>
+    </head>
+    <body>
+        <header class="container">
+            {{> partials/navigation }}
+        </header>
+        <main class="container">
+            {{$content}}
+                <p>Content Here</p>
+            {{/content}}
+        </main>
+        <footer  class="container">
+            <p><i><small>A rewrite of the old bidding website based on <a href="https://www.partymeeple.com.au/contact.html">Noisy's</a> code.</small></i></p>
+        </footer>
+        <script src="/assets/js/webmin.js"></script>
+        <script src="/assets/js/modal.js"></script>
 
-    {{$ scripts }}{{/ scripts }}
+        {{$scripts}}{{/scripts}}
 
-  </body>
+    </body>
 </html>
