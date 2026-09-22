@@ -38,7 +38,7 @@ class User
             $this->usernameErr = 'Username can only contain letters, numbers, and underscores.';
         }
 
-        if (empty($this->usernameErr) && $this->db) {
+        if (empty($this->usernameErr)) {
             $sql = '
                 select user_id
                 from users
@@ -48,7 +48,7 @@ class User
             $params = ['username' => $this->username];
 
             if ($userId !== null) {
-                $sql .= " AND user_id != :user_id";
+                $sql .= " and user_id != :user_id";
                 $params['user_id'] = $userId;
             }
 
@@ -72,12 +72,12 @@ class User
             $this->emailErr = 'Invalid email format.';
         }
 
-        if (empty($this->emailErr) && $this->db) {
+        if (empty($this->emailErr)) {
             $sql = 'select user_id from users where email = :email';
             $params = ['email' => $this->email];
 
             if ($userId !== null) {
-                $sql .= " AND user_id != :user_id";
+                $sql .= " and user_id != :user_id";
                 $params['user_id'] = $userId;
             }
 

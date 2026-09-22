@@ -2,7 +2,7 @@
 
 use Webmin\Template;
 use Webmin\Database;
-use Webmin\User;
+use Webmin\Session;
 use MotoGp\Rider;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
@@ -11,7 +11,7 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db, $logger);
+$session = new Session();
 $riders = new Rider($db, $logger);
 
 $data['riders'] = $riders->getRiders();
@@ -22,7 +22,7 @@ foreach ($data['riders'] as &$rider) {
 unset($rider);
 
 $data['app'] = $config['app'];
-$data['user'] = $user->getSessionUser();
+$data['user'] = $session->getUser();
 $data['page']['title'] = 'Riders';
 $data['page']['heading'] =
     'Season ' . $config['app']['season'] . ' Riders';
