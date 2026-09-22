@@ -32,7 +32,12 @@ $bidModel = new Bid($db);
 
 $eventId = null;
 
-if (isset($_GET['event_id']) && ctype_digit($_GET['event_id'])) {
+if (isset($_GET['event_id'])) {
+    if (!ctype_digit($_GET['event_id'])) {
+        http_response_code(404);
+        exit('Event not found.');
+    }
+
     $eventId = (int)$_GET['event_id'];
 } else {
     $eventId = $eventModel->getLastEventId();
@@ -120,15 +125,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 
-$data['page']['title'] = 'Bid Resolution';
-$data['page']['heading'] = 'Bid Resolution';
-
-$data['event'] = $event;
+$data['page'] = [
+    'title' => 'Bid Resolution',
+    'heading' => 'Bid Resolution',
+];
 
 if ($event !== null) {
-    $data['event']['display_date'] =
+    $event['display_date'] =
         Utility::formatDate($event['start_date'], 'M d');
 }
+
+$data['event'] = $event;
 
 $data['events'] = $eventModel->getEvents();
 

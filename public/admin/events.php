@@ -27,7 +27,7 @@ if (!$session->isAdmin()) {
 
 $db = new Database($config['database']['dsn'], $logger);
 $eventModel = new Event($db);
-$country = new Country($db);
+$countryModel = new Country($db);
 
 function normalizeDate(?string $dateValue): string
 {
@@ -42,8 +42,10 @@ function normalizeDate(?string $dateValue): string
 }
 
 $data['user'] = $session->getUser();
-$data['page']['title'] = 'Events';
-$data['page']['heading'] = 'Manage Events';
+$data['page'] = [
+    'title' => 'Events',
+    'heading' => 'Manage Events',
+];
 $data['csrfToken'] = Csrf::token();
 
 $data['form'] = [
@@ -104,6 +106,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data['form']['errors']['name'] = 'Event name is required.';
         }
 
+        if (
+            $startDateInput !== '' &&
+            $formData['start_date'] === ''
+        ) {
+            $data['form']['errors']['start_date'] = 'Start date is invalid.';
+        }
+
         if ($startDateInput === '') {
             $data['form']['errors']['start_date'] = 'Start date is required.';
         }
@@ -121,6 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (
             $formData['bids_open'] &&
+            $formData['start_date'] !== '' &&
             $formData['start_date'] < date('Y-m-d')
         ) {
             $data['form']['errors']['bids_open'] =
@@ -159,24 +169,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $data['events'] = $eventModel->getEvents();
 
-foreach ($data['events'] as &$eventData) {
-    $eventData['start_date'] = normalizeDate(
-        $eventData['start_date']
+foreach ($data['events'] as &$event) {
+    $event['start_date'] = normalizeDate(
+        $event['start_date']
     );
 
-    $eventData['display_date'] = Utility::formatDate(
-        $eventData['start_date'],
+    $event['display_date'] = Utility::formatDate(
+        $event['start_date'],
         'M d'
     );
 
-    $eventData['can_delete'] =
-        !$eventModel->hasBids((int)$eventData['event_id']) &&
-        !$eventModel->hasResults((int)$eventData['event_id']);
+    $event['can_delete'] =
+        !$eventModel->hasBids((int)$event['event_id']) &&
+        !$eventModel->hasResults((int)$event['event_id']);
 }
 
-unset($eventData);
+unset($event);
 
-$data['countries'] = $country->getCountriesSelected(
+$data['countries'] = $countryModel->getCountriesSelected(
     $data['form']['country_code']
 );
 

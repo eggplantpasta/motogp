@@ -14,7 +14,7 @@ $logger = $app->logger;
 
 $tpl = new Template($config['template'], $logger);
 $db = new Database($config['database']['dsn'], $logger);
-$user = new User($db, $logger);
+$userModel = new User($db, $logger);
 $session = new Session();
 $playerModel = new Player($db, $logger);
 
@@ -45,14 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($action) {
         case 'approve':
-            if (!$user->approve($userId)) {
+            if (!$userModel->approve($userId)) {
                 http_response_code(500);
                 exit('Unable to approve user.');
             }
             break;
 
         case 'disable':
-            if (!$user->disable($userId)) {
+            if (!$userModel->disable($userId)) {
                 http_response_code(400);
                 exit(
                     'Unable to disable this account. '
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
 
         case 'enable':
-            if (!$user->enable($userId)) {
+            if (!$userModel->enable($userId)) {
                 http_response_code(500);
                 exit('Unable to enable user.');
             }
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         case 'set_admin':
             $admin = isset($_POST['admin']);
 
-            if (!$user->setAdmin($userId, $admin)) {
+            if (!$userModel->setAdmin($userId, $admin)) {
                 http_response_code(400);
                 exit(
                     'Unable to change administrator access. '
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
 
         case 'delete':
-            if (!$user->deleteUser($userId)) {
+            if (!$userModel->deleteUser($userId)) {
                 http_response_code(400);
                 exit(
                     'Unable to delete this account. '
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 
-$data['users'] = $user->getUsers();
+$data['users'] = $userModel->getUsers();
 
 foreach ($data['users'] as &$account) {
     if (!empty($account['disabled_at'])) {
@@ -128,8 +128,12 @@ foreach ($data['users'] as &$account) {
         $account['status'] = 'Active';
     }
 
+    $account['balance'] = $playerModel->getBalance(
+        (int)$account['user_id']
+    );
+
     $account['isLastActiveAdmin'] =
-        $user->isLastActiveAdmin(
+        $userModel->isLastActiveAdmin(
             (int)$account['user_id']
         );
 
@@ -152,13 +156,14 @@ foreach ($data['users'] as &$account) {
     $account['hasBids'] = $playerModel->hasBids(
         (int)$account['user_id']
     );
-
-
-
 }
 unset($account);
 
 $data['user'] = $session->getUser();
 $data['csrfToken'] = Csrf::token();
+$data['page'] = [
+    'title' => 'Users',
+    'heading' => 'Manage Users',
+];
 
 echo $tpl->render('admin/users', $data);

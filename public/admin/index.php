@@ -23,5 +23,9 @@ if (!$session->isAdmin()) {
 $tpl = new Template($config['template'], $logger);
 
 $data['user'] = $session->getUser();
+$data['page'] = [
+    'title' => 'Admin',
+    'heading' => 'Administration',
+];
 
 echo $tpl->render('admin/index', $data);

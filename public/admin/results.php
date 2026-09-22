@@ -30,8 +30,10 @@ $eventModel = new Event($db);
 $resultModel = new Result($db);
 
 $data['user'] = $session->getUser();
-$data['page']['title'] = 'Results';
-$data['page']['heading'] = 'Manage Results';
+$data['page'] = [
+    'title' => 'Results',
+    'heading' => 'Manage Results',
+];
 $data['csrfToken'] = Csrf::token();
 
 $data['form'] = [
@@ -42,7 +44,12 @@ $data['form'] = [
 
 $eventId = null;
 
-if (isset($_GET['event_id']) && ctype_digit($_GET['event_id'])) {
+if (isset($_GET['event_id'])) {
+    if (!ctype_digit($_GET['event_id'])) {
+        http_response_code(404);
+        exit('Event not found.');
+    }
+
     $eventId = (int)$_GET['event_id'];
 } elseif ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $eventId = $eventModel->getLastEventId();
@@ -182,6 +189,11 @@ $data['events'] = $eventModel->getEvents();
 $data['event'] = $eventId !== null
     ? $eventModel->getEventById($eventId)
     : null;
+
+if ($eventId !== null && $data['event'] === null) {
+    http_response_code(404);
+    exit('Event not found.');
+}
 
 $data['settled'] =
     $data['event'] !== null

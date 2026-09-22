@@ -24,11 +24,13 @@ if (!$session->isAdmin()) {
 }
 
 $db = new Database($config['database']['dsn'], $logger);
-$teams = new Team($db);
+$teamModel = new Team($db);
 
 $data['user'] = $session->getUser();
-$data['page']['title'] = 'Teams';
-$data['page']['heading'] = 'Manage Teams';
+$data['page'] = [
+    'title' => 'Teams',
+    'heading' => 'Manage Teams',
+];
 $data['csrfToken'] = Csrf::token();
 
 $data['form'] = [
@@ -62,15 +64,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data['form']['short_team_name'] = $formData['short_team_name'];
     $data['form']['manufacturer'] = $formData['manufacturer'];
 
-    if ($operation === 'delete') {
-        if ($teamId !== '' && ctype_digit($teamId) && $teams->deleteTeam((int)$teamId)) {
-            header('Location: /admin/teams.php');
-            exit();
-        }
+    $validTeamId = $teamId !== '' && ctype_digit($teamId);
 
-        $data['form']['message'] = 'Team could not be deleted. It may still have riders.';
+    if (
+        in_array($operation, ['update', 'delete'], true) &&
+        !$validTeamId
+    ) {
+        $data['form']['message'] = 'Invalid team.';
         $data['form']['message-class'] = 'error';
-    } else {
+        $data['form']['open_modal'] = true;
+    }
+
+    if ($operation !== 'delete') {
         if ($formData['team_name'] === '') {
             $data['form']['errors']['team_name'] = 'Team name is required.';
         }
@@ -82,40 +87,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($formData['manufacturer'] === '') {
             $data['form']['errors']['manufacturer'] = 'Manufacturer is required.';
         }
+    }
 
-        if (empty($data['form']['errors'])) {
-            try {
-                if ($operation === 'create') {
-                    $teams->createTeam($formData);
+    if (
+        empty($data['form']['errors']) &&
+        (
+            $operation === 'create' || $validTeamId
+        )
+    ) {
+        try {
+            if ($operation === 'create') {
+                $teamModel->createTeam($formData);
 
+                header('Location: /admin/teams.php');
+                exit();
+            } elseif ($operation === 'update') {
+                $teamModel->updateTeam((int)$teamId, $formData);
+
+                header('Location: /admin/teams.php');
+                exit();
+            } elseif ($operation === 'delete') {
+                if ($teamModel->deleteTeam((int)$teamId)) {
                     header('Location: /admin/teams.php');
                     exit();
                 }
 
-                if ($operation === 'update' && $teamId !== '' && ctype_digit($teamId)) {
-                    $teams->updateTeam((int)$teamId, $formData);
-
-                    header('Location: /admin/teams.php');
-                    exit();
-                }
-            } catch (\Throwable $e) {
-                $data['form']['message'] = 'Unable to save team changes.';
+                $data['form']['message'] =
+                    'Team could not be deleted. It may still have riders.';
                 $data['form']['message-class'] = 'error';
             }
+        } catch (\Throwable $e) {
+            $data['form']['message'] = 'Unable to save team changes.';
+            $data['form']['message-class'] = 'error';
         }
-
-        $data['form']['open_modal'] = true;
+    } elseif (!empty($data['form']['errors'])) {
+        $data['form']['message'] = 'Please fix the highlighted fields.';
+        $data['form']['message-class'] = 'error';
     }
+
+    $data['form']['open_modal'] = true;
 }
 
-$data['teams'] = $teams->getTeams();
+$data['teams'] = $teamModel->getTeams();
 
 foreach ($data['teams'] as &$team) {
-    $team['can_delete'] = !$teams->hasRiders((int)$team['team_id']);
+    $team['can_delete'] = !$teamModel->hasRiders((int)$team['team_id']);
 }
 
 unset($team);
 
 $tpl = new Template($config['template'], $logger);
-
+$data['app'] = $config['app'];
+$data['user'] = $session->getUser();
+$data['page'] = [
+    'title' => 'Teams',
+    'heading' => 'Season ' . $config['app']['season'] . ' Teams',
+];
+$data['csrfToken'] = Csrf::token();
 echo $tpl->render('admin/teams', $data);

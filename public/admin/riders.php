@@ -26,7 +26,7 @@ if (!$session->isAdmin()) {
 }
 
 $riderModel = new Rider($db, $logger);
-$teams = new Team($db);
+$teamModel = new Team($db);
 
 function withSelectedTeam(array $teams, string $selectedTeamId): array
 {
@@ -66,52 +66,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'active' => isset($_POST['rider-active']) ? 1 : 0,
     ];
 
-    $data['form']['rider_id'] = $riderId;
+    $validRiderId = $riderId !== '' && ctype_digit($riderId);
 
+    if (
+        in_array($operation, ['update', 'delete'], true) &&
+        !$validRiderId
+    ) {
+        $data['form']['message'] = 'Invalid rider.';
+        $data['form']['message-class'] = 'error';
+        $data['form']['open_modal'] = true;
+    }
+
+    $data['form']['rider_id'] = $riderId;
     $data['form']['race_number'] = $formData['race_number'];
     $data['form']['rider_name'] = $formData['name'];
     $data['form']['team_id'] = $formData['team_id'];
     $data['form']['rider_active'] = $formData['active'];
 
     if ($operation !== 'delete') {
-        // For insert and update, validate the name and team fields
         if ($formData['name'] === '') {
-            $data['form']['errors']['rider_name'] = 'Rider name is required';
+            $data['form']['errors']['rider_name'] = 'Rider name is required.';
         }
     }
 
-    if (empty($data['form']['errors'])) {
+    if (
+        empty($data['form']['errors']) &&
+        (
+            $operation === 'create' ||
+            $validRiderId
+        )
+    ) {
         if ($operation === 'create') {
             $createdRows = $riderModel->createRider($formData);
             if ($createdRows > 0) {
                 header('Location: /admin/riders.php');
                 exit();
             } else {
-                $data['form']['message'] = 'Failed to create rider';
+                $data['form']['message'] = 'Unable to create rider.';
                 $data['form']['message-class'] = 'error';
                 $data['form']['open_modal'] = true;
             }
         } elseif ($operation === 'update') {
-            if ($riderId !== '' && ctype_digit($riderId)) {
+            {
 
                 $updatedRows = $riderModel->updateRider((int)$riderId, $formData);
                 if ($updatedRows > 0) {
                     header('Location: /admin/riders.php');
                     exit();
                 } else {
-                    $data['form']['message'] = 'No rider was updated';
+                    $data['form']['message'] = 'Unable to update rider.';
                     $data['form']['message-class'] = 'error';
                     $data['form']['open_modal'] = true;
                 }
             }
         } elseif ($operation === 'delete') {
-            if ($riderId !== '' && ctype_digit($riderId)) {
+            {
                 $deletedRows = $riderModel->deleteRider((int)$riderId);
                 if ($deletedRows > 0) {
                     header('Location: /admin/riders.php');
                     exit();
                 } else {
-                    $data['form']['message'] = 'No rider was deleted';
+                    $data['form']['message'] = 'Unable to delete rider.';
                     $data['form']['message-class'] = 'error';
                     $data['form']['open_modal'] = true;
                 }
@@ -119,16 +134,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
     } else {
-        $data['form']['message'] = 'Please fix the highlighted fields';
+        $data['form']['message'] = 'Please fix the highlighted fields.';
         $data['form']['message-class'] = 'error';
         $data['form']['open_modal'] = true;
     }
 }
 
-$results = $riderModel->getRiders();
-$allTeams = $teams->getTeams();
+$data['riders'] = $riderModel->getRiders();
+$allTeams = $teamModel->getTeams();
 
-$data['riders'] = $results;
 foreach ($data['riders'] as &$rider) {
     $rider['cell-class'] = $rider['active'] ? '' : 'motogp-inactive';
 
@@ -139,7 +153,6 @@ foreach ($data['riders'] as &$rider) {
 unset($rider);
 
 $data['teams'] = withSelectedTeam($allTeams, (string)$data['form']['team_id']);
-
 
 $tpl = new Template($config['template'], $logger);
 
