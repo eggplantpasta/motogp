@@ -186,6 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $data['events'] = $eventModel->getEvents();
+
 $data['event'] = $eventId !== null
     ? $eventModel->getEventById($eventId)
     : null;

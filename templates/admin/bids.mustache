@@ -6,23 +6,29 @@
 
         <h1>{{ page.heading }}</h1>
 
-        <form method="get" action="/admin/bids.php">
-            <label for="event-id-select">Event</label>
-            <select
-                id="event-id-select"
-                name="event_id"
-                onchange="this.form.submit()"
-            >
-                {{#events}}
-                    <option
-                        value="{{ event_id }}"
-                        {{#selected}}selected{{/selected}}
-                    >
-                        {{ name }}
-                    </option>
-                {{/events}}
-            </select>
-        </form>
+        {{#events | count}}
+            <form method="get" action="/admin/bids.php">
+                <label for="event-id-select">Event</label>
+                <select
+                    id="event-id-select"
+                    name="event_id"
+                    onchange="this.form.submit()"
+                >
+                    {{#events}}
+                        <option
+                            value="{{ event_id }}"
+                            {{#selected}}selected{{/selected}}
+                        >
+                            {{ name }}
+                        </option>
+                    {{/events}}
+                </select>
+            </form>
+        {{/events}}
+
+        {{^events | count}}
+            <p>No events have been added.</p>
+        {{/events}}
 
         {{#event}}
 

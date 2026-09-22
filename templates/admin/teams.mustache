@@ -21,6 +21,7 @@
                 </tr>
             </thead>
             <tbody>
+
                 {{#teams}}
                     <tr
                         data-team-id="{{ team_id }}"
@@ -41,6 +42,11 @@
                                 </button>
                             {{/can_delete}}
                         </td>
+                    </tr>
+                {{/teams}}
+                {{^teams}}
+                    <tr>
+                        <td colspan="4">No teams have been added.</td>
                     </tr>
                 {{/teams}}
             </tbody>
