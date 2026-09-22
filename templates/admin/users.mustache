@@ -80,57 +80,58 @@
                             </td>
                             <td>{{ created_at }}</td>
                             <td>
-                                {{#canApprove}}
-                                    <form method="post" action="/admin/users.php" style="display:inline">
-                                        <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                        <input type="hidden" name="user_id" value="{{ user_id }}">
-                                        <input type="hidden" name="action" value="approve">
-                                        <button type="submit">Approve</button>
-                                    </form>
-                                {{/canApprove}}
+                                <div class="motogp-button-group">
+                                    {{#canApprove}}
+                                        <form method="post" action="/admin/users.php" >
+                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                            <input type="hidden" name="user_id" value="{{ user_id }}">
+                                            <input type="hidden" name="action" value="approve">
+                                            <button type="submit">Approve</button>
+                                        </form>
+                                    {{/canApprove}}
 
-                                {{#canDisable}}
-                                    <form method="post" action="/admin/users.php" style="display:inline">
-                                        <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                        <input type="hidden" name="user_id" value="{{ user_id }}">
-                                        <input type="hidden" name="action" value="disable">
-                                        <button type="submit" class="secondary">Disable</button>
-                                    </form>
-                                {{/canDisable}}
+                                    {{#canDisable}}
+                                        <form method="post" action="/admin/users.php" >
+                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                            <input type="hidden" name="user_id" value="{{ user_id }}">
+                                            <input type="hidden" name="action" value="disable">
+                                            <button type="submit" class="secondary">Disable</button>
+                                        </form>
+                                    {{/canDisable}}
 
-                                {{#canEnable}}
-                                    <form method="post" action="/admin/users.php" style="display:inline">
-                                        <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                        <input type="hidden" name="user_id" value="{{ user_id }}">
-                                        <input type="hidden" name="action" value="enable">
-                                        <button type="submit">Enable</button>
-                                    </form>
-                                {{/canEnable}}
+                                    {{#canEnable}}
+                                        <form method="post" action="/admin/users.php" >
+                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                            <input type="hidden" name="user_id" value="{{ user_id }}">
+                                            <input type="hidden" name="action" value="enable">
+                                            <button type="submit">Enable</button>
+                                        </form>
+                                    {{/canEnable}}
 
-                                {{^isLastActiveAdmin}}
-                                    <form
-                                        method="post"
-                                        action="/admin/users.php"
-                                        class="user-delete-form"
-                                        data-username="{{ username }}"
-                                        data-has-bids="{{#hasBids}}1{{/hasBids}}{{^hasBids}}0{{/hasBids}}"
-                                    >
-                                        <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                        <input type="hidden" name="user_id" value="{{ user_id }}">
-                                        <input type="hidden" name="action" value="delete">
-
-                                        <button
-                                            type="button"
-                                            class="motogp-icon-button"
-                                            data-action="delete-user"
-                                            data-tooltip="Delete user"
-                                            aria-label="Delete user"
+                                    {{^isLastActiveAdmin}}
+                                        <form
+                                            method="post"
+                                            action="/admin/users.php"
+                                            class="user-delete-form"
+                                            data-username="{{ username }}"
+                                            data-has-bids="{{#hasBids}}1{{/hasBids}}{{^hasBids}}0{{/hasBids}}"
                                         >
-                                            {{> partials/icons/delete }}
-                                        </button>
-                                    </form>
-                                {{/isLastActiveAdmin}}
+                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                            <input type="hidden" name="user_id" value="{{ user_id }}">
+                                            <input type="hidden" name="action" value="delete">
 
+                                            <button
+                                                type="button"
+                                                class="motogp-icon-button"
+                                                data-action="delete-user"
+                                                data-tooltip="Delete user"
+                                                aria-label="Delete user"
+                                            >
+                                                {{> partials/icons/delete }}
+                                            </button>
+                                        </form>
+                                    {{/isLastActiveAdmin}}
+                                </div>
                             </td>
                         </tr>
                     {{/users}}

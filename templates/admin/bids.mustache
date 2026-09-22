@@ -152,9 +152,9 @@
 
                 {{#can_settle}}
                     <form
+                        id="settle-payouts-form"
                         method="post"
                         action="/admin/bids.php?event_id={{ event.event_id }}"
-                        onsubmit="return confirm('Settle these payouts? Player balances will be updated and this cannot be repeated.');"
                     >
                         <input
                             type="hidden"
@@ -167,7 +167,10 @@
                             value="settle"
                         >
 
-                        <button type="submit">
+                        <button
+                            type="button"
+                            data-action="settle-payouts"
+                        >
                             Settle Payouts
                         </button>
                     </form>
@@ -183,6 +186,12 @@
 
         {{/event}}
 
+        {{> partials/modal-confirm }}
+
     {{/content}}
+
+    {{$scripts}}
+        <script src="/assets/js/bids.js"></script>
+    {{/scripts}}
 
 {{/partials/layout}}

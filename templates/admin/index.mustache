@@ -1,10 +1,10 @@
 {{< partials/layout}}
 
-    {{$title}}Administration{{/title}}
+    {{$title}}{{ app.name }} • {{ page.title }}{{/title}}
 
     {{$content}}
 
-        <h1>Administration</h1>
+        <h1>{{ page.heading }}</h1>
 
         <ul>
             <li><a href="/admin/users.php">Users</a> Manage user registrations, approvals, access and balances.</li>
