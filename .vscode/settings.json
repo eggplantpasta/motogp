@@ -3,7 +3,16 @@
         "editor.defaultFormatter": "muuvmuuv.vscode-just-php-cs-fixer",
         "editor.formatOnSave": true
     },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[mustache]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
     "phpstan.enabled": true,
     "phpstan.binPath": "${workspaceFolder}/vendor/bin/phpstan",
-    "phpstan.configFile": "phpstan.neon"
+    "phpstan.configFile": "phpstan.neon",
+    "prettier.requireConfig": true
 }
