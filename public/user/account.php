@@ -6,6 +6,7 @@ use Webmin\Session;
 use Webmin\Database;
 use MotoGp\Utility;
 use MotoGp\Event;
+use MotoGp\Player;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
@@ -23,12 +24,13 @@ if (!$session->isLoggedIn()) {
 }
 
 $event = new Event($db);
+$player = new Player($db, $logger);
 
 $next_event = $event->getEventById($event->getNextEventId());
 
 $tpl = new Template($config['template'], $logger);
 $data['user'] = $session->getUser();
-$data['user']['balance'] = $user->getBalance(
+$data['user']['balance'] = $player->getBalance(
     (int)$data['user']['user_id']
 );
 $data['user']['created_ago'] = Utility::timeAgo($data['user']['created_at']);

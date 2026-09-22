@@ -4,6 +4,7 @@ use Webmin\Database;
 use Webmin\Template;
 use Webmin\User;
 use Webmin\Session;
+use MotoGp\Player;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
 
@@ -13,6 +14,7 @@ $logger = $app->logger;
 $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db, $logger);
 $session = new Session();
+$player = new Player($db, $logger);
 
 if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
@@ -43,7 +45,7 @@ if ($account === null) {
     exit('User not found.');
 }
 
-$transactions = $user->getBalanceTransactions($userId);
+$transactions = $player->getBalanceTransactions($userId);
 
 $runningBalance = 0;
 

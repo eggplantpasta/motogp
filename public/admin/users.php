@@ -5,6 +5,7 @@ use Webmin\Template;
 use Webmin\User;
 use Webmin\Session;
 use Webmin\Csrf;
+use MotoGp\Player;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
@@ -15,6 +16,7 @@ $tpl = new Template($config['template'], $logger);
 $db = new Database($config['database']['dsn'], $logger);
 $user = new User($db, $logger);
 $session = new Session();
+$player = new Player($db, $logger);
 
 if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
@@ -90,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit('Balance must be a whole number of zero or greater.');
             }
 
-            if (!$user->adjustBalance($userId, $balance)) {
+            if (!$player->adjustBalance($userId, $balance)) {
                 http_response_code(500);
                 exit('Unable to update user balance.');
             }
@@ -147,7 +149,7 @@ foreach ($data['users'] as &$account) {
         && empty($account['disabled_at'])
         && !$account['isLastActiveAdmin'];
 
-    $account['hasBids'] = $user->hasBids(
+    $account['hasBids'] = $player->hasBids(
         (int)$account['user_id']
     );
 

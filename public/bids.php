@@ -8,6 +8,7 @@ use Webmin\Csrf;
 use MotoGp\Event;
 use MotoGp\Rider;
 use MotoGp\Bid;
+use MotoGp\Player;
 use MotoGp\Utility;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
@@ -16,6 +17,7 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
+$player = new Player($db, $logger);
 
 $user = new User($db, $logger);
 $session = new Session();
@@ -54,7 +56,7 @@ if (!(bool)$event['bids_open']) {
 $sessionUser = $session->getUser();
 $userId = (int)$sessionUser['user_id'];
 
-$balance = $user->getBalance($userId);
+$balance = $player->getBalance($userId);
 
 if ($balance === null) {
     http_response_code(403);

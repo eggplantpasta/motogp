@@ -5,6 +5,7 @@ use Webmin\Database;
 use Webmin\User;
 use Webmin\Session;
 use MotoGp\Event;
+use MotoGp\Player;
 use MotoGp\Utility;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
@@ -13,6 +14,7 @@ $config = $app->config;
 $logger = $app->logger;
 
 $db = new Database($config['database']['dsn'], $logger);
+$player = new Player($db, $logger);
 
 $user = new User($db, $logger);
 $session = new Session();
@@ -24,7 +26,7 @@ $data['user'] = $session->getUser();
 
 if ($session->isLoggedIn()) {
     $data['show_ladder'] = true;
-    $data['leaders'] = $user->getLadder(3);
+    $data['leaders'] = $player->getLadder(3);
 }
 
 $data['app'] = $config['app'];
