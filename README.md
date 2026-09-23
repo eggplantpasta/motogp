@@ -134,6 +134,42 @@ The default policy in `bin/logrotate-motogp.conf` rotates daily, keeps 30 days, 
 
 Note: app logs are date-rotated by Monolog (`app-YYYY-MM-DD.log`) using `log.days`.
 
+## Tooling
+
+The repository includes configuration for the formatting and static-analysis tools used during development.
+
+### VS Code
+
+When the repository is opened in VS Code, install the extensions suggested by `.vscode/extensions.json`. The workspace settings in `.vscode/settings.json` configure formatting on save for PHP, JavaScript, and Mustache templates, and enable PHPStan using the project configuration.
+
+The recommended extensions include:
+
+- PHP CS Fixer for PHP formatting;
+- PHPStan for PHP static analysis;
+- Mustache language support;
+- Prettier for JS and Mustache formatting
+- SQLite support; and
+- EditorConfig support.
+
+Prettier is used as the formatter for JavaScript and Mustache files.
+
+### PHP
+
+PHP development tools are installed through Composer; JavaScript and Mustache development tools are installed through npm:
+
+```bash
+composer install
+npm install
+```
+
+Before committing a significant change, the useful verification pass is:
+
+```bash
+composer format-check
+composer analyse
+npm run format-check
+```
+
 ## About
 
 Built using [PHP](https://www.php.net), [SQLite](https://sqlite.org), vanilla [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Mustache](https://mustache.github.io) templates, and [semantic HTML](https://developer.mozilla.org/en-US/docs/Glossary/Semantics#semantics_in_html).
