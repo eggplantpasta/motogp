@@ -21,7 +21,7 @@ function editRider(event) {
     const riderNumber = row.getAttribute('data-rider-number');
     const riderActive = row.getAttribute('data-rider-active');
     const riderTeamId = row.getAttribute('data-team-id');
-    const riderName = row.querySelector('.rider-name').textContent;
+    const riderName = row.getAttribute('data-rider-name');
 
     clearRiderFormMessage();
     clearRiderFormErrors();
@@ -54,7 +54,7 @@ function deleteRider(event) {
     const row = event.currentTarget.closest('tr');
 
     const riderId = row.getAttribute('data-rider-id');
-    const riderName = row.querySelector('.rider-name').textContent;
+    const riderName = row.getAttribute('data-rider-name');
 
     confirmModal(`Delete "${riderName}"? This action cannot be undone.`, () => {
         document.getElementById('operation').value = 'delete';
