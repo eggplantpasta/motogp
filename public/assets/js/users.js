@@ -18,4 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .forEach((button) => {
             button.addEventListener('click', deleteUser);
         });
+    document
+        .querySelectorAll('[data-action="submit-form"]')
+        .forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.currentTarget.closest('form').requestSubmit();
+            });
+        });
 });

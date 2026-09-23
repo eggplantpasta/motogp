@@ -14,7 +14,7 @@
                     <tr>
                         <th scope="col">Username</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">Access</th>
                         <th scope="col">Admin</th>
                         <th scope="col">Balance</th>
                         <th scope="col">Registered</th>
@@ -31,7 +31,52 @@
                                 </a>
                             </td>
                             <td>{{ email }}</td>
-                            <td>{{ status }}</td>
+                            <td>
+                                <div class="motogp-button-group">
+                                    {{#canApprove}}
+                                        <form method="post" action="/admin/users.php" class="motogp-inline-form">
+                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                            <input type="hidden" name="user_id" value="{{ user_id }}">
+                                            <input type="hidden" name="action" value="approve">
+                                            <button type="submit">Approve</button>
+                                        </form>
+                                    {{/canApprove}}
+
+                                    {{#canDisable}}
+                                        <form method="post" action="/admin/users.php" class="motogp-inline-form">
+                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                            <input type="hidden" name="user_id" value="{{ user_id }}">
+                                            <input type="hidden" name="action" value="disable">
+                                            <button
+                                                type="button"
+                                                class="motogp-icon-button"
+                                                data-action="submit-form"
+                                                data-tooltip="Disable user"
+                                                aria-label="Disable user"
+                                            >
+                                                {{> partials/icons/unlock }}
+                                            </button>
+                                        </form>
+                                    {{/canDisable}}
+
+                                    {{#canEnable}}
+                                        <form method="post" action="/admin/users.php" class="motogp-inline-form">
+                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+                                            <input type="hidden" name="user_id" value="{{ user_id }}">
+                                            <input type="hidden" name="action" value="enable">
+                                            <button
+                                                type="button"
+                                                class="motogp-icon-button"
+                                                data-action="submit-form"
+                                                data-tooltip="Enable user"
+                                                aria-label="Enable user"
+                                            >
+                                                {{> partials/icons/lock }}
+                                            </button>
+                                        </form>
+                                    {{/canEnable}}
+                                </div>
+                            </td>
                             <td>
                                 <form method="post" action="/admin/users.php">
                                     <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
@@ -78,41 +123,14 @@
                                     </fieldset>
                                 </form>
                             </td>
-                            <td>{{ created_at }}</td>
+                            <td>{{ created_at_display }}</td>
                             <td>
                                 <div class="motogp-button-group">
-                                    {{#canApprove}}
-                                        <form method="post" action="/admin/users.php" >
-                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                            <input type="hidden" name="user_id" value="{{ user_id }}">
-                                            <input type="hidden" name="action" value="approve">
-                                            <button type="submit">Approve</button>
-                                        </form>
-                                    {{/canApprove}}
-
-                                    {{#canDisable}}
-                                        <form method="post" action="/admin/users.php" >
-                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                            <input type="hidden" name="user_id" value="{{ user_id }}">
-                                            <input type="hidden" name="action" value="disable">
-                                            <button type="submit" class="secondary">Disable</button>
-                                        </form>
-                                    {{/canDisable}}
-
-                                    {{#canEnable}}
-                                        <form method="post" action="/admin/users.php" >
-                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                            <input type="hidden" name="user_id" value="{{ user_id }}">
-                                            <input type="hidden" name="action" value="enable">
-                                            <button type="submit">Enable</button>
-                                        </form>
-                                    {{/canEnable}}
-
                                     {{^isLastActiveAdmin}}
                                         <form
                                             method="post"
                                             action="/admin/users.php"
-                                            class="user-delete-form"
+                                            class="user-delete-form motogp-inline-form"
                                             data-username="{{ username }}"
                                             data-has-bids="{{#hasBids}}1{{/hasBids}}{{^hasBids}}0{{/hasBids}}"
                                         >

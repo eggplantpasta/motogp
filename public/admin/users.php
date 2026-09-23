@@ -6,6 +6,7 @@ use Webmin\User;
 use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Player;
+use MotoGp\Utility;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
@@ -131,6 +132,8 @@ foreach ($data['users'] as &$account) {
     $account['balance'] = $playerModel->getBalance(
         (int)$account['user_id']
     );
+
+    $account['created_at_display'] = Utility::timeAgo($account['created_at']);
 
     $account['isLastActiveAdmin'] =
         $userModel->isLastActiveAdmin(

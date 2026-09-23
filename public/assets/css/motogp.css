@@ -69,7 +69,12 @@ label:has([aria-invalid="true"]) small,
 
 .motogp-button-group {
     display: flex;
+    align-items: center;
     gap: var(--pico-form-element-spacing-horizontal);
+}
+
+.motogp-button-group form {
+    margin: 0;
 }
 
 .motogp-form-actions > * {
@@ -77,7 +82,7 @@ label:has([aria-invalid="true"]) small,
 }
 
 .motogp-inline-form {
-    display: inline;
+    display: inline-flex;
     margin: 0;
 }
 
