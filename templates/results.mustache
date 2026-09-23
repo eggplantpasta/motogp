@@ -12,16 +12,17 @@
                 <tr>
                     <th>Position</th>
                     <th>Rider</th>
-                    <th>Status</th>
                 </tr>
             </thead>
 
             <tbody>
                 {{#results}}
                     <tr>
-                        <td>{{ position }}</td>
+                        <td>
+                            {{ position }}
+                            {{ display_status }}
+                        </td>
                         <td>{{> partials/rider }}</td>
-                        <td>{{ display_status }}</td>
                     </tr>
                 {{/results}}
             </tbody>
