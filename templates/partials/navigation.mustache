@@ -1,9 +1,9 @@
 <nav>
     <ul>
-        <li><strong><a href="/index.php"><span class="motogp-font">MotoGP</span> Bidding</a></strong></li>
+        <li><strong><a href="/index.php"><span class="motogp-font">MotoGP</span> Bidding {{ app.season }}</a></strong></li>
     </ul>
     <ul>
-        <li><a href="/events.php">events</a></li>
+        <li><a href="/events.php">races</a></li>
         <li><a href="/riders.php">riders</a></li>
         {{#user}}
             <li><a href="/ladder.php">ladder</a></li>
@@ -19,7 +19,7 @@
                         <li><a href="/admin/users.php">users</a></li>
                         <li><a href="/admin/teams.php">teams</a></li>
                         <li><a href="/admin/riders.php">riders</a></li>
-                        <li><a href="/admin/events.php">events</a></li>
+                        <li><a href="/admin/events.php">races</a></li>
                         <li><a href="/admin/bids.php">bids</a></li>
                         <li><a href="/admin/results.php">results</a></li>
                     </ul>
