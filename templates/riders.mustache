@@ -9,7 +9,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>Rider</th>
                     <th>Team</th>
                 </tr>
@@ -18,8 +17,7 @@
             <tbody>
                 {{#riders}}
                     <tr>
-                        <td class="{{ cell-class }}">{{ race_number }}</td>
-                        <td class="{{ cell-class }}">{{ name }}</td>
+                        <td class="{{ cell-class }}">{{> partials/rider }}</td>
                         <td class="{{ cell-class }}">{{ team_name }}</td>
                     </tr>
                 {{/riders}}

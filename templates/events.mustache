@@ -17,7 +17,7 @@
                 {{#events}}
                     <tr class="{{ row-class }}">
                         <td class="{{ cell-class }}">{{ display_date }}</td>
-                        <td class="{{ cell-class }}">{{ name }} <span class="motogp-flag fi fi-{{ alpha_2 }}"></span><br><small class="motogp-secondary">{{ circuit }}</small></td>
+                        <td class="{{ cell-class }}">{{> partials/race }}</td>
                         <td>
                             {{#bids_open}}
                                 <a href="/bids.php?event_id={{ event_id }}">

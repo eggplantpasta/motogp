@@ -39,7 +39,7 @@
                         data-bids-open="{{ bids_open }}"
                     >
                         <td>{{ display_date }}</td>
-                        <td>{{ name }} <span class="motogp-flag fi fi-{{ alpha_2 }}"></span><br><small class="motogp-secondary">{{ circuit }}</small></td>
+                        <td>{{> partials/race }}</td>
                         <td>
                             {{#bids_open}}<span class="motogp-text-icon motogp-valid-color">{{> partials/icons/unlock }}</span>{{/bids_open}}
                             {{^bids_open}}<span class="motogp-text-icon">{{> partials/icons/lock }}</span>{{/bids_open}}

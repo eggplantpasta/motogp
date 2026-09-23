@@ -14,8 +14,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>Number</th>
-                    <th>Rider Name</th>
+                    <th>Rider</th>
                     <th>Team</th>
                     <th>Admin</th>
                 </tr>
@@ -28,8 +27,7 @@
                         data-rider-active="{{ active }}"
                         data-team-id="{{ team_id }}"
                     >
-                        <td class="{{ cell-class }}">{{ race_number }}</td>
-                        <td class="rider-name {{ cell-class }}">{{ name }}</td>
+                        <td class="rider-name {{ cell-class }}">{{> partials/rider }}</td>
                         <td class="team_name {{ cell-class }}">{{ team_name }}</td>
                         <td class="motogp-button-group">
                             <button type="button" class="motogp-icon-button" data-target="modal-edit" data-action="edit-rider" data-tooltip="Edit rider" aria-label="Edit rider" >
