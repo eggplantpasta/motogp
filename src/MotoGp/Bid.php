@@ -100,7 +100,7 @@ class Bid
                 b.amount,
                 b.won,
                 u.username,
-                r.name as rider_name,
+                r.name as name,
                 r.race_number
             from bids b
             join users u on u.user_id = b.user_id
@@ -257,7 +257,7 @@ class Bid
                     b.rider_id,
                     b.amount,
                     u.username,
-                    r.name as rider_name,
+                    r.name as name,
                     r.race_number,
                     res.position,
                     res.status
@@ -338,7 +338,7 @@ class Bid
             if (!isset($riders[$riderId])) {
                 $riders[$riderId] = [
                     'rider_id' => $riderId,
-                    'rider_name' => $bid['rider_name'],
+                    'name' => $bid['name'],
                     'race_number' => $bid['race_number'],
                     'position' => (int)$bid['position'],
                     'owners' => [],
@@ -387,7 +387,7 @@ class Bid
                     'user_id' => (int)$owner['user_id'],
                     'username' => $owner['username'],
                     'rider_id' => $rider['rider_id'],
-                    'rider_name' => $rider['rider_name'],
+                    'name' => $rider['name'],
                     'race_number' => $rider['race_number'],
                     'finish_position' => $rider['position'],
                     'percentage' => $percentagePerOwner,

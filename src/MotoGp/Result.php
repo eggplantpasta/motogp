@@ -18,8 +18,9 @@ class Result
         $sql = '
             select
                 r.*,
-                p.name as rider_name,
-                p.race_number
+                p.name,
+                p.race_number,
+                p.active
             from results r
             join riders p on r.rider_id = p.rider_id
             where r.event_id = :event_id
@@ -92,7 +93,7 @@ class Result
             select
                 r.rider_id,
                 r.race_number,
-                r.name as rider_name,
+                r.name,
                 r.active,
                 res.position,
                 res.status

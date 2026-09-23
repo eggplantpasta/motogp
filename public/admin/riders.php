@@ -44,7 +44,7 @@ $data['form'] = [
     'message-class' => '',
     'rider_id' => '',
     'race_number' => '',
-    'rider_name' => '',
+    'name' => '',
     'team_id' => '',
     'rider_active' => 0,
     'open_modal' => false,
@@ -79,13 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data['form']['rider_id'] = $riderId;
     $data['form']['race_number'] = $formData['race_number'];
-    $data['form']['rider_name'] = $formData['name'];
+    $data['form']['name'] = $formData['name'];
     $data['form']['team_id'] = $formData['team_id'];
     $data['form']['rider_active'] = $formData['active'];
 
     if ($operation !== 'delete') {
         if ($formData['name'] === '') {
-            $data['form']['errors']['rider_name'] = 'Rider name is required.';
+            $data['form']['errors']['name'] = 'Rider name is required.';
         }
     }
 

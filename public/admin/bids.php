@@ -151,7 +151,7 @@ foreach ($bids as $bid) {
 
     if (!isset($riders[$riderId])) {
         $riders[$riderId] = [
-            'name' => $bid['rider_name'],
+            'name' => $bid['name'],
             'race_number' => $bid['race_number'],
             'highest_bid' => (int)$bid['amount'],
             'bids' => [],

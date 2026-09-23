@@ -23,7 +23,7 @@ class Player
                     bt.amount,
                     bt.created_at,
                     e.name as event_name,
-                    r.name as rider_name,
+                    r.name as name,
                     r.race_number
                 from balance_transactions bt
                 left join events e

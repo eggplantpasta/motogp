@@ -69,7 +69,7 @@ foreach ($transactions as &$transaction) {
                 . ' — #'
                 . $transaction['race_number']
                 . ' '
-                . $transaction['rider_name']
+                . $transaction['name']
                 . ' winning bid',
 
             'payout' =>
@@ -77,7 +77,7 @@ foreach ($transactions as &$transaction) {
                 . ' — #'
                 . $transaction['race_number']
                 . ' '
-                . $transaction['rider_name']
+                . $transaction['name']
                 . ' payout',
 
             'admin_adjustment' =>

@@ -8,7 +8,7 @@ function clearRiderFormMessage() {
 }
 
 function clearRiderFormErrors() {
-    document.getElementById('invalid-rider_name').textContent = '';
+    document.getElementById('invalid-name').textContent = '';
     document.getElementById('invalid-race_number').textContent = '';
 }
 

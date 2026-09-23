@@ -3,15 +3,14 @@
     {{$title}}{{ app.name }} • Results{{/title}}
 
     {{$content}}
-        <h1>{{ event.name }} - Results</h1>
-
-        <p>Results for {{ event.name }} at {{ event.circuit }} on {{ event.display_date }}.</p>
-
+        <h1>Results</h1>
+        {{#event}}
+            <p>{{> partials/race }}<small class="motogp-secondary"> | {{ event.display_date }}</small></p>
+        {{/event}}
         <table>
             <thead>
                 <tr>
                     <th>Position</th>
-                    <th>#</th>
                     <th>Rider</th>
                     <th>Status</th>
                 </tr>
@@ -21,8 +20,7 @@
                 {{#results}}
                     <tr>
                         <td>{{ position }}</td>
-                        <td>{{ race_number }}</td>
-                        <td>{{ rider_name }}</td>
+                        <td>{{> partials/rider }}</td>
                         <td>{{ display_status }}</td>
                     </tr>
                 {{/results}}
