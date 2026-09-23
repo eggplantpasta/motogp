@@ -27,6 +27,12 @@
                                 </a>
                             {{/bids_open}}
 
+                            {{#next_race}}
+                                {{^bids_open}}
+                                    <span class="motogp-secondary">Closed for bidding</span>
+                                {{/bids_open}}
+                            {{/next_race}}
+
                             {{#results}}
                                 <a href="/results.php?event_id={{ event_id }}">
                                     <button

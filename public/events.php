@@ -40,8 +40,8 @@ foreach ($data['events'] as &$event) {
         $event['results'] = false;
     }
 
-    $event['display_date'] =
-        Utility::formatDate($event['start_date'], 'M d');
+    $event['next_race'] = $event['event_id'] === $nextEventId;
+    $event['display_date'] = Utility::formatDate($event['start_date'], 'M d');
 
     if ($event['bids_open']) {
         $event['results'] = false;
