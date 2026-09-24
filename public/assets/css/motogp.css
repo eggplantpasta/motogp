@@ -10,6 +10,10 @@
     background-color: var(--pico-mark-background-color);
 }
 
+th[scope="row"] {
+      --pico-font-weight: 600;
+}
+
 .motogp-secondary {
     color: var(--pico-secondary);
 }

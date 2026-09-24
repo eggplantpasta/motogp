@@ -26,12 +26,22 @@
                     {{#users}}
                         <tr>
                             <td>
-                                <a href="/statement.php?user_id={{ user_id }}">
+                                <a href="/admin/user.php?user_id={{ user_id }}">
                                     {{ username }}
                                 </a>
                             </td>
                             <td>{{ email }}</td>
                             <td>
+                                <a href="/statement.php?user_id={{ user_id }}">
+                                    <button
+                                        type="button"
+                                        class="motogp-icon-button"
+                                        data-tooltip="View statement"
+                                        aria-label="View statement"
+                                    >
+                                        {{> partials/icons/statement }}
+                                    </button>
+                                </a>
                                 <form method="post" action="/admin/users.php">
                                     <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
                                     <input type="hidden" name="user_id" value="{{ user_id }}">

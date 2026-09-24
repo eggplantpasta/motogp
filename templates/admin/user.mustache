@@ -1,0 +1,52 @@
+{{< partials/layout}}
+
+    {{$title}}{{ app.name }} • User Detail{{/title}}
+
+    {{$content}}
+        <h1>User Detail • {{ account.username }}</h1>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th scope="row">User ID</th>
+                    <td>{{ account.user_id }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Username</th>
+                    <td>{{ account.username }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td>{{ account.email }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Balance</th>
+                    <td>{{ account.balance }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Administrator</th>
+                    <td>{{#account.admin}}Yes{{/account.admin}}{{^account.admin}}No{{/account.admin}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Approved</th>
+                    <td>{{ account.approved_at }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Disabled</th>
+                    <td>{{ account.disabled_at }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Registered</th>
+                    <td>{{ account.created_at }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>
+            <a href="/admin/statement.php?user_id={{ account.user_id }}">
+                View statement
+            </a>
+        </p>
+    {{/content}}
+
+{{/partials/layout}}
