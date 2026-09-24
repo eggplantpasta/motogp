@@ -32,33 +32,16 @@
                             </td>
                             <td>{{ email }}</td>
                             <td>
-                                <a href="/statement.php?user_id={{ user_id }}">
-                                    <button
-                                        type="button"
-                                        class="motogp-icon-button"
-                                        data-tooltip="View statement"
-                                        aria-label="View statement"
-                                    >
-                                        {{> partials/icons/statement }}
-                                    </button>
+                                <a
+                                    href="/statement.php?user_id={{ user_id }}"
+                                    role="button"
+                                    class="motogp-icon-button"
+                                    data-tooltip="View statement"
+                                    aria-label="View statement"
+                                >
+                                    {{> partials/icons/statement }}
                                 </a>
-                                <form method="post" action="/admin/users.php">
-                                    <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                    <input type="hidden" name="user_id" value="{{ user_id }}">
-                                    <input type="hidden" name="action" value="update_balance">
-                                    <fieldset role="group">
-                                        <input
-                                            type="number"
-                                            name="balance"
-                                            value="{{ balance }}"
-                                            min="0"
-                                            step="1"
-                                            required
-                                        >
-
-                                        <button type="submit">Update</button>
-                                    </fieldset>
-                                </form>
+                                {{ balance }}
                             </td>
                             <td>{{ created_at_display }}</td>
                             <td>
