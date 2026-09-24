@@ -44,7 +44,14 @@
 
         <p>
             <a href="/admin/statement.php?user_id={{ account.user_id }}">
-                View statement
+                <button
+                    type="button"
+                    class="motogp-icon-button"
+                    data-tooltip="View statement"
+                    aria-label="View statement"
+                >
+                    {{> partials/icons/statement }}
+                </button>
             </a>
         </p>
     {{/content}}
