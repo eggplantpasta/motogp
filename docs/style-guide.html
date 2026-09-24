@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>MotoGP Bidding • Style Guide</title>
+
+    <link rel="stylesheet" href="../public/assets/css/pico.orange.min.css">
+    <link rel="stylesheet" href="../public/assets/css/motogp.css">
+</head>
+
+<body>
+    <main class="container">
+        <h1>Style Guide</h1>
+
+        <p>
+            Visual reference for common interface elements used throughout
+            MotoGP Bidding.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Element</th>
+                    <th scope="col">Usage</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="#" role="button" class="outline motogp-icon-text-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
+                                <!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+                                <path d="M64 48l112 0 0 88c0 39.8 32.2 72 72 72l88 0 0 240c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16L48 64c0-8.8 7.2-16 16-16zM224 67.9l92.1 92.1-68.1 0c-13.3 0-24-10.7-24-24l0-68.1zM64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-261.5c0-17-6.7-33.3-18.7-45.3L242.7 18.7C230.7 6.7 214.5 0 197.5 0L64 0zm56 256c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0z" />
+                            </svg>
+                            statement
+                        </a>
+                    </td>
+                    <td>
+                        <strong>Link Button</strong>
+                        <p>
+                            Use a button link for navigation that represents a prominent next step or task,
+                            such as viewing a statement, creating a race, or returning to a key workflow.
+                            Use a normal text link for navigation within prose, tables, menus, or where the
+                            destination does not need particular emphasis. Button links use the primary
+                            outline style so they remain visually distinct from actions that change
+                            application state. A lowercase text label is required; an icon may optionally
+                            precede the label.
+                        </p>
+                        <strong>Code</strong>
+                        <pre><code>&lt;a href="#" role="button" class="outline motogp-icon-text-button"&gt;
+    {{&lt; partials/icons/statement }}
+    statement
+&lt;/a&gt;</code></pre>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <button type="button">
+                            enable
+                        </button>
+                    </td>
+                    <td>
+                        <strong>Action Button</strong>
+                        <p>
+                            Use a primary button for an action that changes
+                            application state, such as saving, updating,
+                            approving or enabling. A lowercase text label is
+                            required. An icon may optionally precede the label.
+                        </p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <fieldset class="motogp-dialog-actions">
+                            <button type="button" class="secondary">
+                                cancel
+                            </button>
+                            <button type="submit">
+                                save
+                            </button>
+                        </fieldset>
+                    </td>
+                    <td>
+                        <strong>Dialog Action Buttons</strong>
+                        <p>
+                            Place dialog actions together with cancel first and
+                            the primary action last. Cancel uses the secondary
+                            style and the action uses the primary style. Buttons
+                            size to their contents rather than having equal
+                            widths. Use <code>type="submit"</code> when the
+                            primary action submits a form, and
+                            <code>type="button"</code> for actions handled
+                            entirely by JavaScript. Labels are lowercase.
+                        </p>
+
+                        <strong>Code</strong>
+                        <pre><code>&lt;fieldset class="motogp-dialog-actions"&gt;
+    &lt;button type="button" class="secondary"&gt;cancel&lt;/button&gt;
+    &lt;button type="submit"&gt;save&lt;/button&gt;
+&lt;/fieldset&gt;</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="motogp-icon" aria-label="Yes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
+                                <!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+                                <path d="M384 32c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l320 0zM64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zm230.7 89.9c7.8-10.7 22.8-13.1 33.5-5.3 10.7 7.8 13.1 22.8 5.3 33.5L211.4 366.1c-4.1 5.7-10.5 9.3-17.5 9.8-7 .5-13.9-2-18.8-6.9l-55.9-55.9c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l36 36 105.6-145.2z" />
+                            </svg>
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>Icon</strong>
+                        <p>
+                            Use an inline icon to supplement text or represent information where its
+                            meaning is clear from context. Icons inherit the surrounding text colour
+                            and scale with the surrounding font size, so the same icon can be used
+                            naturally in tables, labels, prose and headings. When an icon appears
+                            without accompanying text, provide an accessible label unless its meaning
+                            is already conveyed elsewhere.
+                        </p>
+                        <p>
+                            In compact displays such as tables, an icon may replace a simple repeated
+                            value such as “Yes”; leave the cell blank when the value does not apply.
+                        </p>
+
+                        <strong>Code</strong>
+<pre><code>&lt;span class="motogp-icon" aria-label="Yes"&gt;
+    {{&lt; partials/icons/check }}
+&lt;/span&gt;</code></pre>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+
+</html>
