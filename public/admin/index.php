@@ -1,7 +1,9 @@
 <?php
 
-use Webmin\Template;
+use MotoGp\Admin;
+use Webmin\Database;
 use Webmin\Session;
+use Webmin\Template;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
@@ -21,7 +23,15 @@ if (!$session->isAdmin()) {
 }
 
 $tpl = new Template($config['template'], $logger);
+$db = new Database($config['database']['dsn'], $logger);
+$adminModel = new Admin($db);
 
+$pendingUserExpiryDays =
+    (int)($config['app']['pending_user_expiry_days'] ?? 7);
+
+$data = $adminModel->getDashboard($pendingUserExpiryDays);
+
+$data['pendingUserExpiryDays'] = $pendingUserExpiryDays;
 $data['user'] = $session->getUser();
 
 echo $tpl->render('admin/index', $data);

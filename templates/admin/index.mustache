@@ -4,19 +4,78 @@
 
     {{$content}}
 
-        <h1>Admin</h1>
+        <div class="grid">
+            <section>
+                <h1>Admin</h1>
+                <ul>
+                    <li><a href="/admin/users.php">Users</a> Manage user registrations, approvals, access and balances.</li>
+                </ul>
+                <hr>
+                <ul>
+                    <li><a href="/admin/teams.php">Teams</a> Manage teams.</li>
+                    <li><a href="/admin/riders.php">Riders</a> Manage riders.</li>
+                    <li><a href="/admin/events.php">Races</a> Manage MotoGP events.</li>
+                    <li><a href="/admin/bids.php">Bids</a> Manage player bids.</li>
+                    <li><a href="/admin/results.php">Results</a> Manage race results.</li>
+                </ul>
+            </section>
+            <section>
+                <h1>Tasks</h1>
 
-        <ul>
-            <li><a href="/admin/users.php">Users</a> Manage user registrations, approvals, access and balances.</li>
-        </ul>
-        <hr>
-        <ul>
-            <li><a href="/admin/teams.php">Teams</a> Manage teams.</li>
-            <li><a href="/admin/riders.php">Riders</a> Manage riders.</li>
-            <li><a href="/admin/events.php">Events</a> Manage MotoGP events.</li>
-            <li><a href="/admin/bids.php">Bids</a> Manage player bids.</li>
-            <li><a href="/admin/results.php">Results</a> Manage race results.</li>
-        </ul>
+                {{#hasPendingUsers}}
+                    <article>
+                        <header>Users</header>
+
+                        <p>
+                            {{ pendingUserCount }}
+                            registrations awaiting approval.
+                        </p>
+
+                        <a
+                            href="/admin/users.php"
+                            role="button"
+                            class="outline motogp-icon-text-button"
+                        >
+                            manage users
+                        </a>
+                    </article>
+                {{/hasPendingUsers}}
+
+                {{#hasStalePendingUsers}}
+                    <article>
+                        <header>Stale registrations</header>
+
+                        <p>
+                            {{ stalePendingUserCount }}
+                            unapproved registrations are older than
+                            {{ pendingUserExpiryDays }} days.
+                        </p>
+
+                        <!-- delete action comes next -->
+                    </article>
+                {{/hasStalePendingUsers}}
+
+                {{#noOpenBidding}}
+                    <article>
+                        <header>Bidding</header>
+
+                        <p>No race is currently open for bidding.</p>
+
+                        <a
+                            href="/admin/events.php"
+                            role="button"
+                            class="outline motogp-icon-text-button"
+                        >
+                            manage races
+                        </a>
+                    </article>
+                {{/noOpenBidding}}
+
+                {{^hasAdminTasks}}
+                    <p>No admin tasks currently require attention.</p>
+                {{/hasAdminTasks}}
+            </section>
+        </div>
 
     {{/content}}
 
