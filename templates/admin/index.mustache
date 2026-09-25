@@ -51,7 +51,31 @@
                             {{ pendingUserExpiryDays }} days.
                         </p>
 
-                        <!-- delete action comes next -->
+                        <form
+                            method="post"
+                            action="/admin/"
+                            class="stale-user-delete-form motogp-inline-form"
+                            data-count="{{ stalePendingUserCount }}"
+                            data-expiry-days="{{ pendingUserExpiryDays }}"
+                        >
+                            <input
+                                type="hidden"
+                                name="csrf_token"
+                                value="{{ csrfToken }}"
+                            >
+                            <input
+                                type="hidden"
+                                name="action"
+                                value="delete_expired_pending_users"
+                            >
+
+                            <button
+                                type="button"
+                                data-action="delete-stale-users"
+                            >
+                                delete stale registrations
+                            </button>
+                        </form>
                     </article>
                 {{/hasStalePendingUsers}}
 
@@ -71,11 +95,75 @@
                     </article>
                 {{/noOpenBidding}}
 
+                {{#hasEventReadyToResolveBids}}
+                    <article>
+                        <header>Resolve bidding</header>
+
+                        <p>
+                            {{ eventReadyToResolveBids.name }}
+                            has closed bidding and is ready to resolve.
+                        </p>
+
+                        <a
+                            href="/admin/bids.php?event_id={{ eventReadyToResolveBids.event_id }}"
+                            role="button"
+                            class="outline motogp-icon-text-button"
+                        >
+                            manage bids
+                        </a>
+                    </article>
+                {{/hasEventReadyToResolveBids}}
+
+                {{#hasEventAwaitingResults}}
+                    <article>
+                        <header>Race results</header>
+
+                        <p>
+                            Results are still required for
+                            {{ eventAwaitingResults.name }}
+                            before payouts can be settled.
+                        </p>
+
+                        <a
+                            href="/admin/results.php?event_id={{ eventAwaitingResults.event_id }}"
+                            role="button"
+                            class="outline motogp-icon-text-button"
+                        >
+                            enter results
+                        </a>
+                    </article>
+                {{/hasEventAwaitingResults}}
+
+                {{#hasEventReadyToSettlePayouts}}
+                    <article>
+                        <header>Settle payouts</header>
+
+                        <p>
+                            {{ eventReadyToSettlePayouts.name }}
+                            has complete results and is ready for payout settlement.
+                        </p>
+
+                        <a
+                            href="/admin/bids.php?event_id={{ eventReadyToSettlePayouts.event_id }}"
+                            role="button"
+                            class="outline motogp-icon-text-button"
+                        >
+                            settle payouts
+                        </a>
+                    </article>
+                {{/hasEventReadyToSettlePayouts}}
+
                 {{^hasAdminTasks}}
                     <p>No admin tasks currently require attention.</p>
                 {{/hasAdminTasks}}
             </section>
         </div>
+
+        {{> partials/modal-confirm }}
+
+        {{$scripts}}
+            <script src="/assets/js/admin.js"></script>
+        {{/scripts}}
 
     {{/content}}
 

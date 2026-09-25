@@ -21,4 +21,5 @@ sqlite3 "$DB" -bail < "${ROOT_DIR}/db/seed/motogp-riders-2026.sql"
 # seed test data
 sqlite3 "$DB" -bail < "${ROOT_DIR}/db/test-data/results.sql"
 sqlite3 "$DB" -bail < "${ROOT_DIR}/db/test-data/users.sql"
+sqlite3 "$DB" -bail < "${ROOT_DIR}/db/test-data/users-stale.sql"
 sqlite3 "$DB" -bail < "${ROOT_DIR}/db/test-data/bids.sql"
