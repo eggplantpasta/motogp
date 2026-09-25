@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"public/assets/js/**/*.js\" \"templates/**/*.mustache\"",
     "format-check": "prettier --check \"public/assets/js/**/*.js\" \"templates/**/*.mustache\"",
-    "lint:html": "htmlhint tmp/*.html"
+    "lint-html": "htmlhint tmp/*.html"
   },
   "repository": {
     "type": "git",

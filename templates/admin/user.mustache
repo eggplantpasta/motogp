@@ -45,6 +45,7 @@
                         <form
                             method="post"
                             action="/admin/user.php?user_id={{ account.user_id }}"
+                            class="motogp-inline-form"
                         >
                             <input
                                 type="hidden"
@@ -178,6 +179,23 @@
                                 </button>
                             </form>
                         {{/account.isActive}}
+
+                        {{#account.canEnable}}
+                            <form
+                                method="post"
+                                action="/admin/user.php?user_id={{ account.user_id }}"
+                                class="motogp-inline-form"
+                            >
+                                <input
+                                    type="hidden"
+                                    name="csrf_token"
+                                    value="{{ csrfToken }}"
+                                >
+                                <input type="hidden" name="action" value="enable">
+
+                                <button type="submit">enable</button>
+                            </form>
+                        {{/account.canEnable}}
                     </td>
                 </tr>
 

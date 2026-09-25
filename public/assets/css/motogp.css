@@ -92,7 +92,7 @@ label:has([aria-invalid="true"]) small,
 
 .motogp-compact-group {
     display: inline-flex;
-    width: auto;
+    width: fit-content;
 }
 
 .motogp-compact-group input {
@@ -101,7 +101,6 @@ label:has([aria-invalid="true"]) small,
 
 .motogp-inline-form {
     display: inline-flex;
-    margin: 0;
 }
 
 .motogp-dialog-actions {
