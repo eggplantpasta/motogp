@@ -99,6 +99,7 @@ label:has([aria-invalid="true"]) small,
     width: 8rem;
 }
 
+/* Keep compact forms in table cells from expanding to full width. */
 .motogp-inline-form {
     display: inline-flex;
 }

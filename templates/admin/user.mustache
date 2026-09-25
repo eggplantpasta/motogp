@@ -217,6 +217,36 @@
                 </tr>
             </tbody>
         </table>
+
+        {{^account.isLastActiveAdmin}}
+            <form
+                method="post"
+                action="/admin/user.php?user_id={{ account.user_id }}"
+                class="user-delete-form motogp-inline-form"
+                data-username="{{ account.username }}"
+                data-has-bids="{{#account.hasBids}}1{{/account.hasBids}}{{^account.hasBids}}0{{/account.hasBids}}"
+            >
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrfToken }}"
+                >
+                <input type="hidden" name="action" value="delete">
+
+                <button
+                    type="button"
+                    class="motogp-icon-text-button"
+                    data-action="delete-user"
+                >
+                    {{> partials/icons/delete }}
+                    delete user
+                </button>
+            </form>
+        {{/account.isLastActiveAdmin}}
+        {{> partials/modal-confirm }}
+        {{$scripts}}
+            <script src="/assets/js/users.js"></script>
+        {{/scripts}}
     {{/content}}
 
 {{/partials/layout}}

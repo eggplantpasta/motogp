@@ -80,7 +80,7 @@ const getScrollbarWidth = () => {
     return scrollbarWidth;
 };
 
-function confirmModal(message, onConfirm) {
+function confirmModal(message, onConfirm, confirmLabel = 'confirm') {
     const modal = document.getElementById('modal-confirm');
     const content = document.getElementById('modal-confirm-content');
     const confirmButton = document.getElementById('modal-confirm-btn');
@@ -90,6 +90,7 @@ function confirmModal(message, onConfirm) {
     }
 
     content.textContent = message;
+    confirmButton.textContent = confirmLabel;
 
     confirmButton.onclick = () => {
         closeModal(modal);

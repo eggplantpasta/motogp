@@ -4,12 +4,16 @@ function deleteUser(event) {
     const hasBids = form.dataset.hasBids === '1';
 
     const message = hasBids
-        ? `Delete "${username}"? This will permanently delete the user and all of their bids. This action cannot be undone.`
-        : `Delete "${username}"? This action cannot be undone.`;
+        ? `Delete "${username}"? This user has bidding history. Deleting the user will permanently remove the account and all related bids. This action cannot be undone.`
+        : `Delete "${username}"? This will permanently delete the user account. This action cannot be undone.`;
 
-    confirmModal(message, () => {
-        form.submit();
-    });
+    confirmModal(
+        message,
+        () => {
+            form.submit();
+        },
+        'delete',
+    );
 }
 
 document.addEventListener('DOMContentLoaded', () => {
