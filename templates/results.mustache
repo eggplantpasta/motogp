@@ -3,7 +3,7 @@
     {{$title}}{{ app.name }} • Results{{/title}}
 
     {{$content}}
-        <h1>Results</h1>
+        <h1>Results <span class="motogp-icon">{{> partials/icons/flag }}</span></h1>
         {{#event}}
             <p>{{> partials/race }}<small class="motogp-secondary"> | {{ event.display_date }}</small></p>
         {{/event}}
