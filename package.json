@@ -4,13 +4,15 @@
   "description": "A redevelopment of [Noisy's](https://www.partymeeple.com.au/contact.html) original code.",
   "main": "index.js",
   "devDependencies": {
+    "htmlhint": "^1.9.2",
     "prettier": "^3.9.8",
     "prettier-plugin-mustache": "^0.2.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"public/assets/js/**/*.js\" \"templates/**/*.mustache\"",
-    "format-check": "prettier --check \"public/assets/js/**/*.js\" \"templates/**/*.mustache\""
+    "format-check": "prettier --check \"public/assets/js/**/*.js\" \"templates/**/*.mustache\"",
+    "lint:html": "htmlhint tmp/*.html"
   },
   "repository": {
     "type": "git",

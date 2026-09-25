@@ -19,3 +19,6 @@ config/php.local.ini
 .php-cs-fixer.cache
 
 node_modules/
+
+tmp/*
+!tmp/.gitkeep
