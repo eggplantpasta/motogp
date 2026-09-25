@@ -100,6 +100,12 @@ label:has([aria-invalid="true"]) small,
     width: 8rem;
 }
 
+.motogp-detail-action {
+    display: flex;
+    align-items: start;
+    gap: var(--pico-spacing);
+}
+
 /* Keep compact forms in table cells from expanding to full width. */
 .motogp-inline-form {
     display: inline-flex;

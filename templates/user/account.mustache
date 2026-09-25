@@ -23,39 +23,43 @@
             </section>
             <article>
                 <h2>Next Event {{ next_event.start_date }}</h2>
-                {{#next_event}}
+                <div class="motogp-detail-action">
+                    {{#next_event}}
+                        <p>
+                            {{> partials/race }}
+                        </p>
+
+                        {{#bidding_open}}
+                            <a
+                                href="/bids.php?event_id={{ event_id }}"
+                                role="button"
+                                class="outline motogp-icon-text-button"
+                            >
+                                {{> partials/icons/bid }}
+                                place bids
+                            </a>
+                        {{/bidding_open}}
+                    {{/next_event}}
+
+                    {{^next_event}}
+                        <p>No upcoming events.</p>
+                    {{/next_event}}
+                </div>
+                <div class="motogp-detail-action">
                     <p>
-                        {{> partials/race }}
+                        Your current balance:
+                        <strong>{{ user.balance }}</strong> points.
                     </p>
 
-                    {{#bidding_open}}
-                        <a
-                            href="/bids.php?event_id={{ event_id }}"
-                            role="button"
-                            class="outline motogp-icon-text-button"
-                        >
-                            place bids
-                        </a>
-                    {{/bidding_open}}
-                {{/next_event}}
-
-                {{^next_event}}
-                    <p>No upcoming events.</p>
-                {{/next_event}}
-
-                <p>
-                    Your current balance:
-                    <strong>{{ user.balance }}</strong> points.
-                </p>
-
-                <a
-                    href="/statement.php"
-                    role="button"
-                    class="outline motogp-icon-text-button"
-                >
-                    {{> partials/icons/statement }}
-                    statement
-                </a>
+                    <a
+                        href="/statement.php"
+                        role="button"
+                        class="outline motogp-icon-text-button"
+                    >
+                        {{> partials/icons/statement }}
+                        view statement
+                    </a>
+                </div>
             </article>
         {{/content}}
 
