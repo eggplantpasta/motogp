@@ -8,7 +8,7 @@ function clearTeamFormMessage() {
 }
 
 function editTeam(event) {
-    document.getElementById('team-form-heading').textContent = 'Edit Team';
+    document.getElementById('team-form-heading').textContent = 'Edit team';
     document.getElementById('operation').value = 'update';
 
     const row = event.currentTarget.closest('tr');
@@ -31,7 +31,7 @@ function editTeam(event) {
 }
 
 function addTeam(event) {
-    document.getElementById('team-form-heading').textContent = 'Add Team';
+    document.getElementById('team-form-heading').textContent = 'Add team';
     document.getElementById('operation').value = 'create';
 
     document.getElementById('team-id').value = '';
@@ -50,11 +50,15 @@ function deleteTeam(event) {
     const teamId = row.getAttribute('data-team-id');
     const teamName = row.getAttribute('data-team-name');
 
-    confirmModal(`Delete "${teamName}"? This action cannot be undone.`, () => {
-        document.getElementById('operation').value = 'delete';
-        document.getElementById('team-id').value = teamId;
-        document.getElementById('team-form').submit();
-    });
+    confirmModal(
+        `Delete "${teamName}"? This action cannot be undone.`,
+        () => {
+            document.getElementById('operation').value = 'delete';
+            document.getElementById('team-id').value = teamId;
+            document.getElementById('team-form').submit();
+        },
+        'delete',
+    );
 }
 
 function clearTeamFormErrors() {

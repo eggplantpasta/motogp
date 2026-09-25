@@ -5,13 +5,20 @@
         <h1>Manage Teams</h1>
 
         <p>
-            <button type="button" class="motogp-icon-text-button" data-action="add-team" data-target="modal-edit" >
-                {{> partials/icons/add }}
-                Add Team
-            </button>
+            <p>
+                <button
+                    type="button"
+                    class="motogp-icon-text-button"
+                    data-action="add-team"
+                    data-target="modal-edit"
+                >
+                    {{> partials/icons/add }}
+                    add team
+                </button>
+            </p>
         </p>
 
-        <table>
+        <table class="motogp-table">
             <thead>
                 <tr>
                     <th>Team</th>
@@ -33,14 +40,28 @@
                         <td>{{ short_team_name }}</td>
                         <td>{{ manufacturer }}</td>
                         <td class="motogp-button-group">
-                            <button type="button" class="motogp-icon-button" data-target="modal-edit" data-action="edit-team" data-tooltip="Edit team" aria-label="Edit team" >
+                            <button
+                                type="button"
+                                class="motogp-icon-button"
+                                data-target="modal-edit"
+                                data-action="edit-team"
+                                data-tooltip="Edit team"
+                                aria-label="Edit team"
+                            >
                                 {{> partials/icons/edit }}
                             </button>
-                            {{#can_delete}}
-                                <button type="button" class="motogp-icon-button" data-target="modal-confirm" data-action="delete-team" data-tooltip="Delete team" aria-label="Delete team" >
-                                    {{> partials/icons/delete }}
-                                </button>
-                            {{/can_delete}}
+
+                            <button
+                                type="button"
+                                class="motogp-icon-button"
+                                data-target="modal-confirm"
+                                data-action="delete-team"
+                                data-tooltip="{{#has_riders}}Team has riders{{/has_riders}}{{^has_riders}}Delete team{{/has_riders}}"
+                                aria-label="{{#has_riders}}Cannot delete team with riders{{/has_riders}}{{^has_riders}}Delete team{{/has_riders}}"
+                                {{#has_riders}}disabled{{/has_riders}}
+                            >
+                                {{> partials/icons/delete }}
+                            </button>
                         </td>
                     </tr>
                 {{/teams}}
@@ -133,17 +154,18 @@
 
                     </fieldset>
 
-                    <fieldset class="grid">
+                    <fieldset class="motogp-dialog-actions">
                         <button
                             type="button"
+                            class="secondary"
                             data-action="close-modal"
                             data-target="modal-edit"
                         >
-                            Cancel
+                            cancel
                         </button>
 
                         <button type="submit">
-                            Save
+                            save
                         </button>
                     </fieldset>
 

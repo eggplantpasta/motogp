@@ -113,11 +113,12 @@ label:has([aria-invalid="true"]) small,
 
 .motogp-dialog-actions {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
     gap: var(--pico-spacing);
-    padding: 0;
-    border: 0;
+    justify-content: flex-end;
+}
+
+.motogp-dialog-actions button {
+    width: auto;
 }
 
 .motogp-link-button {

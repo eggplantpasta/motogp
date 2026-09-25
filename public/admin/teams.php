@@ -128,7 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $data['teams'] = $teamModel->getTeams();
 
 foreach ($data['teams'] as &$team) {
-    $team['can_delete'] = !$teamModel->hasRiders((int)$team['team_id']);
+    $team['has_riders'] = $teamModel->hasRiders(
+        (int)$team['team_id']
+    );
 }
 
 unset($team);
