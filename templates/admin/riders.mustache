@@ -5,18 +5,23 @@
         <h1>Riders</h1>
 
         <p>
-            <button type="button" class="motogp-icon-text-button" data-action="add-rider" data-target="modal-edit" >
+            <button
+                type="button"
+                class="motogp-icon-text-button"
+                data-action="add-rider"
+                data-target="modal-edit"
+            >
                 {{> partials/icons/add }}
-                Add Rider
+                add rider
             </button>
         </p>
 
-        <table>
+        <table class="motogp-table">
             <thead>
                 <tr>
                     <th>Rider</th>
                     <th>Team</th>
-                    <th>Admin</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,20 +36,34 @@
                         <td class="rider-name {{ cell-class }}">{{> partials/rider }}</td>
                         <td class="team_name {{ cell-class }}">{{ team_name }}</td>
                         <td class="motogp-button-group">
-                            <button type="button" class="motogp-icon-button" data-target="modal-edit" data-action="edit-rider" data-tooltip="Edit rider" aria-label="Edit rider" >
+                            <button
+                                type="button"
+                                class="motogp-icon-button"
+                                data-target="modal-edit"
+                                data-action="edit-rider"
+                                data-tooltip="Edit rider"
+                                aria-label="Edit rider"
+                            >
                                 {{> partials/icons/edit }}
                             </button>
-                            {{#can_delete}}
-                                <button type="button" class="motogp-icon-button" data-target="modal-confirm" data-action="delete-rider" data-tooltip="Delete rider" aria-label="Delete rider" >
-                                    {{> partials/icons/delete }}
-                                </button>
-                            {{/can_delete}}
+
+                            <button
+                                type="button"
+                                class="motogp-icon-button"
+                                data-target="modal-confirm"
+                                data-action="delete-rider"
+                                data-tooltip="{{#has_history}}Rider has bidding or results history{{/has_history}}{{^has_history}}Delete rider{{/has_history}}"
+                                aria-label="{{#has_history}}Cannot delete rider with history{{/has_history}}{{^has_history}}Delete rider{{/has_history}}"
+                                {{#has_history}}disabled{{/has_history}}
+                            >
+                                {{> partials/icons/delete }}
+                            </button>
                         </td>
                     </tr>
                 {{/riders}}
                 {{^riders}}
                     <tr>
-                        <td colspan="4">No riders have been added.</td>
+                        <td colspan="3">No riders have been added.</td>
                     </tr>
                 {{/riders}}
             </tbody>
@@ -150,17 +169,18 @@
                         </label>
                     </fieldset>
 
-                    <fieldset class="grid">
+                    <fieldset class="motogp-dialog-actions">
                         <button
                             type="button"
+                            class="secondary"
                             data-action="close-modal"
                             data-target="modal-edit"
                         >
-                            Cancel
+                            cancel
                         </button>
 
                         <button type="submit">
-                            Save
+                            save
                         </button>
                     </fieldset>
 

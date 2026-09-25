@@ -107,32 +107,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $data['form']['open_modal'] = true;
             }
         } elseif ($operation === 'update') {
-            {
-
-                $updatedRows = $riderModel->updateRider((int)$riderId, $formData);
-                if ($updatedRows > 0) {
-                    header('Location: /admin/riders.php');
-                    exit();
-                } else {
-                    $data['form']['message'] = 'Unable to update rider.';
-                    $data['form']['message-class'] = 'error';
-                    $data['form']['open_modal'] = true;
-                }
+            $updatedRows = $riderModel->updateRider((int)$riderId, $formData);
+            if ($updatedRows > 0) {
+                header('Location: /admin/riders.php');
+                exit();
+            } else {
+                $data['form']['message'] = 'Unable to update rider.';
+                $data['form']['message-class'] = 'error';
+                $data['form']['open_modal'] = true;
             }
         } elseif ($operation === 'delete') {
-            {
-                $deletedRows = $riderModel->deleteRider((int)$riderId);
-                if ($deletedRows > 0) {
-                    header('Location: /admin/riders.php');
-                    exit();
-                } else {
-                    $data['form']['message'] = 'Unable to delete rider.';
-                    $data['form']['message-class'] = 'error';
-                    $data['form']['open_modal'] = true;
-                }
+            $deletedRows = $riderModel->deleteRider((int)$riderId);
+            if ($deletedRows > 0) {
+                header('Location: /admin/riders.php');
+                exit();
+            } else {
+                $data['form']['message'] = 'Unable to delete rider.';
+                $data['form']['message-class'] = 'error';
+                $data['form']['open_modal'] = true;
             }
         }
-
     } else {
         $data['form']['message'] = 'Please fix the highlighted fields.';
         $data['form']['message-class'] = 'error';
@@ -146,9 +140,9 @@ $allTeams = $teamModel->getTeams();
 foreach ($data['riders'] as &$rider) {
     $rider['cell-class'] = $rider['active'] ? '' : 'motogp-inactive';
 
-    $rider['can_delete'] =
-        !$riderModel->hasBids((int)$rider['rider_id']) &&
-        !$riderModel->hasResults((int)$rider['rider_id']);
+    $rider['has_history'] =
+        $riderModel->hasBids((int)$rider['rider_id'])
+        || $riderModel->hasResults((int)$rider['rider_id']);
 }
 unset($rider);
 

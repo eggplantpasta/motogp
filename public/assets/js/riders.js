@@ -13,7 +13,7 @@ function clearRiderFormErrors() {
 }
 
 function editRider(event) {
-    document.getElementById('rider-form-heading').textContent = 'Edit Rider';
+    document.getElementById('rider-form-heading').textContent = 'Edit rider';
     document.getElementById('operation').value = 'update';
 
     const row = event.currentTarget.closest('tr');
@@ -36,7 +36,7 @@ function editRider(event) {
 }
 
 function addRider(event) {
-    document.getElementById('rider-form-heading').textContent = 'Add Rider';
+    document.getElementById('rider-form-heading').textContent = 'Add rider';
     document.getElementById('operation').value = 'create';
 
     clearRiderFormMessage();
@@ -56,11 +56,15 @@ function deleteRider(event) {
     const riderId = row.getAttribute('data-rider-id');
     const riderName = row.getAttribute('data-rider-name');
 
-    confirmModal(`Delete "${riderName}"? This action cannot be undone.`, () => {
-        document.getElementById('operation').value = 'delete';
-        document.getElementById('rider-id').value = riderId;
-        document.getElementById('rider-form').submit();
-    });
+    confirmModal(
+        `Delete "${riderName}"? This action cannot be undone.`,
+        () => {
+            document.getElementById('operation').value = 'delete';
+            document.getElementById('rider-id').value = riderId;
+            document.getElementById('rider-form').submit();
+        },
+        'delete',
+    );
 }
 
 document.addEventListener('DOMContentLoaded', () => {
