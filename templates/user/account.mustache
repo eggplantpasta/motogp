@@ -12,7 +12,14 @@
                     <li>Username: {{ user.username }}</li>
                     <li>Account created: {{ user.created_ago }}</li>
                 </ul>
-                <p>You can <a href="/user/edit-account.php">edit your registration details and password here</a>.</p>
+                <a
+                    href="/user/edit-account.php"
+                    role="button"
+                    class="outline motogp-icon-text-button"
+                >
+                    {{> partials/icons/edit }}
+                    edit account
+                </a>
             </section>
             <article>
                 <h2>Next Event {{ next_event.start_date }}</h2>
@@ -22,13 +29,13 @@
                     </p>
 
                     {{#bidding_open}}
-                        <p>
-                            <a href="/bids.php?event_id={{ event_id }}">
-                                <button type="button">
-                                    Place Bids
-                                </button>
-                            </a>
-                        </p>
+                        <a
+                            href="/bids.php?event_id={{ event_id }}"
+                            role="button"
+                            class="outline motogp-icon-text-button"
+                        >
+                            place bids
+                        </a>
                     {{/bidding_open}}
                 {{/next_event}}
 
@@ -39,8 +46,16 @@
                 <p>
                     Your current balance:
                     <strong>{{ user.balance }}</strong> points.
-                    <a href="/statement.php">View statement</a>
                 </p>
+
+                <a
+                    href="/statement.php"
+                    role="button"
+                    class="outline motogp-icon-text-button"
+                >
+                    {{> partials/icons/statement }}
+                    statement
+                </a>
             </article>
         {{/content}}
 
