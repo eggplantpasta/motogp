@@ -136,9 +136,13 @@ $account['isLastActiveAdmin'] =
 $account['canApprove'] =
     empty($account['approved_at']);
 
-$account['canDisable'] =
+$account['isActive'] =
     !empty($account['approved_at'])
     && empty($account['disabled_at']);
+
+$account['canDisable'] =
+    $account['isActive']
+    && !$account['isLastActiveAdmin'];
 
 $account['canEnable'] =
     !empty($account['approved_at'])

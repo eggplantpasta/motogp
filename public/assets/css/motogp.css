@@ -14,6 +14,11 @@ th[scope="row"] {
       --pico-font-weight: 600;
 }
 
+.motogp-table th,
+.motogp-table td {
+    vertical-align: top;
+}
+
 .motogp-secondary {
     color: var(--pico-secondary);
 }
@@ -83,6 +88,15 @@ label:has([aria-invalid="true"]) small,
 
 .motogp-form-actions > * {
     margin-bottom: 0;
+}
+
+.motogp-compact-group {
+    display: inline-flex;
+    width: auto;
+}
+
+.motogp-compact-group input {
+    width: 8rem;
 }
 
 .motogp-inline-form {
