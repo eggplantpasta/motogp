@@ -25,6 +25,7 @@ th[scope="row"] {
 
 .motogp-flag {
     margin-left: 1.0em;
+    outline: 1px solid var(--pico-muted-border-color);
 }
 
 @font-face {
