@@ -6,10 +6,10 @@
 
         <h1>Manage Users</h1>
 
-        <p>Manage registered MotoGP users.</p>
+        <p>Select a user to view or manage their account.</p>
 
         <figure>
-            <table>
+            <table class="motogp-table">
                 <thead>
                     <tr>
                         <th scope="col">Username</th>
@@ -17,8 +17,7 @@
                         <th scope="col">Balance</th>
                         <th scope="col">Registered</th>
                         <th scope="col">Admin</th>
-                        <th scope="col">Access</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">Status</th>
                     </tr>
                 </thead>
 
@@ -31,136 +30,36 @@
                                 </a>
                             </td>
                             <td>{{ email }}</td>
-                            <td>
-                                <a
-                                    href="/statement.php?user_id={{ user_id }}"
-                                    role="button"
-                                    class="motogp-icon-button"
-                                    data-tooltip="View statement"
-                                    aria-label="View statement"
-                                >
-                                    {{> partials/icons/statement }}
-                                </a>
-                                {{ balance }}
-                            </td>
+                            <td>{{ balance }}</td>
                             <td>{{ created_at_display }}</td>
                             <td>
-                                <form method="post" action="/admin/users.php">
-                                    <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                    <input type="hidden" name="user_id" value="{{ user_id }}">
-                                    <input type="hidden" name="action" value="set_admin">
-
-                                    {{#canSetAdmin}}
-                                        <input
-                                            type="checkbox"
-                                            name="admin"
-                                            value="1"
-                                            {{#admin}}checked{{/admin}}
-                                            onchange="this.form.submit()"
-                                            aria-label="Administrator"
-                                        >
-                                    {{/canSetAdmin}}
-
-                                    {{^canSetAdmin}}
-                                        <input
-                                            type="checkbox"
-                                            {{#admin}}checked{{/admin}}
-                                            disabled
-                                            aria-label="Administrator"
-                                        >
-                                    {{/canSetAdmin}}
-                                </form>
-                            </td>
-
-                            <td>
-                                <div class="motogp-button-group">
-                                    {{#canApprove}}
-                                        <form method="post" action="/admin/users.php" class="motogp-inline-form">
-                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                            <input type="hidden" name="user_id" value="{{ user_id }}">
-                                            <input type="hidden" name="action" value="approve">
-                                            <button type="submit">Approve</button>
-                                        </form>
-                                    {{/canApprove}}
-
-                                    {{#canDisable}}
-                                        <form method="post" action="/admin/users.php" class="motogp-inline-form">
-                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                            <input type="hidden" name="user_id" value="{{ user_id }}">
-                                            <input type="hidden" name="action" value="disable">
-                                            <button
-                                                type="button"
-                                                class="motogp-icon-button"
-                                                data-action="submit-form"
-                                                data-tooltip="Disable user"
-                                                aria-label="Disable user"
-                                            >
-                                                {{> partials/icons/unlock }}
-                                            </button>
-                                        </form>
-                                    {{/canDisable}}
-
-                                    {{#canEnable}}
-                                        <form method="post" action="/admin/users.php" class="motogp-inline-form">
-                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                            <input type="hidden" name="user_id" value="{{ user_id }}">
-                                            <input type="hidden" name="action" value="enable">
-                                            <button
-                                                type="button"
-                                                class="motogp-icon-button"
-                                                data-action="submit-form"
-                                                data-tooltip="Enable user"
-                                                aria-label="Enable user"
-                                            >
-                                                {{> partials/icons/lock }}
-                                            </button>
-                                        </form>
-                                    {{/canEnable}}
-                                </div>
+                                {{#admin}}
+                                    <span class="motogp-icon" aria-label="Yes">
+                                        {{> partials/icons/yes }}
+                                    </span>
+                                {{/admin}}
                             </td>
                             <td>
-                                <div class="motogp-button-group">
-                                    {{^isLastActiveAdmin}}
-                                        <form
-                                            method="post"
-                                            action="/admin/users.php"
-                                            class="user-delete-form motogp-inline-form"
-                                            data-username="{{ username }}"
-                                            data-has-bids="{{#hasBids}}1{{/hasBids}}{{^hasBids}}0{{/hasBids}}"
-                                        >
-                                            <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
-                                            <input type="hidden" name="user_id" value="{{ user_id }}">
-                                            <input type="hidden" name="action" value="delete">
+                                {{#pendingApproval}}
+                                    <mark>Pending approval</mark>
+                                {{/pendingApproval}}
 
-                                            <button
-                                                type="button"
-                                                class="motogp-icon-button"
-                                                data-action="delete-user"
-                                                data-tooltip="Delete user"
-                                                aria-label="Delete user"
-                                            >
-                                                {{> partials/icons/delete }}
-                                            </button>
-                                        </form>
-                                    {{/isLastActiveAdmin}}
-                                </div>
+                                {{#disabled}}
+                                    <span class="motogp-icon" aria-label="Disabled">
+                                        {{> partials/icons/lock }}
+                                    </span>
+                                {{/disabled}}
                             </td>
                         </tr>
                     {{/users}}
 
                     {{^users}}
                         <tr>
-                            <td colspan="7">No users found.</td>
+                            <td colspan="6">No users found.</td>
                         </tr>
                     {{/users}}
                 </tbody>
             </table>
         </figure>
-
-        {{> partials/modal-confirm }}
-
     {{/content}}
-    {{$scripts}}
-        <script src="/assets/js/users.js"></script>
-    {{/scripts}}
 {{/partials/layout}}
