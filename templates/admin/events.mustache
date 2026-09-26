@@ -14,16 +14,16 @@
                 data-target="modal-edit"
             >
                 {{> partials/icons/add }}
-                Add Event
+                add race
             </button>
         </p>
 
-        <table>
+        <table class="motogp-table">
             <thead>
                 <tr>
                     <th>Date</th>
-                    <th>Event</th>
-                    <th>Bids Open</th>
+                    <th>Race</th>
+                    <th>Bidding</th>
                     <th>Admin</th>
                 </tr>
             </thead>
@@ -40,10 +40,7 @@
                     >
                         <td>{{ display_date }}</td>
                         <td>{{> partials/race }}</td>
-                        <td>
-                            {{#bids_open}}<span class="motogp-text-icon motogp-valid-color">{{> partials/icons/unlock }}</span>{{/bids_open}}
-                            {{^bids_open}}<span class="motogp-text-icon">{{> partials/icons/lock }}</span>{{/bids_open}}
-                        </td>
+                        <td>{{#bids_open}}open{{/bids_open}}</td>
                         <td>
                             <div class="motogp-button-group">
                                 <button
@@ -52,29 +49,28 @@
                                     data-action="edit-event"
                                     data-target="modal-edit"
                                     data-tooltip="Edit event"
-                                    aria-label="Edit event"
+                                    aria-label="Edit race"
                                 >
                                     {{> partials/icons/edit }}
                                 </button>
 
-                                {{#can_delete}}
-                                    <button
-                                        type="button"
-                                        class="motogp-icon-button"
-                                        data-action="delete-event"
-                                        data-tooltip="Delete event"
-                                        aria-label="Delete event"
-                                    >
-                                        {{> partials/icons/delete }}
-                                    </button>
-                                {{/can_delete}}
+                                <button
+                                    type="button"
+                                    class="motogp-icon-button"
+                                    data-action="delete-event"
+                                    data-tooltip="{{#has_history}}Race has bidding or results history{{/has_history}}{{^has_history}}Delete race{{/has_history}}"
+                                    aria-label="{{#has_history}}Cannot delete race with history{{/has_history}}{{^has_history}}Delete race{{/has_history}}"
+                                    {{#has_history}}disabled{{/has_history}}
+                                >
+                                    {{> partials/icons/delete }}
+                                </button>
                             </div>
                         </td>
                     </tr>
                 {{/events}}
                 {{^events}}
                     <tr>
-                        <td colspan="4">No events have been added.</td>
+                        <td colspan="4">No races have been added.</td>
                     </tr>
                 {{/events}}
             </tbody>
@@ -87,7 +83,7 @@
             <article>
                 <form id="event-form" method="post" novalidate>
 
-                    <h2 id="event-form-heading">Edit Event</h2>
+                    <h2 id="event-form-heading">Edit race</h2>
 
                     <section
                         id="event-form-message"
@@ -115,7 +111,7 @@
                         >
 
                         <label>
-                            Start Date
+                            Start date
                             <input
                                 type="date"
                                 name="start-date"
@@ -130,7 +126,7 @@
                         </label>
 
                         <label>
-                            Event Name
+                            Race name
                             <input
                                 type="text"
                                 name="event-name"
@@ -182,7 +178,7 @@
                                 aria-describedby="invalid-bids_open"
                                 {{#form.bids_open}}checked{{/form.bids_open}}
                             >
-                            Bids Open
+                            Bids open
                         </label>
 
                         <small id="invalid-bids_open" class="motogp-form-error">
@@ -190,17 +186,18 @@
                         </small>
                     </fieldset>
 
-                    <fieldset class="grid">
+                    <fieldset class="motogp-dialog-actions">
                         <button
                             type="button"
+                            class="secondary"
                             data-action="close-modal"
                             data-target="modal-edit"
                         >
-                            Cancel
+                            cancel
                         </button>
 
                         <button type="submit">
-                            Save
+                            save
                         </button>
                     </fieldset>
 

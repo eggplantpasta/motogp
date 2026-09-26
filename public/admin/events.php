@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $data['form']['message'] =
-            'Event could not be deleted. It may already have bids or results.';
+            'Race could not be deleted. It may already have bids or results.';
 
         $data['form']['message-class'] = 'error';
     } else {
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data['form']['bids_open'] = $formData['bids_open'];
 
         if ($formData['name'] === '') {
-            $data['form']['errors']['name'] = 'Event name is required.';
+            $data['form']['errors']['name'] = 'Race name is required.';
         }
 
         if (
@@ -141,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit();
                 }
 
-                $data['form']['message'] = 'Unable to create event.';
+                $data['form']['message'] = 'Unable to create race.';
                 $data['form']['message-class'] = 'error';
             }
 
@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit();
                 }
 
-                $data['form']['message'] = 'Unable to update event.';
+                $data['form']['message'] = 'Unable to update race.';
                 $data['form']['message-class'] = 'error';
             }
         }
@@ -176,9 +176,9 @@ foreach ($data['events'] as &$event) {
         'M d'
     );
 
-    $event['can_delete'] =
-        !$eventModel->hasBids((int)$event['event_id']) &&
-        !$eventModel->hasResults((int)$event['event_id']);
+    $event['has_history'] =
+        $eventModel->hasBids((int)$event['event_id'])
+        || $eventModel->hasResults((int)$event['event_id']);
 }
 
 unset($event);

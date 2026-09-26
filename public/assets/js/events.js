@@ -17,7 +17,7 @@ function editEvent(event) {
     const row = event.currentTarget.closest('tr');
 
     document.getElementById('operation').value = 'update';
-    document.getElementById('event-form-heading').textContent = 'Edit Event';
+    document.getElementById('event-form-heading').textContent = 'Edit race';
 
     document.getElementById('event-id').value =
         row.getAttribute('data-event-id');
@@ -44,7 +44,7 @@ function editEvent(event) {
 
 function addEvent(event) {
     document.getElementById('operation').value = 'create';
-    document.getElementById('event-form-heading').textContent = 'Add Event';
+    document.getElementById('event-form-heading').textContent = 'Add race';
 
     document.getElementById('event-id').value = '';
     document.getElementById('start-date').value = '';
@@ -65,11 +65,15 @@ function deleteEvent(event) {
     const eventId = row.getAttribute('data-event-id');
     const eventName = row.getAttribute('data-event-name');
 
-    confirmModal(`Delete "${eventName}"? This action cannot be undone.`, () => {
-        document.getElementById('operation').value = 'delete';
-        document.getElementById('event-id').value = eventId;
-        document.getElementById('event-form').submit();
-    });
+    confirmModal(
+        `Delete "${eventName}"? This action cannot be undone.`,
+        () => {
+            document.getElementById('operation').value = 'delete';
+            document.getElementById('event-id').value = eventId;
+            document.getElementById('event-form').submit();
+        },
+        'delete',
+    );
 }
 
 document.addEventListener('DOMContentLoaded', () => {
