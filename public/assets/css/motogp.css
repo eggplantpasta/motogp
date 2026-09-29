@@ -54,6 +54,20 @@ h1, .motogp-font {
     text-align: center;
 }
 
+.motogp-race-heading {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--pico-spacing) / 2);
+}
+
+.motogp-race-heading > h2:first-child {
+    padding-right: calc(var(--pico-spacing) / 2);
+    border-right: 2px solid var(--pico-muted-border-color);
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+}
+
 .motogp-form-message {
     padding: var(--pico-spacing-2);
 }

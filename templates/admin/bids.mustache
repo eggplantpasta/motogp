@@ -8,7 +8,7 @@
 
         {{#events | count}}
             <form method="get" action="/admin/bids.php">
-                <label for="event-id-select">Event</label>
+                <label for="event-id-select">Select Race</label>
                 <select
                     id="event-id-select"
                     name="event_id"
@@ -27,25 +27,22 @@
         {{/events}}
 
         {{^events | count}}
-            <p>No events have been added.</p>
+            <p>No races have been added.</p>
         {{/events}}
 
         {{#event}}
 
-            <h2>{{ name }}</h2>
-
-            <p>{{ display_date }} · {{ circuit }}</p>
+            <div class="motogp-race-heading">
+                <h2>{{ display_date }}</h2>
+                <h2>{{> partials/race }}</h2>
+            </div>
 
             {{#event.bids_open}}
-                <article>
-                    Bidding is still open. These results are provisional.
-                </article>
+                Bidding is still open. Bid winners shown below are provisional.
             {{/event.bids_open}}
 
             {{#resolved}}
-                <article>
-                    Bidding has been resolved.
-                </article>
+                Bidding has been resolved.
             {{/resolved}}
 
             {{#can_resolve}}
@@ -62,7 +59,7 @@
                     >
 
                     <button type="submit">
-                        Resolve Bidding
+                        resolve bidding
                     </button>
                 </form>
             {{/can_resolve}}
@@ -70,15 +67,15 @@
             {{#riders}}
                 <article>
                     <header>
-                        <strong>#{{ race_number }} {{ name }}</strong>
+                        <strong>{{> partials/rider }}</strong>
                     </header>
 
-                    <table>
+                    <table class="motogp-table">
                         <thead>
                             <tr>
                                 <th>Player</th>
                                 <th>Bid</th>
-                                <th>Result</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +85,7 @@
                                     <td>{{ amount }}</td>
                                     <td>
                                         {{#winner}}
-                                            <strong>Winner</strong>
+                                            <strong>winner</strong>
                                         {{/winner}}
                                     </td>
                                 </tr>
@@ -99,7 +96,7 @@
             {{/riders}}
 
             {{^riders}}
-                <p>No bids have been placed for this event.</p>
+                <p>No bids have been placed for this race.</p>
             {{/riders}}
 
             {{#payout}}
@@ -114,7 +111,7 @@
                     winning bids.
                 </p>
 
-                <table>
+                <table class="motogp-table">
                     <thead>
                         <tr>
                             <th>Finish</th>
@@ -128,7 +125,7 @@
                         {{#payouts}}
                             <tr>
                                 <td>{{ finish_position }}</td>
-                                <td>#{{ race_number }} {{ name }}</td>
+                                <td>{{> partials/rider }}</td>
                                 <td>{{ username }}</td>
                                 <td>{{ percentage }}%</td>
                                 <td><strong>{{ payout }}</strong></td>
@@ -171,15 +168,13 @@
                             type="button"
                             data-action="settle-payouts"
                         >
-                            Settle Payouts
+                            settle payouts
                         </button>
                     </form>
                 {{/can_settle}}
 
                 {{#settled}}
-                    <article>
-                        Payouts have been settled.
-                    </article>
+                    Payouts have been settled.
                 {{/settled}}
 
             {{/payout}}

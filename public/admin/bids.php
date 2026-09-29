@@ -104,6 +104,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit('Payouts have already been settled.');
             }
 
+            if (!$bidModel->resultsCompleteForPayout($eventId)) {
+                http_response_code(400);
+                exit(
+                    'Results must be entered for all winning riders '
+                    . 'before payouts can be settled.'
+                );
+            }
+
             if (!$bidModel->settlePayouts($eventId)) {
                 http_response_code(500);
                 exit('Unable to settle payouts.');
