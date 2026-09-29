@@ -29,6 +29,7 @@ $db = new Database($config['database']['dsn'], $logger);
 $eventModel = new Event($db);
 $resultModel = new Result($db);
 
+$data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 
 $data['csrfToken'] = Csrf::token();
@@ -61,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postedEventId = $_POST['event-id'] ?? '';
 
     if ($postedEventId === '' || !ctype_digit($postedEventId)) {
-        $data['form']['message'] = 'A valid event is required.';
+        $data['form']['message'] = 'A valid race is required.';
         $data['form']['message-class'] = 'error';
     } else {
         $eventId = (int)$postedEventId;
@@ -202,7 +203,7 @@ $data['results'] = $eventId !== null
     : [];
 
 foreach ($data['results'] as &$result) {
-    $result['status_none'] =
+    $result['status_finish'] =
         $result['status'] === null
         || $result['status'] === 'classified';
 

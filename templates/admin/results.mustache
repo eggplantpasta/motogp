@@ -8,7 +8,7 @@
 
         {{#events | count}}
             <form method="get" action="/admin/results.php">
-                <label for="event-id-select">Event</label>
+                <label for="event-id-select">Race</label>
                 <select
                     id="event-id-select"
                     name="event_id"
@@ -24,12 +24,12 @@
         {{/events}}
 
         {{^events | count}}
-            <p>No events have been added.</p>
+            <p>No races have been added.</p>
         {{/events}}
 
         {{#event}}
 
-            <h2>{{ name }}</h2>
+            <h2>{{> partials/race }}</h2>
 
             {{#form.message}}
                 <p class="{{ form.message-class }}">{{ form.message }}</p>
@@ -37,16 +37,13 @@
 
             {{#results | count}}
                 {{#settled}}
-                    <article>
-                        Payouts have been settled. Results are now locked.
-                    </article>
+                    <p>Payouts have been settled. Results are now locked.</p>
 
-                    <table>
+                    <table class="motogp-table">
                         <thead>
                             <tr>
                                 <th>Position</th>
                                 <th>Status</th>
-                                <th>#</th>
                                 <th>Rider</th>
                             </tr>
                         </thead>
@@ -60,8 +57,7 @@
                                         {{#status_dns}}DNS{{/status_dns}}
                                         {{#status_dsq}}DSQ{{/status_dsq}}
                                     </td>
-                                    <td>{{ race_number }}</td>
-                                    <td>{{ name }}</td>
+                                    <td>{{> partials/rider }}</td>
                                 </tr>
                             {{/results}}
                         </tbody>
@@ -73,14 +69,13 @@
                         <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
                         <input type="hidden" name="event-id" value="{{ event_id }}">
 
-                        <button type="submit">Save Results</button>
+                        <button type="submit">save results</button>
 
-                        <table>
+                        <table class="motogp-table">
                             <thead>
                                 <tr>
                                     <th>Position</th>
                                     <th>Status</th>
-                                    <th>#</th>
                                     <th>Rider</th>
                                 </tr>
                             </thead>
@@ -100,7 +95,7 @@
 
                                         <td>
                                             <select name="statuses[{{ rider_id }}]">
-                                                <option value="" {{#status_none}}selected{{/status_none}}>
+                                                <option value="" {{#status_finish}}selected{{/status_finish}}>
                                                     Finish
                                                 </option>
                                                 <option value="dnf" {{#status_dnf}}selected{{/status_dnf}}>
@@ -114,21 +109,19 @@
                                                 </option>
                                             </select>
                                         </td>
-
-                                        <td>{{ race_number }}</td>
-                                        <td>{{ name }}</td>
+                                        <td>{{> partials/rider }}</td>
                                     </tr>
                                 {{/results}}
                             </tbody>
                         </table>
 
-                        <button type="submit">Save Results</button>
+                        <button type="submit">save results</button>
 
                     </form>
                 {{/settled}}
             {{/results}}
             {{^results | count}}
-                <p>No riders are available for this event.</p>
+                <p>No riders are available for this race.</p>
             {{/results}}
         {{/event}}
 
