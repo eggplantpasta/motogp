@@ -30,7 +30,7 @@ if (
     !ctype_digit($_GET['event_id'])
 ) {
     http_response_code(404);
-    exit('Event not found.');
+    exit('Race not found.');
 }
 
 $eventId = (int)$_GET['event_id'];
@@ -43,12 +43,12 @@ $event = $eventModel->getEventById($eventId);
 
 if ($event === null) {
     http_response_code(404);
-    exit('Event not found.');
+    exit('Race not found.');
 }
 
 if (!(bool)$event['bids_open']) {
     http_response_code(403);
-    exit('Bidding is not open for this event.');
+    exit('Bidding is not open for this race.');
 }
 
 $sessionUser = $session->getUser();

@@ -32,10 +32,9 @@
 
         <form method="post">
 
-            <table>
+            <table class="motogp-table">
                 <thead>
                     <tr>
-                        <th>Bid</th>
                         <th>Rider</th>
                         <th>Points</th>
                     </tr>
@@ -44,18 +43,16 @@
                 <tbody>
                     {{#bid_rows}}
                         <tr>
-                            <td>{{ bid_number }}</td>
-
                             <td>
                                 <select name="rider-{{ bid_number }}">
-                                    <option value="">Select rider</option>
+                                    <option value="">select rider</option>
 
                                     {{#riders}}
                                         <option
                                             value="{{ rider_id }}"
                                             {{#selected}}selected{{/selected}}
                                         >
-                                            #{{ race_number }} {{ name }}
+                                            {{ name }} {{ race_number }}
                                         </option>
                                     {{/riders}}
                                 </select>
@@ -81,7 +78,7 @@
                 value="{{ csrfToken }}"
             >
 
-            <button type="submit">Save Bids</button>
+            <button type="submit">save bids</button>
 
         </form>
 
