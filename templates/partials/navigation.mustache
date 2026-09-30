@@ -1,10 +1,44 @@
-<nav>
-    <ul>
-        <li><strong><a href="/index.php"><span class="motogp-font">MotoGP</span> Bidding {{ app.season }}</a></strong></li>
+<nav class="motogp-nav">
+    <ul class="motogp-nav-menu">
+        <li>
+            <details class="dropdown">
+                <summary>
+                    <span class="motogp-nav-icon">
+                        {{> partials/icons/menu }}
+                    </span>
+                </summary>
+                <ul>
+                    <li><a href="/events.php">races</a></li>
+                    <li><a href="/riders.php">riders</a></li>
+
+                    {{#user}}
+                        <li><a href="/ladder.php">ladder</a></li>
+                    {{/user}}
+
+                    {{#user.admin}}
+                        <li>
+                            <details class="motogp-nav-submenu">
+                                <summary>admin</summary>
+                                <ul>
+                                    <li><a href="/admin/index.php">dashboard</a></li>
+                                    <li><a href="/admin/users.php">users</a></li>
+                                    <li><a href="/admin/teams.php">teams</a></li>
+                                    <li><a href="/admin/riders.php">riders</a></li>
+                                    <li><a href="/admin/events.php">races</a></li>
+                                    <li><a href="/admin/bids.php">bids</a></li>
+                                    <li><a href="/admin/results.php">results</a></li>
+                                </ul>
+                            </details>
+                        </li>
+                    {{/user.admin}}
+                </ul>
+            </details>
+        </li>
     </ul>
-    <ul>
+    <ul class="motogp-nav-primary">
         <li><a href="/events.php">races</a></li>
         <li><a href="/riders.php">riders</a></li>
+
         {{#user}}
             <li><a href="/ladder.php">ladder</a></li>
         {{/user}}
@@ -26,39 +60,45 @@
                 </details>
             </li>
         {{/user.admin}}
+    </ul>
 
+    <ul class="motogp-nav-brand">
         <li>
-            {{#user}}
-                <span class="webmin-highlight"><a href="/user/account.php">{{ username }}</a></span>
-            {{/user}}
-            {{^user}}
-                <a href="/user/login.php">login</a>
-            {{/user}}
+            <strong>
+                <a href="/index.php">
+                    <span class="motogp-font">MotoGP</span> Bidding {{ app.season }}
+                </a>
+            </strong>
         </li>
-        <li>
-            <details class="dropdown">
-                <summary>
-                    <span class="motogp-nav-icon {{#user}}webmin-highlight{{/user}}">
-                        {{> partials/icons/account }}
-                    </span>
-                </summary>
-                <ul>
-                    {{#user}}
-                        <li class="webmin-nav-disabled">login</li>
-                        <li class="webmin-nav-disabled">register</li>
+    </ul>
+
+    <ul class="motogp-nav-account">
+        {{#user}}
+            <li class="motogp-nav-account-menu">
+                <details class="dropdown">
+                    <summary>
+                        <span class="motogp-nav-icon webmin-highlight">
+                            {{> partials/icons/account }}
+                        </span>
+                    </summary>
+                    <ul>
+                        <li><a href="/user/account.php">account</a></li>
                         <li><a href="/user/edit-account.php">edit account</a></li>
                         <li><a href="/user/logout.php">logout</a></li>
-                    {{/user}}
-                    {{^user}}
-                        <li><a href="/user/login.php">login</a></li>
-                        <li><a href="/user/register.php">register</a></li>
-                        <li class="webmin-nav-disabled">edit account</li>
-                        <li class="webmin-nav-disabled">logout</li>
-                    {{/user}}
+                    </ul>
+                </details>
+            </li>
+        {{/user}}
 
-                </ul>
-            </details>
-        </li>
-
+        {{^user}}
+            <li>
+                <a href="/user/login.php">
+                    <span class="motogp-nav-icon">
+                        {{> partials/icons/account }}
+                    </span>
+                    login
+                </a>
+            </li>
+        {{/user}}
     </ul>
 </nav>

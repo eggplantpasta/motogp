@@ -207,3 +207,67 @@ a.motogp-icon-text-button {
     width: 1.5em;
     height: 1.5em;
 }
+
+.motogp-nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.motogp-nav-primary {
+    justify-self: start;
+}
+
+.motogp-nav-brand {
+    justify-self: center;
+}
+
+.motogp-nav-account {
+    justify-self: end;
+}
+
+.motogp-nav-menu {
+    display: none;
+}
+
+@media (max-width: 1023px) {
+    .motogp-nav-primary {
+        display: none;
+    }
+
+    .motogp-nav-menu {
+        display: flex;
+        justify-self: start;
+    }
+}
+
+.motogp-nav-submenu > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.motogp-nav-submenu > ul {
+    display: block;
+    padding-left: 1rem;
+}
+
+.motogp-nav-submenu > ul > li {
+    display: block;
+}
+
+/* Position the account dropdown relative to the account item so it opens
+   leftwards from the right edge rather than overflowing the viewport. */
+.motogp-nav-account-menu {
+    position: relative;
+}
+
+.motogp-nav-account-menu .dropdown {
+    position: static;
+}
+
+.motogp-nav-account-menu .dropdown > ul {
+    right: 0;
+    left: auto;
+}
