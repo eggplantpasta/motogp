@@ -1,7 +1,7 @@
 # TODO
 
-Deferred work and ideas that are worth retaining but are not part of the
-current task.
+Deferred work and ideas that are worth retaining but are not part of the current
+task.
 
 ## Bidding lockout
 
@@ -17,8 +17,8 @@ Improve protection against bidding remaining open too close to or after a race.
 - Consider midnight at the start of race day as the default hard cutoff.
 - Do not rely on automatically changing `bids_open`; calculate whether bidding
   is effectively allowed when validating a bid.
-- Consider an admin exception warning if `bids_open` remains set after the
-  hard cutoff.
+- Consider an admin exception warning if `bids_open` remains set after the hard
+  cutoff.
 
 ## Admin dashboard
 
@@ -30,5 +30,9 @@ Possible future refinements after the current dashboard has been used.
 
 ## Later cleanup
 
-- Review deferred database indexes if the database grows enough to warrant
-  them.
+- Review deferred database indexes if the database grows enough to warrant them.
+
+## UX enhancements
+
+- Consider quick navigation to the current/open-for-bidding race when it appears
+  below completed races on the races page.
