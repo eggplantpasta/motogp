@@ -3,28 +3,46 @@
 .gitignore
 
 # Local development helpers
-bin/install.sh
-bin/serve_local.sh
+bin/install-local.sh
+bin/serve-local.sh
 bin/deploy.sh
 bin/deploy-exclude.txt
 
 # Documentation and repository metadata
 README.md
 LICENSE
+AGENTS.md
+docs/
 
-# Example-only config files
+# Development tooling
+.editorconfig
+.php-cs-fixer.php
+.php-cs-fixer.cache
+.prettierrc.json
+phpstan.neon
+.vscode/
+node_modules/
+package.json
+package-lock.json
+
+# Environment-specific configuration
+config/app.ini
+config/app.local.ini
+config/php.ini
+config/php.local.ini
 config/app-example.ini
 config/php-example.ini
-config/php.local.ini
 
 # Database setup, seed, and test data
-db/reset.sh
-db/schema.sql
-db/seed/
-db/test-data/
+db/
 
-# Local caches and logs
-var/
+# Persistent runtime data
+var/data/
+var/cache/
+var/log/
+
+# Temporary files
+tmp/
 
 # OS noise
 .DS_Store
