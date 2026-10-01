@@ -9,10 +9,10 @@ ENVIRONMENT="${1:-}"
 
 DRY_RUN="${2:-}"
 
-RSYNC_OPTIONS=()
+RSYNC_OPTIONS=""
 
 if [ "${DRY_RUN}" = "--dry-run" ]; then
-    RSYNC_OPTIONS+=(--dry-run --itemize-changes)
+    RSYNC_OPTIONS="--dry-run --itemize-changes"
 elif [ -n "${DRY_RUN}" ]; then
     echo "Usage: $0 test [--dry-run]" >&2
     exit 1
@@ -75,7 +75,7 @@ ssh "${HOST}" \
         '${DEST_DIR}/var/log'"
 
 rsync \
-    "${RSYNC_OPTIONS[@]}" \
+    ${RSYNC_OPTIONS} \
     --archive \
     --compress \
     --delete \
