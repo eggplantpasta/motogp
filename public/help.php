@@ -20,4 +20,4 @@ $data['user'] = $session->getUser();
 
 $tpl = new Template($config['template'], $logger);
 
-echo $tpl->render('rules', $data);
+echo $tpl->render('help', $data);

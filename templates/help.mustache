@@ -1,0 +1,136 @@
+{{< partials/layout}}
+
+    {{$title}}{{ app.name }} • Game Help{{/title}}
+
+    {{$content}}
+
+        <h1>Help <span class="motogp-icon">{{> partials/icons/question }}</span></h1>
+        <details name="help" open>
+            <summary><h2>How to play</h2></summary>
+            <p>Each race, you have points available to bid on riders. Choose three different riders and decide how many points you want to bid on each. You can change your bids until bidding closes.</p>
+            <p>When bidding closes, the highest bidder for each rider wins that rider for the race. Only winning bids cost points.</p>
+            <p>After the race results are entered, points are paid back according to how well your winning riders finished. Better finishing positions receive a larger share of the points pool.</p>
+            <p>Your balance carries forward to the next race. The ladder shows how everyone is progressing through the season.</p>
+            <h3>Playing a race</h3>
+            <ul>
+                <li>Go to races</li>
+                <li>choose place bids</li>
+                <li>select three riders and enter bids</li>
+                <li>save bids</li>
+                <li>return and change them any time before lockout.</li>
+            </ul>
+        </details>
+        <details name="help">
+            <summary><h2>Game Rules</h2></summary>
+
+            <h3>Bidding</h3>
+
+            <p>For each event:</p>
+
+            <ul>
+                <li>Each player must bid on exactly three riders.</li>
+                <li>A bid may be any whole number of points, including zero.</li>
+                <li>The total of a player's three bids cannot exceed their current balance.</li>
+                <li>The highest bid for a rider wins that rider.</li>
+                <li>If two or more players tie for the highest bid, they all win that rider.</li>
+                <li>Only winning bids are deducted from a player's balance. Losing bids cost nothing.</li>
+                <li>Players may change their bids while bidding remains open.</li>
+                <li>Bids are visible to other players.</li>
+                <li>Bidding closes at a lockout time selected for the event.</li>
+            </ul>
+
+            <h3>Points pool</h3>
+
+            <p>
+                After bidding closes, the total points pool for the event is calculated
+                from all winning bids:
+            </p>
+
+            <p>
+                <strong>
+                    points pool = sum of all winning bids + number of winning bids
+                </strong>
+            </p>
+
+            <p>
+                Each winning bid therefore adds one new point to the game economy.
+            </p>
+
+            <p>
+                For example, if two players both make a winning bid of 5 points on the
+                same rider, both winning bids are included in the pool:
+            </p>
+
+            <p><strong>5 + 5 + 2 = 12 points</strong></p>
+
+            <h3>Payouts</h3>
+
+            <p>
+                The points pool is distributed according to the finishing positions of
+                the riders won by players.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Payout</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1st</td><td>23%</td></tr>
+                    <tr><td>2nd</td><td>18%</td></tr>
+                    <tr><td>3rd</td><td>15%</td></tr>
+                    <tr><td>4th</td><td>12%</td></tr>
+                    <tr><td>5th</td><td>11%</td></tr>
+                    <tr><td>6th</td><td>8%</td></tr>
+                    <tr><td>7th</td><td>7%</td></tr>
+                    <tr><td>8th</td><td>6%</td></tr>
+                </tbody>
+            </table>
+
+            <p>Only riders finishing in the top eight receive a payout.</p>
+
+            <p>Fractional payouts are rounded up to the next whole point.</p>
+
+            <h3>Tied winning bids</h3>
+
+            <p>
+                If multiple players tie for the highest bid on the same rider, each tied
+                bid is a winning bid:
+            </p>
+
+            <ul>
+                <li>each winning bid is deducted from its player's balance;</li>
+                <li>each winning bid is included separately when calculating the points pool; and</li>
+                <li>the tied players share the payouts for the finishing positions they collectively occupy.</li>
+            </ul>
+
+            <p>
+                For example, if two players jointly win a rider and that rider finishes
+                first, they share the first- and second-place payouts:
+            </p>
+
+            <p><strong>(23% + 18%) / 2 = 20.5% each</strong></p>
+
+            <p>
+                If three players jointly win a rider that finishes first, they share the
+                first-, second- and third-place payouts:
+            </p>
+
+            <p><strong>(23% + 18% + 15%) / 3 = 18.67% each</strong></p>
+
+            <p>
+                The resulting points payout for each player is rounded up to a whole point.
+            </p>
+
+        </details>
+        {{#user.admin}}
+            <details>
+                <summary><h2>Administration</h2></summary>
+                bla bla
+            </details>
+        {{/user.admin}}
+    {{/content}}
+
+{{/partials/layout}}

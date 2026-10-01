@@ -28,8 +28,20 @@
                     </tbody>
                 </table>
                 <p>
-                    <a role="button" href="/ladder.php">View full ladder</a>
-                    <a role="button" href="/rules.php">Game rules</a>
+                    <a href="/ladder.php"
+                        role="button"
+                        class="outline motogp-icon-text-button"
+                    >
+                        {{> partials/icons/flag }}
+                        view full ladder
+                    </a>
+                    <a href="/help.php"
+                        role="button"
+                        class="outline motogp-icon-text-button"
+                    >
+                        {{> partials/icons/question }}
+                        help
+                    </a>
                 </p>
             </section>
         {{/show_ladder}}

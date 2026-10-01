@@ -53,6 +53,14 @@ insert into users (
     0,
     current_timestamp,
     20
+),
+(
+    'noisy',
+    '$2y$12$J1QueY6u2QUizqVJ/1DKV.rvUcP8L9MuSgYT7MMKpyZR3XKHe5huu',
+    'andrew@partymeeple.com.au',
+    1,
+    current_timestamp,
+    20
 );
 
 insert into balance_transactions (
@@ -66,4 +74,5 @@ values
 (3, 'opening_balance', 20),
 (4, 'opening_balance', 20),
 (5, 'opening_balance', 20),
-(6, 'opening_balance', 20);
+(6, 'opening_balance', 20),
+(7, 'opening_balance', 20);
