@@ -60,7 +60,7 @@ h1, .motogp-font {
     gap: calc(var(--pico-spacing) / 2);
 }
 
-.motogp-race-heading > h2:first-child {
+.motogp-race-heading > :first-child {
     padding-right: calc(var(--pico-spacing) / 2);
     border-right: 2px solid var(--pico-muted-border-color);
     align-self: stretch;

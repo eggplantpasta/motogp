@@ -6,10 +6,12 @@
 
         <h1>Place Bids <span class="motogp-icon">{{> partials/icons/bid }}</span></h1>
 
-        <div class="motogp-race-heading">
-            <h2>{{ display_date }}</h2>
-            <h2>{{> partials/race }}</h2>
-        </div>
+        {{#event}}
+            <div class="motogp-race-heading">
+                <p>{{ event.display_date }}</p>
+                <p>{{> partials/race }}</p>
+            </div>
+        {{/event}}
 
         <p>
             Available points: <strong>{{ user.balance }}</strong>
@@ -45,7 +47,7 @@
                         <tr>
                             <td>
                                 <select name="rider-{{ bid_number }}">
-                                    <option value="">select rider</option>
+                                    <option value="">select</option>
 
                                     {{#riders}}
                                         <option
