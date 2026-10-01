@@ -10,11 +10,6 @@ $logger = $app->logger;
 
 $session = new Session();
 
-if (!$session->isLoggedIn()) {
-    header('Location: /user/login.php');
-    exit();
-}
-
 $data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 

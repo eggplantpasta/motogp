@@ -271,3 +271,27 @@ a.motogp-icon-text-button {
     right: 0;
     left: auto;
 }
+
+.motogp-accordion > summary {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--pico-spacing) / 2);
+}
+
+.motogp-accordion > summary::after {
+    display: none;
+}
+
+.motogp-accordion > summary > .motogp-icon {
+    flex: 0 0 auto;
+    color: var(--pico-primary);
+    font-size: 1em;
+}
+
+.motogp-accordion[open] > summary > .motogp-icon {
+    transform: rotate(90deg);
+}
+
+.motogp-accordion > summary > :last-child {
+    margin: 0;
+}

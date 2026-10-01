@@ -5,23 +5,33 @@
     {{$content}}
 
         <h1>Help <span class="motogp-icon">{{> partials/icons/question }}</span></h1>
-        <details name="help" open>
-            <summary><h2>How to play</h2></summary>
+        <details class="motogp-accordion" name="help" open>
+            <summary>
+                <span class="motogp-icon">
+                    {{> partials/icons/chevron-right }}
+                </span>
+                <h2>How to play</h2>
+            </summary>
             <p>Each race, you have points available to bid on riders. Choose three different riders and decide how many points you want to bid on each. You can change your bids until bidding closes.</p>
             <p>When bidding closes, the highest bidder for each rider wins that rider for the race. Only winning bids cost points.</p>
             <p>After the race results are entered, points are paid back according to how well your winning riders finished. Better finishing positions receive a larger share of the points pool.</p>
             <p>Your balance carries forward to the next race. The ladder shows how everyone is progressing through the season.</p>
             <h3>Playing a race</h3>
             <ul>
-                <li>Go to races</li>
-                <li>choose place bids</li>
-                <li>select three riders and enter bids</li>
-                <li>save bids</li>
-                <li>return and change them any time before lockout.</li>
+                <li>Go to races.</li>
+                <li>Choose place bids for the race.</li>
+                <li>Select three riders and enter your bids.</li>
+                <li>Save your bids.</li>
+                <li>Return and change them at any time before bidding closes.</li>
             </ul>
         </details>
-        <details name="help">
-            <summary><h2>Game Rules</h2></summary>
+        <details class="motogp-accordion" name="help" open>
+            <summary>
+                <span class="motogp-icon">
+                    {{> partials/icons/chevron-right }}
+                </span>
+                <h2>Game Rules</h2>
+            </summary>
 
             <h3>Bidding</h3>
 
@@ -126,9 +136,56 @@
 
         </details>
         {{#user.admin}}
-            <details>
-                <summary><h2>Administration</h2></summary>
-                bla bla
+            <details class="motogp-accordion" name="help" open>
+                <summary>
+                    <span class="motogp-icon">
+                        {{> partials/icons/chevron-right }}
+                    </span>
+                    <h2>Administration</h2>
+                </summary>
+                <p>
+                    The admin dashboard shows tasks that need attention. Most race
+                    administration follows the same sequence:
+                </p>
+
+                <ol>
+                    <li>
+                        <strong>Open bidding.</strong>
+                        Use races to open bidding for the upcoming race.
+                    </li>
+                    <li>
+                        <strong>Close bidding.</strong>
+                        Use races to close bidding when the bidding period ends.
+                    </li>
+                    <li>
+                        <strong>Resolve bids.</strong>
+                        Use bids to determine the winning bids and deduct them from
+                        player balances.
+                    </li>
+                    <li>
+                        <strong>Enter results.</strong>
+                        Use results to enter each rider's finishing position or
+                        DNF, DNS or DSQ status.
+                    </li>
+                    <li>
+                        <strong>Settle payouts.</strong>
+                        Return to bids and settle the race. Payouts are calculated
+                        and added to player balances.
+                    </li>
+                </ol>
+
+                <h3>Other administration</h3>
+
+                <p>
+                    The admin menu also provides access to users, teams, riders and
+                    races. New registrations can be approved from users. Teams,
+                    riders and the race calendar can be maintained as required.
+                </p>
+
+                <p>
+                    Check the admin dashboard regularly. It highlights outstanding
+                    tasks and is the best place to see what needs doing next.
+                </p>
             </details>
         {{/user.admin}}
     {{/content}}
