@@ -14,7 +14,8 @@
         {{/event}}
 
         <p>
-            Available points: <strong>{{ user.balance }}</strong>
+            Balance: <strong>{{ user.balance }}</strong>
+            <span class="motogp-secondary">· Current bids: <strong>{{ current_bids }}</strong></span>
         </p>
 
         {{#message}}
@@ -34,7 +35,7 @@
 
         <form method="post">
 
-            <table class="motogp-table">
+            <table class="motogp-table motogp-bids-table">
                 <thead>
                     <tr>
                         <th>Rider</th>
@@ -65,6 +66,7 @@
                                     type="number"
                                     name="amount-{{ bid_number }}"
                                     value="{{ amount }}"
+                                    placeholder="0"
                                     min="0"
                                     step="1"
                                 >

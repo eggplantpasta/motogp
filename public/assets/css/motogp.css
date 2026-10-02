@@ -288,3 +288,13 @@ details.motogp-accordion > summary .motogp-icon {
 details.motogp-accordion[open] > summary .motogp-icon {
     transform: rotate(90deg);
 }
+
+.motogp-bids-table th:last-child,
+.motogp-bids-table td:last-child {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.motogp-bids-table input[type="number"] {
+    width: 5rem;
+}

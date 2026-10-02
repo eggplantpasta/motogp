@@ -72,9 +72,9 @@ $data['csrfToken'] = Csrf::token();
 $data['message'] = '';
 
 $bids = [
-    1 => ['rider_id' => '', 'amount' => 0],
-    2 => ['rider_id' => '', 'amount' => 0],
-    3 => ['rider_id' => '', 'amount' => 0],
+    1 => ['rider_id' => '', 'amount' => ''],
+    2 => ['rider_id' => '', 'amount' => ''],
+    3 => ['rider_id' => '', 'amount' => ''],
 ];
 
 foreach ($bidModel->getUserBids($userId, $eventId) as $bid) {
@@ -177,6 +177,8 @@ if (
     $data['message'] = 'Bids saved.';
 }
 
+$currentBids = 0;
+
 $data['bid_rows'] = [];
 
 foreach ($bids as $bidNumber => $bid) {
@@ -189,12 +191,18 @@ foreach ($bids as $bidNumber => $bid) {
         $options[] = $rider;
     }
 
+    if ($bid['amount'] !== '') {
+        $currentBids += (int)$bid['amount'];
+    }
+
     $data['bid_rows'][] = [
         'bid_number' => $bidNumber,
         'amount' => $bid['amount'],
         'riders' => $options,
     ];
 }
+
+$data['current_bids'] = $currentBids;
 
 $tpl = new Template($config['template'], $logger);
 
