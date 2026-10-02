@@ -9,7 +9,7 @@ insert into riders (rider_id, race_number, name, team_id, active) values
     (8,  23, 'Enea Bastianini',        9,  1),
     (9,  25, 'Raul Fernandez',         2,  1),
     (10, 33, 'Brad Binder',            4,  1),
-    (11, 36, 'Joan Mir',               7,  1),
+    (11, 36, 'Joan Mir',               7,  0),
     (12, 37, 'Pedro Acosta',           4,  1),
     (13, 42, 'Alex Rins',             10,  1),
     (14, 43, 'Jack Miller',           11,  1),
@@ -37,8 +37,9 @@ insert into riders (
     (24, 27, 'Iker Lecuona',        6,  0),
     (25, 32, 'Lorenzo Savadori',    2,  0),
     (26, 35, 'Cal Crutchlow',       8,  0),
-    (27, 40, 'Takaaki Nakagami',    7,  0),
+    (27, 30, 'Takaaki Nakagami',    7,  1),
     (28, 44, 'Pol Espargaro',       9,  0),
     (29, 51, 'Michele Pirro',       6,  0),
     (30, 94, 'Jonas Folger',        9,  0),
-    (31, 47, 'Augusto Fernandez',   10, 0);
+    (31, 47, 'Augusto Fernandez',   10, 0),
+    (32, 35, 'Somkiat Chantra',     7,  1);

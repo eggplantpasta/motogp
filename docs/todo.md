@@ -36,3 +36,10 @@ Possible future refinements after the current dashboard has been used.
 
 - Consider quick navigation to the current/open-for-bidding race when it appears
   below completed races on the races page.
+
+## Make rider availability event-specific
+
+- Replace the global `riders.active` flag for bidding eligibility with an event-specific entry list.
+- Support wildcards, substitute riders, injuries and riders returning between races.
+- Keep historical riders/results intact when a rider is not entered in the current race.
+- Admin should be able to select the riders entered for each race.

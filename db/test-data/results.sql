@@ -256,7 +256,30 @@ insert into results (event_id, rider_id, position) values
 (14, 6,  10),
 (14, 10, 11),
 (14, 2,  12),
-(14, 7,  13);
+(14, 7,  13),
+
+-- 15 Austria Grand Prix
+(15, 12, 1),   -- Pedro Acosta
+(15, 21, 2),   -- Jorge Martin
+(15, 18, 3),   -- Marco Bezzecchi
+(15, 20, 4),   -- Ai Ogura
+(15, 22, 5),   -- Marc Marquez
+(15, 10, 6),   -- Brad Binder
+(15, 17, 7),   -- Francesco Bagnaia
+(15, 16, 8),   -- Fermin Aldeguer
+(15, 15, 9),   -- Fabio Di Giannantonio
+(15, 1,  10),  -- Johann Zarco
+(15, 8,  11),  -- Enea Bastianini
+(15, 9,  12),  -- Raul Fernandez
+(15, 27, 13),  -- Takaaki Nakagami
+(15, 3,  14),  -- Luca Marini
+(15, 4,  15),  -- Diogo Moreira
+(15, 28, 16),  -- Pol Espargaro
+(15, 6,  17),  -- Fabio Quartararo
+(15, 7,  18),  -- Franco Morbidelli
+(15, 13, 19),  -- Alex Rins
+(15, 2,  20),  -- Toprak Razgatlioglu
+(15, 14, 21);  -- Jack Miller
 
 -- Additional classified riders and non-finishers.
 -- Existing rows use the default status of 'classified'.
@@ -362,4 +385,7 @@ insert into results (event_id, rider_id, position, status) values
 (14, 11, null, 'dnf'),        -- Joan Mir
 (14, 4,  null, 'dnf'),        -- Diogo Moreira
 (14, 14, null, 'dnf'),        -- Jack Miller
-(14, 18, null, 'dnf');        -- Marco Bezzecchi
+(14, 18, null, 'dnf'),        -- Marco Bezzecchi
+
+-- 15 Austria
+(15, 19, null, 'dnf'); -- Alex Marquez
