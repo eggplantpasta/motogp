@@ -41,6 +41,25 @@
                         aria-describedby="invalid-password" />
                     <small id="invalid-password">{{ form.passwordErr }}</small>
                 </label>
+                <label>
+                    Confirm Password
+                    <button
+                        class="password-toggle"
+                        type="button"
+                        tabindex="-1"
+                        aria-label="Toggle password visibility">
+                    </button>
+                    <input
+                        type="password"
+                        name="password_confirm"
+                        placeholder=""
+                        autocomplete="new-password"
+                        aria-invalid="{{ form.passwordConfirmInvalid }}"
+                        aria-describedby="invalid-password-confirm" />
+                    <small id="invalid-password-confirm">
+                        {{ form.passwordConfirmErr }}
+                    </small>
+                </label>
             </fieldset>
             <fieldset class="grid">
                 <input

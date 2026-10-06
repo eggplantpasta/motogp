@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $email = strtolower(trim($_POST['email'] ?? ''));
     $password = $_POST['password'] ?? '';
+    $passwordConfirm = $_POST['password_confirm'] ?? '';
 
     $valid = true;
 
@@ -55,6 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($password !== '') {
         $user->password = $password;
         $valid = $user->validatePassword() && $valid;
+
+        if ($password !== $passwordConfirm) {
+            $data['form']['passwordConfirmErr'] = 'Passwords do not match.';
+            $valid = false;
+        }
     }
 
     $data['form']['username'] = $username;
@@ -70,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data['form']['passwordErr'] = $user->passwordErr;
     $data['form']['passwordInvalid'] =
         !empty($user->passwordErr) ? 'true' : 'false';
+    $data['form']['passwordConfirmInvalid'] =
+        !empty($data['form']['passwordConfirmErr']) ? 'true' : 'false';
 
     if ($valid) {
         if ($user->updateAccount(
