@@ -51,8 +51,8 @@
                         <form
                             method="post"
                             action="/admin/user.php?user_id={{ account.user_id }}"
-                            class="motogp-inline-form"
-                            onsubmit="return confirm(\"Reset password for {{ account.username }}?\")"
+                            class="password-reset-form motogp-inline-form"
+                            data-username="{{ account.username }}"
                         >
                             <input
                                 type="hidden"
@@ -65,7 +65,12 @@
                                 value="reset_password"
                             >
 
-                            <button type="submit">reset</button>
+                            <button
+                                type="button"
+                                data-action="reset-password"
+                            >
+                                reset
+                            </button>
                         </form>
                     </td>
                 </tr>

@@ -16,6 +16,19 @@ function deleteUser(event) {
     );
 }
 
+function resetPassword(event) {
+    const form = event.currentTarget.closest('.password-reset-form');
+    const username = form.dataset.username;
+
+    confirmModal(
+        `Reset the password for "${username}"? The existing password will no longer work.`,
+        () => {
+            form.submit();
+        },
+        'reset',
+    );
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     document
         .querySelectorAll('[data-action="delete-user"]')
@@ -28,5 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', (event) => {
                 event.currentTarget.closest('form').requestSubmit();
             });
+        });
+    document
+        .querySelectorAll('[data-action="reset-password"]')
+        .forEach((button) => {
+            button.addEventListener('click', resetPassword);
         });
 });
