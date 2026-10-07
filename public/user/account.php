@@ -1,8 +1,6 @@
 <?php
 
-use Webmin\Template;
 use Webmin\Session;
-use Webmin\Database;
 use MotoGp\Utility;
 use MotoGp\Event;
 use MotoGp\Player;
@@ -13,7 +11,8 @@ $config = $app->config;
 $logger = $app->logger;
 
 // redirect to login page if not logged in
-$db = new Database($config['database']['dsn'], $logger);
+$db = $app->db;
+$tpl = $app->template;
 $session = new Session();
 
 if (!$session->isLoggedIn()) {
@@ -42,7 +41,6 @@ if ($nextEvent !== null) {
 
 $data['next_event'] = $nextEvent;
 
-$tpl = new Template($config['template'], $logger);
 $data['user'] = $session->getUser();
 $data['user']['balance'] = $playerModel->getBalance(
     (int)$data['user']['user_id']

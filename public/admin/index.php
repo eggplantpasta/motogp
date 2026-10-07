@@ -1,9 +1,7 @@
 <?php
 
 use MotoGp\Admin;
-use Webmin\Database;
 use Webmin\Session;
-use Webmin\Template;
 use Webmin\Csrf;
 use Webmin\User;
 
