@@ -104,6 +104,23 @@ class User
         return empty($this->passwordErr);
     }
 
+    public function generateTemporaryPassword(): string
+    {
+        $consonants = 'bcdfghjkmnpqrstvwxyz';
+        $vowels = 'aeiou';
+        $digits = '23456789';
+
+        return
+            $consonants[random_int(0, strlen($consonants) - 1)]
+            . $vowels[random_int(0, strlen($vowels) - 1)]
+            . $consonants[random_int(0, strlen($consonants) - 1)]
+            . $consonants[random_int(0, strlen($consonants) - 1)]
+            . $vowels[random_int(0, strlen($vowels) - 1)]
+            . $consonants[random_int(0, strlen($consonants) - 1)]
+            . $digits[random_int(0, strlen($digits) - 1)]
+            . $digits[random_int(0, strlen($digits) - 1)];
+    }
+
     public function validateLogin(): bool
     {
         if (empty(trim($this->username)) || is_null($this->username)) {

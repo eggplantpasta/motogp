@@ -107,6 +107,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             break;
 
+        case 'reset_password':
+            $password = $userModel->generateTemporaryPassword();
+
+            if (!$userModel->updateAccount(
+                $userId,
+                password: $password
+            )) {
+                http_response_code(500);
+                exit('Unable to reset user password.');
+            }
+
+            $_SESSION['temporary_password'] = $password;
+
+            break;
+
         case 'delete':
             if (!$userModel->deleteUser($userId)) {
                 http_response_code(400);
@@ -126,6 +141,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     header('Location: /admin/user.php?user_id=' . $userId);
     exit();
+}
+
+if (isset($_SESSION['temporary_password'])) {
+    $data['temporaryPassword'] =
+        $_SESSION['temporary_password'];
+
+    unset($_SESSION['temporary_password']);
 }
 
 $account['balance'] = $playerModel->getBalance($userId);

@@ -5,6 +5,14 @@
     {{$content}}
         <h1>User Detail • {{ account.username }}</h1>
 
+        {{#temporaryPassword}}
+            <article>
+                <strong>Password reset.</strong>
+                Temporary password:
+                <code>{{ temporaryPassword }}</code>
+            </article>
+        {{/temporaryPassword}}
+
         <p>
             <a
                 href="/statement.php?user_id={{ account.user_id }}"
@@ -34,6 +42,32 @@
                     <th scope="row">Email</th>
                     <td>{{ account.email }}</td>
                     <td></td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Password</th>
+                    <td>••••••••</td>
+                    <td>
+                        <form
+                            method="post"
+                            action="/admin/user.php?user_id={{ account.user_id }}"
+                            class="motogp-inline-form"
+                            onsubmit="return confirm(\"Reset password for {{ account.username }}?\")"
+                        >
+                            <input
+                                type="hidden"
+                                name="csrf_token"
+                                value="{{ csrfToken }}"
+                            >
+                            <input
+                                type="hidden"
+                                name="action"
+                                value="reset_password"
+                            >
+
+                            <button type="submit">reset</button>
+                        </form>
+                    </td>
                 </tr>
 
                 <tr>
