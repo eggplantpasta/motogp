@@ -11,6 +11,8 @@ $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
 $config = $app->config;
 $logger = $app->logger;
+$db = $app->db;
+$tpl = $app->template;
 
 $session = new Session();
 
@@ -24,8 +26,6 @@ if (!$session->isAdmin()) {
     exit('Forbidden');
 }
 
-$tpl = new Template($config['template'], $logger);
-$db = new Database($config['database']['dsn'], $logger);
 $adminModel = new Admin($db);
 $userModel = new User($db, $logger);
 

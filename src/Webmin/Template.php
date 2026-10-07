@@ -8,12 +8,15 @@ class Template
 {
     private \Mustache\Engine $engine;
     private ?LoggerInterface $logger;
+    private array $globals;
 
     public function __construct(
         array $options = [],
-        ?LoggerInterface $logger = null
+        ?LoggerInterface $logger = null,
+        array $globals = []
     ) {
         $this->logger = $logger;
+        $this->globals = $globals;
 
         $templateDir = $options['dir'];
         $cacheDir = $options['cache_dir'] ?? null;
@@ -54,6 +57,9 @@ class Template
 
     public function render(string $name, array $data = []): string
     {
-        return $this->engine->render($name, $data);
+        return $this->engine->render(
+            $name,
+            array_replace_recursive($this->globals, $data)
+        );
     }
 }
