@@ -298,3 +298,21 @@ details.motogp-accordion[open] > summary .motogp-icon {
 .motogp-bids-table input[type="number"] {
     width: 5rem;
 }
+
+body[data-watermark]::after {
+  content: attr(data-watermark);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+
+  font-family: "Arial Narrow", "Helvetica Narrow", "Helvetica", "Arial", sans-serif;
+  font-size: 12vw;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.06);
+  text-transform: uppercase;
+
+  z-index: 9999;
+  pointer-events: none;
+  user-select: none;
+}

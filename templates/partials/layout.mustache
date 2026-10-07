@@ -14,7 +14,11 @@
         <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
         <title>{{$ title }}Title Here{{/ title }}</title>
     </head>
-    <body>
+    <body
+        {{#app.watermark}}
+        data-watermark="{{ app.watermark }}"
+        {{/app.watermark}}
+    >
         <header class="container">
             {{> partials/navigation }}
         </header>
