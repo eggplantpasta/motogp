@@ -7,7 +7,6 @@ use MotoGp\Team;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
-$db = $app->db;
 $session = new Session();
 
 if (!$session->isLoggedIn()) {

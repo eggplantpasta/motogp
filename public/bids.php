@@ -197,6 +197,4 @@ foreach ($bids as $bidNumber => $bid) {
 
 $data['current_bids'] = $currentBids;
 
-$tpl = $app->template;
-
-echo $tpl->render('bids', $data);
+echo $app->template->render('bids', $data);

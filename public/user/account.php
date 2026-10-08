@@ -8,8 +8,6 @@ use MotoGp\Player;
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
 // redirect to login page if not logged in
-$db = $app->db;
-$tpl = $app->template;
 $session = new Session();
 
 if (!$session->isLoggedIn()) {
@@ -44,4 +42,4 @@ $data['user']['balance'] = $playerModel->getBalance(
 );
 $data['user']['created_ago'] = Utility::timeAgo($data['user']['created_at']);
 
-echo $tpl->render('user/account', $data);
+echo $app->template->render('user/account', $data);

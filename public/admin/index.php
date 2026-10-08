@@ -23,7 +23,7 @@ $adminModel = new Admin($app->db);
 $userModel = new User($app->db, $app->logger);
 
 $pendingUserExpiryDays =
-    (int)($config['app']['pending_user_expiry_days'] ?? 7);
+    (int)($app->config['app']['pending_user_expiry_days'] ?? 7);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!Csrf::validate($_POST['csrf_token'] ?? null)) {
