@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Process form submission
     $user->username = trim($_POST['username'] ?? '');
-    $user->password = trim($_POST['password'] ?? '');
+    $user->password = $_POST['password'] ?? '';
 
     // Validate inputs
     $user->validateLogin();
@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data['form']['username'] = $user->username;
     $data['form']['usernameErr'] = $user->usernameErr;
     $data['form']['usernameInvalid'] = !empty($user->usernameErr) ? 'true' : 'false';
-    $data['form']['password'] = $user->password;
     $data['form']['passwordErr'] = $user->passwordErr;
     $data['form']['passwordInvalid'] = !empty($user->passwordErr) ? 'true' : 'false';
 
