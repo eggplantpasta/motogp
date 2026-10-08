@@ -230,4 +230,18 @@ class Event
         ]) === 1;
     }
 
+    public function closeBiddingForDueEvents(string $date): int
+    {
+        $sql = '
+        update events
+        set bids_open = 0
+        where bids_open = 1
+        and date(start_date) <= date(:date)
+    ';
+
+        return $this->db->execute($sql, [
+            'date' => $date,
+        ]);
+    }
+
 }
