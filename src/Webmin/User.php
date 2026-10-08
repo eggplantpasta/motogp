@@ -124,7 +124,7 @@ class User
     public function validateLogin(): bool
     {
         if (empty(trim($this->username)) || is_null($this->username)) {
-            $this->usernameErr = 'Username cannot be empty.';
+            $this->usernameErr = 'Username or email cannot be empty.';
         }
 
         if (empty($this->password)) {
