@@ -1,17 +1,10 @@
 <?php
 
-use Webmin\Template;
 use Webmin\User;
 use Webmin\Session;
-use Webmin\Database;
 use Webmin\Csrf;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
-
-$config = $app->config;
-$logger = $app->logger;
-
-$tpl = new Template($config['template'], $logger);
 
 // redirect to login page if not logged in
 $session = new Session();
@@ -30,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit('Invalid CSRF token.');
     }
 
-    $db = new Database($config['database']['dsn'], $logger);
-    $user = new User($db, $logger);
+    $user = new User($app->db, $app->logger);
 
     $sessionUser = $session->getUser();
     $userId = $sessionUser['user_id'];
@@ -114,4 +106,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $data['form']['csrfToken'] = Csrf::token();
-echo $tpl->render('user/edit-account', $data);
+echo $app->template->render('user/edit-account', $data);

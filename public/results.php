@@ -1,7 +1,5 @@
 <?php
 
-use Webmin\Template;
-use Webmin\Database;
 use Webmin\Session;
 use MotoGp\Utility;
 use MotoGp\Event;
@@ -9,15 +7,10 @@ use MotoGp\Result;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
 
-$config = $app->config;
-$logger = $app->logger;
-
 $session = new Session();
 
-$db = new Database($config['database']['dsn'], $logger);
-
-$eventModel = new Event($db);
-$resultModel = new Result($db);
+$eventModel = new Event($app->db);
+$resultModel = new Result($app->db);
 
 if (isset($_GET['event_id'])) {
     if (!ctype_digit($_GET['event_id'])) {
@@ -65,9 +58,6 @@ foreach ($data['results'] as &$result) {
 }
 unset($result);
 
-$data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 
-$tpl = new Template($config['template'], $logger);
-
-echo $tpl->render('results', $data);
+echo $app->template->render('results', $data);

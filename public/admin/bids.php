@@ -1,7 +1,5 @@
 <?php
 
-use Webmin\Template;
-use Webmin\Database;
 use Webmin\Session;
 use MotoGp\Event;
 use MotoGp\Utility;
@@ -9,9 +7,6 @@ use MotoGp\Bid;
 use Webmin\Csrf;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
-
-$config = $app->config;
-$logger = $app->logger;
 
 $session = new Session();
 
@@ -25,10 +20,8 @@ if (!$session->isAdmin()) {
     exit('Forbidden');
 }
 
-$db = new Database($config['database']['dsn'], $logger);
-
-$eventModel = new Event($db);
-$bidModel = new Bid($db);
+$eventModel = new Event($app->db);
+$bidModel = new Bid($app->db);
 
 $eventId = null;
 
@@ -130,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 
 if ($event !== null) {
@@ -215,6 +207,4 @@ if ($data['resolved']) {
         && !empty($data['payout']['payouts']);
 }
 
-$tpl = new Template($config['template'], $logger);
-
-echo $tpl->render('admin/bids', $data);
+echo $app->template->render('admin/bids', $data);

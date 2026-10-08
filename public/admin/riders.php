@@ -1,7 +1,5 @@
 <?php
 
-use Webmin\Template;
-use Webmin\Database;
 use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Rider;
@@ -9,10 +7,7 @@ use MotoGp\Team;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
-$config = $app->config;
-$logger = $app->logger;
-
-$db = new Database($config['database']['dsn'], $logger);
+$db = $app->db;
 $session = new Session();
 
 if (!$session->isLoggedIn()) {
@@ -25,8 +20,8 @@ if (!$session->isAdmin()) {
     exit('Forbidden');
 }
 
-$riderModel = new Rider($db, $logger);
-$teamModel = new Team($db);
+$riderModel = new Rider($app->db);
+$teamModel = new Team($app->db);
 
 function withSelectedTeam(array $teams, string $selectedTeamId): array
 {
@@ -148,11 +143,8 @@ unset($rider);
 
 $data['teams'] = withSelectedTeam($allTeams, (string)$data['form']['team_id']);
 
-$tpl = new Template($config['template'], $logger);
-
-$data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 
 $data['csrfToken'] = Csrf::token();
 
-echo $tpl->render('admin/riders', $data);
+echo $app->template->render('admin/riders', $data);

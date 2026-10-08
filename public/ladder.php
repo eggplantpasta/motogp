@@ -1,17 +1,11 @@
 <?php
 
-use Webmin\Template;
-use Webmin\Database;
 use Webmin\Session;
 use MotoGp\Player;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
 
-$config = $app->config;
-$logger = $app->logger;
-
-$db = new Database($config['database']['dsn'], $logger);
-$playerModel = new Player($db, $logger);
+$playerModel = new Player($app->db, $app->logger);
 $session = new Session();
 
 if (!$session->isLoggedIn()) {
@@ -19,7 +13,6 @@ if (!$session->isLoggedIn()) {
     exit();
 }
 
-$data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 
 $data['ladder'] = $playerModel->getLadder();
@@ -32,6 +25,4 @@ foreach ($data['ladder'] as &$player) {
 
 unset($player);
 
-$tpl = new Template($config['template'], $logger);
-
-echo $tpl->render('ladder', $data);
+echo $app->template->render('ladder', $data);

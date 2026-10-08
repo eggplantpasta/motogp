@@ -1,15 +1,10 @@
 <?php
 
-use Webmin\Template;
-use Webmin\Database;
 use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Team;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
-
-$config = $app->config;
-$logger = $app->logger;
 
 $session = new Session();
 
@@ -23,8 +18,7 @@ if (!$session->isAdmin()) {
     exit('Forbidden');
 }
 
-$db = new Database($config['database']['dsn'], $logger);
-$teamModel = new Team($db);
+$teamModel = new Team($app->db);
 
 $data['user'] = $session->getUser();
 
@@ -135,9 +129,7 @@ foreach ($data['teams'] as &$team) {
 
 unset($team);
 
-$tpl = new Template($config['template'], $logger);
-$data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 
 $data['csrfToken'] = Csrf::token();
-echo $tpl->render('admin/teams', $data);
+echo $app->template->render('admin/teams', $data);

@@ -7,11 +7,6 @@ use Webmin\User;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
-$config = $app->config;
-$logger = $app->logger;
-$db = $app->db;
-$tpl = $app->template;
-
 $session = new Session();
 
 if (!$session->isLoggedIn()) {
@@ -24,8 +19,8 @@ if (!$session->isAdmin()) {
     exit('Forbidden');
 }
 
-$adminModel = new Admin($db);
-$userModel = new User($db, $logger);
+$adminModel = new Admin($app->db);
+$userModel = new User($app->db, $app->logger);
 
 $pendingUserExpiryDays =
     (int)($config['app']['pending_user_expiry_days'] ?? 7);
@@ -60,4 +55,4 @@ $data['pendingUserExpiryDays'] = $pendingUserExpiryDays;
 $data['csrfToken'] = Csrf::token();
 $data['user'] = $session->getUser();
 
-echo $tpl->render('admin/index', $data);
+echo $app->template->render('admin/index', $data);

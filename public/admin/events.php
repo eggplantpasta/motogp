@@ -1,17 +1,12 @@
 <?php
 
-use Webmin\Template;
-use Webmin\Database;
 use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
 use MotoGp\Country;
 use MotoGp\Utility;
 
-$app = require_once __DIR__ . '/../../src/bootstrap.php';
-
-$config = $app->config;
-$logger = $app->logger;
+$app = require __DIR__ . '/../../src/bootstrap.php';
 
 $session = new Session();
 
@@ -25,9 +20,8 @@ if (!$session->isAdmin()) {
     exit('Forbidden');
 }
 
-$db = new Database($config['database']['dsn'], $logger);
-$eventModel = new Event($db);
-$countryModel = new Country($db);
+$eventModel = new Event($app->db);
+$countryModel = new Country($app->db);
 
 function normalizeDate(?string $dateValue): string
 {
@@ -117,8 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (
             $startDateInput !== '' &&
             (
-                $startDateInput < $config['app']['season'] . '-01-01' ||
-                $startDateInput > $config['app']['season'] . '-12-31'
+                $startDateInput < $app->config['app']['season'] . '-01-01' ||
+                $startDateInput > $app->config['app']['season'] . '-12-31'
             )
         ) {
             $data['form']['errors']['start_date'] =
@@ -187,6 +181,4 @@ $data['countries'] = $countryModel->getCountriesSelected(
     $data['form']['country_code']
 );
 
-$tpl = new Template($config['template'], $logger);
-
-echo $tpl->render('admin/events', $data);
+echo $app->template->render('admin/events', $data);

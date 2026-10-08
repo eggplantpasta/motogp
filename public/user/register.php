@@ -1,16 +1,11 @@
 <?php
 
-use Webmin\Template;
 use Webmin\User;
 use Webmin\Session;
-use Webmin\Database;
 use Webmin\Csrf;
 use MotoGp\Player;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
-
-$config = $app->config;
-$logger = $app->logger;
 
 // redirect to account page if already logged in
 $session = new Session();
@@ -18,8 +13,6 @@ if ($session->isLoggedIn()) {
     header('Location: /user/account.php');
     exit();
 }
-
-$tpl = new Template($config['template'], $logger);
 
 $data['form']['action'] = htmlspecialchars($_SERVER["PHP_SELF"]);
 
@@ -30,9 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit('Invalid CSRF token.');
     }
 
-    $db = new Database($config['database']['dsn'], $logger);
-    $user = new User($db, $logger);
-    $playerModel = new Player($db, $logger);
+    $user = new User($app->db, $app->logger);
+    $playerModel = new Player($app->db, $app->logger);
 
     // Process form submission
     $user->username = trim($_POST['username'] ?? '');
@@ -57,18 +49,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // If no errors, proceed with registration logic (e.g., save to database)
     if (empty($user->usernameErr) && empty($user->emailErr) && empty($user->passwordErr)) {
-        $db->beginTransaction();
+        $app->db->beginTransaction();
 
         $userId = $user->register();
 
         if ($userId !== null && $playerModel->create($userId)) {
-            $db->commit();
+            $app->db->commit();
 
             header('Location: /user/login.php');
             exit();
         }
 
-        $db->rollBack();
+        $app->db->rollBack();
 
         $data['form']['usernameErr'] = $user->usernameErr;
         $data['form']['usernameInvalid'] = !empty($user->usernameErr) ? 'true' : 'false';
@@ -78,4 +70,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $data['form']['csrfToken'] = Csrf::token();
-echo $tpl->render('user/register', $data);
+echo $app->template->render('user/register', $data);

@@ -1,7 +1,5 @@
 <?php
 
-use Webmin\Template;
-use Webmin\Database;
 use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
@@ -12,11 +10,7 @@ use MotoGp\Utility;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
 
-$config = $app->config;
-$logger = $app->logger;
-
-$db = new Database($config['database']['dsn'], $logger);
-$playerModel = new Player($db, $logger);
+$playerModel = new Player($app->db, $app->logger);
 
 $session = new Session();
 
@@ -35,9 +29,9 @@ if (
 
 $eventId = (int)$_GET['event_id'];
 
-$eventModel = new Event($db);
-$riderModel = new Rider($db);
-$bidModel = new Bid($db);
+$eventModel = new Event($app->db);
+$riderModel = new Rider($app->db);
+$bidModel = new Bid($app->db);
 
 $event = $eventModel->getEventById($eventId);
 
@@ -61,7 +55,6 @@ if ($balance === null) {
     exit('User account not found.');
 }
 
-$data['app'] = $config['app'];
 $data['user'] = $sessionUser;
 $data['user']['balance'] = $balance;
 $data['event'] = $event;
@@ -204,6 +197,6 @@ foreach ($bids as $bidNumber => $bid) {
 
 $data['current_bids'] = $currentBids;
 
-$tpl = new Template($config['template'], $logger);
+$tpl = $app->template;
 
 echo $tpl->render('bids', $data);

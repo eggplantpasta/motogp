@@ -1,16 +1,11 @@
 <?php
 
-use Webmin\Template;
-use Webmin\Database;
 use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
 use MotoGp\Result;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
-
-$config = $app->config;
-$logger = $app->logger;
 
 $session = new Session();
 
@@ -24,12 +19,9 @@ if (!$session->isAdmin()) {
     exit('Forbidden');
 }
 
-$db = new Database($config['database']['dsn'], $logger);
+$eventModel = new Event($app->db);
+$resultModel = new Result($app->db);
 
-$eventModel = new Event($db);
-$resultModel = new Result($db);
-
-$data['app'] = $config['app'];
 $data['user'] = $session->getUser();
 
 $data['csrfToken'] = Csrf::token();
@@ -223,6 +215,4 @@ foreach ($data['events'] as &$event) {
 }
 unset($event);
 
-$tpl = new Template($config['template'], $logger);
-
-echo $tpl->render('admin/results', $data);
+echo $app->template->render('admin/results', $data);

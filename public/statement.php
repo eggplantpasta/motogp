@@ -1,20 +1,14 @@
 <?php
 
-use Webmin\Database;
-use Webmin\Template;
 use Webmin\User;
 use Webmin\Session;
 use MotoGp\Player;
 
 $app = require __DIR__ . '/../src/bootstrap.php';
 
-$config = $app->config;
-$logger = $app->logger;
-
-$db = new Database($config['database']['dsn'], $logger);
-$user = new User($db, $logger);
+$user = new User($app->db, $app->logger);
 $session = new Session();
-$playerModel = new Player($db, $logger);
+$playerModel = new Player($app->db, $app->logger);
 
 if (!$session->isLoggedIn()) {
     header('Location: /user/login.php');
@@ -95,6 +89,4 @@ $data['user'] = $sessionUser;
 $data['account'] = $account;
 $data['transactions'] = $transactions;
 
-$tpl = new Template($config['template'], $logger);
-
-echo $tpl->render('statement', $data);
+echo $app->template->render('statement', $data);

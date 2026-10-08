@@ -7,9 +7,6 @@ use MotoGp\Player;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
-$config = $app->config;
-$logger = $app->logger;
-
 // redirect to login page if not logged in
 $db = $app->db;
 $tpl = $app->template;
@@ -20,8 +17,8 @@ if (!$session->isLoggedIn()) {
     exit();
 }
 
-$eventModel = new Event($db);
-$playerModel = new Player($db, $logger);
+$eventModel = new Event($app->db);
+$playerModel = new Player($app->db, $app->logger);
 
 $nextEventId = $eventModel->getNextEventId();
 $nextEvent = $nextEventId !== null

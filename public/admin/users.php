@@ -2,20 +2,13 @@
 
 use MotoGp\Player;
 use MotoGp\Utility;
-use Webmin\Database;
 use Webmin\Session;
-use Webmin\Template;
 use Webmin\User;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
-$config = $app->config;
-$logger = $app->logger;
-
-$tpl = new Template($config['template'], $logger);
-$db = new Database($config['database']['dsn'], $logger);
-$userModel = new User($db, $logger);
-$playerModel = new Player($db, $logger);
+$userModel = new User($app->db, $app->logger);
+$playerModel = new Player($app->db, $app->logger);
 $session = new Session();
 
 if (!$session->isLoggedIn()) {
@@ -49,4 +42,4 @@ unset($account);
 
 $data['user'] = $session->getUser();
 
-echo $tpl->render('admin/users', $data);
+echo $app->template->render('admin/users', $data);
