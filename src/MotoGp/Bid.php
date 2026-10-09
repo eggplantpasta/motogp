@@ -118,6 +118,34 @@ class Bid
         );
     }
 
+    public function hasUnsettledEarlierEvents(int $eventId): bool
+    {
+        $sql = '
+        select 1
+        from events e
+        join events current_event
+            on current_event.event_id = :event_id
+        where (
+            e.start_date < current_event.start_date
+            or (
+                e.start_date = current_event.start_date
+                and e.event_id < current_event.event_id
+            )
+        )
+        and e.payouts_settled_at is null
+        and exists (
+            select 1
+            from bids b
+            where b.event_id = e.event_id
+        )
+        limit 1
+    ';
+
+        return $this->db->queryOne($sql, [
+            ':event_id' => $eventId,
+        ]) !== null;
+    }
+
     public function resolveBids(int $eventId): bool
     {
         try {
@@ -138,6 +166,7 @@ class Bid
                 $event === null
                 || (bool)$event['bids_open']
                 || $event['bids_resolved_at'] !== null
+                || $this->hasUnsettledEarlierEvents($eventId)
             ) {
                 $this->db->rollBack();
                 return false;

@@ -45,14 +45,6 @@
     <ul class="motogp-nav-primary">
         <li><a href="/events.php">races</a></li>
         <li><a href="/riders.php">riders</a></li>
-        <li>
-            <a href="/help.php">
-                <span class="motogp-nav-icon">
-                    {{> partials/icons/question }}
-                </span>
-            </a>
-        </li>
-
         {{#user}}
             <li><a href="/ladder.php">ladder</a></li>
         {{/user}}
@@ -87,6 +79,14 @@
     </ul>
 
     <ul class="motogp-nav-account">
+        <li>
+            <a href="/help.php">
+                <span class="motogp-nav-icon">
+                    {{> partials/icons/question }}
+                </span>
+            </a>
+        </li>
+
         {{#user}}
             <li class="motogp-nav-account-menu">
                 <details class="dropdown">
