@@ -191,14 +191,67 @@ class Bid
                 return false;
             }
 
+            // Calculate each player's total bids.
+            $totals = [];
+
+            foreach ($bids as $bid) {
+                $userId = (int)$bid['user_id'];
+
+                $totals[$userId] =
+                    ($totals[$userId] ?? 0) + (int)$bid['amount'];
+            }
+
+            // Reduce bids proportionately where necessary.
+            foreach ($bids as &$bid) {
+                $userId = (int)$bid['user_id'];
+                $total = $totals[$userId];
+
+                $user = $this->db->queryOne(
+                    '
+                        select balance
+                        from users
+                        where user_id = :user_id
+                    ',
+                    [':user_id' => $userId]
+                );
+
+                if ($user === null) {
+                    throw new \RuntimeException('Bid user not found.');
+                }
+
+                $balance = (int)$user['balance'];
+
+                if ($total > $balance && $total > 0) {
+                    $bid['amount'] = (int)floor(
+                        (int)$bid['amount'] * $balance / $total
+                    );
+
+                    $this->db->execute(
+                        '
+                            update bids
+                            set amount = :amount
+                            where bid_id = :bid_id
+                        ',
+                        [
+                            ':amount' => $bid['amount'],
+                            ':bid_id' => $bid['bid_id'],
+                        ]
+                    );
+                }
+            }
+
+            unset($bid);
+
             $highestBids = [];
 
             foreach ($bids as $bid) {
                 $riderId = (int)$bid['rider_id'];
+                $amount = (int)$bid['amount'];
 
-                if (!isset($highestBids[$riderId])) {
-                    $highestBids[$riderId] = (int)$bid['amount'];
-                }
+                $highestBids[$riderId] = max(
+                    $highestBids[$riderId] ?? 0,
+                    $amount
+                );
             }
 
             foreach ($bids as $bid) {
