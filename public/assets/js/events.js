@@ -51,7 +51,7 @@ function addEvent(event) {
     document.getElementById('event-name').value = '';
     document.getElementById('circuit').value = '';
     document.getElementById('country-code').value = '';
-    document.getElementById('bids-open').checked = false;
+    document.getElementById('bids-open').checked = true;
 
     clearEventFormMessage();
     clearEventFormErrors();

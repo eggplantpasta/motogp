@@ -48,7 +48,7 @@ $data['form'] = [
     'name' => '',
     'circuit' => '',
     'country_code' => '',
-    'bids_open' => 0,
+    'bids_open' => 1,
     'errors' => [],
 ];
 

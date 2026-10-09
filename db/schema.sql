@@ -40,7 +40,7 @@ create table if not exists events (
     name varchar(255),
     circuit varchar(255),
     country_code integer,
-    bids_open integer not null default 0,
+    bids_open integer not null default 1,
     bids_resolved_at datetime default null,
     payouts_settled_at datetime default null,
     created_at datetime not null default current_timestamp,

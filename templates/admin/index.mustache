@@ -79,22 +79,6 @@
                     </article>
                 {{/hasStalePendingUsers}}
 
-                {{#noOpenBidding}}
-                    <article>
-                        <header>Bidding</header>
-
-                        <p>No race is currently open for bidding.</p>
-
-                        <a
-                            href="/admin/events.php"
-                            role="button"
-                            class="outline motogp-icon-text-button"
-                        >
-                            manage races
-                        </a>
-                    </article>
-                {{/noOpenBidding}}
-
                 {{#hasEventReadyToResolveBids}}
                     <article>
                         <header>Resolve bidding</header>

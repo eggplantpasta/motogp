@@ -113,16 +113,6 @@ class Event
             ';
             $this->db->execute($sql, $params);
 
-            // Only one event can have bids open at a time.
-            if ($data['bids_open']) {
-                $sql = '
-                    update events
-                    set bids_open = 0
-                    where event_id != :event_id
-                ';
-                $this->db->execute($sql, [':event_id' => $eventId]);
-            }
-
             $this->db->commit();
 
             return true;
@@ -163,19 +153,6 @@ class Event
             ]);
 
             $eventId = (int)$this->db->getConnection()->lastInsertId();
-
-            // Only one event can have bids open at a time.
-            if ($data['bids_open']) {
-                $sql = '
-                    update events
-                    set bids_open = 0
-                    where event_id != :event_id
-                ';
-
-                $this->db->execute($sql, [
-                    ':event_id' => $eventId
-                ]);
-            }
 
             $this->db->commit();
 

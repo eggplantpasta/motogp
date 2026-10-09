@@ -24,11 +24,8 @@ class Admin
         $stalePendingUserCount =
             $this->getStalePendingUserCount($pendingUserExpiryDays);
 
-        $openBiddingEvent = $this->getOpenBiddingEvent();
-
         $hasPendingUsers = $pendingUserCount > 0;
         $hasStalePendingUsers = $stalePendingUserCount > 0;
-        $noOpenBidding = $openBiddingEvent === null;
 
         $eventReadyToResolveBids =
             $this->getEventReadyToResolveBids();
@@ -55,9 +52,6 @@ class Admin
             'stalePendingUserCount' => $stalePendingUserCount,
             'hasStalePendingUsers' => $hasStalePendingUsers,
 
-            'openBiddingEvent' => $openBiddingEvent,
-            'noOpenBidding' => $noOpenBidding,
-
             'eventReadyToResolveBids' => $eventReadyToResolveBids,
             'hasEventReadyToResolveBids' => $hasEventReadyToResolveBids,
 
@@ -70,7 +64,6 @@ class Admin
             'hasAdminTasks' =>
                 $hasPendingUsers
                 || $hasStalePendingUsers
-                || $noOpenBidding
                 || $hasEventReadyToResolveBids
                 || $hasEventAwaitingResults
                 || $hasEventReadyToSettlePayouts
@@ -106,21 +99,6 @@ class Admin
         );
 
         return (int)$result['count'];
-    }
-
-    private function getOpenBiddingEvent(): ?array
-    {
-        return $this->db->queryOne(
-            '
-                select
-                    event_id,
-                    name,
-                    start_date
-                from events
-                where bids_open = 1
-                limit 1
-            '
-        );
     }
 
     private function getEventReadyToResolveBids(): ?array
