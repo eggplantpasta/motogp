@@ -72,6 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit('Bids have already been resolved.');
             }
 
+            if ($bidModel->hasUnsettledEarlierEvents($eventId)) {
+                http_response_code(400);
+                exit(
+                    'An earlier race must be settled before '
+                    . 'bidding for this race can be resolved.'
+                );
+            }
+
             if (!$bidModel->resolveBids($eventId)) {
                 http_response_code(500);
                 exit('Unable to resolve bids.');
@@ -177,10 +185,16 @@ $data['resolved'] =
     $event !== null
     && $event['bids_resolved_at'] !== null;
 
+$data['waiting_for_earlier_event'] =
+        $event !== null
+        && !$data['resolved']
+        && $bidModel->hasUnsettledEarlierEvents($eventId);
+
 $data['can_resolve'] =
     $event !== null
     && !(bool)$event['bids_open']
-    && $event['bids_resolved_at'] === null
+    && !$data['resolved']
+    && !$data['waiting_for_earlier_event']
     && !empty($bids);
 
 $data['payout'] = null;

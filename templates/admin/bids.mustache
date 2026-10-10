@@ -45,6 +45,13 @@
                 Bidding has been resolved.
             {{/resolved}}
 
+            {{#waiting_for_earlier_event}}
+                <article>
+                    An earlier race must be settled before bidding for this race
+                    can be resolved.
+                </article>
+            {{/waiting_for_earlier_event}}
+
             {{#can_resolve}}
                 <form method="post" action="/admin/bids.php?event_id={{ event.event_id }}">
                     <input
