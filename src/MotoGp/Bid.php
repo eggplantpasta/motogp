@@ -519,11 +519,6 @@ class Bid
 
             $calculation = $this->calculatePayouts($eventId);
 
-            if (empty($calculation['payouts'])) {
-                $this->db->rollBack();
-                return false;
-            }
-
             foreach ($calculation['payouts'] as $payout) {
                 $this->db->execute(
                     '

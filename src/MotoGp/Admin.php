@@ -105,21 +105,38 @@ class Admin
     {
         return $this->db->queryOne(
             '
-            select
-                e.event_id,
-                e.name,
-                e.start_date
-            from events e
-            where e.bids_open = 0
-            and e.bids_resolved_at is null
-            and exists (
-                select 1
-                from bids b
-                where b.event_id = e.event_id
-            )
-            order by e.start_date
-            limit 1
-        '
+                select
+                    e.event_id,
+                    e.name,
+                    e.start_date
+                from events e
+                where e.bids_open = 0
+                and e.bids_resolved_at is null
+                and exists (
+                    select 1
+                    from bids b
+                    where b.event_id = e.event_id
+                )
+                and not exists (
+                    select 1
+                    from events earlier
+                    where (
+                        earlier.start_date < e.start_date
+                        or (
+                            earlier.start_date = e.start_date
+                            and earlier.event_id < e.event_id
+                        )
+                    )
+                    and earlier.payouts_settled_at is null
+                    and exists (
+                        select 1
+                        from bids earlier_bid
+                        where earlier_bid.event_id = earlier.event_id
+                    )
+                )
+                order by e.start_date, e.event_id
+                limit 1
+            '
         );
     }
 

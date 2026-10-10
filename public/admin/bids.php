@@ -216,9 +216,6 @@ if ($data['resolved']) {
     $data['payout'] =
         $bidModel->calculatePayouts($eventId);
 
-    $data['can_settle'] =
-        $data['can_settle']
-        && !empty($data['payout']['payouts']);
 }
 
 echo $app->template->render('admin/bids', $data);

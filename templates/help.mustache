@@ -45,6 +45,11 @@
                 <li>Each player must bid on exactly three riders.</li>
                 <li>A bid may be any whole number of points, including zero.</li>
                 <li>The total of a player's three bids cannot exceed their current balance.</li>
+                <li>
+                    If a player's balance has fallen before a later race is resolved,
+                    their bids for that race are reduced proportionally to fit their
+                    available balance. Reduced bids are rounded down to whole points.
+                </li>
                 <li>The highest bid for a rider wins that rider.</li>
                 <li>If two or more players tie for the highest bid, they all win that rider.</li>
                 <li>Only winning bids are deducted from a player's balance. Losing bids cost nothing.</li>
@@ -150,23 +155,20 @@
                     </h2>
                 </summary>
                 <p>
-                    The admin dashboard shows tasks that need attention. Most race
-                    administration follows the same sequence:
+                    The admin dashboard shows tasks that need attention. Race
+                    administration normally follows this sequence:
                 </p>
 
                 <ol>
                     <li>
-                        <strong>Open bidding.</strong>
-                        Use races to open bidding for the upcoming race.
-                    </li>
-                    <li>
                         <strong>Close bidding.</strong>
-                        Use races to close bidding when the bidding period ends.
+                        Bidding closes automatically at the race lockout time. It can
+                        also be closed manually from races.
                     </li>
                     <li>
                         <strong>Resolve bids.</strong>
                         Use bids to determine the winning bids and deduct them from
-                        player balances.
+                        player balances. Races must be resolved and settled in order.
                     </li>
                     <li>
                         <strong>Enter results.</strong>
@@ -176,7 +178,8 @@
                     <li>
                         <strong>Settle payouts.</strong>
                         Return to bids and settle the race. Payouts are calculated
-                        and added to player balances.
+                        and added to player balances. A race must still be settled
+                        when there are no eligible payouts.
                     </li>
                 </ol>
 
