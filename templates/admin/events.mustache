@@ -24,7 +24,7 @@
                     <th>Date</th>
                     <th>Race</th>
                     <th>Bidding</th>
-                    <th>Admin</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
 
@@ -40,7 +40,41 @@
                     >
                         <td>{{ display_date }}</td>
                         <td>{{> partials/race }}</td>
-                        <td>{{#bids_open}}open{{/bids_open}}</td>
+                        <td>
+                            {{#ready_to_resolve}}
+                                <a
+                                    href="/admin/bids.php?event_id={{ event_id }}"
+                                    role="button"
+                                    class="outline motogp-icon-text-button"
+                                >
+                                    resolve bids
+                                </a>
+                            {{/ready_to_resolve}}
+
+                            {{#results_pending}}
+                                <a
+                                    href="/admin/results.php?event_id={{ event_id }}"
+                                    role="button"
+                                    class="outline motogp-icon-text-button"
+                                >
+                                    enter results
+                                </a>
+                            {{/results_pending}}
+
+                            {{#ready_to_settle}}
+                                <a
+                                    href="/admin/bids.php?event_id={{ event_id }}"
+                                    role="button"
+                                    class="outline motogp-icon-text-button"
+                                >
+                                    settle payouts
+                                </a>
+                            {{/ready_to_settle}}
+
+                            {{^state_is_action}}
+                                {{ admin_state_display }}
+                            {{/state_is_action}}
+                        </td>
                         <td>
                             <div class="motogp-button-group">
                                 <button

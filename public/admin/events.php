@@ -3,6 +3,7 @@
 use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
+use MotoGp\Admin;
 use MotoGp\Country;
 use MotoGp\Utility;
 
@@ -21,6 +22,7 @@ if (!$session->isAdmin()) {
 }
 
 $eventModel = new Event($app->db);
+$adminModel = new Admin($app->db);
 $countryModel = new Country($app->db);
 
 function normalizeDate(?string $dateValue): string
@@ -159,8 +161,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $data['events'] = $eventModel->getEvents();
+$adminStates = $adminModel->getEventAdminStates();
 
 foreach ($data['events'] as &$event) {
+    $event['admin_state'] =
+        $adminStates[(int)$event['event_id']];
+
     $event['start_date'] = normalizeDate(
         $event['start_date']
     );
@@ -170,9 +176,36 @@ foreach ($data['events'] as &$event) {
         'M d'
     );
 
+    $event['has_bids'] =
+        $eventModel->hasBids((int)$event['event_id']);
+
     $event['has_history'] =
-        $eventModel->hasBids((int)$event['event_id'])
+        $event['has_bids']
         || $eventModel->hasResults((int)$event['event_id']);
+
+    $event['admin_state_display'] = match ($event['admin_state']) {
+        'open' => 'open',
+        'closed' => 'closed',
+        'ready_to_resolve' => 'resolve bids',
+        'results_pending' => 'enter results',
+        'ready_to_settle' => 'settle payouts',
+        'complete' => 'complete',
+        default => 'unknown',
+    };
+
+    $event['ready_to_resolve'] =
+    $event['admin_state'] === 'ready_to_resolve';
+
+    $event['results_pending'] =
+        $event['admin_state'] === 'results_pending';
+
+    $event['ready_to_settle'] =
+        $event['admin_state'] === 'ready_to_settle';
+
+    $event['state_is_action'] =
+        $event['ready_to_resolve']
+        || $event['results_pending']
+        || $event['ready_to_settle'];
 }
 
 unset($event);

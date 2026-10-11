@@ -71,6 +71,117 @@ class Admin
         ];
     }
 
+    /*
+    * Administrative race states:
+    *
+    * open             Bidding is open.
+    * closed           Bidding is closed but no action is currently due.
+    * ready_to_resolve Bids can now be resolved.
+    * results_pending  Winning riders are missing results.
+    * ready_to_settle  Results are complete and payouts can be settled.
+    * complete         No further administration is required.
+    *
+    * Results may be entered before bids are resolved, so these states do
+    * not form a strictly linear sequence.
+    */
+    public function getEventAdminStates(): array
+    {
+        $events = $this->db->query(
+            '
+            select
+                e.event_id,
+                e.start_date,
+                e.bids_open,
+                e.bids_resolved_at,
+                e.payouts_settled_at,
+                exists (
+                    select 1
+                    from bids b
+                    where b.event_id = e.event_id
+                ) as has_bids,
+                exists (
+                    select 1
+                    from events earlier
+                    where (
+                        earlier.start_date < e.start_date
+                        or (
+                            earlier.start_date = e.start_date
+                            and earlier.event_id < e.event_id
+                        )
+                    )
+                    and earlier.payouts_settled_at is null
+                    and exists (
+                        select 1
+                        from bids earlier_bid
+                        where earlier_bid.event_id = earlier.event_id
+                    )
+                ) as has_unsettled_earlier_event,
+                exists (
+                    select 1
+                    from bids b
+                    where b.event_id = e.event_id
+                    and b.won = 1
+                    and not exists (
+                        select 1
+                        from results r
+                        where r.event_id = b.event_id
+                        and r.rider_id = b.rider_id
+                    )
+                ) as has_missing_results
+            from events e
+            order by e.start_date, e.event_id
+        '
+        );
+
+        $states = [];
+
+        foreach ($events as $event) {
+            $states[(int)$event['event_id']] =
+                $this->getEventAdminState($event);
+        }
+
+        return $states;
+    }
+
+    private function getEventAdminState(array $event): string
+    {
+        $pastOrToday =
+            $event['start_date'] <= date('Y-m-d');
+
+        if ($event['payouts_settled_at'] !== null) {
+            return 'complete';
+        }
+
+        if (
+            $pastOrToday
+            && !(bool)$event['has_bids']
+        ) {
+            return 'complete';
+        }
+
+        if ((bool)$event['bids_open']) {
+            return 'open';
+        }
+
+        if ($event['bids_resolved_at'] !== null) {
+            if ((bool)$event['has_missing_results']) {
+                return 'results_pending';
+            }
+
+            return 'ready_to_settle';
+        }
+
+        if (
+            $pastOrToday
+            && (bool)$event['has_bids']
+            && !(bool)$event['has_unsettled_earlier_event']
+        ) {
+            return 'ready_to_resolve';
+        }
+
+        return 'closed';
+    }
+
     private function getPendingUserCount(): int
     {
         $result = $this->db->queryOne(
