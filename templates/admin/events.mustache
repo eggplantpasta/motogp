@@ -71,6 +71,30 @@
                                 </a>
                             {{/ready_to_settle}}
 
+                            {{#can_open_bidding}}
+                                <form method="post">
+                                    <input type="hidden" name="operation" value="open-bidding">
+                                    <input type="hidden" name="event-id" value="{{ event_id }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+
+                                    <button type="submit" class="motogp-icon-text-button">
+                                        open bidding
+                                    </button>
+                                </form>
+                            {{/can_open_bidding}}
+
+                            {{#can_close_bidding}}
+                                <form method="post">
+                                    <input type="hidden" name="operation" value="close-bidding">
+                                    <input type="hidden" name="event-id" value="{{ event_id }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrfToken }}">
+
+                                    <button type="submit" class="motogp-icon-text-button">
+                                        close bidding
+                                    </button>
+                                </form>
+                            {{/can_close_bidding}}
+
                             {{^state_is_action}}
                                 {{ admin_state_display }}
                             {{/state_is_action}}

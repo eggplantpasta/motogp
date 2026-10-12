@@ -63,7 +63,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $operation = $_POST['operation'] ?? '';
     $eventId = trim($_POST['event-id'] ?? '');
 
-    if ($operation === 'delete') {
+    if (in_array($operation, ['open-bidding', 'close-bidding'], true)) {
+        $event = ctype_digit($eventId)
+            ? $eventModel->getEventById((int)$eventId)
+            : null;
+
+        $today = date('Y-m-d');
+
+        $canOpen = $event !== null
+            && $event['start_date'] > $today
+            && !(bool)$event['bids_open']
+            && $event['bids_resolved_at'] === null;
+
+        $canClose = $event !== null
+            && $event['start_date'] <= $today
+            && (bool)$event['bids_open']
+            && $event['bids_resolved_at'] === null;
+
+        $allowed = match ($operation) {
+            'open-bidding' => $canOpen,
+            'close-bidding' => $canClose
+        };
+
+        if (
+            $allowed
+            && $eventModel->setBiddingOpen(
+                (int)$eventId,
+                $operation === 'open-bidding'
+            )
+        ) {
+            header('Location: /admin/events.php');
+            exit();
+        }
+
+        $data['form']['message'] = 'Unable to change bidding status.';
+        $data['form']['message-class'] = 'error';
+
+    } elseif ($operation === 'delete') {
         if (
             $eventId !== '' &&
             ctype_digit($eventId) &&
@@ -202,10 +238,23 @@ foreach ($data['events'] as &$event) {
     $event['ready_to_settle'] =
         $event['admin_state'] === 'ready_to_settle';
 
+
+    $event['can_open_bidding'] =
+    $event['admin_state'] === 'closed'
+    && $event['start_date'] > date('Y-m-d')
+    && $event['bids_resolved_at'] === null;
+
+    $event['can_close_bidding'] =
+        $event['admin_state'] === 'open'
+        && $event['start_date'] <= date('Y-m-d');
+
     $event['state_is_action'] =
         $event['ready_to_resolve']
         || $event['results_pending']
-        || $event['ready_to_settle'];
+        || $event['ready_to_settle']
+        || $event['can_open_bidding']
+        || $event['can_close_bidding'];
+
 }
 
 unset($event);

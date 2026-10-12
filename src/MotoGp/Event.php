@@ -221,4 +221,19 @@ class Event
         ]);
     }
 
+    public function setBiddingOpen(int $eventId, bool $open): bool
+    {
+        $sql = '
+        update events
+        set bids_open = :bids_open
+        where event_id = :event_id
+        and bids_resolved_at is null
+    ';
+
+        return $this->db->execute($sql, [
+            ':bids_open' => $open ? 1 : 0,
+            ':event_id' => $eventId,
+        ]) === 1;
+    }
+
 }
