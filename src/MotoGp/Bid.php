@@ -580,21 +580,18 @@ class Bid
     {
         $result = $this->db->queryOne(
             '
-                select count(distinct b.rider_id) as missing_results
-                from bids b
-                left join results r
-                    on r.event_id = b.event_id
-                    and r.rider_id = b.rider_id
-                where b.event_id = :event_id
-                and b.won = 1
-                and r.rider_id is null
-            ',
+            select count(distinct position) as positions_entered
+            from results
+            where event_id = :event_id
+            and status = \'classified\'
+            and position between 1 and 8
+        ',
             [
                 ':event_id' => $eventId,
             ]
         );
 
-        return (int)$result['missing_results'] === 0;
+        return (int)$result['positions_entered'] === 8;
     }
 
 }
