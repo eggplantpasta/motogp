@@ -116,7 +116,7 @@ class Admin
                         where earlier_bid.event_id = earlier.event_id
                     )
                 ) as has_unsettled_earlier_event,
-                exists (
+                (
                     select count(distinct r.position)
                     from results r
                     where r.event_id = e.event_id
@@ -257,7 +257,7 @@ class Admin
             from events e
             where e.bids_resolved_at is not null
             and e.payouts_settled_at is null
-            and and (
+            and (
                 select count(distinct r.position)
                 from results r
                 where r.event_id = e.event_id
