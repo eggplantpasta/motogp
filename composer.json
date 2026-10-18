@@ -18,6 +18,7 @@
     "scripts": {
         "format": "php-cs-fixer fix",
         "format-check": "php-cs-fixer fix --dry-run --diff",
-        "analyse": "phpstan analyse"
+        "analyse": "phpstan analyse",
+        "test": "phpunit"
     }
 }
