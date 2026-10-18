@@ -116,18 +116,13 @@ class Admin
                         where earlier_bid.event_id = earlier.event_id
                     )
                 ) as has_unsettled_earlier_event,
-                exists (
-                    select 1
-                    from bids b
-                    where b.event_id = e.event_id
-                    and b.won = 1
-                    and not exists (
-                        select 1
-                        from results r
-                        where r.event_id = b.event_id
-                        and r.rider_id = b.rider_id
-                    )
-                ) as has_missing_results
+                (
+                    select count(distinct r.position)
+                    from results r
+                    where r.event_id = e.event_id
+                    and r.status = \'classified\'
+                    and r.position between 1 and 8
+                ) < 8 as has_missing_results
             from events e
             order by e.start_date, e.event_id
         '
@@ -262,18 +257,13 @@ class Admin
             from events e
             where e.bids_resolved_at is not null
             and e.payouts_settled_at is null
-            and exists (
-                select 1
-                from bids b
-                where b.event_id = e.event_id
-                and b.won = 1
-                and not exists (
-                    select 1
-                    from results r
-                    where r.event_id = b.event_id
-                    and r.rider_id = b.rider_id
-                )
-            )
+            and (
+                select count(distinct r.position)
+                from results r
+                where r.event_id = e.event_id
+                and r.status = \'classified\'
+                and r.position between 1 and 8
+            ) < 8
             order by e.start_date
             limit 1
         '
@@ -297,18 +287,13 @@ class Admin
                 where b.event_id = e.event_id
                 and b.won = 1
             )
-            and not exists (
-                select 1
-                from bids b
-                where b.event_id = e.event_id
-                and b.won = 1
-                and not exists (
-                    select 1
-                    from results r
-                    where r.event_id = b.event_id
-                    and r.rider_id = b.rider_id
-                )
-            )
+            and (
+                select count(distinct r.position)
+                from results r
+                where r.event_id = e.event_id
+                and r.status = \'classified\'
+                and r.position between 1 and 8
+            ) = 8
             order by e.start_date
             limit 1
         '
