@@ -215,4 +215,81 @@ final class BidTest extends TestCase
     }
 
 
+    public function testBidsAreReducedProportionatelyToAvailableBalance(): void
+    {
+        $this->db->execute(
+            "
+                insert into users (
+                    user_id, username, email, password, balance
+                )
+                values (1, 'Alice', 'alice@example.com', 'test', 10)
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into riders (rider_id, race_number, name)
+                values
+                    (1, 10, 'Rider A'),
+                    (2, 20, 'Rider B')
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into events (event_id, start_date, name, bids_open)
+                values (1, '2026-10-19', 'Test Race', 0)
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into bids (
+                    user_id, rider_id, event_id, bid_number, amount
+                )
+                values
+                    (1, 1, 1, 1, 11),
+                    (1, 2, 1, 2, 7)
+            "
+        );
+
+        $bidModel = new Bid($this->db);
+
+        $this->assertTrue($bidModel->resolveBids(1));
+
+        $bids = $this->db->query(
+            'select amount, won from bids order by bid_number'
+        );
+
+        $this->assertSame([6, 3], array_map(
+            static fn (array $bid): int => (int)$bid['amount'],
+            $bids
+        ));
+
+        $this->assertSame([1, 1], array_map(
+            static fn (array $bid): int => (int)$bid['won'],
+            $bids
+        ));
+
+        $user = $this->db->queryOne(
+            'select balance from users where user_id = 1'
+        );
+
+        $this->assertSame(1, (int)$user['balance']);
+
+        $transactions = $this->db->query(
+            "
+                select amount
+                from balance_transactions
+                where transaction_type = 'winning_bid'
+                order by bid_id
+            "
+        );
+
+        $this->assertSame([-6, -3], array_map(
+            static fn (array $transaction): int => (int)$transaction['amount'],
+            $transactions
+        ));
+    }
+
 }
