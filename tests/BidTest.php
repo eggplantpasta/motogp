@@ -515,4 +515,205 @@ final class BidTest extends TestCase
     }
 
 
+    public function testOnlyFirstEightPayoutPositionsReceivePoints(): void
+    {
+        $this->db->execute(
+            "
+            insert into events (event_id, start_date, name, bids_open)
+            values (1, '2026-10-19', 'Test Race', 0)
+        "
+        );
+
+        for ($position = 1; $position <= 9; $position++) {
+            $this->db->execute(
+                '
+                    insert into users (
+                        user_id, username, email, password
+                    )
+                    values (
+                        :user_id, :username, :email, :password
+                    )
+                ',
+                [
+                    ':user_id' => $position,
+                    ':username' => 'Player ' . $position,
+                    ':email' => 'player' . $position . '@example.com',
+                    ':password' => 'test',
+                ]
+            );
+
+            $this->db->execute(
+                '
+                    insert into riders (rider_id, race_number, name)
+                    values (:rider_id, :race_number, :name)
+                ',
+                [
+                    ':rider_id' => $position,
+                    ':race_number' => $position,
+                    ':name' => 'Rider ' . $position,
+                ]
+            );
+
+            $this->db->execute(
+                '
+                    insert into bids (
+                        user_id, rider_id, event_id,
+                        bid_number, amount, won
+                    )
+                    values (
+                        :user_id, :rider_id, 1, 1, 10, 1
+                    )
+                ',
+                [
+                    ':user_id' => $position,
+                    ':rider_id' => $position,
+                ]
+            );
+
+            $this->db->execute(
+                '
+                insert into results (event_id, rider_id, position)
+                values (1, :rider_id, :position)
+            ',
+                [
+                    ':rider_id' => $position,
+                    ':position' => $position,
+                ]
+            );
+        }
+
+        $bidModel = new Bid($this->db);
+        $calculation = $bidModel->calculatePayouts(1);
+
+        $this->assertSame(99, $calculation['pool']);
+        $this->assertSame(9, $calculation['winning_bids']);
+
+        $payouts = $calculation['payouts'];
+
+        $this->assertCount(8, $payouts);
+
+        $this->assertSame(
+            [23, 18, 15, 12, 11, 8, 7, 6],
+            array_map(
+                static fn (array $payout): int => $payout['payout'],
+                $payouts
+            )
+        );
+
+        $this->assertSame(
+            [1, 2, 3, 4, 5, 6, 7, 8],
+            array_map(
+                static fn (array $payout): int => $payout['finish_position'],
+                $payouts
+            )
+        );
+    }
+
+
+    public function testSettlingPayoutsCreditsBalancesOnlyOnce(): void
+    {
+        $this->db->execute(
+            "
+                insert into users (
+                    user_id, username, email, password, balance
+                )
+                values (1, 'Alice', 'alice@example.com', 'test', 10)
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into events (
+                    event_id, start_date, name,
+                    bids_open, bids_resolved_at
+                )
+                values (
+                    1, '2026-10-19', 'Test Race',
+                    0, current_timestamp
+                )
+            "
+        );
+
+        // Eight classified results are required for settlement.
+        for ($position = 1; $position <= 8; $position++) {
+            $this->db->execute(
+                '
+                    insert into riders (rider_id, race_number, name)
+                    values (:rider_id, :race_number, :name)
+                ',
+                [
+                    ':rider_id' => $position,
+                    ':race_number' => $position,
+                    ':name' => 'Rider ' . $position,
+                ]
+            );
+
+            $this->db->execute(
+                '
+                    insert into results (event_id, rider_id, position)
+                    values (1, :rider_id, :position)
+                ',
+                [
+                    ':rider_id' => $position,
+                    ':position' => $position,
+                ]
+            );
+        }
+
+        $this->db->execute(
+            "
+                insert into bids (
+                    user_id, rider_id, event_id,
+                    bid_number, amount, won
+                )
+                values (1, 1, 1, 1, 10, 1)
+            "
+        );
+
+        $bidModel = new Bid($this->db);
+
+        $this->assertTrue($bidModel->settlePayouts(1));
+
+        $user = $this->db->queryOne(
+            'select balance from users where user_id = 1'
+        );
+
+        $this->assertSame(13, (int)$user['balance']);
+
+        $transactions = $this->db->query(
+            "
+                select transaction_type, amount
+                from balance_transactions
+                where event_id = 1
+                order by transaction_id
+            "
+        );
+
+        $this->assertCount(1, $transactions);
+        $this->assertSame('payout', $transactions[0]['transaction_type']);
+        $this->assertSame(3, (int)$transactions[0]['amount']);
+
+        $event = $this->db->queryOne(
+            'select payouts_settled_at from events where event_id = 1'
+        );
+
+        $this->assertNotNull($event['payouts_settled_at']);
+
+        // A second settlement must not credit points again.
+        $this->assertFalse($bidModel->settlePayouts(1));
+
+        $this->assertSame($user, $this->db->queryOne(
+            'select balance from users where user_id = 1'
+        ));
+
+        $this->assertSame($transactions, $this->db->query(
+            "
+                select transaction_type, amount
+                from balance_transactions
+                where event_id = 1
+                order by transaction_id
+            "
+        ));
+    }
+
 }
