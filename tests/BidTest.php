@@ -292,4 +292,81 @@ final class BidTest extends TestCase
         ));
     }
 
+
+    public function testLaterRaceCannotResolveUntilEarlierRaceIsSettled(): void
+    {
+        $this->db->execute(
+            "
+                insert into users (user_id, username, email, password)
+                values (1, 'Alice', 'alice@example.com', 'test')
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into riders (rider_id, race_number, name)
+                values (1, 10, 'Test Rider')
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into events (
+                    event_id, start_date, name, bids_open
+                )
+                values
+                    (1, '2026-10-01', 'Race 1', 0),
+                    (2, '2026-10-08', 'Race 2', 0)
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into bids (
+                    user_id, rider_id, event_id, bid_number, amount
+                )
+                values
+                    (1, 1, 1, 1, 5),
+                    (1, 1, 2, 1, 8)
+            "
+        );
+
+        $bidModel = new Bid($this->db);
+
+        // Race 1 has bids but its payouts are not settled.
+        $this->assertTrue($bidModel->hasUnsettledEarlierEvents(2));
+        $this->assertFalse($bidModel->resolveBids(2));
+
+        $event = $this->db->queryOne(
+            'select bids_resolved_at from events where event_id = 2'
+        );
+
+        $this->assertNull($event['bids_resolved_at']);
+
+        $user = $this->db->queryOne(
+            'select balance from users where user_id = 1'
+        );
+
+        $this->assertSame(20, (int)$user['balance']);
+
+        // Mark Race 1 as settled.
+        $this->db->execute(
+            "
+                update events
+                set payouts_settled_at = current_timestamp
+                where event_id = 1
+            "
+        );
+
+        $this->assertFalse($bidModel->hasUnsettledEarlierEvents(2));
+        $this->assertTrue($bidModel->resolveBids(2));
+
+        $user = $this->db->queryOne(
+            'select balance from users where user_id = 1'
+        );
+
+        $this->assertSame(12, (int)$user['balance']);
+    }
+
+
 }
