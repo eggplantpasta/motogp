@@ -18,10 +18,6 @@
                         </a>
                     </li>
 
-                    {{#user}}
-                        <li><a href="/ladder.php">ladder</a></li>
-                    {{/user}}
-
                     {{#user.admin}}
                         <li>
                             <details class="motogp-nav-submenu">
@@ -45,9 +41,6 @@
     <ul class="motogp-nav-primary">
         <li><a href="/events.php">races</a></li>
         <li><a href="/riders.php">riders</a></li>
-        {{#user}}
-            <li><a href="/ladder.php">ladder</a></li>
-        {{/user}}
 
         {{#user.admin}}
             <li>
@@ -96,7 +89,6 @@
                         </span>
                     </summary>
                     <ul>
-                        <li><a href="/user/account.php">account</a></li>
                         <li><a href="/user/edit-account.php">edit account</a></li>
                         <li><a href="/user/logout.php">logout</a></li>
                     </ul>

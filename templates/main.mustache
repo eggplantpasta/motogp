@@ -1,49 +1,135 @@
 
 {{< partials/layout}}
     {{$title}}{{ app.name }} • Home{{/title}}
-    {{$content}}
-        <section class="motogp-center-text">
-            <figure>
-                <img
-                    src="/assets/images/DannyPed.png"
-                    alt="Danny Pedroza, 2017 Australian MotoGP at Phillip Island. Photo by Noisy." />
-                <figcaption>Zoooomm..</figcaption>
-            </figure>
-            <h2><span class="motogp-font">{{ page.next_race_name }}</span></h2>
-            <strong>{{ page.days_to_go }}</strong>
 
-        </section>
-        {{#show_ladder}}
-            <section class="motogp-leaders">
-                <h2>Top Players</h2>
+    {{$content}}
+
+        {{^user}}
+            <section class="motogp-center-text">
+                <figure>
+                    <img
+                        src="/assets/images/DannyPed.png"
+                        alt="Danny Pedrosa, 2017 Australian MotoGP at Phillip Island. Photo by Noisy."
+                    />
+                    <figcaption>Zoooomm..</figcaption>
+                </figure>
+                <h2>
+                    <span class="motogp-font">{{ page.next_race_name }}</span>
+                </h2>
+                <strong>{{ page.days_to_go }}</strong>
+            </section>
+        {{/user}}
+
+        {{#user}}
+            <h1>Home</h1>
+
+            <section class="grid">
+                <article>
+                    <h2>Next race</h2>
+
+                    {{#next_event}}
+                        <p>
+                            {{> partials/race }}
+                        </p>
+                        <p>{{ start_date }}</p>
+
+                        {{#bidding_open}}
+                            <a
+                                href="/bids.php?event_id={{ event_id }}"
+                                role="button"
+                                class="outline motogp-icon-text-button"
+                            >
+                                {{> partials/icons/bid }}
+                                place bids
+                            </a>
+                        {{/bidding_open}}
+                    {{/next_event}}
+
+                    {{^next_event}}
+                        <p>No upcoming races.</p>
+                    {{/next_event}}
+                </article>
+
+                <article>
+                    <h2>Your balance</h2>
+                    <p>
+                        <strong>{{ user.balance }}</strong> points
+                    </p>
+                    <a
+                        href="/statement.php"
+                        role="button"
+                        class="outline motogp-icon-text-button"
+                    >
+                        {{> partials/icons/statement }}
+                        view statement
+                    </a>
+                </article>
+            </section>
+
+            <section>
+                <h2>Ladder</h2>
 
                 <table>
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Player</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        {{#leaders}}
-                            <tr>
-                                <td>{{ username }}</td>
+                        {{#ladder}}
+                            <tr class="{{ row_class }}">
+                                <td>{{ position }}</td>
+                                <td>
+                                    {{ username }}
+                                    {{#current_user}}
+                                        <strong>(you)</strong>
+                                    {{/current_user}}
+                                </td>
                                 <td>{{ balance }}</td>
                             </tr>
-                        {{/leaders}}
+                        {{/ladder}}
                     </tbody>
                 </table>
-                <p>
-                    <a href="/ladder.php"
-                        role="button"
-                        class="outline motogp-icon-text-button"
-                    >
-                        {{> partials/icons/flag }}
-                        view full ladder
-                    </a>
-                    <a href="/help.php"
-                        role="button"
-                        class="outline motogp-icon-text-button"
-                    >
-                        {{> partials/icons/question }}
-                        help
-                    </a>
-                </p>
             </section>
-        {{/show_ladder}}
+
+            <section>
+                <h2>Most recent winning bids</h2>
+
+                {{#latest_winning_bids}}
+                    <h3>{{ name }}</h3>
+
+                    <table class="motogp-table">
+                        <thead>
+                            <tr>
+                                <th>Rider</th>
+                                <th>Player</th>
+                                <th>Bid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#bids}}
+                                <tr>
+                                    <td>{{> partials/rider }}</td>
+                                    <td>{{ username }}</td>
+                                    <td>{{ amount }}</td>
+                                </tr>
+                            {{/bids}}
+                        </tbody>
+                    </table>
+
+                    {{^bids}}
+                        <p>No winning bids for this race.</p>
+                    {{/bids}}
+                {{/latest_winning_bids}}
+
+                {{^latest_winning_bids}}
+                    <p>No race bidding results have been resolved yet.</p>
+                {{/latest_winning_bids}}
+            </section>
+
+        {{/user}}
+
     {{/content}}
 {{/partials/layout}}

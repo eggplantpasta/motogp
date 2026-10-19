@@ -118,28 +118,64 @@ class Bid
         );
     }
 
+    public function getLatestResolvedWinningBids(): ?array
+    {
+        $event = $this->db->queryOne(
+            '
+                select event_id, name
+                from events
+                where bids_resolved_at is not null
+                order by start_date desc, event_id desc
+                limit 1
+            '
+        );
+
+        if ($event === null) {
+            return null;
+        }
+
+        $event['bids'] = $this->db->query(
+            'select
+                u.username,
+                r.name,
+                r.race_number,
+                b.amount
+            from bids b
+            join users u on u.user_id = b.user_id
+            join riders r on r.rider_id = b.rider_id
+            where b.event_id = :event_id
+            and b.won = 1
+            order by
+                r.race_number,
+                u.username',
+            [':event_id' => $event['event_id']]
+        );
+
+        return $event;
+    }
+
     public function hasUnsettledEarlierEvents(int $eventId): bool
     {
         $sql = '
-        select 1
-        from events e
-        join events current_event
-            on current_event.event_id = :event_id
-        where (
-            e.start_date < current_event.start_date
-            or (
-                e.start_date = current_event.start_date
-                and e.event_id < current_event.event_id
-            )
-        )
-        and e.payouts_settled_at is null
-        and exists (
             select 1
-            from bids b
-            where b.event_id = e.event_id
-        )
-        limit 1
-    ';
+            from events e
+            join events current_event
+                on current_event.event_id = :event_id
+            where (
+                e.start_date < current_event.start_date
+                or (
+                    e.start_date = current_event.start_date
+                    and e.event_id < current_event.event_id
+                )
+            )
+            and e.payouts_settled_at is null
+            and exists (
+                select 1
+                from bids b
+                where b.event_id = e.event_id
+            )
+            limit 1
+        ';
 
         return $this->db->queryOne($sql, [
             ':event_id' => $eventId,

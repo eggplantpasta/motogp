@@ -6,10 +6,10 @@ use Webmin\Csrf;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
-// redirect to account page if already logged in
+// redirect to home page if already logged in
 $session = new Session();
 if ($session->isLoggedIn()) {
-    header('Location: /user/account.php');
+    header('Location: /index.php');
     exit();
 }
 
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // If no errors, proceed with login logic (e.g., check credentials)
     if (empty($user->usernameErr) && empty($user->passwordErr)) {
         if ($user->login()) {
-            header('Location: /user/account.php');
+            header('Location: /index.php');
             exit();
         }
 

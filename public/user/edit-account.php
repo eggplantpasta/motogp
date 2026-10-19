@@ -6,10 +6,10 @@ use Webmin\Csrf;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
-// redirect to login page if not logged in
+// redirect to home page if not logged in
 $session = new Session();
 if (!$session->isLoggedIn()) {
-    header('Location: /user/login.php');
+    header('Location: /index.php');
     exit();
 }
 
