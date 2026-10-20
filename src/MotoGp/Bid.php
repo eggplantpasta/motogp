@@ -475,6 +475,9 @@ class Bid
         $slot = 0;
 
         foreach ($riders as $rider) {
+            // Skip unclaimed race finishing positions.
+            $slot = max($slot, $rider['position'] - 1);
+
             $ownerCount = count($rider['owners']);
 
             if ($slot >= count($percentages)) {

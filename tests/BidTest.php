@@ -439,6 +439,84 @@ final class BidTest extends TestCase
     }
 
 
+    public function testPayoutsUseActualRacePositions(): void
+    {
+        $this->db->execute(
+            "
+                insert into users (user_id, username, email, password)
+                values
+                    (1, 'Alice', 'alice@example.com', 'test'),
+                    (2, 'Bob', 'bob@example.com', 'test'),
+                    (3, 'Charlie', 'charlie@example.com', 'test')
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into riders (rider_id, race_number, name)
+                values
+                    (1, 10, 'Rider A'),
+                    (2, 20, 'Rider B'),
+                    (3, 30, 'Rider C')
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into events (event_id, start_date, name, bids_open)
+                values (1, '2026-10-19', 'Test Race', 0)
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into bids (
+                    user_id, rider_id, event_id,
+                    bid_number, amount, won
+                )
+                values
+                    (1, 1, 1, 1, 12, 1),
+                    (2, 2, 1, 1, 8, 1),
+                    (3, 3, 1, 1, 5, 1)
+            "
+        );
+
+        $this->db->execute(
+            "
+                insert into results (event_id, rider_id, position)
+                values
+                    (1, 1, 4),
+                    (1, 2, 8),
+                    (1, 3, 9)
+        "
+        );
+
+        $bidModel = new Bid($this->db);
+        $calculation = $bidModel->calculatePayouts(1);
+
+        $this->assertSame(28, $calculation['pool']);
+        $this->assertSame(3, $calculation['winning_bids']);
+
+        $payouts = $calculation['payouts'];
+
+        // Only fourth and eighth place receive payouts.
+        $this->assertCount(2, $payouts);
+
+        $this->assertSame(4, $payouts[0]['finish_position']);
+        $this->assertSame(12, $payouts[0]['percentage']);
+        $this->assertSame(4, $payouts[0]['payout']);
+
+        $this->assertSame(8, $payouts[1]['finish_position']);
+        $this->assertSame(6, $payouts[1]['percentage']);
+        $this->assertSame(2, $payouts[1]['payout']);
+
+        // The unused pool is not redistributed.
+        $this->assertSame(
+            6,
+            array_sum(array_column($payouts, 'payout'))
+        );
+    }
+
     public function testTiedOwnersShareCombinedPayoutPercentages(): void
     {
         $this->db->execute(

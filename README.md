@@ -25,7 +25,7 @@ For each event:
 - If two or more players tie for the highest bid, they all win that rider.
 - Only winning bids are deducted from a player's balance. Losing bids cost nothing.
 - Players may change their bids while bidding remains open.
-- Bids are visible to other players.
+- Bids are hidden from other players until bidding is resolved. Winning bids are then visible to everyone.
 - Bidding closes at a lockout time selected for the event.
 
 ### Points pool
@@ -58,6 +58,8 @@ The points pool is distributed according to the finishing positions of the rider
 Only riders finishing in the top eight receive a payout.
 
 Fractional payouts are rounded up to the next whole point.
+
+Payout percentages are based on actual race finishing positions. If no player wins a rider finishing in a payout position, that share of the points pool is not distributed. Unused points are not carried forward or redistributed. Only the first eight payout positions receive points.
 
 ### Tied winning bids
 
