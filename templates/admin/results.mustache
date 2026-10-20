@@ -16,7 +16,7 @@
                 >
                     {{#events}}
                         <option value="{{ event_id }}" {{#selected}}selected{{/selected}}>
-                            {{ name }}
+                            {{ display_date }} – {{ name }}
                         </option>
                     {{/events}}
                 </select>

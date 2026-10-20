@@ -4,6 +4,7 @@ use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
 use MotoGp\Result;
+use MotoGp\Utility;
 
 $app = require_once __DIR__ . '/../../src/bootstrap.php';
 
@@ -212,6 +213,8 @@ unset($result);
 
 foreach ($data['events'] as &$event) {
     $event['selected'] = (int)$event['event_id'] === $eventId;
+    $event['display_date'] =
+        Utility::formatDate($event['start_date'], 'd M');
 }
 unset($event);
 

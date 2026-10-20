@@ -145,6 +145,8 @@ $data['events'] = $eventModel->getEvents();
 foreach ($data['events'] as &$eventOption) {
     $eventOption['selected'] =
         (int)$eventOption['event_id'] === $eventId;
+    $eventOption['display_date'] =
+        Utility::formatDate($eventOption['start_date'], 'd M');
 }
 unset($eventOption);
 
