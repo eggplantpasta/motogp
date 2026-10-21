@@ -1,10 +1,10 @@
-# MotoGP Bidding 🏍️
+# MotoGO 🏍️
 
 A redevelopment of [Noisy's](https://www.partymeeple.com.au/contact.html) original code.
 
 ## Design philosophy
 
-MotoGP Bidding is intentionally built as a small, traditional PHP application.
+MotoGO Bidding is intentionally built as a small, traditional PHP application.
 
 The project favours explicit, easy-to-follow code over frameworks and architectural abstraction. Where practical, each page consists of one PHP file and one corresponding Mustache template. Reusable behaviour is kept in small application classes, SQL remains explicit, and external Composer dependencies are kept to a minimum.
 

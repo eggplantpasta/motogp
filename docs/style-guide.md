@@ -1,6 +1,6 @@
-# MotoGP Bidding — Style Guide
+# MotoGO — Style Guide
 
-Visual reference for common interface elements used throughout MotoGP Bidding.
+Visual reference for common interface elements used throughout MotoGO.
 
 ## Design principles
 
