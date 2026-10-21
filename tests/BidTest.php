@@ -1,4 +1,3 @@
-
 <?php
 
 use MotoGp\Bid;
@@ -517,7 +516,7 @@ final class BidTest extends TestCase
         );
     }
 
-    public function testTiedOwnersShareCombinedPayoutPercentages(): void
+    public function testTiedOwnersReceiveFullPayoutPercentage(): void
     {
         $this->db->execute(
             "
@@ -577,20 +576,21 @@ final class BidTest extends TestCase
 
         $this->assertCount(3, $payouts);
 
-        // Alice and Bob share first and second payout positions.
+        // Alice and Bob each receive the full first-place percentage.
         $this->assertSame(1, $payouts[0]['user_id']);
-        $this->assertSame(20.5, $payouts[0]['percentage']);
-        $this->assertSame(7, $payouts[0]['payout']);
+        $this->assertSame(23, $payouts[0]['percentage']);
+        $this->assertSame(8, $payouts[0]['payout']);
 
         $this->assertSame(2, $payouts[1]['user_id']);
-        $this->assertSame(20.5, $payouts[1]['percentage']);
-        $this->assertSame(7, $payouts[1]['payout']);
+        $this->assertSame(23, $payouts[1]['percentage']);
+        $this->assertSame(8, $payouts[1]['payout']);
 
-        // Charlie receives the third payout percentage.
+        // Charlie receives the second-place percentage.
         $this->assertSame(3, $payouts[2]['user_id']);
-        $this->assertSame(15.0, (float)$payouts[2]['percentage']);
-        $this->assertSame(5, $payouts[2]['payout']);
+        $this->assertSame(18, $payouts[2]['percentage']);
+        $this->assertSame(6, $payouts[2]['payout']);
     }
+
 
 
     public function testOnlyFirstEightPayoutPositionsReceivePoints(): void

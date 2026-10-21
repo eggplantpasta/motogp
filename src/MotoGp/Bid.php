@@ -435,13 +435,7 @@ class Bid
             6,
         ];
 
-        /*
-        * Group classified winning bids by rider.
-        *
-        * Multiple owners of the same rider occupy consecutive
-        * payout positions and share their combined percentages.
-        */
-        $riders = [];
+        $payouts = [];
 
         foreach ($bids as $bid) {
             if (
@@ -451,72 +445,28 @@ class Bid
                 continue;
             }
 
-            $riderId = (int)$bid['rider_id'];
+            $position = (int)$bid['position'];
 
-            if (!isset($riders[$riderId])) {
-                $riders[$riderId] = [
-                    'rider_id' => $riderId,
-                    'name' => $bid['name'],
-                    'race_number' => $bid['race_number'],
-                    'position' => (int)$bid['position'],
-                    'owners' => [],
-                ];
+            // Only the first eight finishing positions receive payouts.
+            if (!isset($percentages[$position - 1])) {
+                continue;
             }
 
-            $riders[$riderId]['owners'][] = $bid;
-        }
+            $percentage = $percentages[$position - 1];
 
-        usort(
-            $riders,
-            fn ($a, $b) => $a['position'] <=> $b['position']
-        );
-
-        $payouts = [];
-        $slot = 0;
-
-        foreach ($riders as $rider) {
-            // Skip unclaimed race finishing positions.
-            $slot = max($slot, $rider['position'] - 1);
-
-            $ownerCount = count($rider['owners']);
-
-            if ($slot >= count($percentages)) {
-                break;
-            }
-
-            $combinedPercentage = 0;
-
-            for ($i = 0; $i < $ownerCount; $i++) {
-                if ($slot >= count($percentages)) {
-                    break;
-                }
-
-                $combinedPercentage += $percentages[$slot];
-                $slot++;
-            }
-
-            /*
-            * All owners of a tied rider share the percentages
-            * occupied by that rider.
-            */
-            $percentagePerOwner =
-                $combinedPercentage / $ownerCount;
-
-            foreach ($rider['owners'] as $owner) {
-                $payouts[] = [
-                    'bid_id' => (int)$owner['bid_id'],
-                    'user_id' => (int)$owner['user_id'],
-                    'username' => $owner['username'],
-                    'rider_id' => $rider['rider_id'],
-                    'name' => $rider['name'],
-                    'race_number' => $rider['race_number'],
-                    'finish_position' => $rider['position'],
-                    'percentage' => $percentagePerOwner,
-                    'payout' => (int)ceil(
-                        $pool * $percentagePerOwner / 100
-                    ),
-                ];
-            }
+            $payouts[] = [
+                'bid_id' => (int)$bid['bid_id'],
+                'user_id' => (int)$bid['user_id'],
+                'username' => $bid['username'],
+                'rider_id' => (int)$bid['rider_id'],
+                'name' => $bid['name'],
+                'race_number' => $bid['race_number'],
+                'finish_position' => $position,
+                'percentage' => $percentage,
+                'payout' => (int)ceil(
+                    $pool * $percentage / 100
+                ),
+            ];
         }
 
         return [

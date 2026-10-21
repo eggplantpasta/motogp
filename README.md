@@ -65,19 +65,15 @@ Payout percentages are based on actual race finishing positions. If no player wi
 
 If multiple players tie for the highest bid on the same rider, each tied bid is a winning bid:
 
-- each winning bid is deducted from its player's balance;
-- each winning bid is included separately when calculating the points pool; and
-- the tied players share the payouts for the finishing positions they collectively occupy.
+- Each winning bid is deducted from its player's balance.
+- Each winning bid is included separately when calculating the points pool.
+- Each winning bidder receives the full payout percentage for the rider's finishing position.
 
-For example, if two players jointly win a rider and that rider finishes first, they share the first- and second-place payouts:
+For example, if two players jointly win a rider that finishes first, each receives 23% of the points pool.
 
-**(23% + 18%) / 2 = 20.5% each**
+A rider finishing second still pays 18%, regardless of how many players jointly won the first-place rider.
 
-If three players jointly win a rider that finishes first, they share the first-, second- and third-place payouts:
-
-**(23% + 18% + 15%) / 3 = 18.67% each**
-
-The resulting points payout for each player is rounded up to a whole point.
+Each player's payout is rounded up to the next whole point. Total payouts may exceed the points pool when multiple players win the same rider.
 
 ## Development
 
