@@ -18,11 +18,13 @@ $data['user'] = $session->getUser();
 $today = date('Y-m-d');
 
 foreach ($data['events'] as &$event) {
+    $event['cancelled'] = $event['cancelled_at'] !== null;
+
     if ($event['event_id'] === $nextEventId) {
         $event['cell-class'] = '';
         $event['row-class'] = 'motogp-highlight';
         $event['results'] = false;
-    } elseif ($event['start_date'] < $today) {
+    } elseif ($event['start_date'] < $today && !$event['cancelled']) {
         $event['cell-class'] = 'motogp-disable';
         $event['row-class'] = '';
         $event['results'] = true;

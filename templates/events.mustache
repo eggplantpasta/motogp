@@ -19,33 +19,40 @@
                         <td class="{{ cell-class }}">{{ display_date }}</td>
                         <td class="{{ cell-class }}">{{> partials/race }}</td>
                         <td>
-                            {{#next_race}}
-                                {{^bids_open}}
-                                    <span class="motogp-secondary">Closed for bidding</span>
+                            {{#cancelled}}
+                                <span class="motogp-secondary">Cancelled</span>
+                            {{/cancelled}}
+
+                            {{^cancelled}}
+
+                                {{#next_race}}
+                                    {{^bids_open}}
+                                        <span class="motogp-secondary">Closed for bidding</span>
+                                    {{/bids_open}}
+                                {{/next_race}}
+
+                                {{#bids_open}}
+                                    <a
+                                        href="/bids.php?event_id={{ event_id }}"
+                                        role="button"
+                                        class="outline motogp-icon-text-button"
+                                    >
+                                        {{> partials/icons/bid }}
+                                        place bids
+                                    </a>
                                 {{/bids_open}}
-                            {{/next_race}}
 
-                            {{#bids_open}}
-                                <a
-                                    href="/bids.php?event_id={{ event_id }}"
-                                    role="button"
-                                    class="outline motogp-icon-text-button"
-                                >
-                                    {{> partials/icons/bid }}
-                                    place bids
-                                </a>
-                            {{/bids_open}}
-
-                            {{#results}}
-                                <a
-                                    href="/results.php?event_id={{ event_id }}"
-                                    role="button"
-                                    class="outline motogp-icon-text-button"
-                                >
-                                    {{> partials/icons/flag }}
-                                    results
-                                </a>
-                            {{/results}}
+                                {{#results}}
+                                    <a
+                                        href="/results.php?event_id={{ event_id }}"
+                                        role="button"
+                                        class="outline motogp-icon-text-button"
+                                    >
+                                        {{> partials/icons/flag }}
+                                        results
+                                    </a>
+                                {{/results}}
+                            {{/cancelled}}
                         </td>
                     </tr>
                 {{/events}}
