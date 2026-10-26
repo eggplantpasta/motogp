@@ -191,8 +191,9 @@ class Bid
             $event = $this->db->queryOne(
                 '
                     select
-                        bids_open,
-                        bids_resolved_at
+                    bids_open,
+                    bids_resolved_at,
+                    cancelled_at
                     from events
                     where event_id = :event_id
                 ',
@@ -545,8 +546,9 @@ class Bid
             $event = $this->db->queryOne(
                 '
                     select
+                        bids_open,
                         bids_resolved_at,
-                        payouts_settled_at
+                        cancelled_at
                     from events
                     where event_id = :event_id
                 ',
@@ -557,6 +559,7 @@ class Bid
                 $event === null
                 || $event['bids_resolved_at'] === null
                 || $event['payouts_settled_at'] !== null
+                || $event['cancelled_at'] !== null
             ) {
                 $this->db->rollBack();
                 return false;
