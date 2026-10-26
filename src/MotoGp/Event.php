@@ -19,6 +19,7 @@ class Event
             select event_id
             from events
             where date(start_date) > date("now")
+            and cancelled_at is null
             order by start_date
             limit 1
         ';
@@ -34,6 +35,7 @@ class Event
             select event_id
             from events
             where date(start_date) <= date("now")
+            and cancelled_at is null
             order by start_date desc
             limit 1
         ';
@@ -52,6 +54,7 @@ class Event
             from events e
             left join countries c on e.country_code = c.country_code
             where date(e.start_date) > date("now")
+            and e.cancelled_at is null
             order by e.start_date
             limit 1
         ';
