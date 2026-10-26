@@ -125,6 +125,7 @@ class Bid
                 select event_id, name
                 from events
                 where bids_resolved_at is not null
+                and cancelled_at is null
                 order by start_date desc, event_id desc
                 limit 1
             '
