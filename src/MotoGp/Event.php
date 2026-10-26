@@ -204,6 +204,7 @@ class Event
         $sql = '
             delete from events
             where event_id = :event_id
+            and cancelled_at is null
         ';
 
         return $this->db->execute($sql, [

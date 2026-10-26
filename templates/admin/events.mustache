@@ -112,6 +112,18 @@
                                     {{> partials/icons/edit }}
                                 </button>
 
+                                {{#can_cancel}}
+                                    <button
+                                        type="button"
+                                        class="motogp-icon-text-button"
+                                        data-action="cancel-event"
+                                        data-tooltip="Cancel race"
+                                        aria-label="Cancel race"
+                                    >
+                                        cancel
+                                    </button>
+                                {{/can_cancel}}
+
                                 <button
                                     type="button"
                                     class="motogp-icon-button"

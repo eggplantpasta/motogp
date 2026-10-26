@@ -248,6 +248,10 @@ foreach ($data['events'] as &$event) {
         'M d'
     );
 
+    $event['can_cancel'] =
+        $event['cancelled_at'] === null
+        && $event['payouts_settled_at'] === null;
+
     $event['has_bids'] =
         $eventModel->hasBids((int)$event['event_id']);
 

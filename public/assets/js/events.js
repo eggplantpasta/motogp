@@ -76,6 +76,23 @@ function deleteEvent(event) {
     );
 }
 
+function cancelEvent(event) {
+    const row = event.currentTarget.closest('tr');
+
+    const eventId = row.getAttribute('data-event-id');
+    const eventName = row.getAttribute('data-event-name');
+
+    confirmModal(
+        `Cancel "${eventName}"? Winning bids will be refunded. This action cannot be undone.`,
+        () => {
+            document.getElementById('operation').value = 'cancel';
+            document.getElementById('event-id').value = eventId;
+            document.getElementById('event-form').submit();
+        },
+        'cancel',
+    );
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-action="add-event"]').forEach((button) => {
         button.addEventListener('click', addEvent);
@@ -91,5 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .querySelectorAll('[data-action="delete-event"]')
         .forEach((button) => {
             button.addEventListener('click', deleteEvent);
+        });
+
+    document
+        .querySelectorAll('[data-action="cancel-event"]')
+        .forEach((button) => {
+            button.addEventListener('click', cancelEvent);
         });
 });
