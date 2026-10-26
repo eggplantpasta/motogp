@@ -169,6 +169,7 @@ class Bid
                 )
             )
             and e.payouts_settled_at is null
+            and e.cancelled_at is null
             and exists (
                 select 1
                 from bids b

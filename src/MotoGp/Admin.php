@@ -74,6 +74,7 @@ class Admin
     /*
     * Administrative race states:
     *
+    * cancelled        The event has been cancelled.
     * open             Bidding is open.
     * closed           Bidding is closed but no action is currently due.
     * ready_to_resolve Bids can now be resolved.
@@ -94,6 +95,7 @@ class Admin
                 e.bids_open,
                 e.bids_resolved_at,
                 e.payouts_settled_at,
+                e.cancelled_at,
                 exists (
                     select 1
                     from bids b
@@ -115,6 +117,7 @@ class Admin
                         from bids earlier_bid
                         where earlier_bid.event_id = earlier.event_id
                     )
+                    and earlier.cancelled_at is null
                 ) as has_unsettled_earlier_event,
                 (
                     select count(distinct r.position)
@@ -142,6 +145,10 @@ class Admin
     {
         $pastOrToday =
             $event['start_date'] <= date('Y-m-d');
+
+        if ($event['cancelled_at'] !== null) {
+            return 'cancelled';
+        }
 
         if ($event['payouts_settled_at'] !== null) {
             return 'complete';
@@ -217,6 +224,7 @@ class Admin
                     e.start_date
                 from events e
                 where e.bids_open = 0
+                and e.cancelled_at is null
                 and e.bids_resolved_at is null
                 and exists (
                     select 1
@@ -233,6 +241,7 @@ class Admin
                             and earlier.event_id < e.event_id
                         )
                     )
+                    and earlier.cancelled_at is null
                     and earlier.payouts_settled_at is null
                     and exists (
                         select 1
@@ -256,6 +265,7 @@ class Admin
                 e.start_date
             from events e
             where e.bids_resolved_at is not null
+            and e.cancelled_at is null
             and e.payouts_settled_at is null
             and (
                 select count(distinct r.position)
@@ -280,6 +290,7 @@ class Admin
                 e.start_date
             from events e
             where e.bids_resolved_at is not null
+            and e.cancelled_at is null
             and e.payouts_settled_at is null
             and exists (
                 select 1
