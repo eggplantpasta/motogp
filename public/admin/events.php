@@ -3,6 +3,7 @@
 use Webmin\Session;
 use Webmin\Csrf;
 use MotoGp\Event;
+use MotoGp\Bid;
 use MotoGp\Admin;
 use MotoGp\Country;
 use MotoGp\Utility;
@@ -22,6 +23,7 @@ if (!$session->isAdmin()) {
 }
 
 $eventModel = new Event($app->db);
+$bidModel = new Bid($app->db);
 $adminModel = new Admin($app->db);
 $countryModel = new Country($app->db);
 
@@ -99,6 +101,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data['form']['message'] = 'Unable to change bidding status.';
         $data['form']['message-class'] = 'error';
 
+    } elseif ($operation === 'cancel') {
+        if ($eventId !== '' && ctype_digit($eventId)) {
+            try {
+                $app->db->beginTransaction();
+
+                if (!$eventModel->cancelEvent((int)$eventId)) {
+                    throw new \RuntimeException('Race cannot be cancelled.');
+                }
+
+                $bidModel->refundWinningBids((int)$eventId);
+
+                $app->db->commit();
+
+                header('Location: /admin/events.php');
+                exit();
+            } catch (\Throwable $e) {
+                $app->db->rollBack();
+
+                $app->logger->error(
+                    'Race cancellation failed.',
+                    [
+                        'event_id' => $eventId,
+                        'exception' => $e,
+                    ]
+                );
+            }
+        }
+
+        $data['form']['message'] = 'Unable to cancel race.';
+        $data['form']['message-class'] = 'error';
+
     } elseif ($operation === 'delete') {
         if (
             $eventId !== '' &&
@@ -113,6 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'Race could not be deleted. It may already have bids or results.';
 
         $data['form']['message-class'] = 'error';
+
     } else {
         $startDateInput = trim($_POST['start-date'] ?? '');
 
@@ -242,10 +276,12 @@ foreach ($data['events'] as &$event) {
     $event['can_open_bidding'] =
     $event['admin_state'] === 'closed'
     && $event['start_date'] > date('Y-m-d')
+    && $event['cancelled_at'] === null
     && $event['bids_resolved_at'] === null;
 
     $event['can_close_bidding'] =
         $event['admin_state'] === 'open'
+        && $event['cancelled_at'] === null
         && $event['start_date'] <= date('Y-m-d');
 
     $event['state_is_action'] =

@@ -110,12 +110,13 @@ class Event
                     country_code = :country_code,
                     bids_open = :bids_open
                 where event_id = :event_id
+                and cancelled_at is null
             ';
-            $this->db->execute($sql, $params);
+            $updated = $this->db->execute($sql, $params) === 1;
 
             $this->db->commit();
 
-            return true;
+            return $updated;
         } catch (\Exception $e) {
             $this->db->rollBack();
             return false;
@@ -227,6 +228,7 @@ class Event
         update events
         set bids_open = :bids_open
         where event_id = :event_id
+        and cancelled_at is null
         and bids_resolved_at is null
     ';
 
