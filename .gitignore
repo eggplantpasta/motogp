@@ -11,6 +11,8 @@ var/cache/*
 var/log/*
 !var/log/.gitkeep
 
+var/backups/*
+
 config/app.ini
 config/php.ini
 config/app.local.ini
