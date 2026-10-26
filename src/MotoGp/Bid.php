@@ -376,7 +376,12 @@ class Bid
                 from balance_transactions
                 where event_id = :event_id
                 and transaction_type = \'winning_bid\'
-            ',
+                and not exists (
+                    select 1
+                    from balance_transactions refund
+                    where refund.bid_id = balance_transactions.bid_id
+                    and refund.transaction_type = \'bid_refund\'
+                )',
             [':event_id' => $eventId]
         );
 

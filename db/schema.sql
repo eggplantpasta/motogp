@@ -137,3 +137,8 @@ create unique index if not exists
     idx_balance_transactions_opening
 on balance_transactions (user_id)
 where transaction_type = 'opening_balance';
+
+create unique index if not exists
+    idx_balance_transactions_bid_refund
+on balance_transactions (bid_id)
+where transaction_type = 'bid_refund';
