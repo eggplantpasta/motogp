@@ -219,6 +219,7 @@ class Event
             set bids_open = 0
             where bids_open = 1
             and date(start_date) <= date(:date)
+            and cancelled_at is null
         ';
 
         return $this->db->execute($sql, [
