@@ -236,4 +236,20 @@ class Event
         ]) === 1;
     }
 
+    public function cancelEvent(int $eventId): bool
+    {
+        $sql = '
+            update events
+            set cancelled_at = current_timestamp,
+                bids_open = 0
+            where event_id = :event_id
+            and cancelled_at is null
+            and payouts_settled_at is null
+        ';
+
+        return $this->db->execute($sql, [
+            ':event_id' => $eventId,
+        ]) === 1;
+    }
+
 }

@@ -322,21 +322,21 @@ class Bid
 
                     $this->db->execute(
                         '
-                            insert into balance_transactions (
-                                user_id,
-                                event_id,
-                                bid_id,
-                                transaction_type,
-                                amount
-                            )
-                            values (
-                                :user_id,
-                                :event_id,
-                                :bid_id,
-                                \'winning_bid\',
-                                :amount
-                            )
-                        ',
+                                insert into balance_transactions (
+                                    user_id,
+                                    event_id,
+                                    bid_id,
+                                    transaction_type,
+                                    amount
+                                )
+                                values (
+                                    :user_id,
+                                    :event_id,
+                                    :bid_id,
+                                    \'winning_bid\',
+                                    :amount
+                                )
+                            ',
                         [
                             ':user_id' => $bid['user_id'],
                             ':event_id' => $eventId,
@@ -349,10 +349,10 @@ class Bid
 
             $this->db->execute(
                 '
-                    update events
-                    set bids_resolved_at = current_timestamp
-                    where event_id = :event_id
-                ',
+                        update events
+                        set bids_resolved_at = current_timestamp
+                        where event_id = :event_id
+                    ',
                 [':event_id' => $eventId]
             );
 
@@ -362,6 +362,61 @@ class Bid
         } catch (\Throwable $e) {
             $this->db->rollBack();
             return false;
+        }
+    }
+
+    public function refundWinningBids(int $eventId): void
+    {
+        $transactions = $this->db->query(
+            '
+                select
+                    user_id,
+                    bid_id,
+                    -amount as refund
+                from balance_transactions
+                where event_id = :event_id
+                and transaction_type = \'winning_bid\'
+            ',
+            [':event_id' => $eventId]
+        );
+
+        foreach ($transactions as $transaction) {
+            $this->db->execute(
+                '
+                    update users
+                    set balance = balance + :amount
+                    where user_id = :user_id
+                ',
+                [
+                    ':amount' => $transaction['refund'],
+                    ':user_id' => $transaction['user_id'],
+                ]
+            );
+
+            $this->db->execute(
+                '
+                    insert into balance_transactions (
+                        user_id,
+                        event_id,
+                        bid_id,
+                        transaction_type,
+                        amount
+                    )
+                    values (
+                        :user_id,
+                        :event_id,
+                        :bid_id,
+                        \'bid_refund\',
+                        :amount
+                    )
+                ',
+                [
+                    ':user_id' => $transaction['user_id'],
+                    ':event_id' => $eventId,
+                    ':bid_id' => $transaction['bid_id'],
+                    ':amount' => $transaction['refund'],
+                ]
+            );
         }
     }
 
