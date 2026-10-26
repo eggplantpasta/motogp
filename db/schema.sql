@@ -43,6 +43,7 @@ create table if not exists events (
     bids_open integer not null default 1,
     bids_resolved_at datetime default null,
     payouts_settled_at datetime default null,
+    cancelled_at datetime default null,
     created_at datetime not null default current_timestamp,
     foreign key (country_code) references countries(country_code)
 );
@@ -114,6 +115,7 @@ create table if not exists balance_transactions (
         transaction_type in (
             'opening_balance',
             'winning_bid',
+            'bid_refund',
             'payout',
             'admin_adjustment'
         )
@@ -124,6 +126,8 @@ create table if not exists balance_transactions (
         (transaction_type = 'winning_bid' and amount <= 0)
         or
         (transaction_type = 'payout' and amount >= 0)
+        or
+        (transaction_type = 'bid_refund' and amount >= 0)
         or
         (transaction_type = 'admin_adjustment')
     )
