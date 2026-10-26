@@ -559,9 +559,8 @@ class Bid
             if (
                 $event === null
                 || (bool)$event['bids_open']
-                || $event['bids_resolved_at'] !== null
+                || $event['bids_resolved_at'] === null
                 || $event['cancelled_at'] !== null
-                || $this->hasUnsettledEarlierEvents($eventId)
             ) {
                 $this->db->rollBack();
                 return false;

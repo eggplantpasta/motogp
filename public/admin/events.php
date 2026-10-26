@@ -262,6 +262,7 @@ foreach ($data['events'] as &$event) {
         'results_pending' => 'enter results',
         'ready_to_settle' => 'settle payouts',
         'complete' => 'complete',
+        'cancelled' => 'cancelled',
         default => 'unknown',
     };
 
