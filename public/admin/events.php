@@ -75,11 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $canOpen = $event !== null
             && $event['start_date'] > $today
             && !(bool)$event['bids_open']
+            && $event['cancelled_at'] === null
             && $event['bids_resolved_at'] === null;
 
         $canClose = $event !== null
             && $event['start_date'] <= $today
             && (bool)$event['bids_open']
+            && $event['cancelled_at'] === null
             && $event['bids_resolved_at'] === null;
 
         $allowed = match ($operation) {
@@ -281,7 +283,6 @@ foreach ($data['events'] as &$event) {
 
     $event['can_close_bidding'] =
         $event['admin_state'] === 'open'
-        && $event['cancelled_at'] === null
         && $event['start_date'] <= date('Y-m-d');
 
     $event['state_is_action'] =
