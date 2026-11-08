@@ -14,7 +14,9 @@ $session = new Session();
 
 $data['user'] = $session->getUser();
 
-$nextEvent = $eventModel->getNextEvent();
+$nextEvent = $eventModel->getNextEvent(
+    includeOpenToday: $session->isLoggedIn()
+);
 
 if ($nextEvent !== null) {
 

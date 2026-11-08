@@ -44,22 +44,31 @@ class Event
         return $result ? (int)$result['event_id'] : null;
     }
 
-    public function getNextEvent(): ?array
+    public function getNextEvent(bool $includeOpenToday = false): ?array
     {
         $sql = '
-            select
-                e.*,
-                c.name as country_name,
-                lower(c.alpha_2) as alpha_2
-            from events e
-            left join countries c on e.country_code = c.country_code
-            where date(e.start_date) > date("now")
-            and e.cancelled_at is null
-            order by e.start_date
-            limit 1
-        ';
+        select
+            e.*,
+            c.name as country_name,
+            lower(c.alpha_2) as alpha_2
+        from events e
+        left join countries c on e.country_code = c.country_code
+        where (
+            date(e.start_date) > date("now")
+            or (
+                :include_open_today
+                and date(e.start_date) = date("now")
+                and e.bids_open = 1
+            )
+        )
+        and e.cancelled_at is null
+        order by e.start_date
+        limit 1
+    ';
 
-        return $this->db->queryOne($sql);
+        return $this->db->queryOne($sql, [
+            ':include_open_today' => (int)$includeOpenToday,
+        ]);
     }
 
     public function getEventById(int $eventId): ?array
